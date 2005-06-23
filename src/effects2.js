@@ -64,31 +64,31 @@ Effect2.Base.prototype = {
     if(!this.options.sync) this.loop();  
   },
   loop: function() {
-   timePos = new Date().getTime();
-   if(timePos >= this.finishOn) {
-    this.render(this.options.to);
-    if(this.finish) this.finish(); 
-    if(this.options.afterFinish) this.options.afterFinish(this);
-    return;  
-   }
-   pos   = (timePos - this.startOn) / (this.finishOn - this.startOn);
-   frame = Math.round(pos * this.options.fps * this.options.duration);
-   if(frame > this.currentFrame) {
-    this.render(pos);
-    this.currentFrame = frame;
-   }
-   this.timeout = setTimeout(this.loop.bind(this), 10);
+    timePos = new Date().getTime();
+    if(timePos >= this.finishOn) {
+      this.render(this.options.to);
+      if(this.finish) this.finish(); 
+      if(this.options.afterFinish) this.options.afterFinish(this);
+      return;  
+    }
+    pos   = (timePos - this.startOn) / (this.finishOn - this.startOn);
+    frame = Math.round(pos * this.options.fps * this.options.duration);
+    if(frame > this.currentFrame) {
+      this.render(pos);
+      this.currentFrame = frame;
+    }
+    this.timeout = setTimeout(this.loop.bind(this), 10);
   },
   render: function(pos) {
-   if(this.options.transition) pos = this.options.transition(pos);
-     pos  = pos * (this.options.to-this.options.from);
-     pos += this.options.from; 
-     if(this.options.beforeUpdate) this.options.beforeUpdate(this);
-     if(this.update) this.update(pos);
-     if(this.options.afterUpdate) this.options.afterUpdate(this);  
+    if(this.options.transition) pos = this.options.transition(pos);
+    pos  = pos * (this.options.to-this.options.from);
+    pos += this.options.from; 
+    if(this.options.beforeUpdate) this.options.beforeUpdate(this);
+    if(this.update) this.update(pos);
+    if(this.options.afterUpdate) this.options.afterUpdate(this);  
   },
   cancel: function() {
-   if(this.timeout) clearTimeout(this.timeout);
+    if(this.timeout) clearTimeout(this.timeout);
   }
 }
 
@@ -110,9 +110,8 @@ Effect2.Parallel = Class.create();
 
 Effect2.Opacity = Class.create();
 Effect2.Opacity.prototype = (new Effect2.Base()).extend({
-  initialize: function() {
-    if(!(this.element = $(arguments[0]))) 
-      throw new Error("Unknown element " + arguments[0]);
+  initialize: function(element) {
+    this.element = $(element);
     options = {
       from: 0.0,
       to:   1.0
@@ -132,24 +131,24 @@ Effect2.Opacity.prototype = (new Effect2.Base()).extend({
 Effect2.MoveBy = Class.create();
  Effect2.MoveBy.prototype = (new Effect2.Base()).extend({
    initialize: function(element, toTop, toLeft) {
-      this.element      = $(element);
+     this.element      = $(element);
      this.originalTop  = 
-       this.element.style.top ? parseFloat(this.element.style.top) : 0;
+     this.element.style.top ? parseFloat(this.element.style.top) : 0;
      this.originalLeft = 
-       this.element.style.left ? parseFloat(this.element.style.left) : 0;
+     this.element.style.left ? parseFloat(this.element.style.left) : 0;
      this.toTop        = toTop;
-      this.toLeft       = toLeft;
+     this.toLeft       = toLeft;
      if(this.element.style.position == "")
        this.element.style.position = "relative";
      this.start(arguments[3]);
    },
    update: function(position) {
-    topd  = this.toTop  * position + this.originalTop;
-    leftd = this.toLeft * position + this.originalLeft;
-    this.setPosition(topd, leftd);
+     topd  = this.toTop  * position + this.originalTop;
+     leftd = this.toLeft * position + this.originalLeft;
+     this.setPosition(topd, leftd);
    },
    setPosition: function(topd, leftd) {
-      this.element.style.top  = topd  + "px";
+     this.element.style.top  = topd  + "px";
      this.element.style.left = leftd + "px";
    }
 });

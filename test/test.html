@@ -28,6 +28,10 @@
 <div><div></div> </div><span> </span>
 </div>
 
+<ul id="tlist"><li id="tlist_1">x1</li><li id="tlist_2">x2</li></ul>
+
+<div id="testmoveby" style="background-color:#333;width:100px;">XXXX</div>
+
 <!-- Tests follow -->
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
@@ -61,9 +65,32 @@
     }},
     
     test_element_clean_whitespace: function() { with(this) {
-      assert_not_equal("<span> </span><div><div></div> </div><span> </span>",$("test_2").innerHTML);
+      assert_equal(3,$("test_2").firstChild.nodeType);
       Element.cleanWhitespace("test_2");
-      assert_equal("<span> </span><div><div></div> </div><span> </span>",$("test_2").innerHTML);
+      assert_equal(1,$("test_2").firstChild.nodeType);
+    }},
+    
+    test_sortable_create: function() { with(this) {
+      assert_equal(0,Draggables.observers.length);
+      
+      Sortable.create("tlist");      
+      assert_equal(1,Draggables.observers.length);
+      assert_equal("tlist[]=1&tlist[]=2",Sortable.serialize("tlist"));
+    }},
+    
+    test_effect_moveby: function() { with(this) {
+      var effect = new Effect2.MoveBy("testmoveby",100,10,{sync:true});
+      
+      assert_equal("",$("testmoveby").style.top);
+      assert_equal("",$("testmoveby").style.left);
+      
+      effect.render(0.5);
+      assert_equal(50, parseFloat($("testmoveby").style.top));
+      assert_equal(5, parseFloat($("testmoveby").style.left));
+      
+      effect.render(1.0);
+      assert_equal(100, parseFloat($("testmoveby").style.top));
+      assert_equal(10, parseFloat($("testmoveby").style.left));
     }}
       
   }, "testlog");

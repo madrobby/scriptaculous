@@ -22,6 +22,19 @@
 // small but works-for-me stuff for testing javascripts
 // not ready for "production" use
 
+Object.prototype.inspect = function(){
+  var info = [];
+  for(property in this)
+    if(typeof this[property]!="function") 
+      info.push(property + ' => "' + this[property] + '"');
+  return ("'" + this + "' #" + typeof this + 
+    ": {" + info.join(", ") + "}");
+}
+
+function h(string) {
+  return string.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
 Test = {}
 Test.Unit = {};
 
@@ -44,7 +57,7 @@ Test.Unit.Runner.prototype = {
   },
   log: function(message) {
     if(this.log_element)
-      this.log_element.innerHTML += message + "\n";
+      this.log_element.innerHTML += h(message).replace(/\n/,"<br/>") + "<br/>";
   },
   summary: function() {
     var tests = 0;
@@ -79,33 +92,38 @@ Test.Unit.Assertions.prototype = {
       this.assertions + " assertions, " + 
       this.failures   + " failures, " +
       this.errors     + " errors" + "\n" +
-      this.messages.join("\n") + "\n");
+      this.messages.join("\n"));
   },
   pass: function() {
     this.assertions++;
   },
   fail: function(message) {
     this.failures++;
-    this.messages.push("<i>Failure: " + message + "</i>");
+    this.messages.push("Failure: " + message);
   },
   error: function(error) {
     this.errors++;
-    this.messages.push("<b>" + error.name + ": "+ error.message + "</b>");
+    this.messages.push(error.name + ": "+ error.message);
   },
   assert: function(boolean_var) {
-    try { boolean_var ? this.pass() : this.fail(arguments[1]); } 
+    try { boolean_var ? this.pass() : 
+      this.fail(arguments[1] || 'assert: got "' + boolean_var.inspect() + '"'); }
     catch(e) { this.error(e); }
   },
   assert_equal: function(expected, actual) {
-    try { (expected == actual) ? this.pass() : this.fail(arguments[2]); }
+    try { (expected == actual) ? this.pass() : 
+      this.fail(arguments[2] || 'assert_equal: expected "' + expected.inspect() + 
+        '", actual "' + actual.inspect() + '"'); }
     catch(e) { this.error(e); }
   },
   assert_not_equal: function(expected, actual) {
-    try { (expected != actual) ? this.pass() : this.fail(arguments[2]); }
+    try { (expected != actual) ? this.pass() : 
+      this.fail(arguments[2] || 'assert_no_equal: got "' + actual.inspect() + '"'); }
     catch(e) { this.error(e); }
   },
   assert_null: function(object_var) {
-    try { (typeof object_var==null) ? this.pass() : this.fail(arguments[1]); }
+    try { (typeof object_var==null) ? this.pass() : 
+      this.fail(arguments[1] || 'assert_null: got "' + object_var.inspect() + '"'); }
     catch(e) { this.error(e); }
   }
 }

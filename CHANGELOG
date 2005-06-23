@@ -1,5 +1,7 @@
 *SVN*
 
+* Added an Object.prototype.inspect() and more verbose messages for js unit testing
+
 * Added test/unittest.js and initial tests in test/html. 
 
 * Cleaning up of effects2.js (convert tabs to spaces)
