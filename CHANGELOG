@@ -1,3 +1,9 @@
 *SVN*
 
+* Added test/unittest.js and initial tests in test/html. 
+
+* Cleaning up of effects2.js (convert tabs to spaces)
+
+* Added Rakefile for distribution packaging (default task = make distribution, rake clean for cleaning up)
+
 * Initial check-in and directory layout for the script.aculo.us JavaScripts
