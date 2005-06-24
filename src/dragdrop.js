@@ -511,9 +511,6 @@ SortableObserver.prototype = {
   }
 }
 
-
-
-
 // TODO: add a way to make possible to refill empty sortables, by
 //       providing a 'elementid_refill' element that displays an element only
 //       if there are no other elements w/ options.tag in the sortable.

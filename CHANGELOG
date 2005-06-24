@@ -1,5 +1,13 @@
 *SVN*
 
+* Changed effects namespace to Effect. (Effect2 is deprecated, but works too)
+
+* Changed old Effect.ContentZoom class to Element.setContentZoom() function
+
+* Greatly expanded Effect.Highlight to have user-defined colors and autodetecting the background color
+
+* Converted remaining effects (Squish, Highlight) to new format
+
 * Sortable.create now passes the zindex, starteffect, reverteffect and endeffect options to the underlying Draggables
 
 * Sortable.serialize now honors the only option on Sortable.create
