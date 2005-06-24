@@ -29,6 +29,7 @@
 </div>
 
 <ul id="tlist"><li id="tlist_1">x1</li><li id="tlist_2">x2</li></ul>
+<ul id="tlist2"><li class="a" id="tlist2_1">x1</li><li id="tlist2_2">x2</li></ul>
 
 <div id="testmoveby" style="background-color:#333;width:100px;">XXXX</div>
 
@@ -76,6 +77,10 @@
       Sortable.create("tlist");      
       assert_equal(1,Draggables.observers.length);
       assert_equal("tlist[]=1&tlist[]=2",Sortable.serialize("tlist"));
+      
+      Sortable.create("tlist2",{only:'a'});
+      assert_equal(2,Draggables.observers.length);
+      assert_equal("tlist2[]=1",Sortable.serialize("tlist2"));
     }},
     
     test_effect_moveby: function() { with(this) {

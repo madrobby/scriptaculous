@@ -1,5 +1,19 @@
 *SVN*
 
+* Sortable.create now passes the zindex, starteffect, reverteffect and endeffect options to the underlying Draggables
+
+* Sortable.serialize now honors the only option on Sortable.create
+
+* New overridable options on Draggables: zindex, starteffect, reverteffect, endeffect
+
+* Fix a Gecko engine flicker on Sortables in dragdrop.js
+
+* Fixed event.isLeftClick
+
+* Some small changes in effects2.js
+
+* Refactoring of dragdrop.js
+
 * Added an Object.prototype.inspect() and more verbose messages for js unit testing
 
 * Added test/unittest.js and initial tests in test/html. 

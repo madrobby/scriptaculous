@@ -132,10 +132,8 @@ Effect2.MoveBy = Class.create();
  Effect2.MoveBy.prototype = (new Effect2.Base()).extend({
    initialize: function(element, toTop, toLeft) {
      this.element      = $(element);
-     this.originalTop  = 
-     this.element.style.top ? parseFloat(this.element.style.top) : 0;
-     this.originalLeft = 
-     this.element.style.left ? parseFloat(this.element.style.left) : 0;
+     this.originalTop  = parseFloat(this.element.style.top || '0');
+     this.originalLeft = parseFloat(this.element.style.left || '0');
      this.toTop        = toTop;
      this.toLeft       = toLeft;
      if(this.element.style.position == "")
