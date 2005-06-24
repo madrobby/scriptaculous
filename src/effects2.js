@@ -1,4 +1,7 @@
 // Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+//
+// Parts (c) 2005 Justin Palmer (http://encytemedia.com/)
+// Parts (c) 2005 Mark Pilgrim (http://diveintomark.org/)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -26,6 +29,7 @@ Effect2 = Effect; // deprecated
 /* ------------- transitions ------------- */
 
 Effect.Transitions = {}
+
 Effect.Transitions.linear = function(pos) {
   return pos;
 }
@@ -40,6 +44,17 @@ Effect.Transitions.flicker = function(pos) {
 }
 Effect.Transitions.wobble = function(pos) {
   return (-Math.cos(pos*Math.PI*(9*pos))/2) + 0.5;
+}
+Effect.Transitions.pulse = function(pos) {
+   return (Math.floor(pos*10) % 2 == 0 ? 
+    (pos*10-Math.floor(pos*10)) : 1-(pos*10-Math.floor(pos*10)));
+}
+
+Effect.Transitions.none = function(pos) {
+    return 0;
+}
+Effect.Transitions.full = function(pos) {
+    return 1;
 }
 
 /* ------------- core effects ------------- */
@@ -161,7 +176,7 @@ Effect.Scale.prototype = (new Effect.Base()).extend({
       scaleY: true,
       scaleContent: true,
       scaleFromCenter: false,
-      scaleMode: 'box',        // 'box' or 'contents'
+      scaleMode: 'box',        // 'box' or 'contents' or {} with provided values
       scaleFrom: 100.0
     }.extend(arguments[2] || {});
     this.originalTop    = this.element.offsetTop;
@@ -177,6 +192,9 @@ Effect.Scale.prototype = (new Effect.Base()).extend({
     if(options.scaleMode=='contents') {
       this.originalHeight = this.element.scrollHeight;
       this.originalWidth  = this.element.scrollWidth;
+    } else {
+      this.originalHeight = options.scaleMode.originalHeight;
+      this.originalWidth  = options.scaleMode.originalWidth;
     }
     this.start(options);
   },
@@ -392,6 +410,136 @@ Effect.SlideUp = function(element) {
 Effect.Squish = function(element) {
  new Effect.Scale(element, 0, 
    { afterFinish: function(effect) { Element.hide(effect.element); } });
+}
+
+Effect.Grow = function(element) {
+  element = $(element);
+  var options = arguments[1] || {};
+  
+  var originalWidth = element.clientWidth;
+  var originalHeight = element.clientHeight;
+  element.style.overflow = 'hidden';
+  Element.show(element);
+  
+  var direction = options.direction || 'center';
+  var moveTransition = options.moveTransition || Effect.Transitions.sinoidal;
+  var scaleTransition = options.scaleTransition || Effect.Transitions.sinoidal;
+  var opacityTransition = options.opacityTransition || Effect.Transitions.full;
+  
+  var initialMoveX, initialMoveY;
+  var moveX, moveY;
+  
+  switch (direction) {
+    case 'top-left':
+      initialMoveX = initialMoveY = moveX = moveY = 0; 
+      break;
+    case 'top-right':
+      initialMoveX = originalWidth;
+      initialMoveY = moveY = 0;
+      moveX = -originalWidth;
+      break;
+    case 'bottom-left':
+      initialMoveX = moveX = 0;
+      initialMoveY = originalHeight;
+      moveY = -originalHeight;
+      break;
+    case 'bottom-right':
+      initialMoveX = originalWidth;
+      initialMoveY = originalHeight;
+      moveX = -originalWidth;
+      moveY = -originalHeight;
+      break;
+    case 'center':
+      initialMoveX = originalWidth / 2;
+      initialMoveY = originalHeight / 2;
+      moveX = -originalWidth / 2;
+      moveY = -originalHeight / 2;
+      break;
+  }
+  
+  new Effect.MoveBy(element, initialMoveY, initialMoveX, { 
+    duration: 0.01, 
+    beforeUpdate: function(effect) { $(element).style.height = '0px'; },
+    afterFinish: function(effect) {
+      new Effect.Parallel(
+        [ new Effect.Opacity(element, { sync: true, to: 1.0, from: 0.0, transition: opacityTransition }),
+          new Effect.MoveBy(element, moveY, moveX, { sync: true, transition: moveTransition }),
+          new Effect.Scale(element, 100, { 
+            scaleMode: { originalHeight: originalHeight, originalWidth: originalWidth }, 
+            sync: true, scaleFrom: 0, scaleTo: 100, transition: scaleTransition })],
+        options); }
+    });
+}
+
+Effect.Shrink = function(element) {
+  element = $(element);
+  var options = arguments[1] || {};
+  
+  var originalWidth = element.clientWidth;
+  var originalHeight = element.clientHeight;
+  element.style.overflow = 'hidden';
+  Element.show(element);
+
+  var direction = options.direction || 'center';
+  var moveTransition = options.moveTransition || Effect.Transitions.sinoidal;
+  var scaleTransition = options.scaleTransition || Effect.Transitions.sinoidal;
+  var opacityTransition = options.opacityTransition || Effect.Transitions.none;
+  
+  var moveX, moveY;
+  
+  switch (direction) {
+    case 'top-left':
+      moveX = moveY = 0;
+      break;
+    case 'top-right':
+      moveX = originalWidth;
+      moveY = 0;
+      break;
+    case 'bottom-left':
+      moveX = 0;
+      moveY = originalHeight;
+      break;
+    case 'bottom-right':
+      moveX = originalWidth;
+      moveY = originalHeight;
+      break;
+    case 'center':  
+      moveX = originalWidth / 2;
+      moveY = originalHeight / 2;
+      break;
+  }
+  
+  new Effect.Parallel(
+    [ new Effect.Opacity(element, { sync: true, to: 0.0, from: 1.0, transition: opacityTransition }),
+      new Effect.Scale(element, 0, { sync: true, transition: moveTransition }),
+      new Effect.MoveBy(element, moveY, moveX, { sync: true, transition: scaleTransition }) ],
+    options);
+}
+
+Effect.Pulsate = function(element) {
+  var options    = arguments[1] || {};
+  var transition = options.transition || Effect.Transitions.sinoidal;
+  var reverser   = function(pos){ return transition(1-Effect.Transitions.pulse(pos)) };
+  reverser.bind(transition);
+  new Effect.Opacity(element, 
+    {  duration: 3.0,
+       afterFinish: function(effect) { Element.show(effect.element); }
+    }.extend(options).extend({transition: reverser}));
+}
+
+Effect.Fold = function(element) {
+ $(element).style.overflow = 'hidden';
+ new Effect2.Scale(element, 5, {   
+   scaleContent: false,
+   scaleTo: 100,
+   scaleX: false,
+   afterFinish: function(effect) {
+   new Effect.Scale(element, 1, { 
+     scaleContent: false, 
+     scaleTo: 0,
+     scaleY: false,
+     afterFinish: function(effect) { Element.hide(effect.element) } });
+ }}.extend(arguments[1] || {}));
 }
 
 // old: new Effect.ContentZoom(element, percent)

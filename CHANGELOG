@@ -1,5 +1,13 @@
 *SVN*
 
+* Added Effect.Transitions.pulse
+
+* Added Effect.Pulsate and Effect.Fold effect by Justin Palmer
+
+* Added transitions by Mark Pilgrim: .full, .none
+
+* Added effects by Mark Pilgrim: Effect.Grow, Effect.Shrink
+
 * Changed effects namespace to Effect. (Effect2 is deprecated, but works too)
 
 * Changed old Effect.ContentZoom class to Element.setContentZoom() function
