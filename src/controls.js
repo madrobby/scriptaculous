@@ -93,6 +93,7 @@ Ajax.Autocompleter.prototype = (new Ajax.Base()).extend({
   onComplete: function(request) {
     if(!this.changed) {
       this.update.innerHTML = request.responseText;
+      Element.cleanWhitespace(this.update.firstChild);
 
       if(this.update.firstChild && this.update.firstChild.childNodes) {
         this.entry_count = 

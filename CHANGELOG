@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed unhandled whitespace in Ajax.Autocompleter
+
 * Updated prototype-ext.js to include additions for Ajax.Autocompleter
 
 * Added controls.js, contains AJAX autocompleting text fields from #960
