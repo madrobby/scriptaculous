@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed sortables that are absolutely positioned
+
 * Fixed unhandled whitespace in Ajax.Autocompleter
 
 * Updated prototype-ext.js to include additions for Ajax.Autocompleter
