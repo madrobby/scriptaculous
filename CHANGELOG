@@ -1,5 +1,17 @@
 *SVN*
 
+* Updated prototype-ext.js to include additions for Ajax.Autocompleter
+
+* Added controls.js, contains AJAX autocompleting text fields from #960
+
+* Refactored Event object
+
+* Renamed effects2.js to effects.js
+
+* Fixed draggables on pages with no droppables
+
+* Moved Event, Position and Element.Class to prototype-ext.js in preparation to Rails 0.13
+
 * Added Effect.Transitions.pulse
 
 * Added Effect.Pulsate and Effect.Fold effect by Justin Palmer

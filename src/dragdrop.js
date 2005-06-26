@@ -23,247 +23,8 @@
 
 /*--------------------------------------------------------------------------*/
 
-Event = {
-  KEY_BACKSPACE: 8,
-  KEY_TAB:       9,
-  KEY_RETURN:   13,
-  KEY_ESC:      27,
-  KEY_LEFT:     37,
-  KEY_UP:       38,
-  KEY_RIGHT:    39,
-  KEY_DOWN:     40,
-  KEY_DELETE:   46,
-
-  element: function(event) {
-    return event.srcElement || event.currentTarget;
-  },
-  
-  isLeftClick: function(event) {
-    return (((event.which) && (event.which == 1)) ||
-            ((event.button) && (event.button == 1)));
-  },
-  
-  pointerX: function(event) {
-    return event.pageX || (event.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft));
-  },
-  
-  pointerY: function(event) {
-    return event.pageY || (event.clientY + (document.documentElement.scrollTop || document.body.scrollTop));
-  },
-
-  stop: function(event) {
-    if(event.preventDefault)
-      { event.preventDefault(); event.stopPropagation(); }
-    else
-      event.returnValue = false;
-  },
-
-  getParentNodeOrSelfByName: function(event, nodeName) {
-    element = Event.element(event);
-      while(element.nodeName != nodeName && element.parentNode)
-        element = element.parentNode;
-    return element;
-  },
-
-  observeKeypress: function(element, observer) {             /* special handling needed */
-    if(navigator.appVersion.indexOf('AppleWebKit')>0)
-      { $(element).addEventListener("keydown",observer,false); return; }
-    if($(element).addEventListener) $(element).addEventListener("keypress",observer,false)
-      else if($(element).attachEvent) $(element).attachEvent("onkeydown",observer);
-  },
-
-  add: function(element, name, observer) {
-    if($(element).addEventListener) $(element).addEventListener(name,observer,false)
-      else if($(element).attachEvent) $(element).attachEvent("on" + name,observer);
-  },
-
-  observeBlur: function(element, observer) {
-    Event.add(element, "blur", observer);
-  },
-
-  observeClick: function(element, observer) {
-    Event.add(element, "click", observer);
-  },
-
-  observeHover: function(element, observer) {
-    Event.add(element, "mouseover", observer);
-  },
-
-  observeMousedown: function(element, observer) {
-    Event.add(element, "mousedown", observer);
-  },
-
-  observeMouseup: function(element, observer) {
-    Event.add(element, "mouseup", observer);
-  },
-
-  observeMousemove: function(element, observer) {
-    Event.add(element, "mousemove", observer);
-  }
-
-}
-
-/*--------------------------------------------------------------------------*/
-
-// removes whitespace-only text node children
-// needed to make Gecko-based browsers happy
-Element.cleanWhitespace = function(element) {
-  var element = $(element);
-  for(var i=0;i<element.childNodes.length;i++) {
-    var node = element.childNodes[i];
-    if(node.nodeType==3 && !/\S/.test(node.nodeValue)) 
-      Element.remove(node);
-  }
-}
-
-/*--------------------------------------------------------------------------*/
-
-Element.Class = {
-    // Element.toggleClass(element, className) toggles the class being on/off
-    // Element.toggleClass(element, className1, className2) toggles between both classes,
-    //   defaulting to className1 if neither exist
-    toggle: function(element, className) {
-      if(Element.Class.has(element, className)) {
-        Element.Class.remove(element, className);
-        if(arguments.length == 3) Element.Class.add(element, arguments[2]);
-      } else {
-        Element.Class.add(element, className);
-        if(arguments.length == 3) Element.Class.remove(element, arguments[2]);
-      }
-    },
-
-    // gets space-delimited classnames of an element as an array
-    get: function(element) {
-      element = $(element);
-      return element.className.split(' ');
-    },
-
-    // functions adapted from original functions by Gavin Kistner
-    remove: function(element) {
-      element = $(element);
-      var regEx;
-      for(var i = 1; i < arguments.length; i++) {
-        regEx = new RegExp("^" + arguments[i] + "\\b\\s*|\\s*\\b" + arguments[i] + "\\b", 'g');
-        element.className = element.className.replace(regEx, '')
-      }
-    },
-
-    add: function(element) {
-      element = $(element);
-      for(var i = 1; i < arguments.length; i++) {
-        Element.Class.remove(element, arguments[i]);
-        element.className += (element.className.length > 0 ? ' ' : '') + arguments[i];
-      }
-    },
-
-    // returns true if all given classes exist in said element
-    has: function(element) {
-      element = $(element);
-      if(!element || !element.className) return false;
-      var regEx;
-      for(var i = 1; i < arguments.length; i++) {
-        regEx = new RegExp("\\b" + arguments[i] + "\\b");
-        if(!regEx.test(element.className)) return false;
-      }
-      return true;
-    },
-    
-    // expects arrays of strings and/or strings as optional paramters
-    // Element.Class.has_any(element, ['classA','classB','classC'], 'classD')
-    has_any: function(element) {
-      element = $(element);
-      if(!element || !element.className) return false;
-      var regEx;
-      for(var i = 1; i < arguments.length; i++) {
-        if((typeof arguments[i] == 'object') && 
-          (arguments[i].constructor == Array)) {
-          for(var j = 0; j < arguments[i].length; j++) {
-            regEx = new RegExp("\\b" + arguments[i][j] + "\\b");
-            if(regEx.test(element.className)) return true;
-          }
-        } else {
-          regEx = new RegExp("\\b" + arguments[i] + "\\b");
-          if(regEx.test(element.className)) return true;
-        }
-      }
-      return false;
-    },
-    
-    childrenWith: function(element, className) {
-      var children = $(element).getElementsByTagName('*');
-      var elements = new Array();
-      
-      for (var i = 0; i < children.length; i++) {
-        if (Element.Class.has(children[i], className)) {
-          elements.push(children[i]);
-          break;
-        }
-      }
-      
-      return elements;
-    }
-}
-
-/*--------------------------------------------------------------------------*/
-
-Position = {
-  // must be called before calling within_including_scrolloffset, everytime the page is scrolled
-  prepare: function() {
-    this.deltaX = window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;
-    this.deltaY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    this.include_scroll_offsets = true;
-  },
-  
-  real_offset: function(element) {
-    var valueT = 0; var valueL = 0;
-    do {
-      valueT += element.scrollTop || 0;
-      valueL += element.scrollLeft || 0; 
-      element = element.parentNode;
-    } while(element);
-    return [valueL, valueT];
-  },
-  
-  // caches x/y coordinate pair to use with overlap
-  within: function(element, x, y) {
-    if(this.include_scroll_offsets)
-      return within_including_scrolloffsets(element, x, y);
-    this.xcomp = x;
-    this.ycomp = y;
-    var offsettop = element.offsetTop;
-    var offsetleft = element.offsetLeft;
-    return (y>=offsettop &&
-            y<offsettop+element.offsetHeight &&
-            x>=offsetleft && 
-            x<offsetleft+element.offsetWidth);
-  },
-  
-  within_including_scrolloffsets: function(element, x, y) {
-    var offsetcache = this.real_offset(element);
-    this.xcomp = x + offsetcache[0] - this.deltaX;
-    this.ycomp = y + offsetcache[1] - this.deltaY;
-    this.xcomp = x;
-    this.ycomp = y;
-    var offsettop = element.offsetTop;
-    var offsetleft = element.offsetLeft;
-    return (y>=offsettop &&
-            y<offsettop+element.offsetHeight &&
-            x>=offsetleft && 
-            x<offsetleft+element.offsetWidth);
-  },
-  
-  // within must be called directly before
-  overlap: function(mode, element) {  
-    if(!mode) return 0;  
-    if(mode == 'vertical') 
-      return ((element.offsetTop+element.offsetHeight)-this.ycomp) / element.offsetHeight;
-    if(mode == 'horizontal')
-      return ((element.offsetLeft+element.offsetWidth)-this.xcomp) / element.offsetWidth;
-  }
-}
-
-Droppables = {
-  drops: new Array(),
+var Droppables = {
+  drops: false,
   include_scroll_offsets: false,
   
   add: function(element) {
@@ -284,7 +45,7 @@ Droppables = {
       } else {
         options._containers.push($(containment));
       }
-       options._containers_length = 
+      options._containers_length = 
         options._containers.length-1;
     }
     
@@ -294,6 +55,7 @@ Droppables = {
     // activate the droppable
     element.droppable = options;
     
+    if(!this.drops) this.drops = [];
     this.drops.push(element);
   },
   
@@ -329,6 +91,7 @@ Droppables = {
   },
   
   show: function(event, element) {
+    if(!this.drops) return;
     var pX = Event.pointerX(event);
     var pY = Event.pointerY(event);
     if(this.include_scroll_offsets) Position.prepare();
@@ -348,6 +111,7 @@ Droppables = {
   },
   
   fire: function(event, element) {
+    if(!this.drops) return;
     var pX = Event.pointerX(event);
     var pY = Event.pointerY(event);
     if(this.include_scroll_offsets) Position.prepare();
@@ -377,6 +141,7 @@ Draggables = {
   }
 }
 
+/*--------------------------------------------------------------------------*/
 
 Draggable = Class.create();
 Draggable.prototype = {
@@ -412,9 +177,9 @@ Draggable.prototype = {
     this.active       = false;
     this.dragging     = false;   
     
-    Event.observeMousedown (this.handle, this.startDrag.bindAsEventListener(this));
-    Event.observeMouseup   (document, this.endDrag.bindAsEventListener(this));
-    Event.observeMousemove (document, this.update.bindAsEventListener(this));
+    Event.observe(this.handle, "mousedown", this.startDrag.bindAsEventListener(this));
+    Event.observe(document, "mouseup", this.endDrag.bindAsEventListener(this));
+    Event.observe(document, "mousemove", this.update.bindAsEventListener(this));
   },
   currentLeft: function() {
     return parseInt(this.element.style.left || '0');
@@ -495,6 +260,8 @@ Draggable.prototype = {
   }
 }
 
+/*--------------------------------------------------------------------------*/
+
 SortableObserver = Class.create();
 SortableObserver.prototype = {
   initialize: function(element, observer) {
@@ -511,10 +278,6 @@ SortableObserver.prototype = {
   }
 }
 
-// TODO: add a way to make possible to refill empty sortables, by
-//       providing a 'elementid_refill' element that displays an element only
-//       if there are no other elements w/ options.tag in the sortable.
-//       option.refill to override (false | 'id')
 Sortable = {
   create: function(element) {
     var element = $(element);
@@ -618,3 +381,5 @@ Sortable = {
     return queryComponents.join("&");
   }
 } 
+
+/*--------------------------------------------------------------------------*/

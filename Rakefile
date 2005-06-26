@@ -19,8 +19,10 @@ PKG_FILES = FileList[
   'CHANGELOG',
   'README',
   'MIT-LICENSE',
+  'src/prototype-ext.js',
   'src/dragdrop.js',
-  'src/effects2.js'
+  'src/effects.js',
+  'src/controls.js'
 ]
 
 desc "Make a ready-for-packaging distribution dir"
