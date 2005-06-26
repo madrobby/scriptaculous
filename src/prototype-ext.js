@@ -254,14 +254,13 @@ var Position = {
   within_including_scrolloffsets: function(element, x, y) {
     var offsetcache = this.real_offset(element);
     this.offset = this.cumulative_offset(element);
-    this.xcomp = x + offsetcache[0] - this.deltaX + offsetcache[2];
-    this.ycomp = y + offsetcache[1] - this.deltaY + offsetcache[1];
+    this.xcomp = x + offsetcache[0] - this.deltaX + this.offset[0];
+    this.ycomp = y + offsetcache[1] - this.deltaY + this.offset[1];
     
-
-    return (y>=this.offset[1] &&
-            y<this.offset[1]+element.offsetHeight &&
-            x>=this.offset[0] && 
-            x<this.offset[0]+element.offsetWidth);
+    return (this.ycomp>=this.offset[1] &&
+            this.ycomp<this.offset[1]+element.offsetHeight &&
+            this.xcomp>=this.offset[0] && 
+            this.xcomp<this.offset[0]+element.offsetWidth);
   },
   
   // within must be called directly before

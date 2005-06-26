@@ -132,10 +132,12 @@ Ajax.Autocompleter.prototype = (new Ajax.Base()).extend({
        case Event.KEY_UP:
          this.mark_previous();
          this.render();
+         if(navigator.appVersion.indexOf('AppleWebKit')>0) Event.stop(event);
          return;
        case Event.KEY_DOWN:
          this.mark_next();
          this.render();
+         if(navigator.appVersion.indexOf('AppleWebKit')>0) Event.stop(event);
          return;
       }
      else 

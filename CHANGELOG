@@ -1,5 +1,9 @@
 *SVN*
 
+* Fixed behaviour of cursor keys in Safari on autocomplete script
+
+* Fixed Position.within_including_scrolloffsets
+
 * Fixed sortables that are absolutely positioned
 
 * Fixed unhandled whitespace in Ajax.Autocompleter
