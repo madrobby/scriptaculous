@@ -19,7 +19,6 @@ PKG_FILES = FileList[
   'CHANGELOG',
   'README',
   'MIT-LICENSE',
-  'src/prototype-ext.js',
   'src/dragdrop.js',
   'src/effects.js',
   'src/controls.js'

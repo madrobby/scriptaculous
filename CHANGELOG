@@ -1,5 +1,7 @@
 *SVN*
 
+* Updated to Prototype 1.3.0: removal of prototype-ext.js; refactoring.
+
 * Fixed behaviour of cursor keys in Safari on autocomplete script
 
 * Fixed Position.within_including_scrolloffsets
