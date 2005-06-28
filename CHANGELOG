@@ -1,5 +1,7 @@
 *SVN*
 
+* Corrected rendering of Ajax.AutoCompleter when focus is lost while updating
+
 * Added (crude) functional tests
 
 * Some slight refactoring in controls.js

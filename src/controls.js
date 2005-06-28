@@ -61,6 +61,7 @@ Ajax.Autocompleter.prototype = (new Ajax.Base()).extend({
        
     this.observer = null;
     
+    Event.observe(this.element, "blur", this.onBlur.bindAsEventListener(this));
     Event.observe(this.element, "keypress", this.onKeyPress.bindAsEventListener(this));
     Event.observe(document, "click", this.onBlur.bindAsEventListener(this));
   },
@@ -114,7 +115,7 @@ Ajax.Autocompleter.prototype = (new Ajax.Base()).extend({
   },
   
   onComplete: function(request) {
-    if(!this.changed) {
+    if(!this.changed && this.has_focus) {
       this.update.innerHTML = request.responseText;
       Element.cleanWhitespace(this.update);
       Element.cleanWhitespace(this.update.firstChild);
@@ -198,6 +199,7 @@ Ajax.Autocompleter.prototype = (new Ajax.Base()).extend({
     while(element.parentNode) 
       { element = element.parentNode; if(element==this.update) return; }
     this.hide();
+    this.has_focus = false;
     this.active = false;
   }, 
   
