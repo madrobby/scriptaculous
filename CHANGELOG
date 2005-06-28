@@ -1,5 +1,11 @@
 *SVN*
 
+* Added (crude) functional tests
+
+* Some slight refactoring in controls.js
+
+* Changed dragdrop.js to use the Effect namespace for its effects
+
 * Updated to Prototype 1.3.0: removal of prototype-ext.js; refactoring.
 
 * Fixed behaviour of cursor keys in Safari on autocomplete script
