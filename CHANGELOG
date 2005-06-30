@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed BlindUp/BlindDown to restore the overflow CSS property
+
 * Fixed draggables with revert:false on repeated drags behaving badly
 
 * Expanded the revert option on draggables to optionally take a function and revert only if it returns true
