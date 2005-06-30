@@ -1,5 +1,11 @@
 *SVN*
 
+* Fixed draggables with revert:false on repeated drags behaving badly
+
+* Expanded the revert option on draggables to optionally take a function and revert only if it returns true
+
+* Added the dragged element as a parameter to the Draggables.notify callbacks [Michael Sokolov]
+
 * Removed a deprecated reference to Effect2 om Effect.Fold
 
 * Make the percentage on Element.setContentZoom absolute
