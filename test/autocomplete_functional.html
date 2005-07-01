@@ -15,6 +15,8 @@
 <body>
 <h1>script.aculo.us Autocompleter functional test file</h1>
 
+
+
 Autocompleter ac1: <input id="ac1" type="text" autocomplete="off"/>
 <div id="ac1update" style="display:none;border:1px solid black;background-color:white;"></div>
 
@@ -25,6 +27,35 @@ Autocompleter ac1: <input id="ac1" type="text" autocomplete="off"/>
 // ]]>
 </script>
 
+<br/>
+
+Autocompleter ac2: <input id="ac2" type="text" autocomplete="off"/>
+<div id="ac2update" style="display:none;border:1px solid black;background-color:white;"></div>
+
+
+<script type="text/javascript" language="javascript" charset="utf-8">
+// <![CDATA[
+  new Ajax.Autocompleter('ac2','ac2update','_autocomplete_result.html',
+    { onShow:function(element){new Effect.Appear(element)},
+      onHide:function(element){new Effect.Fade(element)} });
+// ]]>
+</script>
+
+<br/>
+
+Autocompleter ac3: <input id="ac3" type="text" autocomplete="off"/>
+<div id="ac3update" style="display:none;border:1px solid black;background-color:white;"></div>
+
+
+<script type="text/javascript" language="javascript" charset="utf-8">
+// <![CDATA[
+  new Ajax.Autocompleter('ac3','ac3update','_autocomplete_result.html');
+// ]]>
+</script>
+
+<br/>
+
+<div id="debug" style="font-size:11px;"></div>
 
 </body>
 </html>

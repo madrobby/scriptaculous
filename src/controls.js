@@ -54,6 +54,8 @@ Ajax.Autocompleter.prototype = (new Ajax.Base()).extend({
     this.options.onComplete   = this.onComplete.bind(this)
     this.options.frequency    = this.options.frequency || 0.4;
     this.options.min_chars    = this.options.min_chars || 1;
+    this.options.onShow       = this.options.onShow || function(element){Element.show(element)};
+    this.options.onHide       = this.options.onHide || function(element){Element.hide(element)};
     this.options.method       = 'post';
     
     if(this.options.indicator)
@@ -63,11 +65,10 @@ Ajax.Autocompleter.prototype = (new Ajax.Base()).extend({
     
     Event.observe(this.element, "blur", this.onBlur.bindAsEventListener(this));
     Event.observe(this.element, "keypress", this.onKeyPress.bindAsEventListener(this));
-    Event.observe(document, "click", this.onBlur.bindAsEventListener(this));
   },
   
   show: function() {
-    Element.show(this.update);
+    if(this.update.style.display=='none') this.options.onShow(this.update);
     if(!this.iefix && (navigator.appVersion.indexOf('MSIE')>0)) {
       new Insertion.Before(this.update, 
        '<iframe id="' + this.update.id + '_iefix" style="display:none;" src="javascript:false;" frameborder="0" scrolling="no"></iframe>');
@@ -84,7 +85,7 @@ Ajax.Autocompleter.prototype = (new Ajax.Base()).extend({
   
   hide: function() {
     if(this.iefix) Element.hide(this.iefix);
-    Element.hide(this.update);
+    if(this.update.style.display=='') this.options.onHide(this.update);
   },
   
   startIndicator: function() {
@@ -194,21 +195,18 @@ Ajax.Autocompleter.prototype = (new Ajax.Base()).extend({
   },
   
   onBlur: function(event) {
-    var element = Event.element(event);
-    if(element==this.update) return;
-    while(element.parentNode) 
-      { element = element.parentNode; if(element==this.update) return; }
-    this.hide();
+    // needed to make click events working
+    setTimeout(this.hide.bind(this), 250);
     this.has_focus = false;
-    this.active = false;
+    this.active = false;     
   }, 
   
   render: function() {
     if(this.entry_count > 0) {
       for (var i = 0; i < this.entry_count; i++)
         this.index==i ? 
-          Element.Class.add(this.get_entry(i),"selected") : 
-          Element.Class.remove(this.get_entry(i),"selected");
+          Element.addClassName(this.get_entry(i),"selected") : 
+          Element.removeClassName(this.get_entry(i),"selected");
         
       if(this.has_focus) { 
         if(this.get_current_entry().scrollIntoView) 
@@ -239,7 +237,6 @@ Ajax.Autocompleter.prototype = (new Ajax.Base()).extend({
   },
   
   select_entry: function() {
-    this.hide();
     this.active = false;
     value = Element.collectTextNodesIgnoreClass(this.get_current_entry(), 'informal').unescapeHTML();
     this.element.value = value;

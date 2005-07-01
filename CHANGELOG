@@ -1,6 +1,12 @@
 *SVN*
 
-* Fixed BlindUp/BlindDown to restore the overflow CSS property
+* Changed Ajax.Autocompleter event handling
+
+* Added onShow/onHide callbacks to Ajax.Autocompleter to allow for customized handling/effects
+
+* Fixed SlideUp/SlideDown to restore the overflow CSS property (note: Firefox 1.0.X is buggy, set overflow:hidden as a workaround)
+
+* Fixed BlindUp/BlindDown to restore the overflow CSS property (note: Firefox 1.0.X is buggy, set overflow:hidden as a workaround)
 
 * Fixed draggables with revert:false on repeated drags behaving badly
 
