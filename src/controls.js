@@ -54,9 +54,22 @@ Ajax.Autocompleter.prototype = (new Ajax.Base()).extend({
     this.options.onComplete   = this.onComplete.bind(this)
     this.options.frequency    = this.options.frequency || 0.4;
     this.options.min_chars    = this.options.min_chars || 1;
-    this.options.onShow       = this.options.onShow || function(element){Element.show(element)};
-    this.options.onHide       = this.options.onHide || function(element){Element.hide(element)};
     this.options.method       = 'post';
+    
+    this.options.onShow = this.options.onShow || 
+      function(element, update){ 
+        if(!update.style.position || update.style.position=='absolute') {
+          update.style.position = 'absolute';
+          var offsets = Position.cumulativeOffset(element);
+          update.style.left = offsets[0] + 'px';
+          update.style.top  = (offsets[1] + element.offsetHeight) + 'px';
+          update.style.width = element.offsetWidth + 'px';
+        }
+        new Effect.Appear(update,{duration:0.3});
+      };
+    this.options.onHide = this.options.onHide || 
+      function(element, update){ new Effect.Fade(update,{duration:0.3}) };
+    
     
     if(this.options.indicator)
       this.indicator = $(this.options.indicator);
@@ -68,24 +81,25 @@ Ajax.Autocompleter.prototype = (new Ajax.Base()).extend({
   },
   
   show: function() {
-    if(this.update.style.display=='none') this.options.onShow(this.update);
-    if(!this.iefix && (navigator.appVersion.indexOf('MSIE')>0)) {
-      new Insertion.Before(this.update, 
-       '<iframe id="' + this.update.id + '_iefix" style="display:none;" src="javascript:false;" frameborder="0" scrolling="no"></iframe>');
+    if(this.update.style.display=='none') this.options.onShow(this.element, this.update);
+    if(!this.iefix && (navigator.appVersion.indexOf('MSIE')>0) && this.update.style.position=='absolute') {
+      new Insertion.After(this.update, 
+       '<iframe id="' + this.update.id + '_iefix" '+
+       'style="display:none;filter:progid:DXImageTransform.Microsoft.Alpha(apacity=0);" ' +
+       'src="javascript:;" frameborder="0" scrolling="no"></iframe>');
       this.iefix = $(this.update.id+'_iefix');
-      this.iefix.style.position = 'absolute';
-      this.iefix.style.zIndex = 1;
-      this.update.style.zIndex = 2;
     }
     if(this.iefix) {
       Position.clone(this.update, this.iefix);
+      this.iefix.style.zIndex = 1;
+      this.update.style.zIndex = 2;
       Element.show(this.iefix);
     }
   },
   
   hide: function() {
+    if(this.update.style.display=='') this.options.onHide(this.element, this.update);
     if(this.iefix) Element.hide(this.iefix);
-    if(this.update.style.display=='') this.options.onHide(this.update);
   },
   
   startIndicator: function() {

@@ -1,5 +1,9 @@
 *SVN*
 
+* Change default behaviour of Ajax.Autocompleter to do automatic overlapping, sizing and appear/fade effects
+
+* Fixed Internet Explorer hide-windowed-controls iframe handling
+
 * Changed Ajax.Autocompleter event handling
 
 * Added onShow/onHide callbacks to Ajax.Autocompleter to allow for customized handling/effects

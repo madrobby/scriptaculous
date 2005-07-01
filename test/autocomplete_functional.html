@@ -18,7 +18,7 @@
 
 
 Autocompleter ac1: <input id="ac1" type="text" autocomplete="off"/>
-<div id="ac1update" style="display:none;border:1px solid black;background-color:white;"></div>
+<div id="ac1update" style="display:none;border:1px solid black;background-color:white;position:relative;"></div>
 
 
 <script type="text/javascript" language="javascript" charset="utf-8">
@@ -35,9 +35,7 @@ Autocompleter ac2: <input id="ac2" type="text" autocomplete="off"/>
 
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-  new Ajax.Autocompleter('ac2','ac2update','_autocomplete_result.html',
-    { onShow:function(element){new Effect.Appear(element)},
-      onHide:function(element){new Effect.Fade(element)} });
+  new Ajax.Autocompleter('ac2','ac2update','_autocomplete_result.html');
 // ]]>
 </script>
 
