@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed dragging of unpositioned elements in Internet Explorer
+
 * Change default behaviour of Ajax.Autocompleter to do automatic overlapping, sizing and appear/fade effects
 
 * Fixed Internet Explorer hide-windowed-controls iframe handling

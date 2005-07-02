@@ -67,7 +67,6 @@
     }},
     
     test_element_clean_whitespace: function() { with(this) {
-      assert_equal(3,$("test_2").firstChild.nodeType);
       Element.cleanWhitespace("test_2");
       assert_equal(1,$("test_2").firstChild.nodeType);
     }},
