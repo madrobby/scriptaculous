@@ -1,5 +1,7 @@
 *SVN*
 
+* Changed auto-hiding update div in Ajax.Autocompleter
+
 * Changed default serialization on Ajax.Autocompleter to use Form.Element.serialize
 
 * Added test file for drag/drop inside scrolled elements
