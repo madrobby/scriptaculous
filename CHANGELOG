@@ -1,5 +1,7 @@
 *SVN*
 
+* Changed default serialization on Ajax.Autocompleter to use Form.Element.serialize
+
 * Added test file for drag/drop inside scrolled elements
 
 * Fixed dragging of unpositioned elements in Internet Explorer
