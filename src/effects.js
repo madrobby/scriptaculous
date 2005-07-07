@@ -286,6 +286,27 @@ Effect.Highlight.prototype = (new Effect.Base()).extend({
   }
 });
 
+Effect.ScrollTo = Class.create();
+Effect.ScrollTo.prototype = (new Effect.Base()).extend({
+  initialize: function(element) {
+    this.element = $(element);
+    Position.prepare();
+    var offsets = Position.cumulativeOffset(this.element);
+    var max = window.innerHeight ? 
+      window.height - window.innerHeight :
+      document.body.scrollHeight - 
+        (document.documentElement.clientHeight ? 
+          document.documentElement.clientHeight : document.body.clientHeight);
+    this.scrollStart = Position.deltaY;
+    this.delta  = (offsets[1] > max ? max : offsets[1]) - this.scrollStart;
+    this.start(arguments[1] || {});
+  },
+  update: function(position) {
+    Position.prepare();
+    window.scrollTo(Position.deltaX, 
+      this.scrollStart + (position*this.delta));
+  }
+});
 
 /* ------------- prepackaged effects ------------- */
 

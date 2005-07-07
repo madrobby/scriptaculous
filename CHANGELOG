@@ -1,5 +1,7 @@
 *SVN*
 
+* Added Effect.ScrollTo to smoothly scroll the page to an element
+
 * Better Firefox flickering handling on SlideUp/SlideDown
 
 * Some cleaning up in effects.js
