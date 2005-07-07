@@ -1,5 +1,15 @@
 *SVN*
 
+* Removed a possible memory leak in IE with draggables
+
+* Added support for cancelling dragging my hitting ESC
+
+* Changed logic of drag-and-drop to only include the last referenced droppable when firing a drop event. This change also offers slight performance gains. [Dominik Wagner]
+
+* Added addtional effects test page, added tests for scriptfragment matching
+
+*1.0.0*
+
 * Changed auto-hiding update div in Ajax.Autocompleter
 
 * Changed default serialization on Ajax.Autocompleter to use Form.Element.serialize
