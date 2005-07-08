@@ -112,6 +112,14 @@ Element.Class = {
 var Droppables = {
   drops: false,
   
+  remove: function(element) {
+    for(var i = 0; i < this.drops.length; i++)
+      if(this.drops[i] == element) {
+        this.drops[i].droppable = null;
+        this.drops.splice(i,1);
+      }
+  },
+  
   add: function(element) {
     var element = $(element);
     var options = {
@@ -216,6 +224,11 @@ Draggables = {
   addObserver: function(observer) {
     this.observers.push(observer);    
   },
+  removeObserver: function(observer) {
+    for(var i = 0; i < this.observers.length; i++)
+      if(this.observers[i] = observer)
+        this.observers.splice(i,1);
+  },
   notify: function(eventName, draggable) {  // 'onStart', 'onEnd'
     for(var i = 0; i < this.observers.length; i++)
       this.observers[i][eventName](draggable);
@@ -262,10 +275,21 @@ Draggable.prototype = {
     this.active       = false;
     this.dragging     = false;   
     
-    Event.observe(this.handle, "mousedown", this.startDrag.bindAsEventListener(this));
-    Event.observe(document, "mouseup", this.endDrag.bindAsEventListener(this));
-    Event.observe(document, "mousemove", this.update.bindAsEventListener(this));
-    Event.observe(document, "keypress", this.keyPress.bindAsEventListener(this));
+    this.eventMouseDown = this.startDrag.bindAsEventListener(this);
+    this.eventMouseUp   = this.endDrag.bindAsEventListener(this);
+    this.eventMouseMove = this.update.bindAsEventListener(this);
+    this.eventKeypress  = this.keyPress.bindAsEventListener(this);
+    
+    Event.observe(this.handle, "mousedown", this.eventMouseDown);
+    Event.observe(document, "mouseup", this.eventMouseUp);
+    Event.observe(document, "mousemove", this.eventMouseMove);
+    Event.observe(document, "keypress", this.eventKeypress);
+  },
+  destroy: function() {
+    Event.stopObserving(this.handle, "mousedown", this.eventMouseDown);
+    Event.stopObserving(document, "mouseup", this.eventMouseUp);
+    Event.stopObserving(document, "mousemove", this.eventMouseMove);
+    Event.stopObserving(document, "keypress", this.eventKeypress);
   },
   currentLeft: function() {
     return parseInt(this.element.style.left || '0');
@@ -380,9 +404,25 @@ SortableObserver.prototype = {
 }
 
 Sortable = {
+  sortables: new Array(),
+  destroy: function(element){
+    var element = $(element);
+    for(var i=0;i<this.sortables.length;i++) {
+      if(this.sortables[i].element == element) {
+        var s = this.sortables[i];
+        Draggables.removeObserver(s.observer);
+        for(var j=0;j<s.droppables.length;j++)
+          Droppables.remove(s.droppables[j]);
+        for(var j=0;j<s.draggables.length;j++)
+          s.draggables[j].destroy();
+        this.sortables.splice(i,1);
+      }
+    }
+  },
   create: function(element) {
     var element = $(element);
     var options = { 
+      element:     element,
       tag:         'li',       // assumes li children, override with tag: 'tagname'
       overlap:     'vertical', // one of 'vertical', 'horizontal'
       constraint:  'vertical', // one of 'vertical', 'horizontal', false
@@ -394,6 +434,9 @@ Sortable = {
       onUpdate:    function() {}
     }.extend(arguments[1] || {});
     element.sortable = options;
+
+    // clear any old sortable with same element
+    this.destroy(element);
     
     // build options for the draggables
     var options_for_draggable = {
@@ -444,7 +487,11 @@ Sortable = {
     Element.cleanWhitespace(element); 
     
     // for onupdate
-    Draggables.addObserver(new SortableObserver(element, options.onUpdate));
+    options.observer = new SortableObserver(element, options.onUpdate);
+    Draggables.addObserver(options.observer);
+    
+    options.draggables = [];
+    options.droppables = [];
     
     // make it so 
     var elements = element.childNodes;
@@ -456,10 +503,16 @@ Sortable = {
         var handle = options.handle ? 
           Element.Class.childrenWith(elements[i], options.handle)[0] : elements[i];
         
-        new Draggable(elements[i], options_for_draggable.extend({ handle: handle }));
+        options.draggables.push(new Draggable(elements[i], options_for_draggable.extend({ handle: handle })));
+        
         Droppables.add(elements[i], options_for_droppable);
+        options.droppables.push(elements[i]);
+        
       }
       
+    // keep reference
+    this.sortables.push(options);
+
   },
   serialize: function(element) {
     var element = $(element);

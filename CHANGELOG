@@ -1,5 +1,7 @@
 *SVN*
 
+* Added capability to remove draggables/droppables and redeclare sortables in dragdrop.js
+
 * Added Effect.ScrollTo to smoothly scroll the page to an element
 
 * Better Firefox flickering handling on SlideUp/SlideDown
