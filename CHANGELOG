@@ -1,5 +1,11 @@
 *SVN*
 
+* Removed a possible memory leaks with IE with sortables and droppables (removed references from elements)
+
+* Changes to class extension in effects.js
+
+* Make Effect.Highlight restore any previously set background color when finishing (makes effect work with set CSS classes)
+
 * Added capability to remove draggables/droppables and redeclare sortables in dragdrop.js
 
 * Added Effect.ScrollTo to smoothly scroll the page to an element

@@ -25,7 +25,7 @@
 Object.prototype.inspect = function(){
   var info = [];
   for(property in this)
-    //if(typeof this[property]!="function") 
+    if(typeof this[property]!="function") 
       info.push(property + ' => "' + this[property] + '"');
   return ("'" + this + "' #" + typeof this + 
     ": {" + info.join(", ") + "}");

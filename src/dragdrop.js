@@ -114,10 +114,8 @@ var Droppables = {
   
   remove: function(element) {
     for(var i = 0; i < this.drops.length; i++)
-      if(this.drops[i] == element) {
-        this.drops[i].droppable = null;
+      if(this.drops[i].element == element)
         this.drops.splice(i,1);
-      }
   },
   
   add: function(element) {
@@ -142,43 +140,42 @@ var Droppables = {
         options._containers.length-1;
     }
     
-    if(element.style.position=='') //fix IE
-      element.style.position = 'relative'; 
+    Element.makePositioned(element); // fix IE
     
-    // activate the droppable
-    element.droppable = options;
+    options.element = element;
     
+    // activate the droppable    
     if(!this.drops) this.drops = [];
-    this.drops.push(element);
+    this.drops.push(options);
   },
   
   is_contained: function(element, drop) {
-    var containers = drop.droppable._containers;
+    var containers = drop._containers;
     var parentNode = element.parentNode;
-    var i = drop.droppable._containers_length;
+    var i = drop._containers_length;
     do { if(parentNode==containers[i]) return true; } while (i--);
     return false;
   },
   
   is_affected: function(pX, pY, element, drop) {
     return (
-      (drop!=element) &&
-      ((!drop.droppable._containers) ||
+      (drop.element!=element) &&
+      ((!drop._containers) ||
         this.is_contained(element, drop)) &&
-      ((!drop.droppable.accept) ||
-        (Element.Class.has_any(element, drop.droppable.accept))) &&
-      Position.within(drop, pX, pY) );
+      ((!drop.accept) ||
+        (Element.Class.has_any(element, drop.accept))) &&
+      Position.within(drop.element, pX, pY) );
   },
   
   deactivate: function(drop) {
-    Element.Class.remove(drop, drop.droppable.hoverclass);
+    Element.Class.remove(drop.element, drop.hoverclass);
     this.last_active = null;
   },
   
   activate: function(drop) {
     if(this.last_active) this.deactivate(this.last_active);
-    if(drop.droppable.hoverclass) {
-      Element.Class.add(drop, drop.droppable.hoverclass);
+    if(drop.hoverclass) {
+      Element.Class.add(drop.element, drop.hoverclass);
       this.last_active = drop;
     }
   },
@@ -192,10 +189,9 @@ var Droppables = {
     var i = this.drops.length-1; do {
       var drop = this.drops[i];
       if(this.is_affected(pX, pY, element, drop)) {
-        if(drop.droppable.onHover)
-           drop.droppable.onHover(
-            element, drop, Position.overlap(drop.droppable.overlap, drop));
-        if(drop.droppable.greedy) { 
+        if(drop.onHover)
+           drop.onHover(element, drop.element, Position.overlap(drop.overlap, drop.element));
+        if(drop.greedy) { 
           this.activate(drop);
           return;
         }
@@ -208,8 +204,8 @@ var Droppables = {
     Position.prepare();
     
     if (this.is_affected(Event.pointerX(event), Event.pointerY(event), element, this.last_active))
-      if (this.last_active.droppable.onDrop) 
-        this.last_active.droppable.onDrop(element, this.last_active);
+      if (this.last_active.onDrop) 
+        this.last_active.onDrop(element, this.last_active);
     
   },
   
@@ -258,9 +254,7 @@ Draggable.prototype = {
     this.element      = $(element);
     this.handle       = options.handle ? $(options.handle) : this.element;
     
-    // fix IE
-    if(!this.element.style.position)
-      this.element.style.position = 'relative';
+    Element.makePositioned(this.element); // fix IE
     
     this.offsetX      = 0;
     this.offsetY      = 0;
@@ -405,6 +399,13 @@ SortableObserver.prototype = {
 
 Sortable = {
   sortables: new Array(),
+  options: function(element){
+    var element = $(element);
+    for(var i=0;i<this.sortables.length;i++)
+      if(this.sortables[i].element == element)
+        return this.sortables[i];
+    return null;        
+  },
   destroy: function(element){
     var element = $(element);
     for(var i=0;i<this.sortables.length;i++) {
@@ -433,8 +434,7 @@ Sortable = {
       onChange:    function() {},
       onUpdate:    function() {}
     }.extend(arguments[1] || {});
-    element.sortable = options;
-
+    
     // clear any old sortable with same element
     this.destroy(element);
     
@@ -486,10 +486,6 @@ Sortable = {
     // fix for gecko engine
     Element.cleanWhitespace(element); 
     
-    // for onupdate
-    options.observer = new SortableObserver(element, options.onUpdate);
-    Draggables.addObserver(options.observer);
-    
     options.draggables = [];
     options.droppables = [];
     
@@ -512,13 +508,18 @@ Sortable = {
       
     // keep reference
     this.sortables.push(options);
+    
+    // for onupdate
+    options.observer = new SortableObserver(element, options.onUpdate);
+    Draggables.addObserver(options.observer);
 
   },
   serialize: function(element) {
     var element = $(element);
+    var sortableOptions = this.options(element);
     var options = {
-      tag:  element.sortable.tag,
-      only: element.sortable.only,
+      tag:  sortableOptions.tag,
+      only: sortableOptions.only,
       name: element.id
     }.extend(arguments[1] || {});
     
