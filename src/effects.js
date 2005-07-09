@@ -286,8 +286,7 @@ Effect.Highlight.prototype.extend(Effect.Base.prototype).extend({
       colors[0].toColorPart() + colors[1].toColorPart() + colors[2].toColorPart();
   },
   finish: function() {
-    if(this.options.restorecolor)
-      this.element.style.backgroundColor = this.options.restorecolor;
+    this.element.style.backgroundColor = this.options.restorecolor;
   }
 });
 

@@ -1,5 +1,7 @@
 *SVN*
 
+* Always reset background color on Effect.Highlight; this make change backwards-compatibility, to be sure include style="background-color:(target-color)" on your elements or else elements will fall back to their CSS rules (which is a good thing in most circumstances)
+
 * Removed a possible memory leaks with IE with sortables and droppables (removed references from elements)
 
 * Changes to class extension in effects.js
