@@ -38,7 +38,7 @@ Element.collectTextNodesIgnoreClass = function(element, ignoreclass) {
 }
 
 Ajax.Autocompleter = Class.create();
-Ajax.Autocompleter.prototype = (new Ajax.Base()).extend({
+Ajax.Autocompleter.prototype = Object.extend(new Ajax.Base(), {
   initialize: function(element, update, url, options) {
     this.element     = $(element); 
     this.update      = $(update);  
@@ -87,7 +87,7 @@ Ajax.Autocompleter.prototype = (new Ajax.Base()).extend({
     if(!this.iefix && (navigator.appVersion.indexOf('MSIE')>0) && this.update.style.position=='absolute') {
       new Insertion.After(this.update, 
        '<iframe id="' + this.update.id + '_iefix" '+
-       'style="display:none;filter:progid:DXImageTransform.Microsoft.Alpha(apacity=0);" ' +
+       'style="display:none;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);" ' +
        'src="javascript:;" frameborder="0" scrolling="no"></iframe>');
       this.iefix = $(this.update.id+'_iefix');
     }

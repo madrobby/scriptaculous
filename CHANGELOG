@@ -1,5 +1,11 @@
 *SVN*
 
+* Make version of prototype.js in lib compatible with some 3rd-party JavaScript libraries (like IE7) by refactoring to use Object.extend() for testing [David Zülke]
+
+* Make effects.js, dragdrop.js and controls.js compatible with some 3rd-party JavaScript libraries (like IE7) by refactoring to use Object.extend() [David Zülke]
+
+* Changed some tests to work better
+
 * Always reset background color on Effect.Highlight; this make change backwards-compatibility, to be sure include style="background-color:(target-color)" on your elements or else elements will fall back to their CSS rules (which is a good thing in most circumstances)
 
 * Removed a possible memory leaks with IE with sortables and droppables (removed references from elements)

@@ -120,10 +120,10 @@ var Droppables = {
   
   add: function(element) {
     var element = $(element);
-    var options = {
+    var options = Object.extend({
       greedy:     true,
       hoverclass: null  
-    }.extend(arguments[1] || {});
+    }, arguments[1] || {});
     
     // cache containers
     if(options.containment) {
@@ -236,7 +236,7 @@ Draggables = {
 Draggable = Class.create();
 Draggable.prototype = {
   initialize: function(element) {
-    var options = {
+    var options = Object.extend({
       handle: false,
       starteffect: function(element) { 
         new Effect.Opacity(element, {duration:0.2, from:1.0, to:0.7}); 
@@ -249,7 +249,7 @@ Draggable.prototype = {
       },
       zindex: 1000,
       revert: false
-    }.extend(arguments[1] || {});
+    }, arguments[1] || {});
     
     this.element      = $(element);
     this.handle       = options.handle ? $(options.handle) : this.element;
@@ -422,7 +422,7 @@ Sortable = {
   },
   create: function(element) {
     var element = $(element);
-    var options = { 
+    var options = Object.extend({ 
       element:     element,
       tag:         'li',       // assumes li children, override with tag: 'tagname'
       overlap:     'vertical', // one of 'vertical', 'horizontal'
@@ -433,7 +433,7 @@ Sortable = {
       hoverclass:  null,
       onChange:    function() {},
       onUpdate:    function() {}
-    }.extend(arguments[1] || {});
+    }, arguments[1] || {});
     
     // clear any old sortable with same element
     this.destroy(element);
@@ -499,7 +499,7 @@ Sortable = {
         var handle = options.handle ? 
           Element.Class.childrenWith(elements[i], options.handle)[0] : elements[i];
         
-        options.draggables.push(new Draggable(elements[i], options_for_draggable.extend({ handle: handle })));
+        options.draggables.push(new Draggable(elements[i], Object.extend(options_for_draggable, { handle: handle })));
         
         Droppables.add(elements[i], options_for_droppable);
         options.droppables.push(elements[i]);
@@ -517,11 +517,11 @@ Sortable = {
   serialize: function(element) {
     var element = $(element);
     var sortableOptions = this.options(element);
-    var options = {
+    var options = Object.extend({
       tag:  sortableOptions.tag,
       only: sortableOptions.only,
       name: element.id
-    }.extend(arguments[1] || {});
+    }, arguments[1] || {});
     
     var items = $(element).childNodes;
     var queryComponents = new Array();

@@ -19,26 +19,23 @@
 
 <h2>Draggables/Droppables</h2>
 
-<div id="revertbox" class="box1" style="z-index:1000;width:150px;height:150px;background:#bbf;">
+<div id="revertbox1" class="box1" style="z-index:1000;width:150px;height:150px;background:#bbf;">
   <span id="handle1">drag here</span><br/>
-  <input type="checkbox" id="shouldrevert"/> Revert?
+  <input type="checkbox" id="shouldrevert1"/> Revert?
 </div>
 
 <div id="revertbox2" class="box" style="z-index:1000;width:150px;height:150px;background:#bbf;">
   <span id="handle2">drag here</span><br/>
-  <input type="checkbox" id="shouldrevert"/> Revert?
+  <input type="checkbox" id="shouldrevert2"/> Revert?
 </div>
 
 <div id="xxxx">testtest</div>
 
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-  new Draggable('revertbox',{handle:'handle1',revert:function(element){return ($('shouldrevert').checked)}});
-  new Draggable('revertbox2',{handle:'handle2'});
+  new Draggable('revertbox1',{handle:'handle1',revert:function(element){return ($('shouldrevert1').checked)}});
+  new Draggable('revertbox2',{handle:'handle2',revert:function(element){return ($('shouldrevert2').checked)}});
   Droppables.add('xxxx',{accept:['box1','box2'],onDrop:function(){alert('drop!')}});
-  //new Draggable('revertbox',{handle:'handle',revert:true});
-  //new Draggable('revertbox',{handle:'handle',revert:false});
-  //new Draggable('revertbox',{handle:'handle'});
 // ]]>
 </script>
 
