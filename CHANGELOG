@@ -1,5 +1,7 @@
 *SVN*
 
+* Make version of prototype.js in lib have a nicer Event object [David Zülke]
+
 * Added incremental and local autocompleting and loads of documentation to controls.js [Ivan Krstic]
 
 * Experimental: make version of prototype.js in lib destroy events on page unload to prevent browser memory leaks
