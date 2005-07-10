@@ -220,9 +220,9 @@ Draggables = {
   addObserver: function(observer) {
     this.observers.push(observer);    
   },
-  removeObserver: function(observer) {
+  removeObserver: function(element) {  // element instead of obsever fixes mem leaks
     for(var i = 0; i < this.observers.length; i++)
-      if(this.observers[i] = observer)
+      if(this.observers[i].element && (this.observers[i].element == element))
         this.observers.splice(i,1);
   },
   notify: function(eventName, draggable) {  // 'onStart', 'onEnd'
@@ -411,7 +411,7 @@ Sortable = {
     for(var i=0;i<this.sortables.length;i++) {
       if(this.sortables[i].element == element) {
         var s = this.sortables[i];
-        Draggables.removeObserver(s.observer);
+        Draggables.removeObserver(s.element);
         for(var j=0;j<s.droppables.length;j++)
           Droppables.remove(s.droppables[j]);
         for(var j=0;j<s.draggables.length;j++)
@@ -510,8 +510,7 @@ Sortable = {
     this.sortables.push(options);
     
     // for onupdate
-    options.observer = new SortableObserver(element, options.onUpdate);
-    Draggables.addObserver(options.observer);
+    Draggables.addObserver(new SortableObserver(element, options.onUpdate));
 
   },
   serialize: function(element) {
