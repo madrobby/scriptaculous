@@ -1,5 +1,7 @@
 *SVN*
 
+* Experimental: make version of prototype.js in lib destroy events on page unload to prevent browser memory leaks
+
 * Fixed a possible memory leak in dragdrop.js
 
 * Make version of prototype.js in lib compatible with some 3rd-party JavaScript libraries (like IE7) by refactoring to use Object.extend() for testing [David Zülke]
