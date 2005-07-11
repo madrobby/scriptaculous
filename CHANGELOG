@@ -1,5 +1,9 @@
 *SVN*
 
+* Updats Ajax.Autocompleter to deal with parameters options correctly [Martin Marinschek]
+
+* Updated controls.js to allow multple matches in local localcompletion [Ivan Krstic]
+
 * Make version of prototype.js in lib have a nicer Event object [David Zülke]
 
 * Added incremental and local autocompleting and loads of documentation to controls.js [Ivan Krstic]

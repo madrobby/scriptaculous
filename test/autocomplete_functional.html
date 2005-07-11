@@ -29,13 +29,13 @@ Autocompleter ac1: <input id="ac1" type="text" autocomplete="off"/>
 
 <br/>
 
-Autocompleter ac2: <input id="ac2" type="text" autocomplete="off"/>
+Autocompleter ac2 w/ parameters: <input id="ac2" type="text" name="ac2" autocomplete="off"/>
 <div id="ac2update" style="display:none;border:1px solid black;background-color:white;"></div>
 
 
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-  new Ajax.Autocompleter('ac2','ac2update','_autocomplete_result.html');
+  new Ajax.Autocompleter('ac2','ac2update','_autocomplete_result.html',{parameters:'a=b&b=c'});
 // ]]>
 </script>
 

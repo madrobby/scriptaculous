@@ -324,18 +324,23 @@ Ajax.Autocompleter.prototype = Object.extend(new Autocompleter.Base(),
 Object.extend(new Ajax.Base(), {
   initialize: function(element, update, url, options) {
 	  this.base_initialize(element, update, options);
-    this.options.asynchronous = true;
-    this.options.onComplete   = this.onComplete.bind(this)
-    this.options.method       = 'post';
-    this.url                  = url;
+    this.options.asynchronous  = true;
+    this.options.onComplete    = this.onComplete.bind(this)
+    this.options.method        = 'post';
+    this.options.defaultParams = this.options.parameters || null;
+    this.url                   = url;
   },
   
   getUpdatedChoices: function() {
     entry = encodeURIComponent(this.element.name) + '=' + 
       encodeURIComponent(this.getEntry());
-    
+      
     this.options.parameters = this.options.callback ?
       this.options.callback(this.element, entry) : entry;
+        
+    if(this.options.defaultParams) 
+      this.options.parameters += '&' + this.options.defaultParams;
+    
     new Ajax.Request(this.url, this.options);
   },
   
@@ -411,18 +416,25 @@ Autocompleter.Local.prototype = Object.extend(new Autocompleter.Base(), {
             elem.toLowerCase().indexOf(entry.toLowerCase()) : 
             elem.indexOf(entry);
 
-          if (found_pos == 0 && elem.length == entry.length) 
-            continue;
-          else if (found_pos == 0) 
-            ret.push("<li><strong>" + elem.substr(0, entry.length) + "</strong>" + 
-              elem.substr(entry.length) + "</li>");
-          else if (entry.length >= instance.options.partial_chars && 
-            instance.options.partial_search && found_pos != -1) {
-            if (!instance.options.full_search && !/\s/.test(elem.substr(found_pos-1,1)))
-              continue;
-            partial.push("<li>" + elem.substr(0, found_pos) + "<strong>" +
-              elem.substr(found_pos, entry.length) + "</strong>" + elem.substr(
-              found_pos + entry.length) + "</li>")
+          while (found_pos != -1) {
+            if (found_pos == 0 && elem.length != entry.length) { 
+              ret.push("<li><strong>" + elem.substr(0, entry.length) + "</strong>" + 
+                elem.substr(entry.length) + "</li>");
+              break;
+            } else if (entry.length >= instance.options.partial_chars && 
+              instance.options.partial_search && found_pos != -1) {
+              if (instance.options.full_search || /\s/.test(elem.substr(found_pos-1,1))) {
+                partial.push("<li>" + elem.substr(0, found_pos) + "<strong>" +
+                  elem.substr(found_pos, entry.length) + "</strong>" + elem.substr(
+                  found_pos + entry.length) + "</li>");
+                break;
+              }
+            }
+
+            found_pos = instance.options.ignore_case ? 
+              elem.toLowerCase().indexOf(entry.toLowerCase(), found_pos + 1) : 
+              elem.indexOf(entry, found_pos + 1);
+
           }
         }
         if (partial.length)
