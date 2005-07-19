@@ -77,7 +77,7 @@ Autocompleter.Base.prototype = {
     if (this.setOptions)
       this.setOptions(options);
     else
-      this.options = {}
+      this.options = options || {};
      
     this.options.tokens       = this.options.tokens || new Array();
     this.options.frequency    = this.options.frequency || 0.4;
@@ -320,8 +320,7 @@ Autocompleter.Base.prototype = {
 }
 
 Ajax.Autocompleter = Class.create();
-Ajax.Autocompleter.prototype = Object.extend(new Autocompleter.Base(), 
-Object.extend(new Ajax.Base(), {
+Object.extend(Object.extend(Ajax.Autocompleter.prototype, Autocompleter.Base.prototype), {
   initialize: function(element, update, url, options) {
 	  this.base_initialize(element, update, options);
     this.options.asynchronous  = true;
@@ -348,7 +347,7 @@ Object.extend(new Ajax.Base(), {
     this.updateChoices(request.responseText);
   }
 
-}));
+});
 
 // The local array autocompleter. Used when you'd prefer to
 // inject an array of autocompletion options into the page, rather

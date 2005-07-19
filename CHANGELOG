@@ -1,5 +1,9 @@
 *SVN*
 
+* Updated internal Prototype JavaScript framework to version 1.4.0_pre2 (patched w/ workaround for Ajax.Updater init bug)
+
+* Some refactoring of controls.js to get rid of "dirty" implementation detail (dont' ask)
+
 * Added returning the generated combined effects to allow for .cancel() on all effects
 
 * Updated internal Prototype JavaScript framework to version 1.4.0_pre2
