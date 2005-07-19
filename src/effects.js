@@ -322,7 +322,7 @@ Effect.Fade = function(element) {
     { Element.hide(effect.element);
       effect.setOpacity(1); } 
   }, arguments[1] || {});
-  new Effect.Opacity(element,options);
+  return new Effect.Opacity(element,options);
 }
 
 Effect.Appear = function(element) {
@@ -335,11 +335,11 @@ Effect.Appear = function(element) {
   afterUpdate: function(effect)  
     { Element.show(effect.element); }
   }, arguments[1] || {});
-  new Effect.Opacity(element,options);
+  return new Effect.Opacity(element,options);
 }
 
 Effect.Puff = function(element) {
-  new Effect.Parallel(
+  return new Effect.Parallel(
    [ new Effect.Scale(element, 200, { sync: true, scaleFromCenter: true }), 
      new Effect.Opacity(element, { sync: true, to: 0.0, from: 1.0 } ) ], 
      { duration: 1.0, 
@@ -353,7 +353,7 @@ Effect.Puff = function(element) {
 
 Effect.BlindUp = function(element) {
   Element.makeClipping(element);
-  new Effect.Scale(element, 0, 
+  return new Effect.Scale(element, 0, 
     Object.extend({ scaleContent: false, 
       scaleX: false, 
       afterFinish: function(effect) 
@@ -369,7 +369,7 @@ Effect.BlindDown = function(element) {
   $(element).style.height   = '0px';
   Element.makeClipping(element);
   Element.show(element);
-  new Effect.Scale(element, 100, 
+  return new Effect.Scale(element, 100, 
     Object.extend({ scaleContent: false, 
       scaleX: false, 
       scaleMode: 'contents',
@@ -382,7 +382,7 @@ Effect.BlindDown = function(element) {
 }
 
 Effect.SwitchOff = function(element) {
-  new Effect.Appear(element,
+  return new Effect.Appear(element,
     { duration: 0.4,
      transition: Effect.Transitions.flicker,
      afterFinish: function(effect)
@@ -400,7 +400,7 @@ Effect.SwitchOff = function(element) {
 }
 
 Effect.DropOut = function(element) {
-  new Effect.Parallel(
+  return new Effect.Parallel(
     [ new Effect.MoveBy(element, 100, 0, { sync: true }), 
       new Effect.Opacity(element, { sync: true, to: 0.0, from: 1.0 } ) ], 
     { duration: 0.5, 
@@ -410,7 +410,7 @@ Effect.DropOut = function(element) {
 }
 
 Effect.Shake = function(element) {
-  new Effect.MoveBy(element, 0, 20, 
+  return new Effect.MoveBy(element, 0, 20, 
     { duration: 0.05, afterFinish: function(effect) {
   new Effect.MoveBy(effect.element, 0, -40, 
     { duration: 0.1, afterFinish: function(effect) { 
@@ -432,7 +432,7 @@ Effect.SlideDown = function(element) {
   Element.cleanWhitespace(element);
   Element.makePositioned(element.firstChild);
   Element.show(element);
-  new Effect.Scale(element, 100, 
+  return new Effect.Scale(element, 100, 
    Object.extend({ scaleContent: false, 
     scaleX: false, 
     scaleMode: 'contents',
@@ -452,7 +452,7 @@ Effect.SlideUp = function(element) {
   Element.cleanWhitespace(element);
   Element.makePositioned(element.firstChild);
   Element.show(element);
-  new Effect.Scale(element, 0, 
+  return new Effect.Scale(element, 0, 
    Object.extend({ scaleContent: false, 
     scaleX: false, 
     afterUpdate: function(effect) 
@@ -468,7 +468,7 @@ Effect.SlideUp = function(element) {
 }
 
 Effect.Squish = function(element) {
- new Effect.Scale(element, 0, 
+ return new Effect.Scale(element, 0, 
    { afterFinish: function(effect) { Element.hide(effect.element); } });
 }
 
@@ -517,7 +517,7 @@ Effect.Grow = function(element) {
       break;
   }
   
-  new Effect.MoveBy(element, initialMoveY, initialMoveX, { 
+  return new Effect.MoveBy(element, initialMoveY, initialMoveX, { 
     duration: 0.01, 
     beforeUpdate: function(effect) { $(element).style.height = '0px'; },
     afterFinish: function(effect) {
@@ -569,7 +569,7 @@ Effect.Shrink = function(element) {
       break;
   }
   
-  new Effect.Parallel(
+  return new Effect.Parallel(
     [ new Effect.Opacity(element, { sync: true, to: 0.0, from: 1.0, transition: opacityTransition }),
       new Effect.Scale(element, 0, { sync: true, transition: moveTransition }),
       new Effect.MoveBy(element, moveY, moveX, { sync: true, transition: scaleTransition }) ],
@@ -581,7 +581,7 @@ Effect.Pulsate = function(element) {
   var transition = options.transition || Effect.Transitions.sinoidal;
   var reverser   = function(pos){ return transition(1-Effect.Transitions.pulse(pos)) };
   reverser.bind(transition);
-  new Effect.Opacity(element, 
+  return new Effect.Opacity(element, 
     Object.extend(Object.extend({  duration: 3.0,
        afterFinish: function(effect) { Element.show(effect.element); }
     }, options), {transition: reverser}));
@@ -589,7 +589,7 @@ Effect.Pulsate = function(element) {
 
 Effect.Fold = function(element) {
  $(element).style.overflow = 'hidden';
- new Effect.Scale(element, 5, Object.extend({   
+ return new Effect.Scale(element, 5, Object.extend({   
    scaleContent: false,
    scaleTo: 100,
    scaleX: false,

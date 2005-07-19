@@ -1,6 +1,12 @@
 *SVN*
 
-* Updats Ajax.Autocompleter to deal with parameters options correctly [Martin Marinschek]
+* Added returning the generated combined effects to allow for .cancel() on all effects
+
+* Updated internal Prototype JavaScript framework to version 1.4.0_pre2
+
+*Rails 0.13.1*
+
+* Updated Ajax.Autocompleter to deal with parameters options correctly [Martin Marinschek]
 
 * Updated controls.js to allow multple matches in local localcompletion [Ivan Krstic]
 
