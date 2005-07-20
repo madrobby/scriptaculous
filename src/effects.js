@@ -100,7 +100,7 @@ Effect.Base.prototype = {
   loop: function() {
     var timePos = new Date().getTime();
     if(timePos >= this.finishOn) {
-      this.render(this.options.to);
+      this.render(1.0);
       if(this.finish) this.finish(); 
       if(this.options.afterFinish) this.options.afterFinish(this);
       return;  

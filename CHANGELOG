@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed rendering of last frame of animation when from/to is not 0.0/1.0. [thanks to David Zülke]
+
 * Updated internal Prototype JavaScript framework to version 1.4.0_pre2 (patched w/ workaround for Ajax.Updater init bug)
 
 * Some refactoring of controls.js to get rid of "dirty" implementation detail (dont' ask)
