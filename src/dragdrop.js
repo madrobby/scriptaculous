@@ -233,6 +233,46 @@ Draggables = {
 
 /*--------------------------------------------------------------------------*/
 
+Position.absolutize = function(element) {
+  element = $(element);
+  if(element.style.position=='absolute') return;
+  Position.prepare();
+
+  var offsets = Position.cumulativeOffset(element);
+  var top     = offsets[1];
+  var left    = offsets[0];
+  var width   = element.clientWidth;
+  var height  = element.clientHeight;
+
+  element._originalLeft   = left - parseFloat(element.style.left  || 0);
+  element._originalTop    = top  - parseFloat(element.style.top || 0);
+  element._originalWidth  = element.style.width;
+  element._originalHeight = element.style.height;
+
+  element.style.position = 'absolute';
+  element.style.top    = top + 'px';;
+  element.style.left   = left + 'px';;
+  element.style.width  = width + 'px';;
+  element.style.height = height + 'px';;
+}
+
+Position.relativize = function(element) {
+  element = $(element);
+  if(element.style.position=='relative') return;
+  Position.prepare();
+
+  element.style.position = 'relative';
+  var top  = parseFloat(element.style.top  || 0) - element._originalTop;
+  var left = parseFloat(element.style.left || 0) - element._originalLeft;
+
+  element.style.top    = top + 'px';
+  element.style.left   = left + 'px';
+  element.style.height = element._originalHeight;
+  element.style.width  = element._originalWidth;
+}
+
+/*--------------------------------------------------------------------------*/
+
 Draggable = Class.create();
 Draggable.prototype = {
   initialize: function(element) {
@@ -254,7 +294,7 @@ Draggable.prototype = {
     this.element      = $(element);
     this.handle       = options.handle ? $(options.handle) : this.element;
     
-    Element.makePositioned(this.element); // fix IE
+    Element.makePositioned(this.element); // fix IE    
     
     this.offsetX      = 0;
     this.offsetY      = 0;
@@ -313,6 +353,12 @@ Draggable.prototype = {
     
     var revert = this.options.revert;
     if(revert && typeof revert == 'function') revert = revert(this.element);
+    
+    if(this.options.clone) {
+      Position.relativize(this.element);
+      this.element.parentNode.removeChild(this._clone);
+      this._clone = null;
+    }
       
     if(revert && this.options.reverteffect) {
       this.options.reverteffect(this.element, 
@@ -328,6 +374,7 @@ Draggable.prototype = {
     if(this.options.endeffect) 
       this.options.endeffect(this.element);
       
+    
     Droppables.reset();
   },
   keyPress: function(event) {
@@ -363,6 +410,13 @@ Draggable.prototype = {
         this.dragging = true;
         if(style.position=="") style.position = "relative";
         style.zIndex = this.options.zindex;
+        
+        if(this.options.clone) {
+          this._clone = this.element.cloneNode(true);
+          Position.absolutize(this.element);
+          this.element.parentNode.insertBefore(this._clone, this.element);
+        }
+        
         Draggables.notify('onStart', this);
         if(this.options.starteffect) this.options.starteffect(this.element);
       }
