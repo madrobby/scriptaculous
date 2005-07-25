@@ -9,6 +9,13 @@
   <script src="../src/effects.js" type="text/javascript"></script>
   <script src="../src/dragdrop.js" type="text/javascript"></script>
   <script src="../src/controls.js" type="text/javascript"></script>
+  <style type="text/css" media="screen">
+  /* <![CDATA[ */
+    #testcss1 { font-size:11px; color: #f00; }
+    #testcss2 { font-size:12px; color: #0f0; display: none; }
+  /* ]]> */
+  </style>
+  
 </head>
 <body>
 <h1>script.aculo.us Unit test file</h1>
@@ -33,6 +40,8 @@
 <ul id="tlist2"><li class="a" id="tlist2_1">x1</li><li id="tlist2_2">x2</li></ul>
 
 <div id="testmoveby" style="background-color:#333;width:100px;">XXXX</div>
+
+<div id="testcss1">testcss1</div><div id="testcss2">testcss1</div>
 
 <!-- Tests follow -->
 <script type="text/javascript" language="javascript" charset="utf-8">
@@ -86,8 +95,8 @@
     test_effect_moveby: function() { with(this) {
       var effect = new Effect.MoveBy("testmoveby",100,10,{sync:true});
       
-      assert_equal("",$("testmoveby").style.top);
-      assert_equal("",$("testmoveby").style.left);
+      assert_null(Element.getStyle('testmoveby','top'));
+      assert_null(Element.getStyle('testmoveby','left'));
       
       effect.render(0.5);
       assert_equal(50, parseFloat($("testmoveby").style.top));
@@ -96,6 +105,15 @@
       effect.render(1.0);
       assert_equal(100, parseFloat($("testmoveby").style.top));
       assert_equal(10, parseFloat($("testmoveby").style.left));
+    }},
+    
+    test_element_get_style: function() { with(this) {
+      assert_equal("11px", Element.getStyle('testcss1','font-size'));
+      assert_equal("rgb(255, 0, 0)", Element.getStyle('testcss1','color'));
+      
+      // fail on safari 
+      assert_equal("12px", Element.getStyle('testcss2','font-size'));
+      assert_equal("rgb(0, 255, 0)", Element.getStyle('testcss2','color'));
     }}
       
   }, "testlog");

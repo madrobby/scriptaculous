@@ -122,7 +122,7 @@ Test.Unit.Assertions.prototype = {
     catch(e) { this.error(e); }
   },
   assert_null: function(object_var) {
-    try { (typeof object_var==null) ? this.pass() : 
+    try { (object_var==null) ? this.pass() : 
       this.fail(arguments[1] || 'assert_null: got "' + object_var.inspect() + '"'); }
     catch(e) { this.error(e); }
   }

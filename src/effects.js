@@ -58,15 +58,46 @@ Effect.Transitions.full = function(pos) {
 
 /* ------------- element ext -------------- */
 
+// adapted from http://dhtmlkitchen.com/learn/js/setstyle/index4.jsp
+// note: Safari return null on elements with display:none; see
+// instead of "auto" values returns null so it's easier to use with || constructs
+
+Element.getStyle = function(element, style) {
+  element = $(element);
+  var value = element.style[style.camelize()];
+  if(!value)
+    if(document.defaultView && document.defaultView.getComputedStyle) {
+      var css = document.defaultView.getComputedStyle(element, null);
+      value = (css!=null) ? css.getPropertyValue(style) : null;
+    } else if(element.currentStyle) {
+      value = element.currentStyle[style.camelize()];  
+    }
+  if(value=='auto') value = null;
+  return value;
+}
+
+String.prototype.camelize = function() {
+  var oStringList = this.split('-');
+  if(oStringList.length == 1)    
+    return oStringList[0];
+  var ret = this.indexOf("-") == 0 ? 
+    oStringList[0].charAt(0).toUpperCase() + oStringList[0].substring(1) : oStringList[0];
+  for(var i = 1, len = oStringList.length; i < len; i++){
+    var s = oStringList[i];
+    ret += s.charAt(0).toUpperCase() + s.substring(1)
+  }
+  return ret;
+}
+
 Element.makePositioned = function(element) {
   element = $(element);
-  if(element.style.position == "")
+  if(Element.getStyle(element, 'position') == "")
     element.style.position = "relative";
 }
 
 Element.makeClipping = function(element) {
   element = $(element);
-  element._overflow = element.style.overflow || 'visible';
+  element._overflow = Element.getStyle(element, 'overflow') || 'visible';
   if(element._overflow!='hidden') element.style.overflow = 'hidden';
 }
 
@@ -169,8 +200,8 @@ Effect.MoveBy = Class.create();
 Object.extend(Object.extend(Effect.MoveBy.prototype, Effect.Base.prototype), {
   initialize: function(element, toTop, toLeft) {
     this.element      = $(element);
-    this.originalTop  = parseFloat(this.element.style.top || '0');
-    this.originalLeft = parseFloat(this.element.style.left || '0');
+    this.originalTop  = parseFloat(Element.getStyle(element,'top')  || '0');
+    this.originalLeft = parseFloat(Element.getStyle(element,'left') || '0');
     this.toTop        = toTop;
     this.toLeft       = toLeft;
     Element.makePositioned(this.element);
@@ -201,9 +232,9 @@ Object.extend(Object.extend(Effect.Scale.prototype, Effect.Base.prototype), {
     }, arguments[2] || {});
     this.originalTop    = this.element.offsetTop;
     this.originalLeft   = this.element.offsetLeft;
-    if(this.element.style.fontSize=="") this.sizeEm = 1.0;
-    if(this.element.style.fontSize && this.element.style.fontSize.indexOf("em")>0)
-      this.sizeEm      = parseFloat(this.element.style.fontSize);
+    if(Element.getStyle(element,'font-size')=="") this.sizeEm = 1.0;
+    if(Element.getStyle(element,'font-size') && Element.getStyle(element,'font-size').indexOf("em")>0)
+      this.sizeEm      = parseFloat(Element.getStyle(element,'font-size'));
     this.factor = (percent/100.0) - (options.scaleFrom/100.0);
     if(options.scaleMode=='box') {
       this.originalHeight = this.element.clientHeight;
@@ -234,7 +265,7 @@ Object.extend(Object.extend(Effect.Scale.prototype, Effect.Base.prototype), {
     if(this.options.scaleFromCenter) {
       topd  = (height - this.originalHeight)/2;
       leftd = (width  - this.originalWidth)/2;
-      if(this.element.style.position=='absolute') {
+      if(Element.getStyle(element,'position')=='absolute') {
         if(this.options.scaleY) this.element.style.top = this.originalTop-topd + "px";
         if(this.options.scaleX) this.element.style.left = this.originalLeft-leftd + "px";
       } else {
@@ -253,7 +284,7 @@ Object.extend(Object.extend(Effect.Highlight.prototype, Effect.Base.prototype), 
     // try to parse current background color as default for endcolor
     // browser stores this as: "rgb(255, 255, 255)", convert to "#ffffff" format
     var endcolor = "#ffffff";
-    var current = this.element.style.backgroundColor;
+    var current = Element.getStyle(this.element, 'background-color');
     if(current && current.slice(0,4) == "rgb(") {
       endcolor = "#";
       var cols = current.slice(4,current.length-1).split(',');

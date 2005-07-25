@@ -1,5 +1,9 @@
 *SVN*
 
+* Added Element.getStyle to find computed CSS styles of an element. Note: doesn't work in all cases in Safari, see my bug report at http://bugzilla.opendarwin.org/show_bug.cgi?id=4125
+
+*1.1beta1*
+
 * Fixed rendering of last frame of animation when from/to is not 0.0/1.0. [thanks to David Zülke]
 
 * Updated internal Prototype JavaScript framework to version 1.4.0_pre2 (patched w/ workaround for Ajax.Updater init bug)
