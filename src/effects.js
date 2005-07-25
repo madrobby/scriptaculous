@@ -59,7 +59,7 @@ Effect.Transitions.full = function(pos) {
 /* ------------- element ext -------------- */
 
 // adapted from http://dhtmlkitchen.com/learn/js/setstyle/index4.jsp
-// note: Safari return null on elements with display:none; see
+// note: Safari return null on elements with display:none; see http://bugzilla.opendarwin.org/show_bug.cgi?id=4125
 // instead of "auto" values returns null so it's easier to use with || constructs
 
 Element.getStyle = function(element, style) {
