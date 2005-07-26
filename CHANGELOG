@@ -1,5 +1,9 @@
 *SVN*
 
+* Added experimental ghosting option to Sortables. See sortable_functional_ghosting.html for usage.
+
+* Renamed the clone option on Draggables to "ghosting".
+
 * Added experimental "clone" option to Draggable to so that a "clone" stays in place while dragging a translucent version of the draggable element. Currently, this requires relatively positioned elements, and doesn't work with sortable lists (but should after some tweaking). See dragdrop_function_4.html test file for details.
 
 * Added Element.getStyle to find computed CSS styles of an element. Note: doesn't work in all cases in Safari, see my bug report at http://bugzilla.opendarwin.org/show_bug.cgi?id=4125

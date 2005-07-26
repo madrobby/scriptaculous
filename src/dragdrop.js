@@ -149,7 +149,7 @@ var Droppables = {
     this.drops.push(options);
   },
   
-  is_contained: function(element, drop) {
+  isContained: function(element, drop) {
     var containers = drop._containers;
     var parentNode = element.parentNode;
     var i = drop._containers_length;
@@ -157,11 +157,11 @@ var Droppables = {
     return false;
   },
   
-  is_affected: function(pX, pY, element, drop) {
+  isAffected: function(pX, pY, element, drop) {
     return (
       (drop.element!=element) &&
       ((!drop._containers) ||
-        this.is_contained(element, drop)) &&
+        this.isContained(element, drop)) &&
       ((!drop.accept) ||
         (Element.Class.has_any(element, drop.accept))) &&
       Position.within(drop.element, pX, pY) );
@@ -188,7 +188,7 @@ var Droppables = {
     
     var i = this.drops.length-1; do {
       var drop = this.drops[i];
-      if(this.is_affected(pX, pY, element, drop)) {
+      if(this.isAffected(pX, pY, element, drop)) {
         if(drop.onHover)
            drop.onHover(element, drop.element, Position.overlap(drop.overlap, drop.element));
         if(drop.greedy) { 
@@ -203,7 +203,7 @@ var Droppables = {
     if(!this.last_active) return;
     Position.prepare();
     
-    if (this.is_affected(Event.pointerX(event), Event.pointerY(event), element, this.last_active))
+    if (this.isAffected(Event.pointerX(event), Event.pointerY(event), element, this.last_active))
       if (this.last_active.onDrop) 
         this.last_active.onDrop(element, this.last_active);
     
@@ -262,8 +262,8 @@ Position.relativize = function(element) {
   Position.prepare();
 
   element.style.position = 'relative';
-  var top  = parseFloat(element.style.top  || 0) - element._originalTop;
-  var left = parseFloat(element.style.left || 0) - element._originalLeft;
+  var top  = parseFloat(element.style.top  || 0) - (element._originalTop || 0);
+  var left = parseFloat(element.style.left || 0) - (element._originalLeft || 0);
 
   element.style.top    = top + 'px';
   element.style.left   = left + 'px';
@@ -354,7 +354,7 @@ Draggable.prototype = {
     var revert = this.options.revert;
     if(revert && typeof revert == 'function') revert = revert(this.element);
     
-    if(this.options.clone) {
+    if(this.options.ghosting) {
       Position.relativize(this.element);
       this.element.parentNode.removeChild(this._clone);
       this._clone = null;
@@ -411,7 +411,7 @@ Draggable.prototype = {
         if(style.position=="") style.position = "relative";
         style.zIndex = this.options.zindex;
         
-        if(this.options.clone) {
+        if(this.options.ghosting) {
           this._clone = this.element.cloneNode(true);
           Position.absolutize(this.element);
           this.element.parentNode.insertBefore(this._clone, this.element);
@@ -445,7 +445,8 @@ SortableObserver.prototype = {
   onStart: function() {
     this.lastValue = Sortable.serialize(this.element);
   },
-  onEnd: function() {    
+  onEnd: function() {
+    Sortable.unmark();
     if(this.lastValue != Sortable.serialize(this.element))
       this.observer(this.element)
   }
@@ -485,6 +486,7 @@ Sortable = {
       handle:      false,      // or a CSS class
       only:        false,
       hoverclass:  null,
+      ghosting:    false,
       onChange:    function() {},
       onUpdate:    function() {}
     }, arguments[1] || {});
@@ -495,14 +497,24 @@ Sortable = {
     // build options for the draggables
     var options_for_draggable = {
       revert:      true,
+      ghosting:    options.ghosting,
       constraint:  options.constraint,
       handle:      handle };
+   
     if(options.starteffect)
       options_for_draggable.starteffect = options.starteffect;
+   
     if(options.reverteffect)
       options_for_draggable.reverteffect = options.reverteffect;
+    else
+      if(options.ghosting) options_for_draggable.reverteffect = function(element) {
+        element.style.top  = 0;
+        element.style.left = 0;
+      };
+   
     if(options.endeffect)
       options_for_draggable.endeffect = options.endeffect;
+   
     if(options.zindex)
       options_for_draggable.zindex = options.zindex;
     
@@ -511,30 +523,7 @@ Sortable = {
       overlap:     options.overlap,
       containment: options.containment,
       hoverclass:  options.hoverclass,
-      onHover: function(element, dropon, overlap) { 
-        if(overlap>0.5) {
-          if(dropon.previousSibling != element) {
-            var oldParentNode = element.parentNode;
-            element.style.visibility = "hidden"; // fix gecko rendering
-            dropon.parentNode.insertBefore(element, dropon);
-            if(dropon.parentNode!=oldParentNode && oldParentNode.sortable) 
-              oldParentNode.sortable.onChange(element);
-            if(dropon.parentNode.sortable)
-              dropon.parentNode.sortable.onChange(element);
-          }
-        } else {                
-          var nextElement = dropon.nextSibling || null;
-          if(nextElement != element) {
-            var oldParentNode = element.parentNode;
-            element.style.visibility = "hidden"; // fix gecko rendering
-            dropon.parentNode.insertBefore(element, nextElement);
-            if(dropon.parentNode!=oldParentNode && oldParentNode.sortable) 
-              oldParentNode.sortable.onChange(element);
-            if(dropon.parentNode.sortable)
-              dropon.parentNode.sortable.onChange(element);
-          }
-        }
-      }
+      onHover:     Sortable.onHover
     }
 
     // fix for gecko engine
@@ -567,6 +556,54 @@ Sortable = {
     Draggables.addObserver(new SortableObserver(element, options.onUpdate));
 
   },
+  
+  onHover: function(element, dropon, overlap) {
+    if(overlap>0.5) {
+      if(dropon.previousSibling != element) {
+        var oldParentNode = element.parentNode;
+        element.style.visibility = "hidden"; // fix gecko rendering
+        dropon.parentNode.insertBefore(element, dropon);
+        Sortable.mark(dropon, 'before');
+        if(dropon.parentNode!=oldParentNode && oldParentNode.sortable) 
+          oldParentNode.sortable.onChange(element);
+        if(dropon.parentNode.sortable)
+          dropon.parentNode.sortable.onChange(element);
+      }
+    } else {                
+      var nextElement = dropon.nextSibling || null;
+      if(nextElement != element) {
+        var oldParentNode = element.parentNode;
+        element.style.visibility = "hidden"; // fix gecko rendering
+        dropon.parentNode.insertBefore(element, nextElement);
+        Sortable.mark(dropon, 'after');
+        if(dropon.parentNode!=oldParentNode && oldParentNode.sortable) 
+          oldParentNode.sortable.onChange(element);
+        if(dropon.parentNode.sortable)
+          dropon.parentNode.sortable.onChange(element);
+      }
+    }
+  },
+  
+  unmark: function() {
+    if(Sortable._marker) Element.hide(Sortable._marker);
+  },
+  
+  mark: function(dropon, position) {
+    if(!Sortable._marker) {
+      Sortable._marker = document.createElement('DIV');
+      Element.hide(Sortable._marker);
+      Element.Class.add(Sortable._marker, 'dropmarker');
+      Sortable._marker.style.position = 'absolute';
+      Sortable._marker.style.zIndex = 'absolute';
+      document.getElementsByTagName("body").item(0).appendChild(Sortable._marker);
+    }    
+    var offsets = Position.cumulativeOffset(dropon);
+    Sortable._marker.style.top  = offsets[1] + 'px';
+    if(position=='after') Sortable._marker.style.top = (offsets[1]+dropon.clientHeight) + 'px';
+    Sortable._marker.style.left = offsets[0] + 'px';
+    Element.show(Sortable._marker);
+  },
+  
   serialize: function(element) {
     var element = $(element);
     var sortableOptions = this.options(element);

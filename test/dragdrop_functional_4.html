@@ -15,19 +15,24 @@
 <h2>Draggables/Droppables</h2>
 
 <div id="absolute_positioned_element" class="box1" style="width:150px;height:150px;background:#bbf;">
-  <span id="handle1">Ghost effect</span><br/>
+  <b>Ghosting effect</b>
+  <input type="text" value="blah"/>
+  <div id="hurradiegams">test!</div>
+  <br/>
 </div>
+
+<a href="#" onclick="alert($('hurradiegams').innerHTML); return false;">alert contents of test div</a>
+
 <div id="absolute_positioned_element2" class="box1" style="width:150px;height:150px;background:#bbf;">
   <span id="handle1">Ghost effect</span><br/>
 </div>
 
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-  new Draggable('absolute_positioned_element',{clone: true});
-  new Draggable('absolute_positioned_element2',{clone: true, revert:true});
+  new Draggable('absolute_positioned_element',{ghosting: true});
+  new Draggable('absolute_positioned_element2',{ghosting: true, revert:true});
 // ]]>
 </script>
-
 
 </body>
 </html>
