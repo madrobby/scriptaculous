@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixes a bug with Droppables not recognizing a drop if no hoverclass is given [thanks drewie]
+
 * Fixes to ghosting marker, allow a predefined marker (element with id "dropmarker").
 
 * Changed Effect.Opacity to better handle 100% opacity

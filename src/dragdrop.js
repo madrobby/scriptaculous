@@ -174,10 +174,9 @@ var Droppables = {
   
   activate: function(drop) {
     if(this.last_active) this.deactivate(this.last_active);
-    if(drop.hoverclass) {
+    if(drop.hoverclass)
       Element.Class.add(drop.element, drop.hoverclass);
-      this.last_active = drop;
-    }
+    this.last_active = drop;
   },
   
   show: function(event, element) {
