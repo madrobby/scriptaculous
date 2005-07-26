@@ -568,23 +568,23 @@ Sortable = {
   
   onHover: function(element, dropon, overlap) {
     if(overlap>0.5) {
+      Sortable.mark(dropon, 'before');
       if(dropon.previousSibling != element) {
         var oldParentNode = element.parentNode;
         element.style.visibility = "hidden"; // fix gecko rendering
         dropon.parentNode.insertBefore(element, dropon);
-        Sortable.mark(dropon, 'before');
         if(dropon.parentNode!=oldParentNode && oldParentNode.sortable) 
           oldParentNode.sortable.onChange(element);
         if(dropon.parentNode.sortable)
           dropon.parentNode.sortable.onChange(element);
       }
-    } else {                
+    } else {
+      Sortable.mark(dropon, 'after');
       var nextElement = dropon.nextSibling || null;
       if(nextElement != element) {
         var oldParentNode = element.parentNode;
         element.style.visibility = "hidden"; // fix gecko rendering
         dropon.parentNode.insertBefore(element, nextElement);
-        Sortable.mark(dropon, 'after');
         if(dropon.parentNode!=oldParentNode && oldParentNode.sortable) 
           oldParentNode.sortable.onChange(element);
         if(dropon.parentNode.sortable)
@@ -599,7 +599,7 @@ Sortable = {
   
   mark: function(dropon, position) {
     if(!Sortable._marker) {
-      Sortable._marker = document.createElement('DIV');
+      Sortable._marker = $('dropmarker') || document.createElement('DIV');
       Element.hide(Sortable._marker);
       Element.Class.add(Sortable._marker, 'dropmarker');
       Sortable._marker.style.position = 'absolute';

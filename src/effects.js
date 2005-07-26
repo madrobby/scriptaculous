@@ -190,9 +190,13 @@ Object.extend(Object.extend(Effect.Opacity.prototype, Effect.Base.prototype), {
     this.setOpacity(position);
   }, 
   setOpacity: function(opacity) {
-    opacity = (opacity == 1) ? 0.99999 : opacity;
-    this.element.style.opacity = opacity;
-    this.element.style.filter = "alpha(opacity:"+opacity*100+")";
+    if(opacity==1.0) {
+      this.element.style.opacity = null;
+      this.element.style.filter  = null;
+    } else {
+      this.element.style.opacity = opacity;
+      this.element.style.filter  = "alpha(opacity:"+opacity*100+")";
+    }
   }
 });
 

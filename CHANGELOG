@@ -1,5 +1,9 @@
 *SVN*
 
+* Fixes to ghosting marker, allow a predefined marker (element with id "dropmarker").
+
+* Changed Effect.Opacity to better handle 100% opacity
+
 * Various fixes to ghosting, improves compatiblity with Safari and IE. [thanks to David Zülke]
 
 * Added experimental ghosting option to Sortables. See sortable_functional_ghosting.html for usage.
