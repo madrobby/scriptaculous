@@ -336,8 +336,17 @@ Draggable.prototype = {
       this.active = true;
       
       var style = this.element.style;
-      this.originalY = this.element.offsetTop  - this.currentTop()  - this.originalTop;
-      this.originalX = this.element.offsetLeft - this.currentLeft() - this.originalLeft;
+      
+      if(this.options.ghosting) {
+        Position.prepare();
+        var offsets = Position.cumulativeOffset(this.element);  
+        this.originalY = offsets[1]  - this.currentTop()  - this.originalTop;
+        this.originalX = offsets[0] - this.currentLeft() - this.originalLeft;
+      } else {
+        this.originalY = this.element.offsetTop  - this.currentTop()  - this.originalTop;
+        this.originalX = this.element.offsetLeft - this.currentLeft() - this.originalLeft;
+      }
+      
       this.offsetY =  event.clientY - this.originalY - this.originalTop;
       this.offsetX =  event.clientX - this.originalX - this.originalLeft;
       
@@ -594,7 +603,6 @@ Sortable = {
       Element.hide(Sortable._marker);
       Element.Class.add(Sortable._marker, 'dropmarker');
       Sortable._marker.style.position = 'absolute';
-      Sortable._marker.style.zIndex = 'absolute';
       document.getElementsByTagName("body").item(0).appendChild(Sortable._marker);
     }    
     var offsets = Position.cumulativeOffset(dropon);
