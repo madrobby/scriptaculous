@@ -443,3 +443,88 @@ Autocompleter.Local.prototype = Object.extend(new Autocompleter.Base(), {
     }, options || {});
   }
 });
+
+// AJAX in-place editor
+
+Ajax.InPlaceEditor = Class.create();
+Ajax.InPlaceEditor.prototype = {
+  initialize: function(element, url) {
+    this.url = url;
+    this.element = $(element);
+    Event.observe(this.element, 'click', this.onclick.bindAsEventListener(this));
+    Event.observe(this.element, 'mouseover', this.onmouseover.bindAsEventListener(this));
+    Event.observe(this.element, 'mouseout', this.onmouseout.bindAsEventListener(this));
+  },
+  onmouseover: function() {
+    this.oldBackground = this.element.style.backgroundColor;
+    this.element.style.backgroundColor = "#EEEEEE";
+  },
+  onmouseout: function() {
+    this.element.style.backgroundColor = this.oldBackground;
+  },
+  onclick: function() {
+    this.onEnterEditMode();
+    Element.hide(this.element);
+    this.form = document.createElement("form");
+    this.form.onsubmit = this.onSubmit.bind(this);
+
+    this.createEditField(this.form);
+
+    okButton = document.createElement("input");
+    okButton.type = "submit";
+    okButton.value = "ok";
+    this.form.appendChild(okButton);
+
+    cancelLink = document.createElement("a");
+    cancelLink.href = "#";
+    cancelLink.appendChild(document.createTextNode("cancel"));
+    cancelLink.onclick = this.onclickCancel.bind(this);
+    this.form.appendChild(cancelLink);
+    this.element.parentNode.insertBefore(this.form, this.element);
+  },
+  createEditField: function(form) {
+    textField = document.createElement("input");
+    textField.type = "text";
+    textField.name = "value";
+    textField.value = this.getText();
+    form.appendChild(textField);
+  },
+  getText: function() {
+    return this.element.innerHTML;
+  },
+  onclickCancel: function() {
+    this.onComplete();
+  },
+  onFailure: function(transport) {
+    alert("Error communicating with the server: " + transport.responseText);
+  },
+  onSubmit: function() {
+    new Ajax.Updater(this.element, this.url, {
+      parameters: Form.serialize(this.form),
+      onComplete: this.onComplete.bind(this),
+      onFailure: this.onFailure.bind(this)
+    });
+    this.removeForm();
+    this.element.style.backgroundColor = this.oldBackground;
+    this.element.innerHTML = "Saving...";
+    Element.show(this.element);
+  },
+  removeForm: function() {
+    if(this.form) {
+      Element.remove(this.form);
+      this.form = null;
+    }
+  },
+  onComplete: function() {
+    if(this.savingText) {
+      Element.remove(this.savingText);
+      this.savingText = null;
+    }
+    this.removeForm();
+    Element.show(this.element);
+    this.element.style.backgroundColor = this.oldBackground;
+    this.onLeaveEditMode();
+  },
+  onEnterEditMode : function() {},
+  onLeaveEditMode : function() {}
+};

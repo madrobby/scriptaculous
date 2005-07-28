@@ -1,5 +1,9 @@
 *SVN*
 
+* Added preliminary version of Ajax.InPlaceEditor to controls.js; added experimental Firefox only functional testing for it (inplaceeditor_result.html) [Jon Tirsen]
+
+* Added some addtional test files.
+
 * Fixes a bug with Droppables not recognizing a drop if no hoverclass is given [thanks drewie]
 
 * Fixes to ghosting marker, allow a predefined marker (element with id "dropmarker").
