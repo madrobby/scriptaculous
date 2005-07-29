@@ -25,64 +25,40 @@
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
 
-  // underscores or not?
-  Test.Unit.Assertions.prototype.assertEqual = Test.Unit.Assertions.prototype.assert_equal;
-  
-  Test.Unit.Assertions.prototype.assertHidden = function(element) {
-    this.assertEqual("none", element.style.display);
-  };
-
-  Test.Unit.Assertions.prototype.assertNotNull = function(object) {
-    this.assert(object != null);
-  };
-  
-  Test.Unit.Assertions.prototype.assertNotEqual = function(notExpected, actual) {
-    this.assert(!(notExpected == actual));
-  };
-
-  Test.Unit.Assertions.prototype.assertNull = Test.Unit.Assertions.prototype.assert_null;
-
-  Test.Unit.Assertions.prototype.assertVisible = function(element) {
-    if(element == document) return;
-    this.assertNotNull(element);
-    if (element.style) {
-      // it's not an element, may be a text node for example, just check parent
-      this.assertNotEqual("none", element.style.display);
-    }
-    this.assertVisible(element.parentNode);
-  };
-  
-  Event.simulateEvent = function(element, eventName) {
-    var oEvent = document.createEvent("MouseEvents");
-    oEvent.initMouseEvent(eventName,true,true,window,1,1,1,1,1,false,false,false,false,0,$(element));
-    $(element).dispatchEvent(oEvent);
-  };
-
   new Test.Unit.Runner({
+    
+    setup: function() { with(this) {
+      options = {}
+      inPlaceEditor = new Ajax.InPlaceEditor($('tobeedited'), '_inplaceeditor_result.html', options);
+    }},
+    
+    teardown: function() { with(this) {
+      inPlaceEditor.dispose();
+    }},
 
-    test_InPlaceEditor: function() { with(this) {
-      inPlaceEditor = new Ajax.InPlaceEditor($('tobeedited'), '_inplaceeditor_result.html');
-
-      Event.simulateEvent('tobeedited','mouseover');
+    // Integration test, tests the entire cycle
+    testInPlaceEditor: function() { with(this) {
+      Event.simulateMouse('tobeedited','mouseover');
       assertEqual("rgb(238, 238, 238)", Element.getStyle('tobeedited','background-color'));
 
-      Event.simulateEvent('tobeedited','mouseout');
-      assertEqual("transparent", Element.getStyle('tobeedited','background-color'));
+      Event.simulateMouse('tobeedited','mouseout');
+      assertEqual("transparent", Element.getStyle('tobeedited','background-color'),
+        "should be transparent after mouse leaves element");
 
-      Event.simulateEvent('tobeedited','mouseover');
-      Event.simulateEvent('tobeedited','click');
+      Event.simulateMouse('tobeedited','mouseover');
+      Event.simulateMouse('tobeedited','click');
       assertHidden($('tobeedited'));
       assertNotNull(document.forms[0]);
       assertEqual("cancel", document.forms[0].lastChild.innerHTML);
       assertVisible(document.forms[0]);
 
-      Event.simulateEvent(document.forms[0].lastChild,'click');
+      Event.simulateMouse(document.forms[0].lastChild,'click');
       assertNull(document.forms[0]);
       assertVisible($('tobeedited'));
       assertEqual("transparent", Element.getStyle('tobeedited','background-color'));
 
-      Event.simulateEvent('tobeedited','mouseover');
-      Event.simulateEvent('tobeedited','click');
+      Event.simulateMouse('tobeedited','mouseover');
+      Event.simulateMouse('tobeedited','click');
 
       assertEqual("INPUT", document.forms[0].firstChild.tagName);
       assertEqual("To be edited", document.forms[0].firstChild.value);
@@ -90,19 +66,27 @@
       assertEqual("submit", document.forms[0].childNodes[1].type);
       assertEqual("To be edited", document.forms[0].firstChild.value);
 
-      Event.simulateEvent(document.forms[0].childNodes[1],'click');
+      Event.simulateMouse(document.forms[0].childNodes[1],'click');
       assertVisible($('tobeedited'));
       assertEqual("Saving...", $('tobeedited').innerHTML);
       assertEqual("transparent", Element.getStyle('tobeedited','background-color'));
 
-      // TODO doesn't work yet
-      setTimeout(function() {
+      waitForAjax(function() {
         assertEqual("Server received: To be edited", $('tobeedited').innerHTML);
         assertNull(document.forms[0]);
         assertVisible($('tobeedited'));
-        assertEqual("transparent", Element.getStyle('tobeedited','background-color'));
       }, 1000);
+    }},
+    
+    testDisposesProperly: function() { with(this) {
+      assertEqual("transparent", Element.getStyle('tobeedited','background-color'));
+      inPlaceEditor.dispose();
+      assertEqual("transparent", Element.getStyle('tobeedited','background-color'));
+      assertVisible($('tobeedited'));
+      Event.simulateMouse('tobeedited','click');
+      assertVisible($('tobeedited'));
     }}
+
   }, "testlog");
 // ]]>
 </script>

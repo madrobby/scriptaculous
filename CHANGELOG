@@ -1,5 +1,7 @@
 *SVN*
 
+* Updated Ajax.InPlaceEditor, refactoring of unit testing [Jon Tirsen]
+
 * Added preliminary version of Ajax.InPlaceEditor to controls.js; added experimental Firefox only functional testing for it (inplaceeditor_result.html) [Jon Tirsen]
 
 * Added some addtional test files.

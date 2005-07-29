@@ -1,4 +1,5 @@
 // Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+//           (c) 2005 Jon Tirsen
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -31,9 +32,12 @@ Object.prototype.inspect = function(){
     ": {" + info.join(", ") + "}");
 }
 
-function h(string) {
-  return string.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-}
+// experimental, Firefox-only
+Event.simulateMouse = function(element, eventName) {
+  var oEvent = document.createEvent("MouseEvents");
+  oEvent.initMouseEvent(eventName, true, true, window, 1, 1, 1, 1, 1, false, false, false, false, 0, $(element));
+  $(element).dispatchEvent(oEvent);
+};
 
 Test = {}
 Test.Unit = {};
@@ -41,38 +45,54 @@ Test.Unit = {};
 Test.Unit.Runner = Class.create();
 Test.Unit.Runner.prototype = {
   initialize: function(testcases, log) {
-    this.log_element = $(log) || false;
-    this.testcases   = [];
-    for(testcase in testcases) {
-      if(/^test_/.test(testcase)) {
-      this.log("Running test case " + testcase + "...");
-      var test = new Test.Unit.Testcase(testcases[testcase]);
-      test.run();
-      this.log("Finished test case " + testcase + ":");
-      this.log(test.asserts.summary()+"\n");
-      this.testcases.push(test);
+    this.logElement = $(log) || false;
+    this.tests = [];
+    for(var testcase in testcases) {
+      if(/^test/.test(testcase)) {
+        this.tests.push(new Test.Unit.Testcase(testcase, testcases[testcase], testcases["setup"], testcases["teardown"]));
       }
     }
-    this.log(this.summary());
+    this.currentTest = 0;
+    this.runTests();
+  },
+  runTests: function() {
+    var test = this.tests[this.currentTest];
+    if (!test) {
+      // finished!
+      this.log(this.summary());
+      return;
+    }
+    if(!test.isWaitingForAjax) {
+      this.log("Running test case " + test.name + "...");
+    }
+    test.run();
+    if(test.isWaitingForAjax) {
+      this.log("Waiting for AJAX");
+      setTimeout(this.runTests.bind(this), test.ajaxTimeout);
+    } else {
+      this.log("Finished test case " + test.name + ":");
+      this.log(test.summary());
+      this.currentTest++;
+      // tail recursive, hopefully the browser will skip the stackframe
+      this.runTests();
+    }
   },
   log: function(message) {
-    if(this.log_element)
-      this.log_element.innerHTML += h(message).replace(/\n/,"<br/>") + "<br/>";
+    if(this.logElement)
+      this.logElement.innerHTML += message.escapeHTML().replace(/\n/,"<br/>") + "<br/>";
   },
   summary: function() {
-    var tests = 0;
     var assertions = 0;
     var failures = 0;
     var errors = 0;
     var messages = [];
-    for(var i=0;i<this.testcases.length;i++) {
-      tests++;
-      assertions +=   this.testcases[i].asserts.assertions;
-      failures   +=   this.testcases[i].asserts.failures;
-      errors     +=   this.testcases[i].asserts.errors;
+    for(var i=0;i<this.tests.length;i++) {
+      assertions +=   this.tests[i].assertions;
+      failures   +=   this.tests[i].failures;
+      errors     +=   this.tests[i].errors;
     }
     return (
-      tests + " tests, " + 
+      this.tests.length + " tests, " + 
       assertions + " assertions, " + 
       failures   + " failures, " +
       errors     + " errors");
@@ -103,39 +123,79 @@ Test.Unit.Assertions.prototype = {
   },
   error: function(error) {
     this.errors++;
-    this.messages.push(error.name + ": "+ error.message);
+    this.messages.push(error.name + ": "+ error.message + "(" + error.inspect() +")");
   },
-  assert: function(boolean_var) {
-    try { boolean_var ? this.pass() : 
-      this.fail(arguments[1] || 'assert: got "' + boolean_var.inspect() + '"'); }
+  assert: function(expression) {
+    var message = arguments[1] || 'assert: got "' + expression.inspect() + '"';
+    try { expression ? this.pass() : 
+      this.fail(message); }
     catch(e) { this.error(e); }
   },
-  assert_equal: function(expected, actual) {
-    try { (expected == actual) ? this.pass() : 
-      this.fail(arguments[2] || 'assert_equal: expected "' + expected.inspect() + 
+  assertEqual: function(expected, actual) {
+    var message = arguments[2] || "assertEqual";
+    try { (expected == actual) ? this.pass() :
+      this.fail(message + ': expected "' + expected.inspect() + 
         '", actual "' + actual.inspect() + '"'); }
     catch(e) { this.error(e); }
   },
-  assert_not_equal: function(expected, actual) {
+  assertNotEqual: function(expected, actual) {
+    var message = arguments[2] || "assertNotEqual";
     try { (expected != actual) ? this.pass() : 
-      this.fail(arguments[2] || 'assert_no_equal: got "' + actual.inspect() + '"'); }
+      this.fail(message + ': got "' + actual.inspect() + '"'); }
     catch(e) { this.error(e); }
   },
-  assert_null: function(object_var) {
-    try { (object_var==null) ? this.pass() : 
-      this.fail(arguments[1] || 'assert_null: got "' + object_var.inspect() + '"'); }
+  assertNull: function(object) {
+    var message = arguments[1] || 'assertNull'
+    try { (object==null) ? this.pass() : 
+      this.fail(message + ': got "' + object.inspect() + '"'); }
     catch(e) { this.error(e); }
+  },
+  assertHidden: function(element) {
+    var message = arguments[1] || 'assertHidden';
+    this.assertEqual("none", element.style.display, message);
+  },
+  assertNotNull: function(object) {
+    var message = arguments[1] || 'assertNotNull';
+    this.assert(object != null);
+  },
+  assertVisible: function(element) {
+    if(element == document) return;
+    this.assertNotNull(element);
+    // if it's not an element (just check parent) may be a text node for example
+    if (element.style) {
+      this.assertNotEqual("none", element.style.display, element.inspect() + " should be visible");
+    }
+    this.assertVisible(element.parentNode);
   }
 }
 
 Test.Unit.Testcase = Class.create();
-Test.Unit.Testcase.prototype = {
-  initialize: function() {
-    this.asserts = new Test.Unit.Assertions();
-    this.tests   = arguments[0] || function() {};
+Object.extend(Object.extend(Test.Unit.Testcase.prototype, Test.Unit.Assertions.prototype), {
+  initialize: function(name, test, setup, teardown) {
+    Test.Unit.Assertions.prototype.initialize.bind(this)();
+    this.name           = name;
+    this.test           = test || function() {};
+    this.setup          = setup || function() {};
+    this.teardown       = teardown || function() {};
+    this.isWaitingForAjax = false;
+    this.ajaxTimeout    = 1000;
+  },
+  waitForAjax: function(nextPart) {
+    this.isWaitingForAjax = true;
+    this.test = nextPart;
   },
   run: function() {
-    try { this.tests.bind(this.asserts)(); }
-    catch(e) { this.asserts.error(e); }
+    this.isWaitingForAjax = false;
+    try {
+      try {
+        this.setup.bind(this)(); 
+        this.test.bind(this)();
+      } finally {
+        if(!this.waitingForAjax) {
+          this.teardown.bind(this)();
+        }
+      }
+    }
+    catch(e) { this.error(e); }
   }
-}
+});

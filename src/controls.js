@@ -1,5 +1,6 @@
 // Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 //           (c) 2005 Ivan Krstic (http://blogs.law.harvard.edu/ivan)
+//           (c) 2005 Jon Tirsen
 // 
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -448,21 +449,18 @@ Autocompleter.Local.prototype = Object.extend(new Autocompleter.Base(), {
 
 Ajax.InPlaceEditor = Class.create();
 Ajax.InPlaceEditor.prototype = {
-  initialize: function(element, url) {
+  initialize: function(element, url, options) {
     this.url = url;
     this.element = $(element);
-    Event.observe(this.element, 'click', this.onclick.bindAsEventListener(this));
-    Event.observe(this.element, 'mouseover', this.onmouseover.bindAsEventListener(this));
-    Event.observe(this.element, 'mouseout', this.onmouseout.bindAsEventListener(this));
+    this.options = options;
+    this.onclickListener = this.enterEditMode.bindAsEventListener(this);
+    this.mouseoverListener = this.enterHover.bindAsEventListener(this);
+    this.mouseoutListener = this.leaveHover.bindAsEventListener(this);
+    Event.observe(this.element, 'click', this.onclickListener);
+    Event.observe(this.element, 'mouseover', this.mouseoverListener);
+    Event.observe(this.element, 'mouseout', this.mouseoutListener);
   },
-  onmouseover: function() {
-    this.oldBackground = this.element.style.backgroundColor;
-    this.element.style.backgroundColor = "#EEEEEE";
-  },
-  onmouseout: function() {
-    this.element.style.backgroundColor = this.oldBackground;
-  },
-  onclick: function() {
+  enterEditMode: function() {
     this.onEnterEditMode();
     Element.hide(this.element);
     this.form = document.createElement("form");
@@ -505,7 +503,10 @@ Ajax.InPlaceEditor.prototype = {
       onFailure: this.onFailure.bind(this)
     });
     this.removeForm();
-    this.element.style.backgroundColor = this.oldBackground;
+    this.leaveHover();
+    this.showSaving();
+  },
+  showSaving: function() {
     this.element.innerHTML = "Saving...";
     Element.show(this.element);
   },
@@ -515,16 +516,32 @@ Ajax.InPlaceEditor.prototype = {
       this.form = null;
     }
   },
-  onComplete: function() {
+  enterHover: function() {
+    this.oldBackground = this.element.style.backgroundColor;
+    this.element.style.backgroundColor = "#EEEEEE";
+  },
+  leaveHover: function() {
+    this.element.style.backgroundColor = this.oldBackground;
+  },
+  leaveEditMode: function() {
     if(this.savingText) {
       Element.remove(this.savingText);
       this.savingText = null;
     }
     this.removeForm();
+    this.leaveHover();
     Element.show(this.element);
-    this.element.style.backgroundColor = this.oldBackground;
     this.onLeaveEditMode();
   },
-  onEnterEditMode : function() {},
-  onLeaveEditMode : function() {}
+  onComplete: function() {
+    this.leaveEditMode();
+  },
+  onEnterEditMode: function() {},
+  onLeaveEditMode: function() {},
+  dispose: function() {
+    this.leaveEditMode();
+    Event.stopObserving(this.element, 'click', this.onclickListener);
+    Event.stopObserving(this.element, 'mouseover', this.mouseoverListener);
+    Event.stopObserving(this.element, 'mouseout', this.mouseoutListener);
+  }
 };

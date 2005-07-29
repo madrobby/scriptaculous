@@ -49,7 +49,7 @@
 
   new Test.Unit.Runner({
   
-    test_element_class_has_any: function() { with(this) {
+    testElementClassHasAny: function() { with(this) {
       assert(Element.Class.has_any("test_1","a"));
       assert(Element.Class.has_any("test_1","dddd"));
       assert(Element.Class.has_any("test_1","bbbbbbbbbbbb"));
@@ -75,45 +75,45 @@
       assert(Element.Class.has_any("test_1",["a","bbbbbbbbbbbbbb"]));
     }},
     
-    test_element_clean_whitespace: function() { with(this) {
+    testElementCleanWhitespace: function() { with(this) {
       Element.cleanWhitespace("test_2");
-      assert_equal(1,$("test_2").firstChild.nodeType);
+      assertEqual(1,$("test_2").firstChild.nodeType);
     }},
     
-    test_sortable_create: function() { with(this) {
-      assert_equal(0,Draggables.observers.length);
+    testSortableCreate: function() { with(this) {
+      assertEqual(0,Draggables.observers.length);
       
       Sortable.create("tlist");      
-      assert_equal(1,Draggables.observers.length);
-      assert_equal("tlist[]=1&tlist[]=2",Sortable.serialize("tlist"));
+      assertEqual(1,Draggables.observers.length);
+      assertEqual("tlist[]=1&tlist[]=2",Sortable.serialize("tlist"));
       
       Sortable.create("tlist2",{only:'a'});
-      assert_equal(2,Draggables.observers.length);
-      assert_equal("tlist2[]=1",Sortable.serialize("tlist2"));
+      assertEqual(2,Draggables.observers.length);
+      assertEqual("tlist2[]=1",Sortable.serialize("tlist2"));
     }},
     
-    test_effect_moveby: function() { with(this) {
+    testEffectMoveby: function() { with(this) {
       var effect = new Effect.MoveBy("testmoveby",100,10,{sync:true});
       
-      assert_null(Element.getStyle('testmoveby','top'));
-      assert_null(Element.getStyle('testmoveby','left'));
+      assertNull(Element.getStyle('testmoveby','top'));
+      assertNull(Element.getStyle('testmoveby','left'));
       
       effect.render(0.5);
-      assert_equal(50, parseFloat($("testmoveby").style.top));
-      assert_equal(5, parseFloat($("testmoveby").style.left));
+      assertEqual(50, parseFloat($("testmoveby").style.top));
+      assertEqual(5, parseFloat($("testmoveby").style.left));
       
       effect.render(1.0);
-      assert_equal(100, parseFloat($("testmoveby").style.top));
-      assert_equal(10, parseFloat($("testmoveby").style.left));
+      assertEqual(100, parseFloat($("testmoveby").style.top));
+      assertEqual(10, parseFloat($("testmoveby").style.left));
     }},
     
-    test_element_get_style: function() { with(this) {
-      assert_equal("11px", Element.getStyle('testcss1','font-size'));
-      assert_equal("rgb(255, 0, 0)", Element.getStyle('testcss1','color'));
+    testElementGetStyle: function() { with(this) {
+      assertEqual("11px", Element.getStyle('testcss1','font-size'));
+      assertEqual("rgb(255, 0, 0)", Element.getStyle('testcss1','color'));
       
       // fail on safari 
-      assert_equal("12px", Element.getStyle('testcss2','font-size'));
-      assert_equal("rgb(0, 255, 0)", Element.getStyle('testcss2','color'));
+      assertEqual("12px", Element.getStyle('testcss2','font-size'));
+      assertEqual("rgb(0, 255, 0)", Element.getStyle('testcss2','color'));
     }}
       
   }, "testlog");
