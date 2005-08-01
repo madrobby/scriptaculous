@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix double unescaping in Autocompleter
+
 * Refactoring auf Autocompleter classes to use camelCase (note: changes the syntax of some of the options)
 
 * Add updateElement option to Autocompleter [Rob Sharp]

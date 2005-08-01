@@ -243,8 +243,8 @@ Autocompleter.Base.prototype = {
   updateElement: function(selectedElement) {
     if (this.options.updateElement)
       return(this.options.updateElement(selectedElement));
-      
-    var value = Element.collectTextNodesIgnoreClass(selectedElement, 'informal').unescapeHTML();
+
+    var value = Element.collectTextNodesIgnoreClass(selectedElement, 'informal');
     var lastTokenPos = this.findLastToken();
     if (lastTokenPos != -1) {
       var newValue = this.element.value.substr(0, lastTokenPos + 1);
