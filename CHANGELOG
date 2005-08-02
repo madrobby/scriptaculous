@@ -1,5 +1,7 @@
 *SVN*
 
+* Souped-up Ajax.InPlaceEditor, added support for a form id and specifying all the texts through options [Jon Tirsen]
+
 * Make unit testing look good [Michael Schuerig]
 
 * Changed default revert duration for Draggables to distance-dependent algorithm [suggested by San] 

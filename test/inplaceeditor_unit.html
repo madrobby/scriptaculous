@@ -29,8 +29,7 @@
   new Test.Unit.Runner({
     
     setup: function() { with(this) {
-      options = {}
-      inPlaceEditor = new Ajax.InPlaceEditor($('tobeedited'), '_inplaceeditor_result.html', options);
+      inPlaceEditor = new Ajax.InPlaceEditor($('tobeedited'), '_inplaceeditor_result.html', {});
     }},
     
     teardown: function() { with(this) {
@@ -78,7 +77,7 @@
         assertVisible($('tobeedited'));
       }, 1000);
     }},
-    
+
     testDisposesProperly: function() { with(this) {
       assertEqual("transparent", Element.getStyle('tobeedited','background-color'));
       inPlaceEditor.dispose();
@@ -86,6 +85,28 @@
       assertVisible($('tobeedited'));
       Event.simulateMouse('tobeedited','click');
       assertVisible($('tobeedited'));
+    }},
+
+    testCanSpecifyAllTextsThroughOptions: function() { with(this) {
+       // swedish translation ;-)
+      inPlaceEditor.options.okText = "spara";
+      inPlaceEditor.options.cancelText = "avbryt";
+      inPlaceEditor.options.savingText = "Sparar...";
+      inPlaceEditor.enterEditMode();
+      assertEqual("spara", document.forms[0].lastChild.previousSibling.value);
+      assertEqual("avbryt", document.forms[0].lastChild.innerHTML);
+      inPlaceEditor.showSaving();
+      assertEqual("Sparar...", $('tobeedited').innerHTML);
+    }},
+
+    testCanSpecifyFormIdThroughOptions: function() { with(this) {
+      inPlaceEditor.enterEditMode();
+      // default form id
+      assertEqual("tobeeditedInPlaceForm", document.forms[0].id);
+      inPlaceEditor.leaveEditMode();
+      inPlaceEditor.options.formId = "myFormId";
+      inPlaceEditor.enterEditMode();
+      assertEqual("myFormId", document.forms[0].id);
     }}
 
   }, "testlog");

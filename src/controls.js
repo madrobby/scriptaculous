@@ -1,6 +1,6 @@
 // Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 //           (c) 2005 Ivan Krstic (http://blogs.law.harvard.edu/ivan)
-//           (c) 2005 Jon Tirsen
+//           (c) 2005 Jon Tirsen (http://www.tirsen.com)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -447,6 +447,21 @@ Autocompleter.Local.prototype = Object.extend(new Autocompleter.Base(), {
 });
 
 // AJAX in-place editor
+//
+// The constructor takes three parameters. The first is the element
+// that should support in-place editing. The second is the url to submit
+// the changed value to. The server should respond with the updated
+// value (the server might have post-processed it or validation might
+// have prevented it from changing). The third is a hash of options.
+//
+// Supported options are (all are optional and have sensible defaults):
+// - okText - The text of the submit button that submits the changed value
+//            to the server (default: "ok")
+// - cancelText - The text of the link that cancels editing (default: "cancel")
+// - savingText - The text being displayed as the AJAX engine communicates
+//                with the server (default: "Saving...")
+// - formId - The id given to the <form> element
+//            (default: the id of the element to edit plus 'InPlaceForm')
 
 Ajax.InPlaceEditor = Class.create();
 Ajax.InPlaceEditor.prototype = {
@@ -460,26 +475,40 @@ Ajax.InPlaceEditor.prototype = {
     Event.observe(this.element, 'click', this.onclickListener);
     Event.observe(this.element, 'mouseover', this.mouseoverListener);
     Event.observe(this.element, 'mouseout', this.mouseoutListener);
+    this.setupDefaultOptions();
+  },
+  setupDefaultOptions: function() {
+    this.options.okText = this.options.okText || "ok";
+    this.options.cancelText = this.options.cancelText || "cancel";
+    this.options.savingText = this.options.savingText || "Saving...";
+    if(!this.options.formId && this.element.id) {
+      this.options.formId = this.element.id + "InPlaceForm";
+    }
   },
   enterEditMode: function() {
     this.onEnterEditMode();
     Element.hide(this.element);
-    this.form = document.createElement("form");
-    this.form.onsubmit = this.onSubmit.bind(this);
+    this.form = this.getForm();
+    this.element.parentNode.insertBefore(this.form, this.element);
+  },
+  getForm: function() {
+    form = document.createElement("form");
+    form.id = inPlaceEditor.options.formId;
+    form.onsubmit = this.onSubmit.bind(this);
 
-    this.createEditField(this.form);
+    this.createEditField(form);
 
     okButton = document.createElement("input");
     okButton.type = "submit";
-    okButton.value = "ok";
-    this.form.appendChild(okButton);
+    okButton.value = this.options.okText;
+    form.appendChild(okButton);
 
     cancelLink = document.createElement("a");
     cancelLink.href = "#";
-    cancelLink.appendChild(document.createTextNode("cancel"));
+    cancelLink.appendChild(document.createTextNode(this.options.cancelText));
     cancelLink.onclick = this.onclickCancel.bind(this);
-    this.form.appendChild(cancelLink);
-    this.element.parentNode.insertBefore(this.form, this.element);
+    form.appendChild(cancelLink);
+    return form;
   },
   createEditField: function(form) {
     textField = document.createElement("input");
@@ -508,7 +537,8 @@ Ajax.InPlaceEditor.prototype = {
     this.showSaving();
   },
   showSaving: function() {
-    this.element.innerHTML = "Saving...";
+    this.oldInnerHTML = this.element.innerHTML;
+    this.element.innerHTML = this.options.savingText;
     Element.show(this.element);
   },
   removeForm: function() {
@@ -536,10 +566,14 @@ Ajax.InPlaceEditor.prototype = {
   },
   onComplete: function() {
     this.leaveEditMode();
+    this.oldInnerHTML = null;
   },
   onEnterEditMode: function() {},
   onLeaveEditMode: function() {},
   dispose: function() {
+    if (this.oldInnerHTML) {
+      this.element.innerHTML = this.oldInnerHTML;
+    }
     this.leaveEditMode();
     Event.stopObserving(this.element, 'click', this.onclickListener);
     Event.stopObserving(this.element, 'mouseover', this.mouseoverListener);

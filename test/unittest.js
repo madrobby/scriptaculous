@@ -32,6 +32,11 @@ Object.prototype.inspect = function(){
     ": {" + info.join(", ") + "}");
 }
 
+// overload inspect for Strings, very confusing output otherwise (comment out and you'll notice ;-) )
+String.prototype.inspect = function() {
+  return this;
+}
+
 // experimental, Firefox-only
 Event.simulateMouse = function(element, eventName) {
   var oEvent = document.createEvent("MouseEvents");
