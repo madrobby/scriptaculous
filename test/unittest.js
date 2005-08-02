@@ -42,10 +42,60 @@ Event.simulateMouse = function(element, eventName) {
 Test = {}
 Test.Unit = {};
 
+Test.Unit.Logger = Class.create();
+Test.Unit.Logger.prototype = {
+  initialize: function(log) {
+    this.log = $(log);
+    if (this.log) {
+      this._createLogTable();
+    }
+  },
+  start: function(testName) {
+    if (!this.log) return;
+    this.testName = testName;
+    this.lastLogLine = document.createElement('tr');
+    this.statusCell = document.createElement('td');
+    this.nameCell = document.createElement('td');
+    this.nameCell.appendChild(document.createTextNode(testName));
+    this.messageCell = document.createElement('td');
+    this.lastLogLine.appendChild(this.statusCell);
+    this.lastLogLine.appendChild(this.nameCell);
+    this.lastLogLine.appendChild(this.messageCell);
+    this.loglines.appendChild(this.lastLogLine);
+  },
+  finish: function(status, summary) {
+    if (!this.log) return;
+    this.lastLogLine.className = status;
+    this.statusCell.innerHTML = status;
+    this.messageCell.innerHTML = this._toHTML(summary);
+  },
+  message: function(message) {
+    if (!this.log) return;
+    this.messageCell.innerHTML = this._toHTML(message);
+  },
+  summary: function(summary) {
+    if (!this.log) return;
+    this.logsummary.innerHTML = this._toHTML(summary);
+  },
+  _createLogTable: function() {
+    this.log.innerHTML =
+    '<div id="logsummary"></div>' +
+    '<table id="logtable">' +
+    '<thead><tr><th>Status</th><th>Test</th><th>Message</th></tr></thead>' +
+    '<tbody id="loglines"></tbody>' +
+    '</table>';
+    this.logsummary = $('logsummary')
+    this.loglines = $('loglines');
+  },
+  _toHTML: function(txt) {
+    return txt.escapeHTML().replace(/\n/,"<br/>");
+  }
+}
+
 Test.Unit.Runner = Class.create();
 Test.Unit.Runner.prototype = {
   initialize: function(testcases, log) {
-    this.logElement = $(log) || false;
+    this.log = log;
     this.tests = [];
     for(var testcase in testcases) {
       if(/^test/.test(testcase)) {
@@ -53,33 +103,32 @@ Test.Unit.Runner.prototype = {
       }
     }
     this.currentTest = 0;
-    this.runTests();
+    Event.observe(window, 'load', this._initialize.bindAsEventListener(this));
+  },
+  _initialize: function() {
+    this.logger = new Test.Unit.Logger(this.log);
+    setTimeout(this.runTests.bind(this), 1000);
   },
   runTests: function() {
     var test = this.tests[this.currentTest];
     if (!test) {
       // finished!
-      this.log(this.summary());
+      this.logger.summary(this.summary());
       return;
     }
     if(!test.isWaitingForAjax) {
-      this.log("Running test case " + test.name + "...");
+      this.logger.start(test.name);
     }
     test.run();
     if(test.isWaitingForAjax) {
-      this.log("Waiting for AJAX");
+      this.logger.message("Waiting for AJAX");
       setTimeout(this.runTests.bind(this), test.ajaxTimeout);
     } else {
-      this.log("Finished test case " + test.name + ":");
-      this.log(test.summary());
+      this.logger.finish(test.status(), test.summary());
       this.currentTest++;
       // tail recursive, hopefully the browser will skip the stackframe
       this.runTests();
     }
-  },
-  log: function(message) {
-    if(this.logElement)
-      this.logElement.innerHTML += message.escapeHTML().replace(/\n/,"<br/>") + "<br/>";
   },
   summary: function() {
     var assertions = 0;
@@ -124,6 +173,11 @@ Test.Unit.Assertions.prototype = {
   error: function(error) {
     this.errors++;
     this.messages.push(error.name + ": "+ error.message + "(" + error.inspect() +")");
+  },
+  status: function() {
+    if (this.failures > 0) return 'failed';
+    if (this.errors > 0) return 'error';
+    return 'passed';
   },
   assert: function(expression) {
     var message = arguments[1] || 'assert: got "' + expression.inspect() + '"';

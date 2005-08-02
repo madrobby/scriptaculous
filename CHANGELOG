@@ -1,5 +1,7 @@
 *SVN*
 
+* Make unit testing look good [Michael Schuerig]
+
 * Changed default revert duration for Draggables to distance-dependent algorithm [suggested by San] 
 
 * Fix double unescaping in Autocompleter
