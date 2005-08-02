@@ -281,7 +281,8 @@ Draggable.prototype = {
         new Effect.Opacity(element, {duration:0.2, from:1.0, to:0.7}); 
       },
       reverteffect: function(element, top_offset, left_offset) {
-        new Effect.MoveBy(element, -top_offset, -left_offset, {duration:0.4});
+        var dur = Math.sqrt(Math.abs(top_offset^2)+Math.abs(left_offset^2))*0.02;
+        new Effect.MoveBy(element, -top_offset, -left_offset, {duration:dur});
       },
       endeffect: function(element) { 
          new Effect.Opacity(element, {duration:0.2, from:0.7, to:1.0}); 

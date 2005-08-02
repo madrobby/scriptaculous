@@ -1,5 +1,7 @@
 *SVN*
 
+* Changed default revert duration for Draggables to distance-dependent algorithm [suggested by San] 
+
 * Fix double unescaping in Autocompleter
 
 * Refactoring auf Autocompleter classes to use camelCase (note: changes the syntax of some of the options)
