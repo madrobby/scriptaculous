@@ -80,6 +80,7 @@ Autocompleter.Base.prototype = {
     else
       this.options = options || {};
      
+    this.options.paramName    = this.options.paramName || this.element.name;
     this.options.tokens       = this.options.tokens || [];
     this.options.frequency    = this.options.frequency || 0.4;
     this.options.minChars     = this.options.minChars || 1;
@@ -97,9 +98,6 @@ Autocompleter.Base.prototype = {
     this.options.onHide = this.options.onHide || 
     function(element, update){ new Effect.Fade(update,{duration:0.15}) };
     
-    if(this.options.indicator)
-      this.indicator = $(this.options.indicator);
-
     if (typeof(this.options.tokens) == 'string') 
       this.options.tokens = new Array(this.options.tokens);
        
@@ -134,11 +132,11 @@ Autocompleter.Base.prototype = {
   },
   
   startIndicator: function() {
-    if(this.indicator) Element.show(this.indicator);
+    if(this.options.indicator) Element.show(this.options.indicator);
   },
-  
+
   stopIndicator: function() {
-    if(this.indicator) Element.hide(this.indicator);
+    if(this.options.indicator) Element.hide(this.options.indicator);
   },
 
   onKeyPress: function(event) {
@@ -332,7 +330,7 @@ Object.extend(Object.extend(Ajax.Autocompleter.prototype, Autocompleter.Base.pro
   },
   
   getUpdatedChoices: function() {
-    entry = encodeURIComponent(this.element.name) + '=' + 
+    entry = encodeURIComponent(this.options.paramName) + '=' + 
       encodeURIComponent(this.getToken());
       
     this.options.parameters = this.options.callback ?
@@ -468,7 +466,7 @@ Ajax.InPlaceEditor.prototype = {
   initialize: function(element, url, options) {
     this.url = url;
     this.element = $(element);
-    this.options = options;
+    this.options = options || {};
     this.onclickListener = this.enterEditMode.bindAsEventListener(this);
     this.mouseoverListener = this.enterHover.bindAsEventListener(this);
     this.mouseoutListener = this.leaveHover.bindAsEventListener(this);
@@ -493,7 +491,7 @@ Ajax.InPlaceEditor.prototype = {
   },
   getForm: function() {
     form = document.createElement("form");
-    form.id = inPlaceEditor.options.formId;
+    form.id = this.options.formId;
     form.onsubmit = this.onSubmit.bind(this);
 
     this.createEditField(form);

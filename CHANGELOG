@@ -1,5 +1,13 @@
 *SVN*
 
+* Allow to choose the parameter name for Ajax.Autocompleter [Cameron Braid]
+
+* Changed resolving indicator DOM element more flexibility [Cameron Braid]
+
+* Fixed a reference in Ajax.InPlaceEditor
+
+* Added contributors to unittest.js
+
 * Souped-up Ajax.InPlaceEditor, added support for a form id and specifying all the texts through options [Jon Tirsen]
 
 * Make unit testing look good [Michael Schuerig]

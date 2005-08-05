@@ -1,5 +1,6 @@
 // Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
-//           (c) 2005 Jon Tirsen
+//           (c) 2005 Jon Tirsen (http://www.tirsen.com)
+//           (c) 2005 Michael Schuerig (http://www.schuerig.de/michael/)
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
