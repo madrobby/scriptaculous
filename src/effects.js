@@ -91,7 +91,7 @@ String.prototype.camelize = function() {
 
 Element.makePositioned = function(element) {
   element = $(element);
-  if(Element.getStyle(element, 'position') == "")
+  if(Element.getStyle(element, 'position')=='static')
     element.style.position = "relative";
 }
 
