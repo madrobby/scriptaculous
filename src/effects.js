@@ -269,7 +269,7 @@ Object.extend(Object.extend(Effect.Scale.prototype, Effect.Base.prototype), {
     if(this.options.scaleFromCenter) {
       topd  = (height - this.originalHeight)/2;
       leftd = (width  - this.originalWidth)/2;
-      if(Element.getStyle(element,'position')=='absolute') {
+      if(Element.getStyle(this.element,'position')=='absolute') {
         if(this.options.scaleY) this.element.style.top = this.originalTop-topd + "px";
         if(this.options.scaleX) this.element.style.left = this.originalLeft-leftd + "px";
       } else {

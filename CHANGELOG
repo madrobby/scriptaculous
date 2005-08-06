@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed a wrong variable reference in Effect.Scale
+
 * Fix Element.makePositioned to recognize the 'static' position
 
 * Allow to choose the parameter name for Ajax.Autocompleter [Cameron Braid]
