@@ -20,7 +20,7 @@
 <body>
 <h1>script.aculo.us Unit test file</h1>
 <p>
-  This is preliminary version mostly for testing the unittest library.
+  This is a preliminary version mostly for testing the unittest library.
 </p>
 
 <!-- Log output -->
@@ -95,8 +95,8 @@
     testEffectMoveby: function() { with(this) {
       var effect = new Effect.MoveBy("testmoveby",100,10,{sync:true});
       
-      assertNull(Element.getStyle('testmoveby','top'));
-      assertNull(Element.getStyle('testmoveby','left'));
+      assertEqual("0px",Element.getStyle('testmoveby','top'));
+      assertEqual("0px",Element.getStyle('testmoveby','left'));
       
       effect.render(0.5);
       assertEqual(50, parseFloat($("testmoveby").style.top));

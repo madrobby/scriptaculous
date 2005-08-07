@@ -466,25 +466,46 @@ Ajax.InPlaceEditor.prototype = {
   initialize: function(element, url, options) {
     this.url = url;
     this.element = $(element);
-    this.options = options || {};
+    this.options = Object.extend({
+      okText: "ok",
+      cancelText: "cancel",
+      savingText: "Saving...",
+      okText: "ok",
+      callback: function(form) {
+        return Form.serialize(form);
+      },
+      externalControl:	null
+    }, options || {});
+    
+    if(!this.options.formId && this.element.id) {
+      this.options.formId = this.element.id + "InPlaceForm";
+      if ($(this.options.formId)) {
+        // there's already a form with that name, don't specify an id
+        this.options.formId = null;
+      }
+    }
+    if (this.options.externalControl) {
+      this.options.externalControl = $(this.options.externalControl);
+    }
+     
     this.onclickListener = this.enterEditMode.bindAsEventListener(this);
     this.mouseoverListener = this.enterHover.bindAsEventListener(this);
     this.mouseoutListener = this.leaveHover.bindAsEventListener(this);
     Event.observe(this.element, 'click', this.onclickListener);
     Event.observe(this.element, 'mouseover', this.mouseoverListener);
     Event.observe(this.element, 'mouseout', this.mouseoutListener);
-    this.setupDefaultOptions();
-  },
-  setupDefaultOptions: function() {
-    this.options.okText = this.options.okText || "ok";
-    this.options.cancelText = this.options.cancelText || "cancel";
-    this.options.savingText = this.options.savingText || "Saving...";
-    if(!this.options.formId && this.element.id) {
-      this.options.formId = this.element.id + "InPlaceForm";
+    if (this.options.externalControl) {
+      Event.observe(this.options.externalControl, 'click', this.onclickListener);
     }
   },
   enterEditMode: function() {
+    if (this.saving) return;
+    if (this.editing) return;
+    this.editing = true;
     this.onEnterEditMode();
+    if (this.options.externalControl) {
+      Element.hide(this.options.externalControl);
+    }
     Element.hide(this.element);
     this.form = this.getForm();
     this.element.parentNode.insertBefore(this.form, this.element);
@@ -523,13 +544,21 @@ Ajax.InPlaceEditor.prototype = {
   },
   onFailure: function(transport) {
     alert("Error communicating with the server: " + transport.responseText);
+    if (this.oldInnerHTML) {
+      this.element.innerHTML = this.oldInnerHTML;
+      this.oldInnerHTML = null;
+    }
   },
   onSubmit: function() {
     new Ajax.Updater(this.element, this.url, {
-      parameters: Form.serialize(this.form),
+      parameters: this.options.callback(this.form, this.form.value.value),
       onComplete: this.onComplete.bind(this),
       onFailure: this.onFailure.bind(this)
     });
+    this.onLoading();
+  },
+  onLoading: function() {
+    this.saving = true;
     this.removeForm();
     this.leaveHover();
     this.showSaving();
@@ -546,6 +575,7 @@ Ajax.InPlaceEditor.prototype = {
     }
   },
   enterHover: function() {
+    if (this.saving) return;
     this.oldBackground = this.element.style.backgroundColor;
     this.element.style.backgroundColor = "#EEEEEE";
   },
@@ -560,11 +590,16 @@ Ajax.InPlaceEditor.prototype = {
     this.removeForm();
     this.leaveHover();
     Element.show(this.element);
+    if (this.options.externalControl) {
+      Element.show(this.options.externalControl);
+    }
+    this.editing = false;
     this.onLeaveEditMode();
   },
   onComplete: function() {
     this.leaveEditMode();
     this.oldInnerHTML = null;
+    this.saving = false;
   },
   onEnterEditMode: function() {},
   onLeaveEditMode: function() {},
@@ -576,5 +611,8 @@ Ajax.InPlaceEditor.prototype = {
     Event.stopObserving(this.element, 'click', this.onclickListener);
     Event.stopObserving(this.element, 'mouseover', this.mouseoverListener);
     Event.stopObserving(this.element, 'mouseout', this.mouseoutListener);
+    if (this.options.externalControl) {
+      Event.stopObserving(this.options.externalControl, 'click', this.onclickListener);
+    }
   }
 };

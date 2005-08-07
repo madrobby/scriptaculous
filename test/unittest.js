@@ -24,7 +24,7 @@
 // small but works-for-me stuff for testing javascripts
 // not ready for "production" use
 
-Object.prototype.inspect = function(){
+Object.prototype.inspect = function() {
   var info = [];
   for(property in this)
     if(typeof this[property]!="function") 
@@ -38,10 +38,38 @@ String.prototype.inspect = function() {
   return this;
 }
 
+/* function sleep() {
+  var timePos = new Date().getTime() + (arguments[1] || 500);
+  while(new Date().getTime() < timePos) {}
+} */
+
 // experimental, Firefox-only
 Event.simulateMouse = function(element, eventName) {
+  var options = Object.extend({
+    pointerX: 0,
+    pointerY: 0,
+    buttons: 0
+  }, arguments[2] || {});
   var oEvent = document.createEvent("MouseEvents");
-  oEvent.initMouseEvent(eventName, true, true, window, 1, 1, 1, 1, 1, false, false, false, false, 0, $(element));
+  oEvent.initMouseEvent(eventName, true, true, window, 
+    options.buttons, options.pointerX, options.pointerY, options.pointerX, options.pointerY, 
+    false, false, false, false, 0, $(element));
+  
+  if(this.mark) Element.remove(this.mark);
+  this.mark = document.createElement('div');
+  this.mark.appendChild(document.createTextNode(" "));
+  document.body.appendChild(this.mark);
+  this.mark.style.position = 'absolute';
+  this.mark.style.top = options.pointerY + "px";
+  this.mark.style.left = options.pointerX + "px";
+  this.mark.style.width = "5px";
+  this.mark.style.height = "5px;";
+  this.mark.style.borderTop = "1px solid red;"
+  this.mark.style.borderLeft = "1px solid red;"
+  
+  if(this.step)
+    alert('['+new Date().getTime().toString()+'] '+eventName+'/'+options.inspect());
+  
   $(element).dispatchEvent(oEvent);
 };
 
@@ -109,12 +137,45 @@ Test.Unit.Runner.prototype = {
       }
     }
     this.currentTest = 0;
-    Event.observe(window, 'load', this._initialize.bindAsEventListener(this));
-  },
-  _initialize: function() {
+    //Event.observe(window, 'load', this._initialize.bindAsEventListener(this));
     this.logger = new Test.Unit.Logger(this.log);
     setTimeout(this.runTests.bind(this), 1000);
   },
+  initialize: function(testcases) {
+    this.options = Object.extend({
+      testLog: 'testlog'
+    }, arguments[1] || {});
+    if (this.options.testLog) {
+      this.options.testLog = $(this.options.testLog) || null;
+    }
+    if(this.options.tests) {
+      this.tests = [];
+      for(var i = 0; i < this.options.tests.length; i++) {
+        if(/^test/.test(this.options.tests[i])) {
+          this.tests.push(new Test.Unit.Testcase(this.options.tests[i], testcases[this.options.tests[i]], testcases["setup"], testcases["teardown"]));
+        }
+      }
+    } else {
+      if (this.options.test) {
+        this.tests = [new Test.Unit.Testcase(this.options.test, testcases[this.options.test], testcases["setup"], testcases["teardown"])];
+      } else {
+        this.tests = [];
+        for(var testcase in testcases) {
+          if(/^test/.test(testcase)) {
+            this.tests.push(new Test.Unit.Testcase(testcase, testcases[testcase], testcases["setup"], testcases["teardown"]));
+          }
+        }
+      }
+    }
+    this.currentTest = 0;
+    this.logger = new Test.Unit.Logger(this.options.testLog);
+    setTimeout(this.runTests.bind(this), 1000);
+    //Event.observe(window, 'load', this._initialize.bindAsEventListener(this));
+  },
+  //_initialize: function() {
+  //  this.logger = new Test.Unit.Logger(this.options.testLog);
+  //  setTimeout(this.runTests.bind(this), 1000);
+  //},
   runTests: function() {
     var test = this.tests[this.currentTest];
     if (!test) {
@@ -122,13 +183,13 @@ Test.Unit.Runner.prototype = {
       this.logger.summary(this.summary());
       return;
     }
-    if(!test.isWaitingForAjax) {
+    if(!test.isWaiting) {
       this.logger.start(test.name);
     }
     test.run();
-    if(test.isWaitingForAjax) {
-      this.logger.message("Waiting for AJAX");
-      setTimeout(this.runTests.bind(this), test.ajaxTimeout);
+    if(test.isWaiting) {
+      this.logger.message("Waiting for " + test.timeToWait + "ms");
+      setTimeout(this.runTests.bind(this), test.timeToWait || 1000);
     } else {
       this.logger.finish(test.status(), test.summary());
       this.currentTest++;
@@ -218,14 +279,22 @@ Test.Unit.Assertions.prototype = {
     var message = arguments[1] || 'assertNotNull';
     this.assert(object != null);
   },
-  assertVisible: function(element) {
-    if(element == document) return;
+  _isVisible: function(element) {
+    if(element == document) return true;
     this.assertNotNull(element);
     // if it's not an element (just check parent) may be a text node for example
-    if (element.style) {
-      this.assertNotEqual("none", element.style.display, element.inspect() + " should be visible");
+    if (element.style && Element.getStyle(element, 'display') == 'none') {
+      return false;
+    } else {
+      return this._isVisible(element.parentNode);
     }
     this.assertVisible(element.parentNode);
+  },
+  assertNotVisible: function(element) {
+    this.assert(!this._isVisible(element), element.inspect() + " was not hidden and didn't have a hidden parent either")
+  },
+  assertVisible: function(element) {
+    this.assert(this._isVisible(element), element.inspect() + " was not visible")
   }
 }
 
@@ -237,21 +306,22 @@ Object.extend(Object.extend(Test.Unit.Testcase.prototype, Test.Unit.Assertions.p
     this.test           = test || function() {};
     this.setup          = setup || function() {};
     this.teardown       = teardown || function() {};
-    this.isWaitingForAjax = false;
-    this.ajaxTimeout    = 1000;
+    this.isWaiting      = false;
+    this.timeToWait     = 1000;
   },
-  waitForAjax: function(nextPart) {
-    this.isWaitingForAjax = true;
+  wait: function(time, nextPart) {
+    this.isWaiting = true;
     this.test = nextPart;
+    this.timeToWait = time;
   },
   run: function() {
-    this.isWaitingForAjax = false;
     try {
       try {
-        this.setup.bind(this)(); 
+        if (!this.isWaiting) this.setup.bind(this)();
+        this.isWaiting = false;
         this.test.bind(this)();
       } finally {
-        if(!this.waitingForAjax) {
+        if(!this.isWaiting) {
           this.teardown.bind(this)();
         }
       }

@@ -1,5 +1,11 @@
 *SVN*
 
+* More features for Ajax.InPlaceEditor [Jon Tirsen]
+
+* Tweaks to unittest.css [Thomas Fuchs]
+
+* Refactoring and new features in unittest.js [Thomas Fuchs] [Jon Tirsen]
+
 * Fixed a wrong variable reference in Effect.Scale
 
 * Fix Element.makePositioned to recognize the 'static' position

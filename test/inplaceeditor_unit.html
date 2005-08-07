@@ -21,6 +21,8 @@
 <div id="testlog"> </div>
 
 <h1 id="tobeedited">To be edited</h1>
+<a id="tobeeditedEditControl" href="#">edit</a>
+
 
 <!-- Tests follow -->
 <script type="text/javascript" language="javascript" charset="utf-8">
@@ -29,7 +31,9 @@
   new Test.Unit.Runner({
     
     setup: function() { with(this) {
-      inPlaceEditor = new Ajax.InPlaceEditor($('tobeedited'), '_inplaceeditor_result.html', {});
+      inPlaceEditor = new Ajax.InPlaceEditor($('tobeedited'), '_inplaceeditor_result.html', {
+        externalControl: $('tobeeditedEditControl')
+      });
     }},
     
     teardown: function() { with(this) {
@@ -45,7 +49,6 @@
       assertEqual("transparent", Element.getStyle('tobeedited','background-color'),
         "should be transparent after mouse leaves element");
 
-      Event.simulateMouse('tobeedited','mouseover');
       Event.simulateMouse('tobeedited','click');
       assertHidden($('tobeedited'));
       assertNotNull(document.forms[0]);
@@ -67,11 +70,12 @@
       assertEqual("To be edited", document.forms[0].firstChild.value);
 
       Event.simulateMouse(document.forms[0].childNodes[1],'click');
+      
       assertVisible($('tobeedited'));
       assertEqual("Saving...", $('tobeedited').innerHTML);
       assertEqual("transparent", Element.getStyle('tobeedited','background-color'));
 
-      waitForAjax(function() {
+      wait(1000, function() {
         assertEqual("Server received: To be edited", $('tobeedited').innerHTML);
         assertNull(document.forms[0]);
         assertVisible($('tobeedited'));
@@ -107,9 +111,38 @@
       inPlaceEditor.options.formId = "myFormId";
       inPlaceEditor.enterEditMode();
       assertEqual("myFormId", document.forms[0].id);
+    }},
+      
+    testCantEditWhileSaving: function() { with(this) {
+      inPlaceEditor.onLoading();
+      Event.simulateMouse('tobeedited','mouseover');
+      assertEqual("transparent", Element.getStyle('tobeedited','background-color'));
+      Event.simulateMouse('tobeedited','click');
+      assertVisible($('tobeedited'));
+    }},
+    
+    testCallbackFunctionGetsCalled: function() { with(this) {
+      called = false;
+      inPlaceEditor.options.callback = function(form) {
+        called = true;
+      }
+      Event.simulateMouse('tobeedited','click');
+      Event.simulateMouse(document.forms[0].childNodes[1],'click');
+      assert(called, "callback was not called");
+    }},
+    
+    testCanUseExternalElementToGoIntoEditMode: function() { with(this) {
+      Event.simulateMouse('tobeeditedEditControl','click');
+      assertNotNull(document.forms[0], "external control didn't work");
+      // doesn't work if you click it again while in edit mode
+      Event.simulateMouse('tobeeditedEditControl','click');
+      assertNull(document.forms[1], "external control created two forms");
+      assertNotVisible($('tobeeditedEditControl'));
+      Event.simulateMouse(document.forms[0].childNodes[2],'click');
+      assertVisible($('tobeeditedEditControl'));
     }}
 
-  }, "testlog");
+  });
 // ]]>
 </script>
 </body>
