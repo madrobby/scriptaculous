@@ -1,5 +1,7 @@
 *SVN*
 
+* Added Ghost Train alpha 0.1.0. See ghosttrain/test.html.
+
 * More features for Ajax.InPlaceEditor [Jon Tirsen]
 
 * Tweaks to unittest.css [Thomas Fuchs]
