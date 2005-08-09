@@ -1,5 +1,9 @@
 *SVN*
 
+* Fixed a typo in ajax_inplaceeditor_test.html
+
+* Updated Rakefile to add unittest.js and util.js to the package
+
 * Added util.js which contains various utlity functions and extensions to Prototype
 
 * Major restructuring

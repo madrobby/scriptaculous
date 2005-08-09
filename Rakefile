@@ -21,7 +21,9 @@ PKG_FILES = FileList[
   'MIT-LICENSE',
   'src/dragdrop.js',
   'src/effects.js',
-  'src/controls.js'
+  'src/controls.js',
+  'src/unittest.js',
+  'src/util.js'
 ]
 
 desc "Make a ready-for-packaging distribution dir"
