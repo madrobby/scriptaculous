@@ -1,5 +1,11 @@
 *SVN*
 
+* Some more Builder stuff, expanded builder unit tests
+
+* Moved stuff that didn't belong into specific libs into util.js; util.js is now required for all script.aculo.us libs
+
+* Corrected weirdness in unittest.js
+
 * Added dropOnEmpty option to Sortables to allow dropping on empty lists (see test/functional/sortable3_test.html)
 
 * Changed algoritm for drag/drop position setting

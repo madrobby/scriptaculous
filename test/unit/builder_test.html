@@ -29,10 +29,80 @@
 
   new Test.Unit.Runner({
 
-    testBuilder: function() { with(this) {
+    testBuilderBasics: function() { with(this) {
       var element = Builder.node('div');
       assertEqual('DIV', element.nodeName);
+
+      var element = Builder.node('div',{id:'mydiv'})
+      assertEqual('mydiv', element.id);
+            
+      var element = Builder.node('div',{id:'mydiv',className:'one two'})
+      assertEqual('mydiv', element.id);
+      assertEqual('one two', element.className);
       
+      var element = Builder.node('span','text 123 <blah>');
+      assertEqual('SPAN', element.nodeName);
+      assertEqual('text 123 &lt;blah&gt;', element.innerHTML);
+      
+      var element = Builder.node('span',123);
+      assertEqual('SPAN', element.nodeName);
+      assertEqual('123', element.innerHTML);
+      
+      var element = Builder.node('span',['test']);
+      assertEqual('SPAN', element.nodeName);
+      assertEqual('test', element.innerHTML);
+      
+      var element = Builder.node('span',['test',123]);
+      assertEqual('SPAN', element.nodeName);
+      assertEqual('test123', element.innerHTML);
+      
+      var element = Builder.node('span',{},['test',123]);
+      assertEqual('SPAN', element.nodeName);
+      assertEqual('test123', element.innerHTML);
+      
+      var element = Builder.node('span',{id:'myspan'},['test',123]);
+      assertEqual('SPAN', element.nodeName);
+      assertEqual('myspan', element.id);
+      assertEqual('test123', element.innerHTML);
+      
+      var element = Builder.node('div',[1,2,[3],[[[4],5],6],7,8,[[[[9]]],0]]);
+      assertEqual('1234567890',element.innerHTML);
+      
+      var element = Builder.node('div',[1,'2',['3'],[[[4],'5'],6],7,'8',[[[['9']]],0]]);
+      assertEqual('1234567890',element.innerHTML);
+      
+      var element = Builder.node('div',{id:'mydiv'},[1,2,[3],[[[4],5],6],7,8,[[[[9]]],0]]);
+      assertEqual('1234567890',element.innerHTML);
+      
+      var element = Builder.node('div',{id:'mydiv'},[1,'2',['3'],[[[4],'5'],6],7,'8',[[[['9']]],0]]);
+      assertEqual('1234567890',element.innerHTML);
+      assertEqual(10, element.childNodes.length);
+    }},
+    
+    testBuilderContatenation: function() { with(this) {
+      var element = Builder.node('div', [Builder.node('span')]);
+      assertEqual('DIV', element.nodeName);
+      assertEqual(1, element.childNodes.length);
+      assertEqual('SPAN', element.firstChild.nodeName);
+      
+      var element = Builder.node('div', [Builder.node('span'),'text']);
+      assertEqual(2, element.childNodes.length);
+      assertEqual(0, element.firstChild.childNodes.length);
+      assertEqual('DIV', element.nodeName);
+      assertEqual('SPAN', element.firstChild.nodeName);
+      assertEqual(3, element.firstChild.nextSibling.nodeType);
+      
+      var element = Builder.node('div', [Builder.node('span',[Builder.node('strong','blah')]),'text']);
+      assertEqual(2, element.childNodes.length);
+      assertEqual(1, element.firstChild.childNodes.length);
+      assertEqual('DIV', element.nodeName);
+      assertEqual('SPAN', element.firstChild.nodeName);
+      assertEqual('STRONG', element.firstChild.firstChild.nodeName);
+      assertEqual('blah', element.firstChild.firstChild.innerHTML);
+      assertEqual(3, element.firstChild.nextSibling.nodeType);
+    }},
+  
+    testBuilderComplexExample: function() { with(this) {      
       element = Builder.node('div',{id:'ghosttrain'},[
         Builder.node('div',{className:'controls',style:'font-size:11px'},[
           Builder.node('h1','Ghost Train'),

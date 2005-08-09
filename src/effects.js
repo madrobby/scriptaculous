@@ -56,56 +56,6 @@ Effect.Transitions.full = function(pos) {
   return 1;
 }
 
-/* ------------- element ext -------------- */
-
-// adapted from http://dhtmlkitchen.com/learn/js/setstyle/index4.jsp
-// note: Safari return null on elements with display:none; see http://bugzilla.opendarwin.org/show_bug.cgi?id=4125
-// instead of "auto" values returns null so it's easier to use with || constructs
-
-String.prototype.camelize = function() {
-  var oStringList = this.split('-');
-  if(oStringList.length == 1)    
-    return oStringList[0];
-  var ret = this.indexOf("-") == 0 ? 
-    oStringList[0].charAt(0).toUpperCase() + oStringList[0].substring(1) : oStringList[0];
-  for(var i = 1, len = oStringList.length; i < len; i++){
-    var s = oStringList[i];
-    ret += s.charAt(0).toUpperCase() + s.substring(1)
-  }
-  return ret;
-}
-
-Element.getStyle = function(element, style) {
-  element = $(element);
-  var value = element.style[style.camelize()];
-  if(!value)
-    if(document.defaultView && document.defaultView.getComputedStyle) {
-      var css = document.defaultView.getComputedStyle(element, null);
-      value = (css!=null) ? css.getPropertyValue(style) : null;
-    } else if(element.currentStyle) {
-      value = element.currentStyle[style.camelize()];  
-    }
-  if(value=='auto') value = null;
-  return value;
-}
-
-Element.makePositioned = function(element) {
-  element = $(element);
-  if(Element.getStyle(element, 'position')=='static')
-    element.style.position = "relative";
-}
-
-Element.makeClipping = function(element) {
-  element = $(element);
-  element._overflow = Element.getStyle(element, 'overflow') || 'visible';
-  if(element._overflow!='hidden') element.style.overflow = 'hidden';
-}
-
-Element.undoClipping = function(element) {
-  element = $(element);
-  if(element._overflow!='hidden') element.style.overflow = element._overflow;
-}
-
 /* ------------- core effects ------------- */
 
 Effect.Base = function() {};

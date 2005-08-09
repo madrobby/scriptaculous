@@ -47,13 +47,30 @@ Event.simulateMouse = function(element, eventName) {
   this.mark.style.borderLeft = "1px solid red;"
   
   if(this.step)
-    alert('['+new Date().getTime().toString()+'] '+eventName+'/'+Object.inspect(options));
+    alert('['+new Date().getTime().toString()+'] '+eventName+'/'+Test.Unit.inspect(options));
   
   $(element).dispatchEvent(oEvent);
 };
 
 Test = {}
 Test.Unit = {};
+
+// security exception workaround
+Test.Unit.inspect = function(obj) {
+  var info = [];
+
+  if(typeof obj=="string" || 
+     typeof obj=="number") {
+    return obj;
+  } else {
+    for(property in obj)
+      if(typeof obj[property]!="function")
+        info.push(property + ' => "' + obj[property] + '"');
+  }
+
+  return ("'" + obj + "' #" + typeof obj + 
+    ": {" + info.join(", ") + "}");
+}
 
 Test.Unit.Logger = Class.create();
 Test.Unit.Logger.prototype = {
@@ -107,19 +124,6 @@ Test.Unit.Logger.prototype = {
 
 Test.Unit.Runner = Class.create();
 Test.Unit.Runner.prototype = {
-  initialize: function(testcases, log) {
-    this.log = log;
-    this.tests = [];
-    for(var testcase in testcases) {
-      if(/^test/.test(testcase)) {
-        this.tests.push(new Test.Unit.Testcase(testcase, testcases[testcase], testcases["setup"], testcases["teardown"]));
-      }
-    }
-    this.currentTest = 0;
-    //Event.observe(window, 'load', this._initialize.bindAsEventListener(this));
-    this.logger = new Test.Unit.Logger(this.log);
-    setTimeout(this.runTests.bind(this), 1000);
-  },
   initialize: function(testcases) {
     this.options = Object.extend({
       testLog: 'testlog'
@@ -149,12 +153,7 @@ Test.Unit.Runner.prototype = {
     this.currentTest = 0;
     this.logger = new Test.Unit.Logger(this.options.testLog);
     setTimeout(this.runTests.bind(this), 1000);
-    //Event.observe(window, 'load', this._initialize.bindAsEventListener(this));
   },
-  //_initialize: function() {
-  //  this.logger = new Test.Unit.Logger(this.options.testLog);
-  //  setTimeout(this.runTests.bind(this), 1000);
-  //},
   runTests: function() {
     var test = this.tests[this.currentTest];
     if (!test) {
@@ -218,7 +217,7 @@ Test.Unit.Assertions.prototype = {
   },
   error: function(error) {
     this.errors++;
-    this.messages.push(error.name + ": "+ error.message + "(" + Object.inspect(error) +")");
+    this.messages.push(error.name + ": "+ error.message + "(" + Test.Unit.inspect(error) +")");
   },
   status: function() {
     if (this.failures > 0) return 'failed';
@@ -226,7 +225,7 @@ Test.Unit.Assertions.prototype = {
     return 'passed';
   },
   assert: function(expression) {
-    var message = arguments[1] || 'assert: got "' + Object.inspect(expression) + '"';
+    var message = arguments[1] || 'assert: got "' + Test.Unit.inspect(expression) + '"';
     try { expression ? this.pass() : 
       this.fail(message); }
     catch(e) { this.error(e); }
@@ -234,20 +233,20 @@ Test.Unit.Assertions.prototype = {
   assertEqual: function(expected, actual) {
     var message = arguments[2] || "assertEqual";
     try { (expected == actual) ? this.pass() :
-      this.fail(message + ': expected "' + Object.inspect(expected) + 
-        '", actual "' + Object.inspect(actual) + '"'); }
+      this.fail(message + ': expected "' + Test.Unit.inspect(expected) + 
+        '", actual "' + Test.Unit.inspect(actual) + '"'); }
     catch(e) { this.error(e); }
   },
   assertNotEqual: function(expected, actual) {
     var message = arguments[2] || "assertNotEqual";
     try { (expected != actual) ? this.pass() : 
-      this.fail(message + ': got "' + Object.inspect(actual) + '"'); }
+      this.fail(message + ': got "' + Test.Unit.inspect(actual) + '"'); }
     catch(e) { this.error(e); }
   },
   assertNull: function(obj) {
     var message = arguments[1] || 'assertNull'
     try { (obj==null) ? this.pass() : 
-      this.fail(message + ': got "' + Object.inspect(obj) + '"'); }
+      this.fail(message + ': got "' + Test.Unit.inspect(obj) + '"'); }
     catch(e) { this.error(e); }
   },
   assertHidden: function(element) {
@@ -270,10 +269,10 @@ Test.Unit.Assertions.prototype = {
     this.assertVisible(element.parentNode);
   },
   assertNotVisible: function(element) {
-    this.assert(!this._isVisible(element), Object.inspect(element) + " was not hidden and didn't have a hidden parent either");
+    this.assert(!this._isVisible(element), Test.Unit.inspect(element) + " was not hidden and didn't have a hidden parent either");
   },
   assertVisible: function(element) {
-    this.assert(this._isVisible(element), Object.inspect(element) + " was not visible");
+    this.assert(this._isVisible(element), Test.Unit.inspect(element) + " was not visible");
   }
 }
 
