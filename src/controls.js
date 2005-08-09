@@ -471,6 +471,7 @@ Ajax.InPlaceEditor.prototype = {
       cancelText: "cancel",
       savingText: "Saving...",
       okText: "ok",
+      rows: 1,
       callback: function(form) {
         return Form.serialize(form);
       },
@@ -517,6 +518,11 @@ Ajax.InPlaceEditor.prototype = {
 
     this.createEditField(form);
 
+    if (this.options.textarea) {
+      var br = document.createElement("br");
+      form.appendChild(br);
+    }
+
     okButton = document.createElement("input");
     okButton.type = "submit";
     okButton.value = this.options.okText;
@@ -530,11 +536,25 @@ Ajax.InPlaceEditor.prototype = {
     return form;
   },
   createEditField: function(form) {
-    textField = document.createElement("input");
-    textField.type = "text";
-    textField.name = "value";
-    textField.value = this.getText();
-    form.appendChild(textField);
+    if (this.options.rows == 1) {
+      this.options.textarea = false;
+      var textField = document.createElement("input");
+      textField.type = "text";
+      textField.name = "value";
+      textField.value = this.getText();
+      var size = this.options.size || this.options.cols || 0;
+      if (size != 0)
+        textField.size = size;
+      form.appendChild(textField);
+    } else {
+      this.options.textarea = true;
+      var textArea = document.createElement("textarea");
+      textArea.name = "value";
+      textArea.value = this.getText();
+      textArea.rows = this.options.rows;
+      textArea.cols = this.options.cols || 40;
+      form.appendChild(textArea);
+    }
   },
   getText: function() {
     return this.element.innerHTML;

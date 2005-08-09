@@ -1,5 +1,7 @@
 *SVN*
 
+* Added TEXTAREA support to Ajax.InPlaceEditor [Sanford Barr]
+
 * Added Ghost Train alpha 0.1.0. See ghosttrain/test.html.
 
 * More features for Ajax.InPlaceEditor [Jon Tirsen]
