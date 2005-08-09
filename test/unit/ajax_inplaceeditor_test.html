@@ -4,12 +4,13 @@
 <head>
   <title>script.aculo.us Unit test file</title>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <script src="../lib/prototype.js" type="text/javascript"></script>
-  <script src="unittest.js" type="text/javascript"></script>
-  <script src="../src/effects.js" type="text/javascript"></script>
-  <script src="../src/dragdrop.js" type="text/javascript"></script>
-  <script src="../src/controls.js" type="text/javascript"></script>
-  <link rel="stylesheet" href="unittest.css" type="text/css" />
+  <script src="../../lib/prototype.js" type="text/javascript"></script>
+  <script src="../../src/util.js" type="text/javascript"></script>
+  <script src="../../src/unittest.js" type="text/javascript"></script>
+  <script src="../../src/effects.js" type="text/javascript"></script>
+  <script src="../../src/dragdrop.js" type="text/javascript"></script>
+  <script src="../../src/controls.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="../test.css" type="text/css" />
 </head>
 <body>
 <h1>script.aculo.us Unit test file</h1>
@@ -32,7 +33,7 @@
     
     setup: function() { with(this) {
       inPlaceEditor = new Ajax.InPlaceEditor($('tobeedited'), '_inplaceeditor_result.html', {
-        externalControl: $('tobeeditedEditControl'), rows: 20, cols: 40,
+        externalControl: $('tobeeditedEditControl')
       });
     }},
     
@@ -63,14 +64,13 @@
       Event.simulateMouse('tobeedited','mouseover');
       Event.simulateMouse('tobeedited','click');
 
-      assertEqual("TEXTAREA", document.forms[0].firstChild.tagName);
+      assertEqual("INPUT", document.forms[0].firstChild.tagName);
       assertEqual("To be edited", document.forms[0].firstChild.value);
-      assertEqual("BR", document.forms[0].childNodes[1].tagName);
-      assertEqual("INPUT", document.forms[0].childNodes[2].tagName);
-      assertEqual("submit", document.forms[0].childNodes[2].type);
+      assertEqual("INPUT", document.forms[0].childNodes[1].tagName);
+      assertEqual("submit", document.forms[0].childNodes[1].type);
       assertEqual("To be edited", document.forms[0].firstChild.value);
 
-      Event.simulateMouse(document.forms[0].childNodes[2],'click');
+      Event.simulateMouse(document.forms[0].childNodes[1],'click');
       
       assertVisible($('tobeedited'));
       assertEqual("Saving...", $('tobeedited').innerHTML);
@@ -128,7 +128,7 @@
         called = true;
       }
       Event.simulateMouse('tobeedited','click');
-      Event.simulateMouse(document.forms[0].childNodes[2],'click');
+      Event.simulateMouse(document.forms[0].childNodes[1],'click');
       assert(called, "callback was not called");
     }},
     
@@ -139,7 +139,7 @@
       Event.simulateMouse('tobeeditedEditControl','click');
       assertNull(document.forms[1], "external control created two forms");
       assertNotVisible($('tobeeditedEditControl'));
-      Event.simulateMouse(document.forms[0].childNodes[3],'click');
+      Event.simulateMouse(document.forms[0].childNodes[2],'click');
       assertVisible($('tobeeditedEditControl'));
     }}
 

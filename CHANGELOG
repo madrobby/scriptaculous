@@ -1,5 +1,9 @@
 *SVN*
 
+* Added util.js which contains various utlity functions and extensions to Prototype
+
+* Major restructuring
+
 * Added TEXTAREA support to Ajax.InPlaceEditor [Sanford Barr]
 
 * Added Ghost Train alpha 0.1.0. See ghosttrain/test.html.

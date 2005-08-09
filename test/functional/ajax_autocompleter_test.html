@@ -4,10 +4,12 @@
 <head>
   <title>script.aculo.us Autocompleter functional test file</title>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <script src="../lib/prototype.js" type="text/javascript"></script>
-  <script src="../src/effects.js" type="text/javascript"></script>
-  <script src="../src/dragdrop.js" type="text/javascript"></script>
-  <script src="../src/controls.js" type="text/javascript"></script>
+  <script src="../../lib/prototype.js" type="text/javascript"></script>
+  <script src="../../src/util.js" type="text/javascript"></script>
+  <script src="../../src/unittest.js" type="text/javascript"></script>
+  <script src="../../src/effects.js" type="text/javascript"></script>
+  <script src="../../src/dragdrop.js" type="text/javascript"></script>
+  <script src="../../src/controls.js" type="text/javascript"></script>
   <style type="text/css" media="screen">
     .selected { background-color: #888; }
   </style>
@@ -59,7 +61,7 @@ Test for AJAX in place editor:<br/>
 <p id="editme">Edit me!</p>
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-  new Ajax.InPlaceEditor('editme', 'inplaceeditor_result.html');
+  new Ajax.InPlaceEditor('editme', '../unit/_ajax_inplaceeditor_result.html');
 // ]]>
 </script>
 

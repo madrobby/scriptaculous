@@ -22,14 +22,7 @@
 // small but works-for-me stuff for testing javascripts
 // not ready for "production" use
 
-// fixme: kludge(s) for now
-Element.create = function(elementName) {
-  var element = document.createElement(elementName);
-  if(arguments[1])
-    for(attribute in arguments[1])
-      element.setAttribute(attribute, arguments[1][attribute]);
-  return element;
-}
+/*--------------------------------------------------------------------------*/
 
 var Engine = {
   detect: function() {
@@ -41,6 +34,8 @@ var Engine = {
   }
 }
 Engine.detect();
+
+/*--------------------------------------------------------------------------*/
 
 // Test generator helper
 
@@ -270,9 +265,20 @@ GhostTrain.Control.prototype = {
     $('ghosttrain-status').innerHTML = message; 
   },
   _createHTML: function() {
-    this.element = Element.create('div',{id:'ghosttrain'});
+    
+    /*this.element = Builder.node('div',{id:'ghosttrain'},[
+      Builder.node('div',{klass:'controls'},[
+        Builder.node('h1',{},[Builder.text('Ghost Train ' + GhostTrain.Version)]),
+        (!Engine.isGecko ? 'Note: your browser is probably not compatible with Ghost Train (try Firefox).' : ''),
+        Builder.node('ul',{klass:'buttons'},[
+          Builder.node('li',{klass:'active', onclick:'GhostTrain.controller.record();'},'Record')
+        ]),
+      ]),
+    ]);*/
+  this.element = Builder.node('div',{id:'ghosttrain'});
+    
     // fixme: for now
-    this.element.innerHTML = '<div class="controls">' +
+  this.element.innerHTML = '<div class="controls">' +
       '<h1>Ghost Train ' + GhostTrain.Version + '</h1>' +
       (!Engine.isGecko ? 'Note: your browser is probably not compatible with Ghost Train (try Firefox).' : '') +
       '<ul class="buttons">' +
@@ -291,8 +297,11 @@ GhostTrain.Control.prototype = {
       '<a href="http://wiki.script.aculo.us/scriptaculous/show/GhostTrain" class="documentation">Ghost Train documentation</a>' +
       '</div>';
     document.body.appendChild(this.element);
-    this.reminder = Element.create('div',{id:'ghosttrain-reminder',style:'display:none'});
-    this.reminder.innerHTML = 'Press ESC to pause<br/><span id="ghosttrain_info"></span>';
+    this.reminder = Builder.node('div',{id:'ghosttrain-reminder',style:'display:none'},[
+      'Press ESC to pause',
+      Builder.node('br'),
+      Builder.node('span',{id:'ghosttrain_info'},' ')
+    ]);
     document.body.appendChild(this.reminder);
   }
 }

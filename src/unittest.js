@@ -21,27 +21,6 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-// small but works-for-me stuff for testing javascripts
-// not ready for "production" use
-
-Object.prototype.inspect = function() {
-  var info = [];
-  for(property in this)
-    if(typeof this[property]!="function") 
-      info.push(property + ' => "' + this[property] + '"');
-  return ("'" + this + "' #" + typeof this + 
-    ": {" + info.join(", ") + "}");
-}
-
-// overload inspect for Strings, very confusing output otherwise (comment out and you'll notice ;-) )
-String.prototype.inspect = function() {
-  return this;
-}
-
-/* function sleep() {
-  var timePos = new Date().getTime() + (arguments[1] || 500);
-  while(new Date().getTime() < timePos) {}
-} */
 
 // experimental, Firefox-only
 Event.simulateMouse = function(element, eventName) {
@@ -68,7 +47,7 @@ Event.simulateMouse = function(element, eventName) {
   this.mark.style.borderLeft = "1px solid red;"
   
   if(this.step)
-    alert('['+new Date().getTime().toString()+'] '+eventName+'/'+options.inspect());
+    alert('['+new Date().getTime().toString()+'] '+eventName+'/'+Object.inspect(options));
   
   $(element).dispatchEvent(oEvent);
 };
@@ -239,7 +218,7 @@ Test.Unit.Assertions.prototype = {
   },
   error: function(error) {
     this.errors++;
-    this.messages.push(error.name + ": "+ error.message + "(" + error.inspect() +")");
+    this.messages.push(error.name + ": "+ error.message + "(" + Object.inspect(error) +")");
   },
   status: function() {
     if (this.failures > 0) return 'failed';
@@ -247,7 +226,7 @@ Test.Unit.Assertions.prototype = {
     return 'passed';
   },
   assert: function(expression) {
-    var message = arguments[1] || 'assert: got "' + expression.inspect() + '"';
+    var message = arguments[1] || 'assert: got "' + Object.inspect(expression) + '"';
     try { expression ? this.pass() : 
       this.fail(message); }
     catch(e) { this.error(e); }
@@ -255,20 +234,20 @@ Test.Unit.Assertions.prototype = {
   assertEqual: function(expected, actual) {
     var message = arguments[2] || "assertEqual";
     try { (expected == actual) ? this.pass() :
-      this.fail(message + ': expected "' + expected.inspect() + 
-        '", actual "' + actual.inspect() + '"'); }
+      this.fail(message + ': expected "' + Object.inspect(expected) + 
+        '", actual "' + Object.inspect(actual) + '"'); }
     catch(e) { this.error(e); }
   },
   assertNotEqual: function(expected, actual) {
     var message = arguments[2] || "assertNotEqual";
     try { (expected != actual) ? this.pass() : 
-      this.fail(message + ': got "' + actual.inspect() + '"'); }
+      this.fail(message + ': got "' + Object.inspect(actual) + '"'); }
     catch(e) { this.error(e); }
   },
-  assertNull: function(object) {
+  assertNull: function(obj) {
     var message = arguments[1] || 'assertNull'
-    try { (object==null) ? this.pass() : 
-      this.fail(message + ': got "' + object.inspect() + '"'); }
+    try { (obj==null) ? this.pass() : 
+      this.fail(message + ': got "' + Object.inspect(obj) + '"'); }
     catch(e) { this.error(e); }
   },
   assertHidden: function(element) {
@@ -291,10 +270,10 @@ Test.Unit.Assertions.prototype = {
     this.assertVisible(element.parentNode);
   },
   assertNotVisible: function(element) {
-    this.assert(!this._isVisible(element), element.inspect() + " was not hidden and didn't have a hidden parent either")
+    this.assert(!this._isVisible(element), Object.inspect(element) + " was not hidden and didn't have a hidden parent either");
   },
   assertVisible: function(element) {
-    this.assert(this._isVisible(element), element.inspect() + " was not visible")
+    this.assert(this._isVisible(element), Object.inspect(element) + " was not visible");
   }
 }
 

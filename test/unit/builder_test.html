@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>script.aculo.us Unit test file</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <script src="../../lib/prototype.js" type="text/javascript"></script>
+  <script src="../../src/util.js" type="text/javascript"></script>
+  <script src="../../src/unittest.js" type="text/javascript"></script>
+  <script src="../../src/effects.js" type="text/javascript"></script>
+  <script src="../../src/dragdrop.js" type="text/javascript"></script>
+  <script src="../../src/controls.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="../test.css" type="text/css" />
+</head>
+<body>
+<h1>script.aculo.us Builder unit test file</h1>
+<p>
+  Tests for Builder.
+</p>
+
+<!-- Log output -->
+<div id="testlog"> </div>
+
+<div id="result"></div>
+
+<!-- Tests follow -->
+<script type="text/javascript" language="javascript" charset="utf-8">
+// <![CDATA[
+
+  new Test.Unit.Runner({
+
+    testBuilder: function() { with(this) {
+      var element = Builder.node('div');
+      assertEqual('DIV', element.nodeName);
+      
+      element = Builder.node('div',{id:'ghosttrain'},[
+        Builder.node('div',{klass:'controls',style:'font-size:11px'},[
+          Builder.node('h1','Ghost Train'),
+          "testtext", 2, 3, 4,
+          Builder.node('ul',[
+            Builder.node('li',{klass:'active', onclick:'GhostTrain.controller.record();'},'Record')
+          ]),
+        ]),
+      ]);
+      assertEqual('DIV', element.nodeName);
+      
+      $('result').appendChild(element);
+      assertEqual('<div id="ghosttrain"><div style="font-size: 11px;" class="controls"><h1>Ghost Train</h1>testtext234<ul><li onclick="GhostTrain.controller.record();" class="active">Record</li></ul></div></div>', $('result').innerHTML);      
+    }}
+
+  });
+// ]]>
+</script>
+</body>
+</html>
