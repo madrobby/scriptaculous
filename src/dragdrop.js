@@ -21,6 +21,33 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+// borrowed from http://www.schuerig.de/michael/javascript/stdext.js
+// Copyright (c) 2005, Michael Schuerig, michael@schuerig.de
+
+Array.flatten = function(array, excludeUndefined) {
+  if (excludeUndefined === undefined) {
+    excludeUndefined = false;
+  }
+  var result = [];
+  var len = array.length;
+  for (var i = 0; i < len; i++) {
+    var el = array[i];
+    if (el instanceof Array) {
+      var flat = el.flatten(excludeUndefined);
+      result = result.concat(flat);
+    } else if (!excludeUndefined || el != undefined) {
+      result.push(el);
+    }
+  }
+  return result;
+};
+
+if (!Array.prototype.flatten) {
+  Array.prototype.flatten = function(excludeUndefined) {
+    return Array.flatten(this, excludeUndefined);
+  }
+}
+
 Element.Class = {
     // Element.toggleClass(element, className) toggles the class being on/off
     // Element.toggleClass(element, className1, className2) toggles between both classes,
@@ -334,22 +361,10 @@ Draggable.prototype = {
   startDrag: function(event) {
     if(Event.isLeftClick(event)) {
       this.active = true;
-      
-      var style = this.element.style;
-      
-      if(this.options.ghosting) {
-        Position.prepare();
-        var offsets = Position.cumulativeOffset(this.element);  
-        this.originalY = offsets[1]  - this.currentTop()  - this.originalTop;
-        this.originalX = offsets[0] - this.currentLeft() - this.originalLeft;
-      } else {
-        this.originalY = this.element.offsetTop  - this.currentTop()  - this.originalTop;
-        this.originalX = this.element.offsetLeft - this.currentLeft() - this.originalLeft;
-      }
-      
-      this.offsetY =  event.clientY - this.originalY - this.originalTop;
-      this.offsetX =  event.clientX - this.originalX - this.originalLeft;
-      
+      var pointer = [Event.pointerX(event), Event.pointerY(event)];
+      var offsets = Position.cumulativeOffset(this.element);
+      this.offsetX =  (pointer[0] - offsets[0]);
+      this.offsetY =  (pointer[1] - offsets[1]);
       Event.stop(event);
     }
   },
@@ -365,7 +380,7 @@ Draggable.prototype = {
     
     if(this.options.ghosting) {
       Position.relativize(this.element);
-      this.element.parentNode.removeChild(this._clone);
+      Element.remove(this._clone);
       this._clone = null;
     }
       
@@ -403,13 +418,15 @@ Draggable.prototype = {
     this.dragging = false;
   },
   draw: function(event) {
+    var pointer = [Event.pointerX(event), Event.pointerY(event)];
+    var offsets = Position.cumulativeOffset(this.element);
+    offsets[0] -= this.currentLeft();
+    offsets[1] -= this.currentTop();
     var style = this.element.style;
-    this.originalX = this.element.offsetLeft - this.currentLeft() - this.originalLeft;
-    this.originalY = this.element.offsetTop  - this.currentTop()  - this.originalTop;
     if((!this.options.constraint) || (this.options.constraint=='horizontal'))
-      style.left = ((event.clientX - this.originalX) - this.offsetX) + "px";
+      style.left = (pointer[0] - offsets[0] - this.offsetX) + "px";
     if((!this.options.constraint) || (this.options.constraint=='vertical'))
-      style.top  = ((event.clientY - this.originalY) - this.offsetY) + "px";
+      style.top  = (pointer[1] - offsets[1] - this.offsetY) + "px";
     if(style.visibility=="hidden") style.visibility = ""; // fix gecko rendering
   },
   update: function(event) {
@@ -489,6 +506,8 @@ Sortable = {
     var options = Object.extend({ 
       element:     element,
       tag:         'li',       // assumes li children, override with tag: 'tagname'
+      dropOnEmpty: false,
+      tree:        false,      // fixme: unimplemented
       overlap:     'vertical', // one of 'vertical', 'horizontal'
       constraint:  'vertical', // one of 'vertical', 'horizontal', false
       containment: element,    // also takes array of elements (or id's); or false
@@ -541,29 +560,50 @@ Sortable = {
     options.draggables = [];
     options.droppables = [];
     
-    // make it so 
-    var elements = element.childNodes;
-    for (var i = 0; i < elements.length; i++) 
-      if(elements[i].tagName && elements[i].tagName==options.tag.toUpperCase() &&
-        (!options.only || (Element.Class.has(elements[i], options.only)))) {
-        
-        // handles are per-draggable
-        var handle = options.handle ? 
-          Element.Class.childrenWith(elements[i], options.handle)[0] : elements[i];
-        
-        options.draggables.push(new Draggable(elements[i], Object.extend(options_for_draggable, { handle: handle })));
-        
-        Droppables.add(elements[i], options_for_droppable);
-        options.droppables.push(elements[i]);
-        
-      }
+    // make it so
+    
+    // drop on empty handling
+    if(options.dropOnEmpty) {
+      Droppables.add(element,
+        {containment: options.containment, onHover: Sortable.onEmptyHover});
+      options.droppables.push(element);
+    }
+     
+    var elements = this.findElements(element, options);
+    for (var i = 0; i < elements.length; i++) {
+      // handles are per-draggable
+      var handle = options.handle ? 
+        Element.Class.childrenWith(elements[i], options.handle)[0] : elements[i];
+          options.draggables.push(new Draggable(elements[i], Object.extend(options_for_draggable, { handle: handle })));
+          Droppables.add(elements[i], options_for_droppable);
       
+      options.droppables.push(elements[i]);
+    }
+   
     // keep reference
     this.sortables.push(options);
     
     // for onupdate
     Draggables.addObserver(new SortableObserver(element, options.onUpdate));
 
+  },
+  
+  // return all suitable-for-sortable elements in a guaranteed order
+  findElements: function(element, options) {
+    if(!element.hasChildNodes()) return null;
+    var elements = [];
+    var children = element.childNodes;
+    for(var i = 0; i<children.length; i++) {
+      if(children[i].tagName && children[i].tagName==options.tag.toUpperCase() &&
+        (!options.only || (Element.Class.has(children[i], options.only))))
+          elements.push(children[i]);
+      if(options.tree) {
+        var grandchildren = this.findElements(children[i], options);
+        if(grandchildren) elements.push(grandchildren);
+      }
+    }
+  
+    return (elements.length>0 ? elements.flatten() : null);
   },
   
   onHover: function(element, dropon, overlap) {
@@ -590,6 +630,13 @@ Sortable = {
         if(dropon.parentNode.sortable)
           dropon.parentNode.sortable.onChange(element);
       }
+    }
+  },
+  
+  onEmptyHover: function(element, dropon) {
+    //$('debug').innerHTML += '-- ' + element.parentNode.id + ' ' + element.id;
+    if(element.parentNode!=dropon) {
+      dropon.appendChild(element);
     }
   },
   

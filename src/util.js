@@ -47,7 +47,7 @@ var Builder = {
     for(attribute in attributes)
       if(this._isStringOrNumber(attributes[attribute]))
         element.setAttribute(
-          attribute=='klass' ? 'class' : attribute,
+          attribute=='className' ? 'class' : attribute,
           attributes[attribute]);
   },
   _children: function(element, children) {

@@ -34,11 +34,11 @@
       assertEqual('DIV', element.nodeName);
       
       element = Builder.node('div',{id:'ghosttrain'},[
-        Builder.node('div',{klass:'controls',style:'font-size:11px'},[
+        Builder.node('div',{className:'controls',style:'font-size:11px'},[
           Builder.node('h1','Ghost Train'),
           "testtext", 2, 3, 4,
           Builder.node('ul',[
-            Builder.node('li',{klass:'active', onclick:'GhostTrain.controller.record();'},'Record')
+            Builder.node('li',{className:'active', onclick:'GhostTrain.controller.record();'},'Record')
           ]),
         ]),
       ]);

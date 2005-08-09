@@ -1,5 +1,11 @@
 *SVN*
 
+* Added dropOnEmpty option to Sortables to allow dropping on empty lists (see test/functional/sortable3_test.html)
+
+* Changed algoritm for drag/drop position setting
+
+* Changed workaround for class attributes (fixes a Firefox 1.0 error) from klass to className to be more Javascriptesque [thx to Martin Bialasinski]
+
 * Fixed a typo in ajax_inplaceeditor_test.html
 
 * Updated Rakefile to add unittest.js and util.js to the package

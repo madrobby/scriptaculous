@@ -62,6 +62,19 @@ Effect.Transitions.full = function(pos) {
 // note: Safari return null on elements with display:none; see http://bugzilla.opendarwin.org/show_bug.cgi?id=4125
 // instead of "auto" values returns null so it's easier to use with || constructs
 
+String.prototype.camelize = function() {
+  var oStringList = this.split('-');
+  if(oStringList.length == 1)    
+    return oStringList[0];
+  var ret = this.indexOf("-") == 0 ? 
+    oStringList[0].charAt(0).toUpperCase() + oStringList[0].substring(1) : oStringList[0];
+  for(var i = 1, len = oStringList.length; i < len; i++){
+    var s = oStringList[i];
+    ret += s.charAt(0).toUpperCase() + s.substring(1)
+  }
+  return ret;
+}
+
 Element.getStyle = function(element, style) {
   element = $(element);
   var value = element.style[style.camelize()];
@@ -74,19 +87,6 @@ Element.getStyle = function(element, style) {
     }
   if(value=='auto') value = null;
   return value;
-}
-
-String.prototype.camelize = function() {
-  var oStringList = this.split('-');
-  if(oStringList.length == 1)    
-    return oStringList[0];
-  var ret = this.indexOf("-") == 0 ? 
-    oStringList[0].charAt(0).toUpperCase() + oStringList[0].substring(1) : oStringList[0];
-  for(var i = 1, len = oStringList.length; i < len; i++){
-    var s = oStringList[i];
-    ret += s.charAt(0).toUpperCase() + s.substring(1)
-  }
-  return ret;
 }
 
 Element.makePositioned = function(element) {
