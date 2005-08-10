@@ -482,7 +482,6 @@ Sortable = {
   },
   
   onEmptyHover: function(element, dropon) {
-    //$('debug').innerHTML += '-- ' + element.parentNode.id + ' ' + element.id;
     if(element.parentNode!=dropon) {
       dropon.appendChild(element);
     }
@@ -493,6 +492,10 @@ Sortable = {
   },
   
   mark: function(dropon, position) {
+    // mark on ghosting only
+    var sortable = Sortable.options(dropon.parentNode);
+    if(sortable && !sortable.ghosting) return; 
+    
     if(!Sortable._marker) {
       Sortable._marker = $('dropmarker') || document.createElement('DIV');
       Element.hide(Sortable._marker);

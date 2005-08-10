@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix showing ghosting marker only on ghosting Sortables
+
 * Some more Builder stuff, expanded builder unit tests
 
 * Moved stuff that didn't belong into specific libs into util.js; util.js is now required for all script.aculo.us libs

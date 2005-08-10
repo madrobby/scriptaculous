@@ -10,22 +10,20 @@
   <script src="../../src/effects.js" type="text/javascript"></script>
   <script src="../../src/dragdrop.js" type="text/javascript"></script>
   <script src="../../src/controls.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="../test.css" type="text/css" />
   <style>
-    h1 {
-      font: 14px Verdana;
-    }
-    #testlist { 
+    ul.testlist { 
       list-style-type:none;
       margin:0;
       padding:0;
     }
-    #testlist li {
+    ul.testlist li {
       width:200px;
       font:12px Verdana;
       padding:4px;
       cursor:move;
     }
-    #testlist li img {
+    ul.testlist li img {
       float:left;
       margin-right:8px;
     }
@@ -43,7 +41,9 @@
 <body>
 <h1>script.aculo.us Sortable ghosting functional test file</h1>
 
-<ul id="testlist">
+<h2>Ghosting</h2>
+
+<ul id="testlist" class="testlist">
 <li><img src="icon.png" alt=""/> Lorem ipsum dolor</li>
 <li><img src="icon.png" alt=""/> sit amet</li>
 <li><img src="icon.png" alt=""/> consectetur adipisicing</li>
@@ -57,6 +57,25 @@
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
   Sortable.create('testlist',{ghosting:true,constraint:false})
+// ]]>
+</script>
+
+<h2>No ghosting</h2>
+
+<ul id="testlist2" class="testlist">
+<li><img src="icon.png" alt=""/> Lorem ipsum dolor</li>
+<li><img src="icon.png" alt=""/> sit amet</li>
+<li><img src="icon.png" alt=""/> consectetur adipisicing</li>
+<li><img src="icon.png" alt=""/> elit</li>
+<li><img src="icon.png" alt=""/> sed do eiusmod</li>
+<li><img src="icon.png" alt=""/> tempor incididunt</li>
+<li><img src="icon.png" alt=""/> ut labore et dolore</li>
+<li><img src="icon.png" alt=""/> magna aliqua</li>
+</ul>
+
+<script type="text/javascript" language="javascript" charset="utf-8">
+// <![CDATA[
+  Sortable.create('testlist2',{ghosting:false,constraint:false})
 // ]]>
 </script>
 
