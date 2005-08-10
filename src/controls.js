@@ -190,6 +190,7 @@ Autocompleter.Base.prototype = {
     var element = Event.findElement(event, 'LI');
     this.index = element.autocompleteIndex;
     this.selectEntry();
+    this.hide();
   },
   
   onBlur: function(event) {

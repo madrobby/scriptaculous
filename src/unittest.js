@@ -30,7 +30,7 @@ Event.simulateMouse = function(element, eventName) {
     buttons: 0
   }, arguments[2] || {});
   var oEvent = document.createEvent("MouseEvents");
-  oEvent.initMouseEvent(eventName, true, true, window, 
+  oEvent.initMouseEvent(eventName, true, true, document.defaultView, 
     options.buttons, options.pointerX, options.pointerY, options.pointerX, options.pointerY, 
     false, false, false, false, 0, $(element));
   
@@ -257,7 +257,12 @@ Test.Unit.Assertions.prototype = {
     var message = arguments[1] || 'assertNotNull';
     this.assert(object != null);
   },
+  assertInstanceOf: function(expected, actual) {
+    var message = arguments[1] || 'assertInstanceOf';
+    this.assert(actual instanceof expected);    
+  },
   _isVisible: function(element) {
+    element = $(element);
     if(element == document) return true;
     this.assertNotNull(element);
     // if it's not an element (just check parent) may be a text node for example

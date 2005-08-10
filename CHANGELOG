@@ -1,6 +1,10 @@
 *SVN*
 
-* Fixed a condition where standard a href=xxx links wouldn't work in autocomplete results. These do now, the onclick event is not cancelled. [thx to Jesper Slits]
+* Added unit test for Autocompleter, first Version
+
+* Added Event.simulateKey/s to unittest.js. Note that due to a bug in Firefox this will only work with Firefox up to v1.0.4 (see https://bugzilla.mozilla.org/show_bug.cgi?id=289940)
+
+* Fixed a condition where standard a href=xxx links wouldn't work in autocomplete results. These do now, the onclick event is not cancelled. [thx to Jasper Slits]
 
 * Fix showing ghosting marker only on ghosting Sortables
 
