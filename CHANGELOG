@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed a condition where standard a href=xxx links wouldn't work in autocomplete results. These do now, the onclick event is not cancelled. [thx to Jesper Slits]
+
 * Fix showing ghosting marker only on ghosting Sortables
 
 * Some more Builder stuff, expanded builder unit tests
