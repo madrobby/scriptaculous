@@ -52,6 +52,32 @@ Event.simulateMouse = function(element, eventName) {
   $(element).dispatchEvent(oEvent);
 };
 
+// Note: Due to a fix in Firefox 1.0.5/6 that probably fixed "too much", this doesn't work in 1.0.6 or DP2.
+// You need to downgrade to 1.0.4 for now to get this working
+// See https://bugzilla.mozilla.org/show_bug.cgi?id=289940 for the fix that fixed too much
+Event.simulateKey = function(element, eventName) {
+  var options = Object.extend({
+    ctrlKey: false,
+    altKey: false,
+    shiftKey: false,
+    metaKey: false,
+    keyCode: 0,
+    charCode: 0
+  }, arguments[2] || {});
+
+  var oEvent = document.createEvent("KeyEvents");
+  oEvent.initKeyEvent(eventName, true, true, window, 
+    options.ctrlKey, options.altKey, options.shiftKey, options.metaKey,
+    options.keyCode, options.charCode );
+  $(element).dispatchEvent(oEvent);
+};
+
+Event.simulateKeys = function(element, command) {
+  for(var i=0; i<command.length; i++) {
+    Event.simulateKey(element,'keypress',{charCode:command.charCodeAt(i)});
+  }
+};
+
 Test = {}
 Test.Unit = {};
 

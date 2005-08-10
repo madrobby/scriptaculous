@@ -1,5 +1,7 @@
 *SVN*
 
+* Added new CSS/background color features to Ajax.InPlaceEditor [Jon Tirsen]
+
 * Added unit test for Autocompleter, first Version
 
 * Added Event.simulateKey/s to unittest.js. Note that due to a bug in Firefox this will only work with Firefox up to v1.0.4 (see https://bugzilla.mozilla.org/show_bug.cgi?id=289940)

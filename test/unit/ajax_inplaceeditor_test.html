@@ -33,7 +33,8 @@
     
     setup: function() { with(this) {
       inPlaceEditor = new Ajax.InPlaceEditor($('tobeedited'), '_ajax_inplaceeditor_result.html', {
-        externalControl: $('tobeeditedEditControl')
+        externalControl: $('tobeeditedEditControl'),
+        backgroundColor: '#EEEEEE'
       });
     }},
     
@@ -91,6 +92,13 @@
       Event.simulateMouse('tobeedited','click');
       assertVisible($('tobeedited'));
     }},
+    
+    testUsesTextAreaWhenRowsAboveOne: function() { with(this) {
+      inPlaceEditor.options.rows = 5;
+      inPlaceEditor.enterEditMode();
+      assertEqual("TEXTAREA", document.forms[0].firstChild.tagName);
+      assertEqual("BR", document.forms[0].childNodes[1].tagName);
+    }},
 
     testCanSpecifyAllTextsThroughOptions: function() { with(this) {
        // swedish translation ;-)
@@ -107,7 +115,7 @@
     testCanSpecifyFormIdThroughOptions: function() { with(this) {
       inPlaceEditor.enterEditMode();
       // default form id
-      assertEqual("tobeeditedInPlaceForm", document.forms[0].id);
+      assertEqual("tobeedited-inplaceeditor", document.forms[0].id);
       inPlaceEditor.leaveEditMode();
       inPlaceEditor.options.formId = "myFormId";
       inPlaceEditor.enterEditMode();
