@@ -1,3 +1,9 @@
+*SVN*
+
+* Added unit test runner file test/run_unit_tests.html, new unit test files must be listed in test/unit/index.html
+
+* Added unit tests for Prototype string functions
+
 *V1.5.0_pre1*
 
 * Prepared README for V1.5.0_pre1
