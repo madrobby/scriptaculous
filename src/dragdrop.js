@@ -399,7 +399,8 @@ Sortable = {
       overlap:     options.overlap,
       containment: options.containment,
       hoverclass:  options.hoverclass,
-      onHover:     Sortable.onHover
+      onHover:     Sortable.onHover,
+      greedy:      !options.dropOnEmpty
     }
 
     // fix for gecko engine
@@ -413,7 +414,7 @@ Sortable = {
     // drop on empty handling
     if(options.dropOnEmpty) {
       Droppables.add(element,
-        {containment: options.containment, onHover: Sortable.onEmptyHover});
+        {containment: options.containment, onHover: Sortable.onEmptyHover, greedy: false});
       options.droppables.push(element);
     }
      

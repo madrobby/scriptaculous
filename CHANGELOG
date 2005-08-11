@@ -1,5 +1,15 @@
 *SVN*
 
+* Added a main scriptaculous.js file to load in the other libraries transparently:
+
+  <script src="path/to/prototype.js" type="text/javascript"></script>
+  <script src="path/to/scriptaculous.js" type="text/javascript"></script>
+  
+  in the HEAD section of an HTML file is now all that's needed to include all of the script.aculo.us libraries, 
+  given that they all can be accessed by the same path as scriptaculous.js is.
+
+* Fixed possible problem with greedy Droppables when using the dropOnEmpty option on Sortable.create
+
 * Added new CSS/background color features to Ajax.InPlaceEditor [Jon Tirsen]
 
 * Added unit test for Autocompleter, first Version
