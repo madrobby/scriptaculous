@@ -1,4 +1,6 @@
-*SVN*
+*V1.5.0_pre1*
+
+* Prepared README for V1.5.0_pre1
 
 * Added a main scriptaculous.js file to load in the other libraries transparently:
 
