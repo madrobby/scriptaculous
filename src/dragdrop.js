@@ -412,21 +412,23 @@ Sortable = {
     // make it so
     
     // drop on empty handling
-    if(options.dropOnEmpty) {
+    if(options.dropOnEmpty) {
       Droppables.add(element,
         {containment: options.containment, onHover: Sortable.onEmptyHover, greedy: false});
       options.droppables.push(element);
     }
      
     var elements = this.findElements(element, options);
-    for (var i = 0; i < elements.length; i++) {
-      // handles are per-draggable
-      var handle = options.handle ? 
-        Element.Class.childrenWith(elements[i], options.handle)[0] : elements[i];
-          options.draggables.push(new Draggable(elements[i], Object.extend(options_for_draggable, { handle: handle })));
-          Droppables.add(elements[i], options_for_droppable);
-      
-      options.droppables.push(elements[i]);
+    if(elements) {
+      for (var i = 0; i < elements.length; i++) {
+        // handles are per-draggable
+        var handle = options.handle ? 
+          Element.Class.childrenWith(elements[i], options.handle)[0] : elements[i];
+            options.draggables.push(new Draggable(elements[i], Object.extend(options_for_draggable, { handle: handle })));
+            Droppables.add(elements[i], options_for_droppable);
+        
+        options.droppables.push(elements[i]);
+      }
     }
    
     // keep reference

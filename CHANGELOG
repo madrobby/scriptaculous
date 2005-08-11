@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed a weird character in dragdrop.js, added check to allow empty containers on Sortables (useful with dropOnEmpty option) [thx to Dave Strus]
+
 * Added unit test runner file test/run_unit_tests.html, new unit test files must be listed in test/unit/index.html
 
 * Added unit tests for Prototype string functions
