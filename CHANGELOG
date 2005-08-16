@@ -1,5 +1,7 @@
 *SVN*
 
+* Automatically deactivate browser built-in autocompletion on autocompleting textfields, fixes part of Rails #1824.
+
 * Fixed a problem with Ajax.InPlaceEditor causing a JavaScript exception on Safari [thx to Patrick Lenz]
 
 *V1.5.0_pre2*

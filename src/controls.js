@@ -102,6 +102,8 @@ Autocompleter.Base.prototype = {
       this.options.tokens = new Array(this.options.tokens);
 
     this.observer = null;
+    
+    this.element.setAttribute('autocomplete','off');
 
     Element.hide(this.update);
 
