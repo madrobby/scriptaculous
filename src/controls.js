@@ -552,6 +552,7 @@ Ajax.InPlaceEditor.prototype = {
       if (size != 0)
         textField.size = size;
       form.appendChild(textField);
+      this.editField = textField;
     } else {
       this.options.textarea = true;
       var textArea = document.createElement("textarea");
@@ -560,6 +561,7 @@ Ajax.InPlaceEditor.prototype = {
       textArea.rows = this.options.rows;
       textArea.cols = this.options.cols || 40;
       form.appendChild(textArea);
+      this.editField = textArea;
     }
   },
   getText: function() {
@@ -590,7 +592,7 @@ Ajax.InPlaceEditor.prototype = {
       },
       this.url,
       {
-        parameters: this.options.callback(this.form, this.form.value.value),
+        parameters: this.options.callback(this.form, this.editField.value),
         onComplete: this.onComplete.bind(this),
         onFailure: this.onFailure.bind(this)
       }
