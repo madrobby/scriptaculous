@@ -141,7 +141,7 @@ Object.extend(Object.extend(Effect.Opacity.prototype, Effect.Base.prototype), {
   }, 
   setOpacity: function(opacity) {
     if(opacity==1.0) {
-      this.element.style.opacity = null;
+      this.element.style.opacity = '0.999999';
       this.element.style.filter  = null;
     } else {
       this.element.style.opacity = opacity;
