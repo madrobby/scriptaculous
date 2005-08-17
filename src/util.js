@@ -70,11 +70,19 @@ var Builder = {
      return document.createTextNode(text);
   },
   _attributes: function(element, attributes) {
-    for(attribute in attributes)
-      if(this._isStringOrNumber(attributes[attribute]))
+    for(attribute in attributes) {
+      var value = attributes[attribute];
+      if(attribute=='style' && typeof value == 'object') {
+        var style = element.style;
+        for (styleProp in value) {
+          style[styleProp] = value[styleProp];
+        }
+      } else if(this._isStringOrNumber(attributes[attribute])) {
         element.setAttribute(
           attribute=='className' ? 'class' : attribute,
-          attributes[attribute]);
+          value);
+      }
+    }
   },
   _children: function(element, children) {
     if(typeof children=='object') { // array can hold nodes and text

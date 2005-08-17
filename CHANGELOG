@@ -1,5 +1,7 @@
 *SVN*
 
+* Added special handling for style attributes to Builder [Michael Schuerig]
+
 * Changed opacity=1.0 check back to be inline with its original (pre 1.5) implementation to prevent flickering in Firefox < 1.1 on opacity-based effects (this also fixes flickering with drag-and-drop, sortable lists and autocompleting text fields). Note that this potentially breaks correct colors in some situations. [thx to David Zülke]
 
 * Automatically deactivate browser built-in autocompletion on autocompleting textfields, fixes part of Rails #1824.

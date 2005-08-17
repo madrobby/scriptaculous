@@ -26,6 +26,10 @@
 
   new Test.Unit.Runner({
 
+    setup: function() {
+      $('result').innerHTML = '';
+    },
+
     testBuilderBasics: function() { with(this) {
       var element = Builder.node('div');
       assertEqual('DIV', element.nodeName);
@@ -113,6 +117,16 @@
       
       $('result').appendChild(element);
       assertEqual('<div id="ghosttrain"><div style="font-size: 11px;" class="controls"><h1>Ghost Train</h1>testtext234<ul><li onclick="GhostTrain.controller.record();" class="active">Record</li></ul></div></div>', $('result').innerHTML);
+    }},
+
+    testBuilderStyle: function() { with(this) {
+      element = Builder.node('div',{id:'styletest','style':{'display':'block','position':'absolute'}});
+      $('result').appendChild(element);
+      assertEqual(
+        '<div style="display: block; position: absolute;" id="styletest"></div>',
+        $('result').innerHTML);
+      assertEqual('block', element.style.display);
+      assertEqual('absolute', element.style.position);
     }}
 
   });
