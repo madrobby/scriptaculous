@@ -237,7 +237,6 @@ Autocompleter.Base.prototype = {
   selectEntry: function() {
     this.active = false;
     this.updateElement(this.getCurrentEntry());
-    this.element.focus();
   },
 
   updateElement: function(selectedElement) {
@@ -254,7 +253,8 @@ Autocompleter.Base.prototype = {
       this.element.value = newValue + value;
     } else {
       this.element.value = value;
-    } 
+    }
+    this.element.focus(); 
   },
 
   updateChoices: function(choices) {
