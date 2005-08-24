@@ -464,10 +464,9 @@ Sortable = {
         var oldParentNode = element.parentNode;
         element.style.visibility = "hidden"; // fix gecko rendering
         dropon.parentNode.insertBefore(element, dropon);
-        if(dropon.parentNode!=oldParentNode && oldParentNode.sortable) 
-          oldParentNode.sortable.onChange(element);
-        if(dropon.parentNode.sortable)
-          dropon.parentNode.sortable.onChange(element);
+        if(dropon.parentNode!=oldParentNode) 
+          Sortable.options(oldParentNode).onChange(element);
+        Sortable.options(dropon.parentNode).onChange(element);
       }
     } else {
       Sortable.mark(dropon, 'after');
@@ -476,10 +475,9 @@ Sortable = {
         var oldParentNode = element.parentNode;
         element.style.visibility = "hidden"; // fix gecko rendering
         dropon.parentNode.insertBefore(element, nextElement);
-        if(dropon.parentNode!=oldParentNode && oldParentNode.sortable) 
-          oldParentNode.sortable.onChange(element);
-        if(dropon.parentNode.sortable)
-          dropon.parentNode.sortable.onChange(element);
+        if(dropon.parentNode!=oldParentNode) 
+          Sortable.options(oldParentNode).onChange(element);
+        Sortable.options(dropon.parentNode).onChange(element);
       }
     }
   },

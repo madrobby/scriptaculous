@@ -1,5 +1,7 @@
 *SVN*
 
+* Made sortable onChange option work again
+
 * Fixed a bug with Sortables resulting in wrong result when using Sortable.serialize with onUpdate on ghostly Sortables [thx Richard Livsey, Caleb Buxton]
 
 * Changed version number in scriptaculous.js to 1.5_pre3

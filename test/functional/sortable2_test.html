@@ -51,9 +51,14 @@
 <li id="item_8"><img src="icon.png" alt=""/> magna aliqua</li>
 </ul>
 
+<p id="testlist_serialize">(waiting for onChange)</p>
+
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-  Sortable.create('testlist',{ghosting:true,constraint:false,onUpdate:function(sortable){alert(Sortable.serialize(sortable))}});
+  Sortable.create('testlist',{ghosting:true,constraint:false,
+    onUpdate:function(sortable){alert(Sortable.serialize(sortable))},
+    onChange:function(element){$('testlist_serialize').innerHTML = Sortable.serialize(element.parentNode)}
+  });
 // ]]>
 </script>
 
@@ -70,9 +75,14 @@
 <li id="item_16"><img src="icon.png" alt=""/> magna aliqua</li>
 </ul>
 
+<p id="testlist2_serialize">(waiting for onChange)</p>
+
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-  Sortable.create('testlist2',{ghosting:false,constraint:false,onUpdate:function(sortable){alert(Sortable.serialize(sortable))}});
+  Sortable.create('testlist2',{ghosting:false,constraint:false,
+    onUpdate:function(sortable){alert(Sortable.serialize(sortable))},
+    onChange:function(element){$('testlist2_serialize').innerHTML = Sortable.serialize(element.parentNode)}
+  });
 // ]]>
 </script>
 
