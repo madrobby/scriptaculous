@@ -220,18 +220,18 @@ Draggable.prototype = {
     this.active = false;
     this.dragging = false;
     
+    if(this.options.ghosting) {
+      Position.relativize(this.element);
+      Element.remove(this._clone);
+      this._clone = null;
+    }
+    
     if(success) Droppables.fire(event, this.element);
     Draggables.notify('onEnd', this);
     
     var revert = this.options.revert;
     if(revert && typeof revert == 'function') revert = revert(this.element);
     
-    if(this.options.ghosting) {
-      Position.relativize(this.element);
-      Element.remove(this._clone);
-      this._clone = null;
-    }
-      
     if(revert && this.options.reverteffect) {
       this.options.reverteffect(this.element, 
       this.currentTop()-this.originalTop,

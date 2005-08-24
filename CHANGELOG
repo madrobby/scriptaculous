@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed a bug with Sortables resulting in wrong result when using Sortable.serialize with onUpdate on ghostly Sortables [thx Richard Livsey, Caleb Buxton]
+
 * Changed version number in scriptaculous.js to 1.5_pre3
 
 * Moved setting focus in Autocompleter to updateElement function to make it overridable [Brian Palmer]

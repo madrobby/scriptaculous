@@ -41,38 +41,38 @@
 <h2>Ghosting</h2>
 
 <ul id="testlist" class="testlist">
-<li><img src="icon.png" alt=""/> Lorem ipsum dolor</li>
-<li><img src="icon.png" alt=""/> sit amet</li>
-<li><img src="icon.png" alt=""/> consectetur adipisicing</li>
-<li><img src="icon.png" alt=""/> elit</li>
-<li><img src="icon.png" alt=""/> sed do eiusmod</li>
-<li><img src="icon.png" alt=""/> tempor incididunt</li>
-<li><img src="icon.png" alt=""/> ut labore et dolore</li>
-<li><img src="icon.png" alt=""/> magna aliqua</li>
+<li id="item_1"><img src="icon.png" alt=""/> Lorem ipsum dolor</li>
+<li id="item_2"><img src="icon.png" alt=""/> sit amet</li>
+<li id="item_3"><img src="icon.png" alt=""/> consectetur adipisicing</li>
+<li id="item_4"><img src="icon.png" alt=""/> elit</li>
+<li id="item_5"><img src="icon.png" alt=""/> sed do eiusmod</li>
+<li id="item_6"><img src="icon.png" alt=""/> tempor incididunt</li>
+<li id="item_7"><img src="icon.png" alt=""/> ut labore et dolore</li>
+<li id="item_8"><img src="icon.png" alt=""/> magna aliqua</li>
 </ul>
 
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-  Sortable.create('testlist',{ghosting:true,constraint:false})
+  Sortable.create('testlist',{ghosting:true,constraint:false,onUpdate:function(sortable){alert(Sortable.serialize(sortable))}});
 // ]]>
 </script>
 
 <h2>No ghosting</h2>
 
 <ul id="testlist2" class="testlist">
-<li><img src="icon.png" alt=""/> Lorem ipsum dolor</li>
-<li><img src="icon.png" alt=""/> sit amet</li>
-<li><img src="icon.png" alt=""/> consectetur adipisicing</li>
-<li><img src="icon.png" alt=""/> elit</li>
-<li><img src="icon.png" alt=""/> sed do eiusmod</li>
-<li><img src="icon.png" alt=""/> tempor incididunt</li>
-<li><img src="icon.png" alt=""/> ut labore et dolore</li>
-<li><img src="icon.png" alt=""/> magna aliqua</li>
+<li id="item_9"><img src="icon.png" alt=""/> Lorem ipsum dolor</li>
+<li id="item_10"><img src="icon.png" alt=""/> sit amet</li>
+<li id="item_11"><img src="icon.png" alt=""/> consectetur adipisicing</li>
+<li id="item_12"><img src="icon.png" alt=""/> elit</li>
+<li id="item_13"><img src="icon.png" alt=""/> sed do eiusmod</li>
+<li id="item_14"><img src="icon.png" alt=""/> tempor incididunt</li>
+<li id="item_15"><img src="icon.png" alt=""/> ut labore et dolore</li>
+<li id="item_16"><img src="icon.png" alt=""/> magna aliqua</li>
 </ul>
 
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-  Sortable.create('testlist2',{ghosting:false,constraint:false})
+  Sortable.create('testlist2',{ghosting:false,constraint:false,onUpdate:function(sortable){alert(Sortable.serialize(sortable))}});
 // ]]>
 </script>
 
