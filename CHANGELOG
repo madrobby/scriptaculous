@@ -1,5 +1,7 @@
 *SVN*
 
+* Added a test to evluate the Fade/Appear effects across browsers and elements (test/functional/effects6_test.html)
+
 * Framework for completely self-running in-browser unit tests on Mac OS X (try "rake unittest") [Jon Tirsen]
 
 * Updates to Ajax.InPlaceEditor (Highlighting, Ajax options, more) [Jon Tirsen]
