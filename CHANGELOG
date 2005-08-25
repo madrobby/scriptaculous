@@ -1,5 +1,9 @@
 *SVN*
 
+* Made event registering on Draggables happen per drag for improved performance [thx to Cathy]
+
+* Moved Element.collectTextNodesIgnoreClass to util.js (preparation for refactoring)
+
 * Made sortable onChange option work again
 
 * Fixed a bug with Sortables resulting in wrong result when using Sortable.serialize with onUpdate on ghostly Sortables [thx Richard Livsey, Caleb Buxton]

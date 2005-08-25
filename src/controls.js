@@ -21,23 +21,6 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Element.collectTextNodesIgnoreClass = function(element, ignoreclass) {
-  var children = $(element).childNodes;
-  var text     = "";
-  var classtest = new RegExp("^([^ ]+ )*" + ignoreclass+ "( [^ ]+)*$","i");
-
-  for (var i = 0; i < children.length; i++) {
-    if(children[i].nodeType==3) {
-      text+=children[i].nodeValue;
-    } else {
-      if((!children[i].className.match(classtest)) && children[i].hasChildNodes())
-        text += Element.collectTextNodesIgnoreClass(children[i], ignoreclass);
-    }
-  }
-
-  return text;
-}
-
 // Autocompleter.Base handles all the autocompletion functionality 
 // that's independent of the data source for autocompletion. This
 // includes drawing the autocompletion menu, observing keyboard

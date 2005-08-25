@@ -26,20 +26,20 @@
 
 var Droppables = {
   drops: false,
-  
+
   remove: function(element) {
     for(var i = 0; i < this.drops.length; i++)
       if(this.drops[i].element == element)
         this.drops.splice(i,1);
   },
-  
+
   add: function(element) {
     var element = $(element);
     var options = Object.extend({
       greedy:     true,
       hoverclass: null  
     }, arguments[1] || {});
-    
+
     // cache containers
     if(options.containment) {
       options._containers = new Array();
@@ -54,16 +54,16 @@ var Droppables = {
       options._containers_length = 
         options._containers.length-1;
     }
-    
+
     Element.makePositioned(element); // fix IE
-    
+
     options.element = element;
-    
+
     // activate the droppable    
     if(!this.drops) this.drops = [];
     this.drops.push(options);
   },
-  
+
   isContained: function(element, drop) {
     var containers = drop._containers;
     var parentNode = element.parentNode;
@@ -71,7 +71,7 @@ var Droppables = {
     do { if(parentNode==containers[i]) return true; } while (i--);
     return false;
   },
-  
+
   isAffected: function(pX, pY, element, drop) {
     return (
       (drop.element!=element) &&
@@ -81,25 +81,25 @@ var Droppables = {
         (Element.Class.has_any(element, drop.accept))) &&
       Position.within(drop.element, pX, pY) );
   },
-  
+
   deactivate: function(drop) {
     Element.Class.remove(drop.element, drop.hoverclass);
     this.last_active = null;
   },
-  
+
   activate: function(drop) {
     if(this.last_active) this.deactivate(this.last_active);
     if(drop.hoverclass)
       Element.Class.add(drop.element, drop.hoverclass);
     this.last_active = drop;
   },
-  
+
   show: function(event, element) {
     if(!this.drops) return;
     var pX = Event.pointerX(event);
     var pY = Event.pointerY(event);
     Position.prepare();
-    
+
     var i = this.drops.length-1; do {
       var drop = this.drops[i];
       if(this.isAffected(pX, pY, element, drop)) {
@@ -112,17 +112,17 @@ var Droppables = {
       }
     } while (i--);
   },
-  
+
   fire: function(event, element) {
     if(!this.last_active) return;
     Position.prepare();
-    
+
     if (this.isAffected(Event.pointerX(event), Event.pointerY(event), element, this.last_active))
       if (this.last_active.onDrop) 
         this.last_active.onDrop(element, this.last_active);
-    
+
   },
-  
+
   reset: function() {
     if(this.last_active)
       this.deactivate(this.last_active);
@@ -165,12 +165,12 @@ Draggable.prototype = {
       zindex: 1000,
       revert: false
     }, arguments[1] || {});
-    
+
     this.element      = $(element);
     this.handle       = options.handle ? $(options.handle) : this.element;
-    
+
     Element.makePositioned(this.element); // fix IE    
-    
+
     this.offsetX      = 0;
     this.offsetY      = 0;
     this.originalLeft = this.currentLeft();
@@ -178,24 +178,31 @@ Draggable.prototype = {
     this.originalX    = this.element.offsetLeft;
     this.originalY    = this.element.offsetTop;
     this.originalZ    = parseInt(this.element.style.zIndex || "0");
-    
+
     this.options      = options;
-    
+
     this.active       = false;
     this.dragging     = false;   
-    
+
     this.eventMouseDown = this.startDrag.bindAsEventListener(this);
     this.eventMouseUp   = this.endDrag.bindAsEventListener(this);
     this.eventMouseMove = this.update.bindAsEventListener(this);
     this.eventKeypress  = this.keyPress.bindAsEventListener(this);
-    
+
     Event.observe(this.handle, "mousedown", this.eventMouseDown);
+  },
+  destroy: function() {
+    Event.stopObserving(this.handle, "mousedown", this.eventMouseDown);
+    this.unregisterEvents();
+  },
+  registerEvents: function() {
+    if(this.active) return;
     Event.observe(document, "mouseup", this.eventMouseUp);
     Event.observe(document, "mousemove", this.eventMouseMove);
     Event.observe(document, "keypress", this.eventKeypress);
   },
-  destroy: function() {
-    Event.stopObserving(this.handle, "mousedown", this.eventMouseDown);
+  unregisterEvents: function() {
+    if(!this.active) return;
     Event.stopObserving(document, "mouseup", this.eventMouseUp);
     Event.stopObserving(document, "mousemove", this.eventMouseMove);
     Event.stopObserving(document, "keypress", this.eventKeypress);
@@ -208,6 +215,7 @@ Draggable.prototype = {
   },
   startDrag: function(event) {
     if(Event.isLeftClick(event)) {
+      this.registerEvents();
       this.active = true;
       var pointer = [Event.pointerX(event), Event.pointerY(event)];
       var offsets = Position.cumulativeOffset(this.element);
@@ -217,21 +225,23 @@ Draggable.prototype = {
     }
   },
   finishDrag: function(event, success) {
+    this.unregisterEvents();
+
     this.active = false;
     this.dragging = false;
-    
+
     if(this.options.ghosting) {
       Position.relativize(this.element);
       Element.remove(this._clone);
       this._clone = null;
     }
-    
+
     if(success) Droppables.fire(event, this.element);
     Draggables.notify('onEnd', this);
-    
+
     var revert = this.options.revert;
     if(revert && typeof revert == 'function') revert = revert(this.element);
-    
+
     if(revert && this.options.reverteffect) {
       this.options.reverteffect(this.element, 
       this.currentTop()-this.originalTop,
@@ -240,13 +250,13 @@ Draggable.prototype = {
       this.originalLeft = this.currentLeft();
       this.originalTop  = this.currentTop();
     }
-    
+
     this.element.style.zIndex = this.originalZ;
-      
+
     if(this.options.endeffect) 
       this.options.endeffect(this.element);
-      
-    
+
+
     Droppables.reset();
   },
   keyPress: function(event) {
@@ -284,24 +294,24 @@ Draggable.prototype = {
         this.dragging = true;
         if(style.position=="") style.position = "relative";
         style.zIndex = this.options.zindex;
-        
+
         if(this.options.ghosting) {
           this._clone = this.element.cloneNode(true);
           Position.absolutize(this.element);
           this.element.parentNode.insertBefore(this._clone, this.element);
         }
-        
+
         Draggables.notify('onStart', this);
         if(this.options.starteffect) this.options.starteffect(this.element);
       }
-      
+
       Droppables.show(event, this.element);
       this.draw(event);
       if(this.options.change) this.options.change(this);
-      
+
       // fix AppleWebKit rendering
       if(navigator.appVersion.indexOf('AppleWebKit')>0) window.scrollBy(0,0); 
-      
+
       Event.stop(event);
    }
   }
@@ -366,20 +376,20 @@ Sortable = {
       onChange:    function() {},
       onUpdate:    function() {}
     }, arguments[1] || {});
-    
+
     // clear any old sortable with same element
     this.destroy(element);
-    
+
     // build options for the draggables
     var options_for_draggable = {
       revert:      true,
       ghosting:    options.ghosting,
       constraint:  options.constraint,
       handle:      handle };
-   
+
     if(options.starteffect)
       options_for_draggable.starteffect = options.starteffect;
-   
+
     if(options.reverteffect)
       options_for_draggable.reverteffect = options.reverteffect;
     else
@@ -387,13 +397,13 @@ Sortable = {
         element.style.top  = 0;
         element.style.left = 0;
       };
-   
+
     if(options.endeffect)
       options_for_draggable.endeffect = options.endeffect;
-   
+
     if(options.zindex)
       options_for_draggable.zindex = options.zindex;
-    
+
     // build options for the droppables  
     var options_for_droppable = {
       overlap:     options.overlap,
@@ -405,19 +415,19 @@ Sortable = {
 
     // fix for gecko engine
     Element.cleanWhitespace(element); 
-    
+
     options.draggables = [];
     options.droppables = [];
-    
+
     // make it so
-    
+
     // drop on empty handling
     if(options.dropOnEmpty) {
       Droppables.add(element,
         {containment: options.containment, onHover: Sortable.onEmptyHover, greedy: false});
       options.droppables.push(element);
     }
-     
+
     var elements = this.findElements(element, options);
     if(elements) {
       for (var i = 0; i < elements.length; i++) {
@@ -426,19 +436,19 @@ Sortable = {
           Element.Class.childrenWith(elements[i], options.handle)[0] : elements[i];
             options.draggables.push(new Draggable(elements[i], Object.extend(options_for_draggable, { handle: handle })));
             Droppables.add(elements[i], options_for_droppable);
-        
+
         options.droppables.push(elements[i]);
       }
     }
-   
+
     // keep reference
     this.sortables.push(options);
-    
+
     // for onupdate
     Draggables.addObserver(new SortableObserver(element, options.onUpdate));
 
   },
-  
+
   // return all suitable-for-sortable elements in a guaranteed order
   findElements: function(element, options) {
     if(!element.hasChildNodes()) return null;
@@ -453,10 +463,10 @@ Sortable = {
         if(grandchildren) elements.push(grandchildren);
       }
     }
-  
+
     return (elements.length>0 ? elements.flatten() : null);
   },
-  
+
   onHover: function(element, dropon, overlap) {
     if(overlap>0.5) {
       Sortable.mark(dropon, 'before');
@@ -481,22 +491,22 @@ Sortable = {
       }
     }
   },
-  
+
   onEmptyHover: function(element, dropon) {
     if(element.parentNode!=dropon) {
       dropon.appendChild(element);
     }
   },
-  
+
   unmark: function() {
     if(Sortable._marker) Element.hide(Sortable._marker);
   },
-  
+
   mark: function(dropon, position) {
     // mark on ghosting only
     var sortable = Sortable.options(dropon.parentNode);
     if(sortable && !sortable.ghosting) return; 
-    
+
     if(!Sortable._marker) {
       Sortable._marker = $('dropmarker') || document.createElement('DIV');
       Element.hide(Sortable._marker);
@@ -510,7 +520,7 @@ Sortable = {
     Sortable._marker.style.left = offsets[0] + 'px';
     Element.show(Sortable._marker);
   },
-  
+
   serialize: function(element) {
     var element = $(element);
     var sortableOptions = this.options(element);
@@ -519,10 +529,10 @@ Sortable = {
       only: sortableOptions.only,
       name: element.id
     }, arguments[1] || {});
-    
+
     var items = $(element).childNodes;
     var queryComponents = new Array();
- 
+
     for(var i=0; i<items.length; i++)
       if(items[i].tagName && items[i].tagName==options.tag.toUpperCase() &&
         (!options.only || (Element.Class.has(items[i], options.only))))

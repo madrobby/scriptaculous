@@ -152,6 +152,23 @@ Element.undoClipping = function(element) {
   if(element._overflow!='hidden') element.style.overflow = element._overflow;
 }
 
+Element.collectTextNodesIgnoreClass = function(element, ignoreclass) {
+  var children = $(element).childNodes;
+  var text     = "";
+  var classtest = new RegExp("^([^ ]+ )*" + ignoreclass+ "( [^ ]+)*$","i");
+
+  for (var i = 0; i < children.length; i++) {
+    if(children[i].nodeType==3) {
+      text+=children[i].nodeValue;
+    } else {
+      if((!children[i].className.match(classtest)) && children[i].hasChildNodes())
+        text += Element.collectTextNodesIgnoreClass(children[i], ignoreclass);
+    }
+  }
+
+  return text;
+}
+
 /*--------------------------------------------------------------------------*/
 
 Position.absolutize = function(element) {
