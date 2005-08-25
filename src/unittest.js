@@ -154,6 +154,7 @@ Test.Unit.Runner.prototype = {
     this.options = Object.extend({
       testLog: 'testlog'
     }, arguments[1] || {});
+    this.options.resultsURL = this.parseResultsURLQueryParameter();
     if (this.options.testLog) {
       this.options.testLog = $(this.options.testLog) || null;
     }
@@ -180,10 +181,40 @@ Test.Unit.Runner.prototype = {
     this.logger = new Test.Unit.Logger(this.options.testLog);
     setTimeout(this.runTests.bind(this), 1000);
   },
+  parseResultsURLQueryParameter: function() {
+    return window.location.search.parseQuery()["resultsURL"];
+  },
+  // Returns:
+  //  "ERROR" if there was an error,
+  //  "FAILURE" if there was a failure, or
+  //  "SUCCESS" if there was neither
+  getResult: function() {
+    var hasFailure = false;
+    for(var i=0;i<this.tests.length;i++) {
+      if (this.tests[i].errors > 0) {
+        return "ERROR";
+      }
+      if (this.tests[i].failures > 0) {
+        hasFailure = true;
+      }
+    }
+    if (hasFailure) {
+      return "FAILURE";
+    } else {
+      return "SUCCESS";
+    }
+  },
+  postResults: function() {
+    if (this.options.resultsURL) {
+      new Ajax.Request(this.options.resultsURL, 
+        { method: 'get', parameters: 'result=' + this.getResult(), asynchronous: false });
+    }
+  },
   runTests: function() {
     var test = this.tests[this.currentTest];
     if (!test) {
       // finished!
+      this.postResults();
       this.logger.summary(this.summary());
       return;
     }

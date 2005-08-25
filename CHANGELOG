@@ -1,5 +1,9 @@
 *SVN*
 
+* Framework for completely self-running in-browser unit tests on Mac OS X (try "rake unittest") [Jon Tirsen]
+
+* Updates to Ajax.InPlaceEditor (Highlighting, Ajax options, more) [Jon Tirsen]
+
 * Made event registering on Draggables happen per drag for improved performance [thx to Cathy]
 
 * Moved Element.collectTextNodesIgnoreClass to util.js (preparation for refactoring)

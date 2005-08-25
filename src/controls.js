@@ -447,6 +447,7 @@ Autocompleter.Local.prototype = Object.extend(new Autocompleter.Base(), {
 //            (default: the id of the element to edit plus '-inplaceeditor')
 
 Ajax.InPlaceEditor = Class.create();
+Ajax.InPlaceEditor.defaultHighlightColor = "#FFFF99";
 Ajax.InPlaceEditor.prototype = {
   initialize: function(element, url, options) {
     this.url = url;
@@ -456,16 +457,22 @@ Ajax.InPlaceEditor.prototype = {
       okText: "ok",
       cancelText: "cancel",
       savingText: "Saving...",
+      clickToEditText: "Click to edit",
       okText: "ok",
       rows: 1,
+      onComplete: function(transport, element) {
+        new Effect.Highlight(element, {startcolor: this.options.highlightcolor});
+      },
       onFailure: function(transport) {
         alert("Error communicating with the server: " + transport.responseText);
       },
       callback: function(form) {
         return Form.serialize(form);
       },
-      hoverClassName: 'inplaceeditor-hover',
-      externalControl:	null
+      highlightcolor: Ajax.InPlaceEditor.defaultHighlightColor,
+      highlightendcolor: "#FFFFFF",
+      externalControl:	null,
+      ajaxOptions: {}
     }, options || {});
 
     if(!this.options.formId && this.element.id) {
@@ -480,6 +487,13 @@ Ajax.InPlaceEditor.prototype = {
       this.options.externalControl = $(this.options.externalControl);
     }
     
+    this.originalBackground = Element.getStyle(this.element, 'background-color');
+    if (!this.originalBackground) {
+      this.originalBackground = "transparent";
+    }
+    
+    this.element.title = this.options.clickToEditText;
+    
     this.onclickListener = this.enterEditMode.bindAsEventListener(this);
     this.mouseoverListener = this.enterHover.bindAsEventListener(this);
     this.mouseoutListener = this.leaveHover.bindAsEventListener(this);
@@ -488,6 +502,8 @@ Ajax.InPlaceEditor.prototype = {
     Event.observe(this.element, 'mouseout', this.mouseoutListener);
     if (this.options.externalControl) {
       Event.observe(this.options.externalControl, 'click', this.onclickListener);
+      Event.observe(this.options.externalControl, 'mouseover', this.mouseoverListener);
+      Event.observe(this.options.externalControl, 'mouseout', this.mouseoutListener);
     }
   },
   enterEditMode: function() {
@@ -533,6 +549,7 @@ Ajax.InPlaceEditor.prototype = {
       textField.type = "text";
       textField.name = "value";
       textField.value = this.getText();
+      textField.style.backgroundColor = this.options.highlightcolor;
       var size = this.options.size || this.options.cols || 0;
       if (size != 0)
         textField.size = size;
@@ -554,6 +571,8 @@ Ajax.InPlaceEditor.prototype = {
   },
   onclickCancel: function() {
     this.onComplete();
+    this.leaveEditMode();
+    return false;
   },
   onFailure: function(transport) {
     this.options.onFailure(transport);
@@ -576,11 +595,11 @@ Ajax.InPlaceEditor.prototype = {
         failure: null
       },
       this.url,
-      {
+      Object.extend({
         parameters: this.options.callback(this.form, this.editField.value),
         onComplete: this.onComplete.bind(this),
         onFailure: this.onFailure.bind(this)
-      }
+      }, this.options.ajaxOptions)
     );
     this.onLoading();
     return false;
@@ -594,6 +613,7 @@ Ajax.InPlaceEditor.prototype = {
   showSaving: function() {
     this.oldInnerHTML = this.element.innerHTML;
     this.element.innerHTML = this.options.savingText;
+    this.element.style.backgroundColor = this.originalBackground;
     Element.show(this.element);
   },
   removeForm: function() {
@@ -604,9 +624,9 @@ Ajax.InPlaceEditor.prototype = {
   },
   enterHover: function() {
     if (this.saving) return;
-    if (this.options.backgroundColor) {
-      this.oldBackground = this.element.style.backgroundColor;
-      this.element.style.backgroundColor = this.options.backgroundColor;
+    this.element.style.backgroundColor = this.options.highlightcolor;
+    if (this.effect) {
+      this.effect.cancel();
     }
     Element.addClassName(this.element, this.options.hoverClassName)
   },
@@ -615,6 +635,12 @@ Ajax.InPlaceEditor.prototype = {
       this.element.style.backgroundColor = this.oldBackground;
     }
     Element.removeClassName(this.element, this.options.hoverClassName)
+    if (this.saving) return;
+    this.effect = new Effect.Highlight(this.element, {
+      startcolor: this.options.highlightcolor,
+      endcolor: this.options.highlightendcolor,
+      restorecolor: this.originalBackground
+    });
   },
   leaveEditMode: function() {
     if(this.savingText) {
@@ -623,17 +649,19 @@ Ajax.InPlaceEditor.prototype = {
     }
     this.removeForm();
     this.leaveHover();
+    this.element.style.backgroundColor = this.originalBackground;
     Element.show(this.element);
     if (this.options.externalControl) {
       Element.show(this.options.externalControl);
     }
     this.editing = false;
+    this.saving = false;
+    this.oldInnerHTML = null;
     this.onLeaveEditMode();
   },
-  onComplete: function() {
+  onComplete: function(transport) {
     this.leaveEditMode();
-    this.oldInnerHTML = null;
-    this.saving = false;
+    this.options.onComplete.bind(this)(transport, this.element);
   },
   onEnterEditMode: function() {},
   onLeaveEditMode: function() {},
@@ -647,6 +675,8 @@ Ajax.InPlaceEditor.prototype = {
     Event.stopObserving(this.element, 'mouseout', this.mouseoutListener);
     if (this.options.externalControl) {
       Event.stopObserving(this.options.externalControl, 'click', this.onclickListener);
+      Event.stopObserving(this.options.externalControl, 'mouseover', this.mouseoverListener);
+      Event.stopObserving(this.options.externalControl, 'mouseout', this.mouseoutListener);
     }
   }
 };

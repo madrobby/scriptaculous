@@ -31,7 +31,7 @@
     setup: function() { with(this) {
       inPlaceEditor = new Ajax.InPlaceEditor($('tobeedited'), '_ajax_inplaceeditor_result.html', {
         externalControl: $('tobeeditedEditControl'),
-        backgroundColor: '#EEEEEE'
+        ajaxOptions: {method: 'get'} //override so we can use a static for the result
       });
     }},
     
@@ -41,13 +41,6 @@
 
     // Integration test, tests the entire cycle
     testInPlaceEditor: function() { with(this) {
-      Event.simulateMouse('tobeedited','mouseover');
-      assertEqual("rgb(238, 238, 238)", Element.getStyle('tobeedited','background-color'));
-
-      Event.simulateMouse('tobeedited','mouseout');
-      assertEqual("transparent", Element.getStyle('tobeedited','background-color'),
-        "should be transparent after mouse leaves element");
-
       Event.simulateMouse('tobeedited','click');
       assertHidden($('tobeedited'));
       assertNotNull(document.forms[0]);
@@ -80,7 +73,20 @@
         assertVisible($('tobeedited'));
       });
     }},
+    
+    testHovering: function() { with(this) {
+      Event.simulateMouse('tobeedited','mouseover');
+      assertEqual("rgb(255, 255, 153)", Element.getStyle('tobeedited','background-color'));
 
+      Event.simulateMouse('tobeedited','mouseout');
+      wait(1100, function() {
+        assertEqual("transparent", Element.getStyle('tobeedited','background-color'),
+          "should be transparent after mouse leaves element");
+    
+        Event.simulateMouse('tobeedited','click');
+      })
+    }},
+    
     testDisposesProperly: function() { with(this) {
       assertEqual("transparent", Element.getStyle('tobeedited','background-color'));
       inPlaceEditor.dispose();
@@ -90,7 +96,7 @@
       assertVisible($('tobeedited'));
     }},
     
-    testUsesTextAreaWhenRowsAboveOne: function() { with(this) {
+    testUsesTextAreaWhenMoreThanOneRows: function() { with(this) {
       inPlaceEditor.options.rows = 5;
       inPlaceEditor.enterEditMode();
       assertEqual("TEXTAREA", document.forms[0].firstChild.tagName);

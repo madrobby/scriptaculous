@@ -45,9 +45,18 @@
     testStringUnescapeHTML: function() { with(this) {
       assertEqual('a<a href="blah">blub</a>b<span><div></div></span>cdef<strong>!!!!</strong>g',
         'a&lt;a href="blah"&gt;blub&lt;/a&gt;b&lt;span&gt;&lt;div&gt;&lt;/div&gt;&lt;/span&gt;cdef&lt;strong&gt;!!!!&lt;/strong&gt;g'.unescapeHTML());
+    }},
+    
+    testParseQueryString: function() { with(this) {
+      assertEqual(null, "".parseQuery()['a']);
+      assertEqual(null, "?".parseQuery()['a']);
+      assertEqual('b', "?a=b".parseQuery()['a']);
+      assertEqual('b', "a=b".parseQuery()['a']);
+      assertEqual('b', "?a=b&c=d".parseQuery()['a']);
+      assertEqual('d', "?a=b&c=d".parseQuery()['c']);
     }}
 
-  }, "testlog");
+  });
   
 // ]]>
 </script>

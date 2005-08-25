@@ -42,3 +42,18 @@ task :package do
   system %{cd #{PKG_DESTINATION}; tar -c #{PKG_FILE_NAME} | bzip2 --best  > #{PKG_FILE_NAME}.tar.bz2 }
 end
 
+require 'src/javascripttest'
+desc "Runs all the JavaScript unit tests and collects the results"
+JavaScriptTestTask.new(:unittest) do |t|
+  t.mount("/lib")
+  t.mount("/src")
+  t.mount("/test")
+  
+  t.run("/test/unit/unittest_test.html")
+  t.run("/test/unit/ajax_inplaceeditor_test.html")
+  t.run("/test/unit/string_test.html")
+  t.run("/test/unit/builder_test.html")
+  
+  t.browser(:safari)
+  t.browser(:firefox)
+end

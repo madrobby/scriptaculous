@@ -296,3 +296,19 @@ Element.Class = {
       return elements;
     }
 }
+
+/*--------------------------------------------------------------------------*/
+
+String.prototype.parseQuery = function() {
+  var str = this;
+  if(str[0] == '?') {
+    str = this.substring(1);
+  }
+  var result = {};
+  var pairs = str.split('&');
+  for(var i = 0; i < pairs.length; i++) {
+    var pair = pairs[i].split('=');
+    result[pair[0]] = pair[1];
+  }
+  return result;
+}
