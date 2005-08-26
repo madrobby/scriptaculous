@@ -308,8 +308,7 @@ Object.extend(Object.extend(Ajax.Autocompleter.prototype, Autocompleter.Base.pro
   initialize: function(element, update, url, options) {
 	  this.baseInitialize(element, update, options);
     this.options.asynchronous  = true;
-    this.options.onComplete    = this.onComplete.bind(this)
-    this.options.method        = 'post';
+    this.options.onComplete    = this.onComplete.bind(this);
     this.options.defaultParams = this.options.parameters || null;
     this.url                   = url;
   },

@@ -38,7 +38,8 @@
     
     // Integration test, tests the entire cycle
     testAjaxAutocompleter: function() { with(this) {
-      var ac = new Ajax.Autocompleter('ac_input','ac_update','_autocomplete_result.html');
+      var ac = new Ajax.Autocompleter('ac_input','ac_update','_autocomplete_result.html',
+        { method: 'get' }); //override so we can use a static for the result
       assertInstanceOf(Ajax.Autocompleter, ac);
       
       // box not visible
@@ -92,7 +93,8 @@
     }},
     
     testTokenizing: function() { with(this) {
-      var actoken = new Ajax.Autocompleter('actoken_input','ac_update','_autocomplete_result.html',{tokens:','});
+      var actoken = new Ajax.Autocompleter('actoken_input','ac_update','_autocomplete_result.html',
+        { tokens:',', method: 'get' });
       assertInstanceOf(Ajax.Autocompleter, actoken);
       
       Event.simulateKeys('actoken_input','abc');
@@ -107,7 +109,7 @@
           assertEqual('test1,test2',$('actoken_input').value);
         }});
       }});
-    }},
+    }}
 
   });
 // ]]>

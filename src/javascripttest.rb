@@ -32,7 +32,7 @@ class SafariBrowser < Browser
   end
 
   def teardown
-    applescript('tell application "Safari" to close front document')
+    #applescript('tell application "Safari" to close front document')
   end
 
   def to_s
@@ -81,7 +81,7 @@ class JavaScriptTestTask < ::Rake::TaskLib
       @browsers.each do |browser|
         browser.setup
         @tests.each do |test|
-          browser.visit("http://localhost:4711#{test}?resultsURL=http://localhost:4711/results")
+          browser.visit("http://localhost:4711#{test}?resultsURL=http://localhost:4711/results&t=" + ("%.6f" % Time.now.to_f))
           result = @queue.pop
           puts "#{test} on #{browser}: #{result}"
         end

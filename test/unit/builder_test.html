@@ -104,27 +104,27 @@
     }},
   
     testBuilderComplexExample: function() { with(this) {      
-      element = Builder.node('div',{id:'ghosttrain'},[
-        Builder.node('div',{className:'controls',style:'font-size:11px'},[
+      var element = Builder.node('div',{id:'ghosttrain'},[
+        Builder.node('div',{style:'font-size: 11px; font-weight: bold;'},[
           Builder.node('h1','Ghost Train'),
           "testtext", 2, 3, 4,
           Builder.node('ul',[
-            Builder.node('li',{className:'active', onclick:'GhostTrain.controller.record();'},'Record')
+            Builder.node('li',{onclick:'GhostTrain.controller.record();'},'Record')
           ]),
         ]),
       ]);
       assertEqual('DIV', element.nodeName);
       
       $('result').appendChild(element);
-      assertEqual('<div id="ghosttrain"><div style="font-size: 11px;" class="controls"><h1>Ghost Train</h1>testtext234<ul><li onclick="GhostTrain.controller.record();" class="active">Record</li></ul></div></div>', $('result').innerHTML);
+      
+      // browsers aren't sure about upper and lower case on elements
+      assertEqual('<div id="ghosttrain"><div style="font-size: 11px; font-weight: bold;"><h1>ghost train</h1>testtext234<ul><li onclick="ghosttrain.controller.record();">record</li></ul></div></div>', $('result').innerHTML.toLowerCase());
     }},
 
     testBuilderStyle: function() { with(this) {
-      element = Builder.node('div',{id:'styletest','style':{'display':'block','position':'absolute'}});
+      var element = Builder.node('div',{id:'styletest','style':{'display':'block','position':'absolute'}});
       $('result').appendChild(element);
-      assertEqual(
-        '<div style="display: block; position: absolute;" id="styletest"></div>',
-        $('result').innerHTML);
+      assertEqual('styletest', element.id);
       assertEqual('block', element.style.display);
       assertEqual('absolute', element.style.position);
     }}
