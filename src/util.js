@@ -236,7 +236,7 @@ Element.Class = {
       element = $(element);
       var regEx;
       for(var i = 1; i < arguments.length; i++) {
-        regEx = new RegExp("^" + arguments[i] + "\\b\\s*|\\s*\\b" + arguments[i] + "\\b", 'g');
+        regEx = new RegExp("(^|\\s)" + arguments[i] + "(\\s|$)", 'g');
         element.className = element.className.replace(regEx, '')
       }
     },
@@ -255,8 +255,16 @@ Element.Class = {
       if(!element || !element.className) return false;
       var regEx;
       for(var i = 1; i < arguments.length; i++) {
-        regEx = new RegExp("\\b" + arguments[i] + "\\b");
-        if(!regEx.test(element.className)) return false;
+        if((typeof arguments[i] == 'object') && 
+          (arguments[i].constructor == Array)) {
+          for(var j = 0; j < arguments[i].length; j++) {
+            regEx = new RegExp("(^|\\s)" + arguments[i][j] + "(\\s|$)");
+            if(!regEx.test(element.className)) return false;
+          }
+        } else {
+          regEx = new RegExp("(^|\\s)" + arguments[i] + "(\\s|$)");
+          if(!regEx.test(element.className)) return false;
+        }
       }
       return true;
     },
@@ -271,11 +279,11 @@ Element.Class = {
         if((typeof arguments[i] == 'object') && 
           (arguments[i].constructor == Array)) {
           for(var j = 0; j < arguments[i].length; j++) {
-            regEx = new RegExp("\\b" + arguments[i][j] + "\\b");
+            regEx = new RegExp("(^|\\s)" + arguments[i][j] + "(\\s|$)");
             if(regEx.test(element.className)) return true;
           }
         } else {
-          regEx = new RegExp("\\b" + arguments[i] + "\\b");
+          regEx = new RegExp("(^|\\s)" + arguments[i] + "(\\s|$)");
           if(regEx.test(element.className)) return true;
         }
       }

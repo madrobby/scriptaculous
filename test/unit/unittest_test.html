@@ -47,32 +47,6 @@
 
   new Test.Unit.Runner({
   
-    testElementClassHasAny: function() { with(this) {
-      assert(Element.Class.has_any("test_1","a"));
-      assert(Element.Class.has_any("test_1","dddd"));
-      assert(Element.Class.has_any("test_1","bbbbbbbbbbbb"));
-      assert(!Element.Class.has_any("test_1","bbbbbbbbbbb"));
-      assert(!Element.Class.has_any("test_1","bbbbbbbbbbbbbb"));
-
-      assert(Element.Class.has_any("test_1",["a"]));
-      assert(Element.Class.has_any("test_1",["dddd"]));
-      assert(Element.Class.has_any("test_1",["bbbbbbbbbbbb"]));
-      assert(!Element.Class.has_any("test_1",["bbbbbbbbbbb"]));
-      assert(!Element.Class.has_any("test_1",["bbbbbbbbbbbbbb"]));
-      
-      assert(Element.Class.has_any("test_1",["x","a"]));
-      assert(Element.Class.has_any("test_1",["x","dddd"]));
-      assert(Element.Class.has_any("test_1",["x","bbbbbbbbbbbb"]));
-      assert(!Element.Class.has_any("test_1",["x","bbbbbbbbbbb"]));
-      assert(!Element.Class.has_any("test_1",["x","bbbbbbbbbbbbbb"]));
-      
-      assert(Element.Class.has_any("test_1",["a","a"]));
-      assert(Element.Class.has_any("test_1",["a","dddd"]));
-      assert(Element.Class.has_any("test_1",["a","bbbbbbbbbbbb"]));
-      assert(Element.Class.has_any("test_1",["a","bbbbbbbbbbb"]));
-      assert(Element.Class.has_any("test_1",["a","bbbbbbbbbbbbbb"]));
-    }},
-    
     testElementCleanWhitespace: function() { with(this) {
       Element.cleanWhitespace("test_2");
       assertEqual(1,$("test_2").firstChild.nodeType);

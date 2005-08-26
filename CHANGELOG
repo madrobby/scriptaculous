@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed Element.Class getting false matches on class names like classA-foobar, added unit tests [Martin Bialasinski]
+
 * Added a test to evluate the Fade/Appear effects across browsers and elements (test/functional/effects6_test.html)
 
 * Framework for completely self-running in-browser unit tests on Mac OS X (try "rake unittest") [Jon Tirsen]

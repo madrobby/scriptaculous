@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>script.aculo.us Unit test file</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <script src="../../lib/prototype.js" type="text/javascript"></script>
+  <script src="../../src/scriptaculous.js" type="text/javascript"></script>
+  <script src="../../src/unittest.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="../test.css" type="text/css" />
+</head>
+<body>
+<h1>script.aculo.us Unit test file</h1>
+<p>
+  This is a preliminary version mostly for testing the unittest library.
+</p>
+
+<!-- Log output -->
+<div id="testlog"> </div>
+
+<!-- Test elements follow -->
+<div id="test_1" class="a bbbbbbbbbbbb cccccccccc dddd"> </div>
+
+<div id="test_2" class="classA-foobar classB-foobar"> </div> <span> </span> 
+
+<!-- Tests follow -->
+<script type="text/javascript" language="javascript" charset="utf-8">
+// <![CDATA[
+
+  new Test.Unit.Runner({
+    
+    testElementClassHas: function() { with(this) {
+       assert(Element.Class.has("test_1","a"));
+       assert(Element.Class.has("test_1","dddd"));
+       assert(Element.Class.has("test_1","bbbbbbbbbbbb"));
+       assert(!Element.Class.has("test_1","bbbbbbbbbbb"));
+       assert(!Element.Class.has("test_1","bbbbbbbbbbbbbb"));
+       
+       assert(Element.Class.has("test_1",["a"]));
+       assert(Element.Class.has("test_1",["dddd"]));
+       assert(Element.Class.has("test_1",["bbbbbbbbbbbb"]));
+       assert(!Element.Class.has("test_1",["bbbbbbbbbbb"]));
+       assert(!Element.Class.has("test_1",["bbbbbbbbbbbbbb"]));
+       
+       assert(!Element.Class.has("test_1",["x","a"]));
+       assert(!Element.Class.has("test_1",["x","dddd"]));
+       assert(!Element.Class.has("test_1",["x","bbbbbbbbbbbb"]));
+       assert(!Element.Class.has("test_1",["x","bbbbbbbbbbb"]));
+       assert(!Element.Class.has("test_1",["x","bbbbbbbbbbbbbb"]));
+       
+       assert(Element.Class.has("test_1",["a","a"]));
+       assert(Element.Class.has("test_1",["a","dddd"]));
+       assert(Element.Class.has("test_1",["a","bbbbbbbbbbbb"]));
+       assert(!Element.Class.has("test_1",["a","bbbbbbbbbbb"]));
+       assert(!Element.Class.has("test_1",["a","bbbbbbbbbbbbbb"]));
+       
+       assert(Element.Class.has("test_2","classA-foobar"));
+       assert(Element.Class.has("test_2","classB-foobar"));
+       assert(!Element.Class.has("test_2","classA"));
+    }},
+
+    testElementClassHasAny: function() { with(this) {
+      assert(Element.Class.has_any("test_1","a"));
+      assert(Element.Class.has_any("test_1","dddd"));
+      assert(Element.Class.has_any("test_1","bbbbbbbbbbbb"));
+      assert(!Element.Class.has_any("test_1","bbbbbbbbbbb"));
+      assert(!Element.Class.has_any("test_1","bbbbbbbbbbbbbb"));
+
+      assert(Element.Class.has_any("test_1",["a"]));
+      assert(Element.Class.has_any("test_1",["dddd"]));
+      assert(Element.Class.has_any("test_1",["bbbbbbbbbbbb"]));
+      assert(!Element.Class.has_any("test_1",["bbbbbbbbbbb"]));
+      assert(!Element.Class.has_any("test_1",["bbbbbbbbbbbbbb"]));
+
+      assert(Element.Class.has_any("test_1",["x","a"]));
+      assert(Element.Class.has_any("test_1",["x","dddd"]));
+      assert(Element.Class.has_any("test_1",["x","bbbbbbbbbbbb"]));
+      assert(!Element.Class.has_any("test_1",["x","bbbbbbbbbbb"]));
+      assert(!Element.Class.has_any("test_1",["x","bbbbbbbbbbbbbb"]));
+
+      assert(Element.Class.has_any("test_1",["a","a"]));
+      assert(Element.Class.has_any("test_1",["a","dddd"]));
+      assert(Element.Class.has_any("test_1",["a","bbbbbbbbbbbb"]));
+      assert(Element.Class.has_any("test_1",["a","bbbbbbbbbbb"]));
+      assert(Element.Class.has_any("test_1",["a","bbbbbbbbbbbbbb"]));
+    }}
+
+  }, "testlog");
+// ]]>
+</script>
+</body>
+</html>
