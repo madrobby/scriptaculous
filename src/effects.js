@@ -130,7 +130,7 @@ Effect.Opacity = Class.create();
 Object.extend(Object.extend(Effect.Opacity.prototype, Effect.Base.prototype), {
   initialize: function(element) {
     this.element = $(element);
-    options = Object.extend({
+    var options = Object.extend({
       from: 0.0,
       to:   1.0
     }, arguments[1] || {});
@@ -176,7 +176,7 @@ Effect.Scale = Class.create();
 Object.extend(Object.extend(Effect.Scale.prototype, Effect.Base.prototype), {
   initialize: function(element, percent) {
     this.element = $(element)
-    options = Object.extend({
+    var options = Object.extend({
       scaleX: true,
       scaleY: true,
       scaleContent: true,
@@ -300,7 +300,7 @@ Object.extend(Object.extend(Effect.ScrollTo.prototype, Effect.Base.prototype), {
 /* ------------- prepackaged effects ------------- */
 
 Effect.Fade = function(element) {
-  options = Object.extend({
+  var options = Object.extend({
   from: 1.0,
   to:   0.0,
   afterFinish: function(effect) 
@@ -311,7 +311,7 @@ Effect.Fade = function(element) {
 }
 
 Effect.Appear = function(element) {
-  options = Object.extend({
+  var options = Object.extend({
   from: 0.0,
   to:   1.0,
   beforeStart: function(effect)  

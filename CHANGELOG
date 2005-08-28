@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed some missing var declarations in effects.js
+
 * Support for automatic unit testing on IE/Win [Jon Tirsen]
 
 * Added loading the text for the Ajax.InPlaceEditor from the server, more CSS support [Jon Tirsen]
