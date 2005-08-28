@@ -58,4 +58,5 @@ JavaScriptTestTask.new(:unittest) do |t|
   
   t.browser(:safari)
   t.browser(:firefox)
+  t.browser(:ie)
 end

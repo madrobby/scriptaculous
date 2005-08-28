@@ -60,17 +60,22 @@
       assertEqual("INPUT", document.forms[0].childNodes[1].tagName);
       assertEqual("submit", document.forms[0].childNodes[1].type);
       assertEqual("To be edited", document.forms[0].firstChild.value);
+      assert(Element.hasClassName(document.forms[0], 'inplaceeditor-form'),
+        "form doesn't have proper class: " + document.forms[0].className);
 
       Event.simulateMouse(document.forms[0].childNodes[1],'click');
       
       assertVisible($('tobeedited'));
       assertEqual("Saving...", $('tobeedited').innerHTML);
       assertEqual("transparent", Element.getStyle('tobeedited','background-color'));
+      assert(Element.hasClassName($('tobeedited'), 'inplaceeditor-saving'),
+        "doesn't have saving class");
 
       wait(1000, function() {
         assertEqual("Server received: To be edited", $('tobeedited').innerHTML);
         assertNull(document.forms[0]);
         assertVisible($('tobeedited'));
+        assert(!Element.hasClassName($('tobeedited'), 'inplaceeditor-saving'));
       });
     }},
     
@@ -85,6 +90,15 @@
     
         Event.simulateMouse('tobeedited','click');
       })
+    }},
+    
+    testLoadsTextFromServer: function() { with(this) {
+      inPlaceEditor.options.loadTextURL = '_ajax_inplaceeditor_text.html';
+      inPlaceEditor.enterEditMode();
+      assertEqual('Loading...', inPlaceEditor.form.value.value);
+      wait(1000, function() {
+        assertEqual('Text from server', inPlaceEditor.form.value.value);
+      });
     }},
     
     testDisposesProperly: function() { with(this) {

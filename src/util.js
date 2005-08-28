@@ -309,7 +309,7 @@ Element.Class = {
 
 String.prototype.parseQuery = function() {
   var str = this;
-  if(str[0] == '?') {
+  if(str.substring(0,1) == '?') {
     str = this.substring(1);
   }
   var result = {};

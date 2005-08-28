@@ -1,5 +1,9 @@
 *SVN*
 
+* Support for automatic unit testing on IE/Win [Jon Tirsen]
+
+* Added loading the text for the Ajax.InPlaceEditor from the server, more CSS support [Jon Tirsen]
+
 * Made builder_test.html unit test work with Safari, fixed (one of two) caching issues with javascripttest.rb, added ajax_autocompleter_test.html to Rakefile unittests
 
 * Fixed Element.Class getting false matches on class names like classA-foobar, added unit tests [Martin Bialasinski]

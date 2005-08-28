@@ -1,6 +1,9 @@
 // Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 //           (c) 2005 Ivan Krstic (http://blogs.law.harvard.edu/ivan)
 //           (c) 2005 Jon Tirsen (http://www.tirsen.com)
+// Contributors:
+//  Richard Livsey
+//  Rahul Bhargava
 // 
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -463,11 +466,14 @@ Ajax.InPlaceEditor.prototype = {
         new Effect.Highlight(element, {startcolor: this.options.highlightcolor});
       },
       onFailure: function(transport) {
-        alert("Error communicating with the server: " + transport.responseText);
+        alert("Error communicating with the server: " + transport.responseText.stripTags());
       },
       callback: function(form) {
         return Form.serialize(form);
       },
+      loadingText: 'Loading...',
+      savingClassName: 'inplaceeditor-saving',
+      formClassName: 'inplaceeditor-form',
       highlightcolor: Ajax.InPlaceEditor.defaultHighlightColor,
       highlightendcolor: "#FFFFFF",
       externalControl:	null,
@@ -520,6 +526,7 @@ Ajax.InPlaceEditor.prototype = {
   getForm: function() {
     form = document.createElement("form");
     form.id = this.options.formId;
+    Element.addClassName(form, this.options.formClassName)
     form.onsubmit = this.onSubmit.bind(this);
 
     this.createEditField(form);
@@ -566,7 +573,24 @@ Ajax.InPlaceEditor.prototype = {
     }
   },
   getText: function() {
-    return this.element.innerHTML;
+    if (this.options.loadTextURL) {
+      this.loadExternalText();
+      return this.options.loadingText;
+    } else {
+      return this.element.innerHTML;
+    }
+  },
+  loadExternalText: function() {
+    new Ajax.Request(
+      this.options.loadTextURL,
+      {
+        asynchronous: true,
+        onComplete: this.onLoadedExternalText.bind(this)
+      }
+    );
+  },
+  onLoadedExternalText: function(transport) {
+    this.form.value.value = transport.responseText.stripTags();
   },
   onclickCancel: function() {
     this.onComplete();
@@ -612,6 +636,7 @@ Ajax.InPlaceEditor.prototype = {
   showSaving: function() {
     this.oldInnerHTML = this.element.innerHTML;
     this.element.innerHTML = this.options.savingText;
+    Element.addClassName(this.element, this.options.savingClassName);
     this.element.style.backgroundColor = this.originalBackground;
     Element.show(this.element);
   },
@@ -642,10 +667,7 @@ Ajax.InPlaceEditor.prototype = {
     });
   },
   leaveEditMode: function() {
-    if(this.savingText) {
-      Element.remove(this.savingText);
-      this.savingText = null;
-    }
+    Element.removeClassName(this.element, this.options.savingClassName);
     this.removeForm();
     this.leaveHover();
     this.element.style.backgroundColor = this.originalBackground;
