@@ -1,5 +1,11 @@
 *SVN*
 
+* Fixed a problem with autocompleting update divs not correctly positioned inside positioned elements [thx to Jonathan Feinberg]
+
+* Workaround for a Safari bug on absolutely positioned children of the BODY element
+
+* Added test/run_functional_test.html to more easily find your way around in the functional tests
+
 * Fixed some missing var declarations in effects.js
 
 * Support for automatic unit testing on IE/Win [Jon Tirsen]

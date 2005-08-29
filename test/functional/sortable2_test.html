@@ -86,5 +86,32 @@
 // ]]>
 </script>
 
+<h2>Ghosting (inside position:relative container)</h2>
+<div style="position:relative;left:100px;top:-5px;">
+<ul id="testlist3" class="testlist">
+<li id="item_17"><img src="icon.png" alt=""/> Lorem ipsum dolor</li>
+<li id="item_18"><img src="icon.png" alt=""/> sit amet</li>
+<li id="item_19"><img src="icon.png" alt=""/> consectetur adipisicing</li>
+<li id="item_20"><img src="icon.png" alt=""/> elit</li>
+<li id="item_21"><img src="icon.png" alt=""/> sed do eiusmod</li>
+<li id="item_22"><img src="icon.png" alt=""/> tempor incididunt</li>
+<li id="item_23"><img src="icon.png" alt=""/> ut labore et dolore</li>
+<li id="item_24"><img src="icon.png" alt=""/> magna aliqua</li>
+</ul>
+</div>
+<p id="testlist3_serialize">(waiting for onChange)</p>
+
+<script type="text/javascript" language="javascript" charset="utf-8">
+// <![CDATA[
+  Sortable.create('testlist3',{ghosting:true,constraint:false,
+    onUpdate:function(sortable){alert(Sortable.serialize(sortable))},
+    onChange:function(element){$('testlist3_serialize').innerHTML = Sortable.serialize(element.parentNode)}
+  });
+// ]]>
+</script>
+
+
+<div id="debug"></div>
+
 </body>
 </html>

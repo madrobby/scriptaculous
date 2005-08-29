@@ -171,12 +171,46 @@ Element.collectTextNodesIgnoreClass = function(element, ignoreclass) {
 
 /*--------------------------------------------------------------------------*/
 
+Position.positionedOffset = function(element) {
+  var valueT = 0, valueL = 0;
+  do {
+    valueT += element.offsetTop  || 0;
+    valueL += element.offsetLeft || 0;
+    element = element.offsetParent;
+    if (element) {
+      p = Element.getStyle(element,'position');
+      if(p == 'relative' || p == 'absolute') break;
+    }
+  } while (element);
+  return [valueL, valueT];
+}
+
+// Safari returns margins on body which is incorrect if the child is absolutely positioned.
+// for performance reasons, we create a specialized version of Position.positionedOffset for
+// Safari only
+
+if(navigator.appVersion.indexOf('AppleWebKit')>0) {
+  Position.cumulativeOffset = function(element) {
+    var valueT = 0, valueL = 0;
+    do {
+      valueT += element.offsetTop  || 0;
+      valueL += element.offsetLeft || 0;
+      
+      if (element.offsetParent==document.body) 
+        if (Element.getStyle(element,'position')=='absolute') break;
+        
+      element = element.offsetParent;
+    } while (element);
+    return [valueL, valueT];
+  }
+}
+
 Position.absolutize = function(element) {
   element = $(element);
   if(element.style.position=='absolute') return;
   Position.prepare();
 
-  var offsets = Position.cumulativeOffset(element);
+  var offsets = Position.positionedOffset(element);
   var top     = offsets[1];
   var left    = offsets[0];
   var width   = element.clientWidth;
