@@ -39,6 +39,7 @@ class FirefoxBrowser < Browser
   def visit(url)
     applescript('tell application "Firefox" to Get URL "' + url + '"') if macos? 
     system("#{@path} #{url}") if windows? 
+    system("firefox #{url}") if linux?
   end
 
   def to_s
@@ -95,6 +96,20 @@ class IEBrowser < Browser
 
   def to_s
     "Internet Explorer"
+  end
+end
+
+class KonquerorBrowser < Browser
+  def supported?
+    linux?
+  end
+  
+  def visit(url)
+    system("kfmclient openURL #{url}")
+  end
+  
+  def to_s
+    "Konqueror"
   end
 end
 
@@ -176,6 +191,8 @@ class JavaScriptTestTask < ::Rake::TaskLib
           SafariBrowser.new
         when :ie
           IEBrowser.new
+        when :konqueror
+          KonquerorBrowser.new
         else
           browser
       end

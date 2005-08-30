@@ -312,11 +312,21 @@ Test.Unit.Assertions.prototype = {
   },
   assertNotNull: function(object) {
     var message = arguments[1] || 'assertNotNull';
-    this.assert(object != null);
+    this.assert(object != null, message);
   },
   assertInstanceOf: function(expected, actual) {
-    var message = arguments[1] || 'assertInstanceOf';
-    this.assert(actual instanceof expected);    
+    var message = arguments[2] || 'assertInstanceOf';
+    try { 
+      (actual instanceof expected) ? this.pass() : 
+      this.fail(message + ": object was not an instance of the expected type"); }
+    catch(e) { this.error(e); } 
+  },
+  assertNotInstanceOf: function(expected, actual) {
+    var message = arguments[2] || 'assertNotInstanceOf';
+    try { 
+      !(actual instanceof expected) ? this.pass() : 
+      this.fail(message + ": object was an instance of the not expected type"); }
+    catch(e) { this.error(e); } 
   },
   _isVisible: function(element) {
     element = $(element);

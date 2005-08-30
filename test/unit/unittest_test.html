@@ -46,6 +46,28 @@
 // <![CDATA[
 
   new Test.Unit.Runner({
+    
+    testAssertEqual: function() { with(this) {
+      assertEqual(0, 0);
+      assertEqual(0, 0, "test");
+      
+      assertEqual("a", "a");
+      assertEqual("a", "a", "test");
+      
+      assertNotEqual(0, 1);
+      assertNotEqual("a","b");
+      assertNotEqual({},{});
+      assertNotEqual([],[]);
+      assertNotEqual([],{});
+    }},
+    
+    testAssertIntanceOf: function() { with(this) {
+      assertInstanceOf(Effect.Opacity, new Effect.Opacity('testcss1',{sync:true}));
+      assertNotInstanceOf(String, new Effect.Opacity('testcss1',{sync:true}));
+      
+      // note: fails with firefox 1.0.X (bug, fixed in Deer Park)
+      assertNotInstanceOf(Effect.Parallel, new Effect.Opacity('testcss1',{sync:true}), "(note: fails with firefox 1.0.X, fixed in Deer Park)");   
+    }},
   
     testElementCleanWhitespace: function() { with(this) {
       Element.cleanWhitespace("test_2");

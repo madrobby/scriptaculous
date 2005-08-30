@@ -1,5 +1,9 @@
 *SVN*
 
+* Added support for Firefox and Konqueror automatic unit testing on Linux [Michael Schuerig]
+
+* Added basic unit test files for Effects, updated unit testing tests
+
 * Fix typo in lib/prototype.js fix in R2069 (whoops)
 
 * Added unit test for Position.clone
