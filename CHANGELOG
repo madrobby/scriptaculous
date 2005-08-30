@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix typo in lib/prototype.js fix in R2069 (whoops)
+
 * Added unit test for Position.clone
 
 * Made the Postition.cumulative override recognize KHTML and AppleWebKit
