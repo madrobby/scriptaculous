@@ -61,7 +61,7 @@
       assertNotEqual([],{});
     }},
     
-    testAssertIntanceOf: function() { with(this) {
+    testAssertInstanceOf: function() { with(this) {
       assertInstanceOf(Effect.Opacity, new Effect.Opacity('testcss1',{sync:true}));
       assertNotInstanceOf(String, new Effect.Opacity('testcss1',{sync:true}));
       
@@ -69,11 +69,6 @@
       assertNotInstanceOf(Effect.Parallel, new Effect.Opacity('testcss1',{sync:true}), "(note: fails with firefox 1.0.X, fixed in Deer Park)");   
     }},
   
-    testElementCleanWhitespace: function() { with(this) {
-      Element.cleanWhitespace("test_2");
-      assertEqual(1,$("test_2").firstChild.nodeType);
-    }},
-    
     testSortableCreate: function() { with(this) {
       assertEqual(0,Draggables.observers.length);
       
@@ -99,15 +94,6 @@
       effect.render(1.0);
       assertEqual(100, parseFloat($("testmoveby").style.top));
       assertEqual(10, parseFloat($("testmoveby").style.left));
-    }},
-    
-    testElementGetStyle: function() { with(this) {
-      assertEqual("11px", Element.getStyle('testcss1','font-size'));
-      assertEqual("rgb(255, 0, 0)", Element.getStyle('testcss1','color'));
-      
-      // fail on safari 
-      assertEqual("12px", Element.getStyle('testcss2','font-size'));
-      assertEqual("rgb(0, 255, 0)", Element.getStyle('testcss2','color'));
     }}
       
   }, "testlog");

@@ -4,13 +4,15 @@
 Object.inspect = function(obj) {
   var info = [];
   
-  if(typeof obj=="string" || 
-     typeof obj=="number") {
+  if(typeof obj in ["string","number"]) {
     return obj;
   } else {
     for(property in obj)
       if(typeof obj[property]!="function")
-        info.push(property + ' => "' + obj[property] + '"');
+        info.push(property + ' => ' + 
+          (typeof obj[property] == "string" ?
+            '"' + obj[property] + '"' :
+            obj[property]));
   }
   
   return ("'" + obj + "' #" + typeof obj + 

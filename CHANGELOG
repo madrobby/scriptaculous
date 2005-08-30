@@ -1,5 +1,7 @@
 *SVN*
 
+* Finetuning unittest.js + even more unit tests
+
 * Added support for Firefox and Konqueror automatic unit testing on Linux [Michael Schuerig]
 
 * Added basic unit test files for Effects, updated unit testing tests

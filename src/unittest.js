@@ -91,7 +91,10 @@ Test.Unit.inspect = function(obj) {
   } else {
     for(property in obj)
       if(typeof obj[property]!="function")
-        info.push(property + ' => "' + obj[property] + '"');
+        info.push(property + ' => ' + 
+          (typeof obj[property] == "string" ?
+            '"' + obj[property] + '"' :
+            obj[property]));
   }
 
   return ("'" + obj + "' #" + typeof obj + 
@@ -144,7 +147,7 @@ Test.Unit.Logger.prototype = {
     this.loglines = $('loglines');
   },
   _toHTML: function(txt) {
-    return txt.escapeHTML().replace(/\n/,"<br/>");
+    return txt.escapeHTML().replace(/\n/g,"<br/>");
   }
 }
 
