@@ -1,6 +1,14 @@
 *SVN*
 
-* More positioning stuff and fixes, expanded Element.clone [thx to Michael Schuerig]
+* Added unit test for Position.clone
+
+* Made the Postition.cumulative override recognize KHTML and AppleWebKit
+
+* Fix the "hide form controls" iframe fix on the Autocompleter on Internet Explorer
+
+*V1.5.0_pre3*
+
+* More positioning fixes, expanded Element.clone [thx to Michael Schuerig]
 
 * Fixed some JavaScript warnings about redeclared vars [Courtenay]
 

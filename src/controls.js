@@ -99,7 +99,7 @@ Autocompleter.Base.prototype = {
     if(!this.iefix && (navigator.appVersion.indexOf('MSIE')>0) && (Element.getStyle(this.update, 'position')=='absolute')) {
       new Insertion.After(this.update, 
        '<iframe id="' + this.update.id + '_iefix" '+
-       'style="display:none;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);" ' +
+       'style="display:none;position:absolute;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);" ' +
        'src="javascript:false;" frameborder="0" scrolling="no"></iframe>');
       this.iefix = $(this.update.id+'_iefix');
     }

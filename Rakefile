@@ -4,7 +4,7 @@ require 'rake'
 
 PKG_NAME        = 'scriptaculous-js'
 PKG_BUILD       = ENV['PKG_BUILD'] ? '.' + ENV['PKG_BUILD'] : ''
-PKG_VERSION     = '1.5_pre2' + PKG_BUILD
+PKG_VERSION     = '1.5_pre3' + PKG_BUILD
 PKG_FILE_NAME   = "#{PKG_NAME}-#{PKG_VERSION}"
 PKG_DESTINATION = ENV["RAILS_PKG_DESTINATION"] || "dist"
 
@@ -55,6 +55,7 @@ JavaScriptTestTask.new(:unittest) do |t|
   t.run("/test/unit/string_test.html")
   t.run("/test/unit/builder_test.html")
   t.run("/test/unit/element_class_test.html")
+  t.run("/test/unit/position_clone_test.html")
   
   t.browser(:safari)
   t.browser(:firefox)

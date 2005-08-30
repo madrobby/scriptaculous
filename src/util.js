@@ -187,9 +187,9 @@ Position.positionedOffset = function(element) {
 
 // Safari returns margins on body which is incorrect if the child is absolutely positioned.
 // for performance reasons, we create a specialized version of Position.positionedOffset for
-// Safari only
+// KHTML/WebKit only
 
-if(navigator.appVersion.indexOf('AppleWebKit')>0) {
+if(/Konqueror|Safari|KHTML/.test(navigator.userAgent)) {
   Position.cumulativeOffset = function(element) {
     var valueT = 0, valueL = 0;
     do {
@@ -258,8 +258,14 @@ Position.clone = function(source, target) {
 
   // find coordinate system to use
   target = $(target);
-  var parent = Position.offsetParent(target);
-  var delta = Position.page(parent);
+  var delta = [0, 0];
+  var parent = null;
+  // delta [0,0] will do fine with position: fixed elements, 
+  // position:absolute needs offsetParent deltas
+  if (Element.getStyle(target,'position') == 'absolute') {
+    parent = Position.offsetParent(target);
+    delta = Position.page(parent);
+  }
   
   // correct by body offsets (fixes Safari)
   if (parent==document.body) {
