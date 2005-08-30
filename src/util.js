@@ -205,6 +205,75 @@ if(navigator.appVersion.indexOf('AppleWebKit')>0) {
   }
 }
 
+Position.page = function(forElement) {
+  if(element == document.body) return [0, 0];
+  var valueT = 0, valueL = 0;
+
+  var element = forElement;
+  do {
+    valueT += element.offsetTop  || 0;
+    valueL += element.offsetLeft || 0;
+
+    // Safari fix
+    if (element.offsetParent==document.body)
+      if (Element.getStyle(element,'position')=='absolute') break;
+      
+  } while (element = element.offsetParent);
+
+  var element = forElement;
+  do {
+    valueT -= element.scrollTop  || 0;
+    valueL -= element.scrollLeft || 0;    
+  } while (element = element.parentNode);
+
+  return [valueL, valueT];
+}
+
+// elements with display:none don't return an offsetParent, 
+// fall back to  manual calculation
+Position.offsetParent = function(element) {
+  if(element.offsetParent) return element.offsetParent;
+  if(element == document.body) return element;
+  
+  while ((element = element.parentNode) && element != document.body)
+    if (Element.getStyle(element,'position')!='static')
+      return element;
+  
+  return document.body;
+}
+
+Position.clone = function(source, target) {
+  var options = Object.extend({
+    setLeft:    true,
+    setTop:     true,
+    setWidth:   true,
+    setHeight:  true,
+    offsetTop:  0,
+    offsetLeft: 0
+  }, arguments[2] || {})
+  
+  // find page position of source
+  source = $(source);
+  var p = Position.page(source);
+
+  // find coordinate system to use
+  target = $(target);
+  var parent = Position.offsetParent(target);
+  var delta = Position.page(parent);
+  
+  // correct by body offsets (fixes Safari)
+  if (parent==document.body) {
+    delta[0] -= document.body.offsetLeft;
+    delta[1] -= document.body.offsetTop; 
+  }
+
+  // set position
+  if(options.setLeft)   target.style.left  = (p[0] - delta[0] + options.offsetLeft) + "px";
+  if(options.setTop)    target.style.top   = (p[1] - delta[1] + options.offsetTop) + "px";
+  if(options.setWidth)  target.style.width = source.offsetWidth + "px";
+  if(options.setHeight) target.style.height = source.offsetHeight + "px";
+}
+
 Position.absolutize = function(element) {
   element = $(element);
   if(element.style.position=='absolute') return;

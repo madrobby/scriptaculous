@@ -74,10 +74,7 @@ Autocompleter.Base.prototype = {
     function(element, update){ 
       if(!update.style.position || update.style.position=='absolute') {
         update.style.position = 'absolute';
-        var offsets = Position.positionedOffset(element);
-        update.style.left = offsets[0] + 'px';
-        update.style.top  = (offsets[1] + element.offsetHeight) + 'px';
-        update.style.width = element.offsetWidth + 'px';
+        Position.clone(element, update, {setHeight: false, offsetTop: element.offsetHeight});
       }
       new Effect.Appear(update,{duration:0.15});
     };

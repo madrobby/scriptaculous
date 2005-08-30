@@ -337,6 +337,7 @@ Effect.Puff = function(element) {
 }
 
 Effect.BlindUp = function(element) {
+  element = $(element);
   Element.makeClipping(element);
   return new Effect.Scale(element, 0, 
     Object.extend({ scaleContent: false, 
@@ -351,7 +352,8 @@ Effect.BlindUp = function(element) {
 }
 
 Effect.BlindDown = function(element) {
-  $(element).style.height   = '0px';
+  element = $(element);
+  element.style.height = '0px';
   Element.makeClipping(element);
   Element.show(element);
   return new Effect.Scale(element, 100, 
@@ -562,6 +564,7 @@ Effect.Shrink = function(element) {
 }
 
 Effect.Pulsate = function(element) {
+  element = $(element);
   var options    = arguments[1] || {};
   var transition = options.transition || Effect.Transitions.sinoidal;
   var reverser   = function(pos){ return transition(1-Effect.Transitions.pulse(pos)) };
@@ -573,7 +576,8 @@ Effect.Pulsate = function(element) {
 }
 
 Effect.Fold = function(element) {
- $(element).style.overflow = 'hidden';
+ element = $(element);
+ element.style.overflow = 'hidden';
  return new Effect.Scale(element, 5, Object.extend({   
    scaleContent: false,
    scaleTo: 100,
@@ -591,7 +595,7 @@ Effect.Fold = function(element) {
 // new: Element.setContentZoom(element, percent) 
 
 Element.setContentZoom = function(element, percent) {
-  var element = $(element);
+  element = $(element);
   element.style.fontSize = (percent/100) + "em";  
   if(navigator.appVersion.indexOf('AppleWebKit')>0) window.scrollBy(0,0);
 }

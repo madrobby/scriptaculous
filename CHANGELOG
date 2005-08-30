@@ -1,5 +1,9 @@
 *SVN*
 
+* More positioning stuff and fixes, expanded Element.clone [thx to Michael Schuerig]
+
+* Fixed some JavaScript warnings about redeclared vars [Courtenay]
+
 * Fixed a problem with autocompleting update divs not correctly positioned inside positioned elements [thx to Jonathan Feinberg]
 
 * Workaround for a Safari bug on absolutely positioned children of the BODY element
