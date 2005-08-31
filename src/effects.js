@@ -94,7 +94,7 @@ Effect.Base.prototype = {
     this.options = Object.extend({
       transition: Effect.Transitions.sinoidal,
       duration:   1.0,   // seconds
-      fps:        25.0,  // max. 40fps
+      fps:        25.0,  
       sync:       false, // true for combining
       from:       0.0,
       to:         1.0,
@@ -108,12 +108,17 @@ Effect.Base.prototype = {
     this.finishOn     = this.startOn + (this.options.duration*1000);
     if(this.options.beforeStart) this.options.beforeStart(this);
     if(!this.options.sync) 
-      setTimeout(this.loop.bind(this), this.options.delay*1000); 
+      if(this.options.delay > 0) {
+        this.timeout = setTimeout(this.loop.bind(this), this.options.delay*1000);
+      } else {
+        this.loop();
+      }
   },
   loop: function() {
     var timePos = new Date().getTime();
     if(timePos >= this.startOn) {
       if(timePos >= this.finishOn) {
+        this.cancel();
         this.render(1.0);
         if(this.finish) this.finish(); 
         if(this.options.afterFinish) this.options.afterFinish(this);
@@ -126,7 +131,8 @@ Effect.Base.prototype = {
         this.currentFrame = frame;
       }
     }
-    setTimeout(this.loop.bind(this), 25); 
+    if(!this.interval) 
+      this.interval = setInterval(this.loop.bind(this), 1000/this.options.fps); 
   },
   render: function(pos) {
     if(this.options.transition) pos = this.options.transition(pos);
@@ -137,7 +143,8 @@ Effect.Base.prototype = {
     if(this.options.afterUpdate) this.options.afterUpdate(this);  
   },
   cancel: function() {
-    if(this.timeout) clearTimeout(this.timeout);
+    if(this.timeout)  clearTimeout(this.timeout);
+    if(this.interval) clearInterval(this.interval);
   }
 }
 

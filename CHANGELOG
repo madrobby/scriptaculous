@@ -1,5 +1,7 @@
 *SVN*
 
+* Changed the implemention of Effect.Base to use setInterval
+
 * Set version number to 1.5_pre4_trunk
 
 * Added experimental Effect.Text function that allows to start delayed text effects, see test/functional/texteffects_test.html.
