@@ -56,6 +56,36 @@ Effect.Transitions.full = function(pos) {
   return 1;
 }
 
+/* ------------- effect utilities ---------- */
+
+Effect.tagifyText = function(element) {
+  element = $(element);
+  var children = element.childNodes;
+  for (var i = 0; i < children.length; i++)
+    if(children[i].nodeType==3) {
+      var child = children[i];
+      for (var j = 0; j < child.nodeValue.length; j++)
+        element.insertBefore(
+          Builder.node('span',{style:'position:relative'},
+            child.nodeValue[j]), child);
+      Element.remove(child);
+    }
+}
+
+Effect.Text = function(element, effect) {
+  element = $(element);
+  var options = Object.extend({
+    speed: 0.1,
+    delay: 0.0
+  }, arguments[2] || {});
+  var speed = options.speed;
+  var delay = options.delay;
+  
+  for(var i = 0; i < element.childNodes.length; i++)
+    new effect(element.childNodes[i], 
+      Object.extend(options, {delay: delay + i*speed}));
+}
+
 /* ------------- core effects ------------- */
 
 Effect.Base = function() {};
@@ -64,35 +94,39 @@ Effect.Base.prototype = {
     this.options = Object.extend({
       transition: Effect.Transitions.sinoidal,
       duration:   1.0,   // seconds
-      fps:        25.0,  // max. 100fps
+      fps:        25.0,  // max. 40fps
       sync:       false, // true for combining
       from:       0.0,
-      to:         1.0
+      to:         1.0,
+      delay:      0.0
     }, options || {});
   },
   start: function(options) {
     this.setOptions(options || {});
     this.currentFrame = 0;
-    this.startOn      = new Date().getTime();
+    this.startOn      = new Date().getTime() + (this.options.delay*1000);
     this.finishOn     = this.startOn + (this.options.duration*1000);
     if(this.options.beforeStart) this.options.beforeStart(this);
-    if(!this.options.sync) this.loop();  
+    if(!this.options.sync) 
+      setTimeout(this.loop.bind(this), this.options.delay*1000); 
   },
   loop: function() {
     var timePos = new Date().getTime();
-    if(timePos >= this.finishOn) {
-      this.render(1.0);
-      if(this.finish) this.finish(); 
-      if(this.options.afterFinish) this.options.afterFinish(this);
-      return;  
+    if(timePos >= this.startOn) {
+      if(timePos >= this.finishOn) {
+        this.render(1.0);
+        if(this.finish) this.finish(); 
+        if(this.options.afterFinish) this.options.afterFinish(this);
+        return;  
+      }
+      var pos   = (timePos - this.startOn) / (this.finishOn - this.startOn);
+      var frame = Math.round(pos * this.options.fps * this.options.duration);
+      if(frame > this.currentFrame) {
+        this.render(pos);
+        this.currentFrame = frame;
+      }
     }
-    var pos   = (timePos - this.startOn) / (this.finishOn - this.startOn);
-    var frame = Math.round(pos * this.options.fps * this.options.duration);
-    if(frame > this.currentFrame) {
-      this.render(pos);
-      this.currentFrame = frame;
-    }
-    this.timeout = setTimeout(this.loop.bind(this), 10);
+    setTimeout(this.loop.bind(this), 25); 
   },
   render: function(pos) {
     if(this.options.transition) pos = this.options.transition(pos);
@@ -297,7 +331,7 @@ Object.extend(Object.extend(Effect.ScrollTo.prototype, Effect.Base.prototype), {
   }
 });
 
-/* ------------- prepackaged effects ------------- */
+/* ------------- combination effects ------------- */
 
 Effect.Fade = function(element) {
   var options = Object.extend({
@@ -390,10 +424,11 @@ Effect.DropOut = function(element) {
   return new Effect.Parallel(
     [ new Effect.MoveBy(element, 100, 0, { sync: true }), 
       new Effect.Opacity(element, { sync: true, to: 0.0, from: 1.0 } ) ], 
-    { duration: 0.5, 
-     afterFinish: function(effect)
-       { Element.hide(effect.effects[0].element); } 
-    });
+    Object.extend(
+      { duration: 0.5, 
+        afterFinish: function(effect)
+          { Element.hide(effect.effects[0].element); } 
+      }, arguments[1] || {}));
 }
 
 Effect.Shake = function(element) {

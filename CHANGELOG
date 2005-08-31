@@ -1,5 +1,13 @@
 *SVN*
 
+* Set version number to 1.5_pre4_trunk
+
+* Added experimental Effect.Text function that allows to start delayed text effects, see test/functional/texteffects_test.html.
+
+* Added experimental Effect.tagifyText(element) which wraps an elements text nodes characters in relatively positioned span elements
+
+* Added "delay" option to Effect.Base to start an effect only after a specified delay
+
 * Finetuning unittest.js + even more unit tests
 
 * Added support for Firefox and Konqueror automatic unit testing on Linux [Michael Schuerig]
@@ -30,7 +38,7 @@
 
 * Support for automatic unit testing on IE/Win [Jon Tirsen]
 
-* Added loading the text for the Ajax.InPlaceEditor from the server, more CSS support [Jon Tirsen]
+* Added loading the text for the Ajax.InPlaceEditor from the server, more CSS support [Richard Livsey, Jon Tirsen]
 
 * Made builder_test.html unit test work with Safari, fixed (one of two) caching issues with javascripttest.rb, added ajax_autocompleter_test.html to Rakefile unittests
 
