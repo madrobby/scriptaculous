@@ -1,5 +1,7 @@
 *SVN*
 
+* Changed implementation of Builder to an innerHTML-based approach to make it work with IE6 (note: removed special "style" handling for now)
+
 * Changed non-sync Effects to use a common setInterval call for better timing and page update speeds. See the new Effect.Queue object. 
 
 * Fixed a problem with setting opacity in Effect.Opacity to very small values

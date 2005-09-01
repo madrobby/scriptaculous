@@ -50,41 +50,37 @@ if (!Array.prototype.flatten) {
 
 var Builder = {
   node: function(elementName) {
-    var element = document.createElement(elementName);
+    var element = document.createElement('div');
+    element.innerHTML = 
+      "<" + elementName + "></" + elementName + ">";
 
     // attributes (or text)
-
-    if(arguments[1]) {
+    if(arguments[1])
       if(this._isStringOrNumber(arguments[1]) ||
-         (arguments[1] instanceof Array))
-        this._children(element, arguments[1]);
-      else
-        this._attributes(element, arguments[1]);
-    }
+        (arguments[1] instanceof Array)) {
+          this._children(element.firstChild, arguments[1]);
+        } else {
+          var attrs = this._attributes(arguments[1]);
+          if(attrs.length) 
+            element.innerHTML = "<" +elementName + " " +
+              attrs + "></" + elementName + ">";
+        } 
 
     // text, or array of children
     if(arguments[2])
-      this._children(element, arguments[2]);
+      this._children(element.firstChild, arguments[2]);
 
-     return element;
+     return element.firstChild;
   },
   _text: function(text) {
      return document.createTextNode(text);
   },
-  _attributes: function(element, attributes) {
-    for(attribute in attributes) {
-      var value = attributes[attribute];
-      if(attribute=='style' && typeof value == 'object') {
-        var style = element.style;
-        for (styleProp in value) {
-          style[styleProp] = value[styleProp];
-        }
-      } else if(this._isStringOrNumber(attributes[attribute])) {
-        element.setAttribute(
-          attribute=='className' ? 'class' : attribute,
-          value);
-      }
-    }
+  _attributes: function(attributes) {
+    var attrs = [];
+    for(attribute in attributes)
+      attrs.push((attribute=='className' ? 'class' : attribute) +
+          '="' + attributes[attribute].toString().escapeHTML() + '"');
+    return attrs.join(" ");
   },
   _children: function(element, children) {
     if(typeof children=='object') { // array can hold nodes and text
