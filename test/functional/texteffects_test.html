@@ -5,12 +5,12 @@
     <script type="text/javascript" src="../../lib/prototype.js"></script> 
     <script type="text/javascript" src="../../src/scriptaculous.js"></script>
     <style>
-      div#many_test span { font-size:40pt; color: white; background:black; width:100px; height:100px; float:left; position: relative; }
+      div#many_test span { font-size:40pt; color: white; background:black; width:50px; height:50px; float:left; position: relative; }
     </style>
 </head>    
 <body>
   <p style="color:red">
-    Note: highly experimental for now. Probably doesn't work in IE. Also note that Safari 2.0.1 seems to have trouble with getting setInterval calls right. Firefox excels here.
+    Note: highly experimental for now. Probably doesn't work in IE. <strike>Also note that Safari 2.0.1 seems to have trouble with getting setInterval calls right.</strike> (changed effects code to use a unified queue system for effects timing, whoa!). Firefox excels here.
   </p>
   <h1 id="h1_text" style="font:20pt Lucida Grande;color:#fff;text-align:center;background-color:#482;">
     Maybe this is useful? <img src="icon.png" alt="blah"/> Dunno...
@@ -28,11 +28,14 @@
     <a href="#" onclick="Effect.Text('p_text', Effect.DropOut, {speed:0.07, afterFinish:function(){}}); return false;">DropOut</a>
   </p>
   
-  <div id="many_test">123456789012345678901234567890</div>
+  <div id="many_test" style="height:50px;">1234567890ABCDEFG</div>
+  <div style="clear:both;"> </div>
   
-  <a href="#" onclick="Effect.Text('many_test', Effect.Appear,  {speed:0.01, afterFinish:function(){}}); return false;">Appear</a> |
-  <a href="#" onclick="Effect.Text('many_test', Effect.Fade,    {speed:0.05, afterFinish:function(){}}); return false;">Fade</a> |
-  <a href="#" onclick="Effect.Text('many_test', Effect.DropOut, {speed:0.07, afterFinish:function(){}}); return false;">DropOut</a>
+  <a href="#" onclick="Effect.Text('many_test', Effect.Appear,  {speed:0.5, duration:3.0, afterFinish:function(){}}); return false;">Appear</a> |
+  <a href="#" onclick="Effect.Text('many_test', Effect.Fade, {speed:0.05, afterFinish:function(){}}); return false;">Fade</a> |
+  <a href="#" onclick="Effect.Text('many_test', Effect.DropOut, {speed:0.07, afterFinish:function(){}}); return false;">DropOut</a> |
+   <a href="#" onclick="Effect.Text('many_test', Effect.Highlight, {speed:0.07, afterFinish:function(){}}); return false;">Highlight</a> |
+  <a href="#" onclick="Effect.Text('many_test', Effect.BlindDown, {speed:0.15, afterFinish:function(){}}); return false;">BlindDown</a>
   
   <script type="text/javascript" language="javascript">
   // <![CDATA[
@@ -42,7 +45,7 @@
   // ]]>
   </script>
 
-  
+  <p id="debug"> <p>
 
 </body>
 </html>

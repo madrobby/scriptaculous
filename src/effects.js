@@ -83,10 +83,34 @@ Effect.Text = function(element, effect) {
   
   for(var i = 0; i < element.childNodes.length; i++)
     new effect(element.childNodes[i], 
-      Object.extend(options, {delay: delay + i*speed}));
+      Object.extend(options, { delay: delay + i*speed }));
 }
 
 /* ------------- core effects ------------- */
+
+Effect.Queue = {
+  effects:  [],
+  interval: null,
+  add: function(effect) {
+    this.effects.push(effect);
+    if(!this.interval) 
+      this.interval = setInterval(this.loop.bind(this), 40);
+  },
+  remove: function(effect) {
+    for(var i = 0; i < this.effects.length; i++)
+      if(this.effects[i]==effect) this.effects.splice(i,1);
+    if(this.effects.length == 0) {
+      clearInterval(this.interval);
+      this.interval = null;
+    }
+  },
+  loop: function() {
+    var timePos = new Date().getTime();
+    for(var i = 0; i < this.effects.length; i++) {
+      this.effects[i].loop(timePos);
+    }
+  }
+}
 
 Effect.Base = function() {};
 Effect.Base.prototype = {
@@ -94,7 +118,7 @@ Effect.Base.prototype = {
     this.options = Object.extend({
       transition: Effect.Transitions.sinoidal,
       duration:   1.0,   // seconds
-      fps:        25.0,  
+      fps:        25.0,  // max. 25fps due to Effect.Queue implementation
       sync:       false, // true for combining
       from:       0.0,
       to:         1.0,
@@ -107,15 +131,9 @@ Effect.Base.prototype = {
     this.startOn      = new Date().getTime() + (this.options.delay*1000);
     this.finishOn     = this.startOn + (this.options.duration*1000);
     if(this.options.beforeStart) this.options.beforeStart(this);
-    if(!this.options.sync) 
-      if(this.options.delay > 0) {
-        this.timeout = setTimeout(this.loop.bind(this), this.options.delay*1000);
-      } else {
-        this.loop();
-      }
+    if(!this.options.sync) Effect.Queue.add(this);
   },
-  loop: function() {
-    var timePos = new Date().getTime();
+  loop: function(timePos) {
     if(timePos >= this.startOn) {
       if(timePos >= this.finishOn) {
         this.cancel();
@@ -131,8 +149,6 @@ Effect.Base.prototype = {
         this.currentFrame = frame;
       }
     }
-    if(!this.interval) 
-      this.interval = setInterval(this.loop.bind(this), 1000/this.options.fps); 
   },
   render: function(pos) {
     if(this.options.transition) pos = this.options.transition(pos);
@@ -143,8 +159,7 @@ Effect.Base.prototype = {
     if(this.options.afterUpdate) this.options.afterUpdate(this);  
   },
   cancel: function() {
-    if(this.timeout)  clearTimeout(this.timeout);
-    if(this.interval) clearInterval(this.interval);
+    if(!this.options.sync) Effect.Queue.remove(this);
   }
 }
 
@@ -181,6 +196,7 @@ Object.extend(Object.extend(Effect.Opacity.prototype, Effect.Base.prototype), {
     this.setOpacity(position);
   }, 
   setOpacity: function(opacity) {
+    if(opacity<0.0001) opacity = 0; // fix errors with things like 6.152242992829571e-8
     if(opacity==1.0) {
       this.element.style.opacity = '0.999999';
       this.element.style.filter  = null;
