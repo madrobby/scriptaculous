@@ -22,9 +22,43 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+var Effect = {
+  tagifyText: function(element) {
+    element = $(element);
+    var children = element.childNodes;
+    for (var i = 0; i < children.length; i++)
+      if(children[i].nodeType==3) {
+        var child = children[i];
+        for (var j = 0; j < child.nodeValue.length; j++)
+          element.insertBefore(
+            Builder.node('span',{style:'position:relative;zoom:1;'},
+              child.nodeValue.substr(j,1) == " " ? String.fromCharCode(160) : 
+              child.nodeValue.substr(j,1)), child);
+        Element.remove(child);
+      }
+  },
+  multiple: function(element, effect) {
+    if(((typeof element == 'object') || 
+        (typeof element == 'function')) && 
+       (element.length))
+      var elements = element;
+    else
+      var elements = $(element).childNodes;
+      
+    var options = Object.extend({
+      speed: 0.1,
+      delay: 0.0
+    }, arguments[2] || {});
+    var speed = options.speed;
+    var delay = options.delay;
 
-Effect = {}
-Effect2 = Effect; // deprecated
+    for(var i = 0; i < elements.length; i++)
+      new effect(elements[i], 
+        Object.extend(options, { delay: delay + i*speed }));
+  }
+};
+
+var Effect2 = Effect; // deprecated
 
 /* ------------- transitions ------------- */
 
@@ -54,36 +88,6 @@ Effect.Transitions.none = function(pos) {
 }
 Effect.Transitions.full = function(pos) {
   return 1;
-}
-
-/* ------------- effect utilities ---------- */
-
-Effect.tagifyText = function(element) {
-  element = $(element);
-  var children = element.childNodes;
-  for (var i = 0; i < children.length; i++)
-    if(children[i].nodeType==3) {
-      var child = children[i];
-      for (var j = 0; j < child.nodeValue.length; j++)
-        element.insertBefore(
-          Builder.node('span',{style:'position:relative'},
-            child.nodeValue[j]), child);
-      Element.remove(child);
-    }
-}
-
-Effect.Text = function(element, effect) {
-  element = $(element);
-  var options = Object.extend({
-    speed: 0.1,
-    delay: 0.0
-  }, arguments[2] || {});
-  var speed = options.speed;
-  var delay = options.delay;
-  
-  for(var i = 0; i < element.childNodes.length; i++)
-    new effect(element.childNodes[i], 
-      Object.extend(options, { delay: delay + i*speed }));
 }
 
 /* ------------- core effects ------------- */
@@ -179,7 +183,7 @@ Object.extend(Object.extend(Effect.Parallel.prototype, Effect.Base.prototype), {
   }
 });
 
-// Internet Explorer caveat: works only on elements the have
+// Internet Explorer caveat: works only on elements that have
 // a 'layout', meaning having a given width or height. 
 // There is no way to safely set this automatically.
 Effect.Opacity = Class.create();
