@@ -86,6 +86,19 @@
               // tests if removal of 'informal' nodes and HTML escaping works
               assertEqual('(GET <ME> INSTEAD)',$('ac_input').value);
               assertNotVisible('ac_update');
+              
+                // check cancelling with <ESC>
+                Event.simulateKeys('ac_input','abcdefg');
+                
+                wait(1000, function() { with(this) {
+                  assertVisible('ac_update');
+                  assertEqual('(GET <ME> INSTEAD)abcdefg', $('ac_input').value);
+                  
+                  Event.simulateKey('ac_input','keypress',{keyCode:Event.KEY_DOWN});
+                  Event.simulateKey('ac_input','keypress',{keyCode:Event.KEY_ESC});
+
+                  assertEqual('(GET <ME> INSTEAD)abcdefg', $('ac_input').value);
+                }});
             }});
           }});
         }});

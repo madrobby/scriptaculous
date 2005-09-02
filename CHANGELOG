@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed a problem with the Autocompleter when hitting ESC would select the entry in IE and redisplay the entries box in Safari
+
 * Fixed that the onDrop callback on Droppables didn't receive the dopped element as second parameter
 
 * Make check for correct Prototype version on loading script.aculo.us

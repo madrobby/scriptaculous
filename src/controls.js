@@ -134,6 +134,7 @@ Autocompleter.Base.prototype = {
        case Event.KEY_ESC:
          this.hide();
          this.active = false;
+         Event.stop(event);
          return;
        case Event.KEY_LEFT:
        case Event.KEY_RIGHT:
