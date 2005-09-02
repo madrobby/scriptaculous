@@ -5,8 +5,9 @@ Scriptaculous = {
     document.write('<script type="text/javascript" src="'+libraryName+'"></script>');
   },
   load: function() {
-    // fixme: check for prototype version number
-    if(typeof Prototype=='undefined') 
+    if((typeof Prototype=='undefined') ||
+      parseFloat(Prototype.Version.split(".")[0] + "." +
+                 Prototype.Version.split(".")[1]) < 1.4)
       throw("script.aculo.us requires the Prototype JavaScript framework >= 1.4.0");
     var scriptTags = document.getElementsByTagName("script");
     for(var i=0;i<scriptTags.length;i++) {

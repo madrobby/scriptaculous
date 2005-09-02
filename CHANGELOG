@@ -1,5 +1,9 @@
 *SVN*
 
+* Fixed that the onDrop callback on Droppables didn't receive the dopped element as second parameter
+
+* Make check for correct Prototype version on loading script.aculo.us
+
 * Changed implementation of Builder to an innerHTML-based approach to make it work with IE6 (note: removed special "style" handling for now)
 
 * Changed non-sync Effects to use a common setInterval call for better timing and page update speeds. See the new Effect.Queue object. 

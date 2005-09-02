@@ -6,7 +6,7 @@
 <script src="../../src/unittest.js" type="text/javascript"></script>
 </head>
 <style>
-  div.hoverclass {
+  div.hoverclass123 {
     border:1px solid red;
   }
 </style>
@@ -20,7 +20,7 @@
 ### DROP HERE ###
 </div>
 
-<script type="text/javascript">Droppables.add('cart', {onDrop:function(element){alert('w/o hoverclass, should be \'product_id\':' + encodeURIComponent(element.id))}})</script>
+<script type="text/javascript">Droppables.add('cart', {onDrop:function(element,dropon){alert('w/o hoverclass, should be \'product_id\':' + encodeURIComponent(element.id) + ', dropon should be \'cart\':' + dropon.id)}})</script>
 
 <br/>
 
@@ -35,7 +35,7 @@
 ### DROP HERE ###
 </div>
 
-<script type="text/javascript">Droppables.add('carth', {hoverclass:'hoverclass',onDrop:function(element){alert('w/ hoverclass: should be \'product_id\':' + encodeURIComponent(element.id))}})</script>
+<script type="text/javascript">Droppables.add('carth', {hoverclass:'hoverclass123',onDrop:function(element, dropon){alert('w/ hoverclass: should be \'product_id\':' + encodeURIComponent(element.id) + ', dropon should be \'carth\':' + dropon.id)}})</script>
 
 
 </body>
