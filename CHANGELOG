@@ -1,5 +1,13 @@
 *SVN*
 
+* Added a queue option to effects for easy stacking and simple timeline building. Valid values are "front", "end" and "parallel" (default), see for test/functional/effects_queue_test.html for usage
+
+* Added a setup function to the core effects that gets called by Effect.Base when first entering into running state, which allows them to query the current state of an element or other page properties when queuing and/or delays are used
+
+* Added a state instance variable to Effect.Base that indicates whether a effect that uses the queue is idle, running or finished
+
+* Fixed a flicker with Effect.Puff
+
 * General code cleaning to get rid of (legitimate) Mozilla strict javascript warnings
 
 * Changes to assertVisible in unittest.js

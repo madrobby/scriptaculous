@@ -97,8 +97,36 @@ Effect.Transitions.full = function(pos) {
 Effect.Queue = {
   effects:  [],
   interval: null,
+  findLast: function() {
+    var timestamp = false;
+    for(var i = 0; i < this.effects.length; i++)
+      if(!timestamp || (this.effects[i].finishOn>timestamp))
+        timestamp = this.effects[i].finishOn;
+    return timestamp;
+  },
   add: function(effect) {
+    var timestamp = new Date().getTime();
+    
+    switch(effect.options.queue) {
+      case 'front':
+        // move unstarted effects after this effect  
+        for(var i = 0; i < this.effects.length; i++)
+          if(this.effects[i].state == 'idle') {
+            this.effects[i].startOn  += effect.finishOn;
+            this.effects[i].finishOn += effect.finishOn;
+          }
+        break;
+      case 'end':
+        // start effect after last queued effect has finished
+        timestamp = this.findLast() || timestamp;
+        break;
+    }
+    
+    effect.startOn  += timestamp;
+    effect.finishOn += timestamp;
+    
     this.effects.push(effect);
+    
     if(!this.interval) 
       this.interval = setInterval(this.loop.bind(this), 40);
   },
@@ -128,13 +156,15 @@ Effect.Base.prototype = {
       sync:       false, // true for combining
       from:       0.0,
       to:         1.0,
-      delay:      0.0
+      delay:      0.0,
+      queue:      'parallel'
     }, options || {});
   },
   start: function(options) {
     this.setOptions(options || {});
     this.currentFrame = 0;
-    this.startOn      = new Date().getTime() + (this.options.delay*1000);
+    this.state        = 'idle';
+    this.startOn      = this.options.delay*1000;
     this.finishOn     = this.startOn + (this.options.duration*1000);
     if(this.options.beforeStart) this.options.beforeStart(this);
     if(!this.options.sync) Effect.Queue.add(this);
@@ -142,8 +172,8 @@ Effect.Base.prototype = {
   loop: function(timePos) {
     if(timePos >= this.startOn) {
       if(timePos >= this.finishOn) {
-        this.cancel();
         this.render(1.0);
+        this.cancel();
         if(this.finish) this.finish(); 
         if(this.options.afterFinish) this.options.afterFinish(this);
         return;  
@@ -157,6 +187,10 @@ Effect.Base.prototype = {
     }
   },
   render: function(pos) {
+    if(this.state == 'idle') {
+      this.state = 'running';
+      if(this.setup) this.setup();
+    }
     if(this.options.transition) pos = this.options.transition(pos);
     pos *= (this.options.to-this.options.from);
     pos += this.options.from; 
@@ -166,6 +200,7 @@ Effect.Base.prototype = {
   },
   cancel: function() {
     if(!this.options.sync) Effect.Queue.remove(this);
+    this.state = 'finished';
   }
 }
 
@@ -177,11 +212,13 @@ Object.extend(Object.extend(Effect.Parallel.prototype, Effect.Base.prototype), {
   },
   update: function(position) {
     for (var i = 0; i < this.effects.length; i++)
-      this.effects[i].render(position);  
+      this.effects[i].render(position);
   },
   finish: function(position) {
-    for (var i = 0; i < this.effects.length; i++)
+    for (var i = 0; i < this.effects.length; i++) {
+      this.effects[i].cancel();
       if(this.effects[i].finish) this.effects[i].finish(position);
+    }
   }
 });
 
@@ -217,12 +254,14 @@ Effect.MoveBy = Class.create();
 Object.extend(Object.extend(Effect.MoveBy.prototype, Effect.Base.prototype), {
   initialize: function(element, toTop, toLeft) {
     this.element      = $(element);
-    this.originalTop  = parseFloat(Element.getStyle(element,'top')  || '0');
-    this.originalLeft = parseFloat(Element.getStyle(element,'left') || '0');
     this.toTop        = toTop;
     this.toLeft       = toLeft;
-    Element.makePositioned(this.element);
     this.start(arguments[3]);
+  },
+  setup: function() {
+    this.originalTop  = parseFloat(Element.getStyle(this.element,'top')  || '0');
+    this.originalLeft = parseFloat(Element.getStyle(this.element,'left') || '0');
+    Element.makePositioned(this.element);
   },
   update: function(position) {
     topd  = this.toTop  * position + this.originalTop;
@@ -245,43 +284,44 @@ Object.extend(Object.extend(Effect.Scale.prototype, Effect.Base.prototype), {
       scaleContent: true,
       scaleFromCenter: false,
       scaleMode: 'box',        // 'box' or 'contents' or {} with provided values
-      scaleFrom: 100.0
+      scaleFrom: 100.0,
+      scaleTo:   percent
     }, arguments[2] || {});
+    this.start(options);
+  },
+  setup: function() {
     this.originalTop    = this.element.offsetTop;
     this.originalLeft   = this.element.offsetLeft;
-    if(Element.getStyle(element,'font-size')=="") this.sizeEm = 1.0;
-    if(Element.getStyle(element,'font-size') && Element.getStyle(element,'font-size').indexOf("em")>0)
-      this.sizeEm      = parseFloat(Element.getStyle(element,'font-size'));
-    this.factor = (percent/100.0) - (options.scaleFrom/100.0);
-    if(options.scaleMode=='box') {
+    if(Element.getStyle(this.element,'font-size')=="") this.sizeEm = 1.0;
+    if(Element.getStyle(this.element,'font-size') && Element.getStyle(this.element,'font-size').indexOf("em")>0)
+      this.sizeEm = parseFloat(Element.getStyle(this.element,'font-size'));
+    this.factor = (this.options.scaleTo/100.0) - (this.options.scaleFrom/100.0);
+    if(this.options.scaleMode=='box') {
       this.originalHeight = this.element.clientHeight;
       this.originalWidth  = this.element.clientWidth; 
     } else 
-    if(options.scaleMode=='contents') {
+    if(this.options.scaleMode=='contents') {
       this.originalHeight = this.element.scrollHeight;
       this.originalWidth  = this.element.scrollWidth;
     } else {
-      this.originalHeight = options.scaleMode.originalHeight;
-      this.originalWidth  = options.scaleMode.originalWidth;
+      this.originalHeight = this.options.scaleMode.originalHeight;
+      this.originalWidth  = this.options.scaleMode.originalWidth;
     }
-    this.start(options);
   },
-
   update: function(position) {
-    currentScale = (this.options.scaleFrom/100.0) + (this.factor * position);
+    var currentScale = (this.options.scaleFrom/100.0) + (this.factor * position);
     if(this.options.scaleContent && this.sizeEm) 
       this.element.style.fontSize = this.sizeEm*currentScale + "em";
     this.setDimensions(
       this.originalWidth * currentScale, 
       this.originalHeight * currentScale);
   },
-
   setDimensions: function(width, height) {
     if(this.options.scaleX) this.element.style.width = width + 'px';
     if(this.options.scaleY) this.element.style.height = height + 'px';
     if(this.options.scaleFromCenter) {
-      topd  = (height - this.originalHeight)/2;
-      leftd = (width  - this.originalWidth)/2;
+      var topd  = (height - this.originalHeight)/2;
+      var leftd = (width  - this.originalWidth)/2;
       if(Element.getStyle(this.element,'position')=='absolute') {
         if(this.options.scaleY) this.element.style.top = this.originalTop-topd + "px";
         if(this.options.scaleX) this.element.style.left = this.originalLeft-leftd + "px";
@@ -297,33 +337,33 @@ Effect.Highlight = Class.create();
 Object.extend(Object.extend(Effect.Highlight.prototype, Effect.Base.prototype), {
   initialize: function(element) {
     this.element = $(element);
-    
+    var options = Object.extend({
+      startcolor:   "#ffff99"
+    }, arguments[1] || {});
+    this.start(options);
+  },
+  setup: function() {
     // try to parse current background color as default for endcolor
     // browser stores this as: "rgb(255, 255, 255)", convert to "#ffffff" format
-    var endcolor = "#ffffff";
-    var current = Element.getStyle(this.element, 'background-color');
-    if(current && current.slice(0,4) == "rgb(") {
-      endcolor = "#";
-      var cols = current.slice(4,current.length-1).split(',');
-      var i=0; do { endcolor += parseInt(cols[i]).toColorPart() } while (++i<3); }
-      
-    var options = Object.extend({
-      startcolor:   "#ffff99",
-      endcolor:     endcolor,
-      restorecolor: current 
-    }, arguments[1] || {});
-    
+    if(!this.options.endcolor) {
+      var endcolor = "#ffffff";
+      var current = Element.getStyle(this.element, 'background-color');
+      if(current && current.slice(0,4) == "rgb(") {
+        endcolor = "#";
+        var cols = current.slice(4,current.length-1).split(',');
+        var i=0; do { endcolor += parseInt(cols[i]).toColorPart() } while (++i<3);
+      }
+      this.options.endcolor = endcolor;
+    }    
     // init color calculations
     this.colors_base = [
-      parseInt(options.startcolor.slice(1,3),16),
-      parseInt(options.startcolor.slice(3,5),16),
-      parseInt(options.startcolor.slice(5),16) ];
+      parseInt(this.options.startcolor.slice(1,3),16),
+      parseInt(this.options.startcolor.slice(3,5),16),
+      parseInt(this.options.startcolor.slice(5),16) ];
     this.colors_delta = [
-      parseInt(options.endcolor.slice(1,3),16)-this.colors_base[0],
-      parseInt(options.endcolor.slice(3,5),16)-this.colors_base[1],
-      parseInt(options.endcolor.slice(5),16)-this.colors_base[2] ];
-
-    this.start(options);
+      parseInt(this.options.endcolor.slice(1,3),16)-this.colors_base[0],
+      parseInt(this.options.endcolor.slice(3,5),16)-this.colors_base[1],
+      parseInt(this.options.endcolor.slice(5),16)-this.colors_base[2]];
   },
   update: function(position) {
     var colors = [
@@ -342,6 +382,9 @@ Effect.ScrollTo = Class.create();
 Object.extend(Object.extend(Effect.ScrollTo.prototype, Effect.Base.prototype), {
   initialize: function(element) {
     this.element = $(element);
+    this.start(arguments[1] || {});
+  },
+  setup: function() {
     Position.prepare();
     var offsets = Position.cumulativeOffset(this.element);
     var max = window.innerHeight ? 
@@ -350,8 +393,7 @@ Object.extend(Object.extend(Effect.ScrollTo.prototype, Effect.Base.prototype), {
         (document.documentElement.clientHeight ? 
           document.documentElement.clientHeight : document.body.clientHeight);
     this.scrollStart = Position.deltaY;
-    this.delta  = (offsets[1] > max ? max : offsets[1]) - this.scrollStart;
-    this.start(arguments[1] || {});
+    this.delta = (offsets[1] > max ? max : offsets[1]) - this.scrollStart;
   },
   update: function(position) {
     Position.prepare();
@@ -390,12 +432,12 @@ Effect.Puff = function(element) {
   return new Effect.Parallel(
    [ new Effect.Scale(element, 200, { sync: true, scaleFromCenter: true }), 
      new Effect.Opacity(element, { sync: true, to: 0.0, from: 1.0 } ) ], 
-     { duration: 1.0, 
-      afterUpdate: function(effect) 
+     Object.extend({ duration: 1.0, 
+      beforeUpdate: function(effect) 
        { effect.effects[0].element.style.position = 'absolute'; },
       afterFinish: function(effect)
        { Element.hide(effect.effects[0].element); }
-     }
+     }, arguments[1] || {})
    );
 }
 
