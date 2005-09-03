@@ -24,6 +24,8 @@
 
 var Effect = {
   tagifyText: function(element) {
+    var tagifyStyle = "position:relative";
+    if(/MSIE/.test(navigator.userAgent)) tagifyStyle += ";zoom:1"; 
     element = $(element);
     var children = element.childNodes;
     for (var i = 0; i < children.length; i++)
@@ -31,7 +33,7 @@ var Effect = {
         var child = children[i];
         for (var j = 0; j < child.nodeValue.length; j++)
           element.insertBefore(
-            Builder.node('span',{style:'position:relative;zoom:1;'},
+            Builder.node('span',{style: tagifyStyle},
               child.nodeValue.substr(j,1) == " " ? String.fromCharCode(160) : 
               child.nodeValue.substr(j,1)), child);
         Element.remove(child);

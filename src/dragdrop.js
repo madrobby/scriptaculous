@@ -34,7 +34,7 @@ var Droppables = {
   },
 
   add: function(element) {
-    var element = $(element);
+    element = $(element);
     var options = Object.extend({
       greedy:     true,
       hoverclass: null  
@@ -129,7 +129,7 @@ var Droppables = {
   }
 }
 
-Draggables = {
+var Draggables = {
   observers: new Array(),
   addObserver: function(observer) {
     this.observers.push(observer);    
@@ -147,7 +147,7 @@ Draggables = {
 
 /*--------------------------------------------------------------------------*/
 
-Draggable = Class.create();
+var Draggable = Class.create();
 Draggable.prototype = {
   initialize: function(element) {
     var options = Object.extend({
@@ -319,7 +319,7 @@ Draggable.prototype = {
 
 /*--------------------------------------------------------------------------*/
 
-SortableObserver = Class.create();
+var SortableObserver = Class.create();
 SortableObserver.prototype = {
   initialize: function(element, observer) {
     this.element   = $(element);
@@ -336,31 +336,31 @@ SortableObserver.prototype = {
   }
 }
 
-Sortable = {
+var Sortable = {
   sortables: new Array(),
   options: function(element){
-    var element = $(element);
+    element = $(element);
     for(var i=0;i<this.sortables.length;i++)
       if(this.sortables[i].element == element)
         return this.sortables[i];
     return null;        
   },
   destroy: function(element){
-    var element = $(element);
+    element = $(element);
     for(var i=0;i<this.sortables.length;i++) {
       if(this.sortables[i].element == element) {
         var s = this.sortables[i];
         Draggables.removeObserver(s.element);
         for(var j=0;j<s.droppables.length;j++)
           Droppables.remove(s.droppables[j]);
-        for(var j=0;j<s.draggables.length;j++)
+        for(j=0;j<s.draggables.length;j++)
           s.draggables[j].destroy();
         this.sortables.splice(i,1);
       }
     }
   },
   create: function(element) {
-    var element = $(element);
+    element = $(element);
     var options = Object.extend({ 
       element:     element,
       tag:         'li',       // assumes li children, override with tag: 'tagname'
@@ -522,7 +522,7 @@ Sortable = {
   },
 
   serialize: function(element) {
-    var element = $(element);
+    element = $(element);
     var sortableOptions = this.options(element);
     var options = Object.extend({
       tag:  sortableOptions.tag,

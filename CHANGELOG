@@ -1,5 +1,9 @@
 *SVN*
 
+* General code cleaning to get rid of (legitimate) Mozilla strict javascript warnings
+
+* Changes to assertVisible in unittest.js
+
 * Slight refactoring of Effect.Text, now known as Effect.multiple(), change first parameter to also accept an array of strings or elements, or a NodeList of elements (if a single element or a string is given, defaults to $('element').childNodes)
 
 * Made tagifyText work with IE. defaults to a style of "position: relative; zoom:1;" for the created SPAN wrappers. It also replaces spaces with non-breakable spaces. These sit-ups are required to work around problems with rendering elements with the proprietary IE "layout" and non-quirksmode documents.

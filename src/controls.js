@@ -224,8 +224,10 @@ Autocompleter.Base.prototype = {
   },
 
   updateElement: function(selectedElement) {
-    if (this.options.updateElement)
-      return(this.options.updateElement(selectedElement));
+    if (this.options.updateElement) {
+      this.options.updateElement(selectedElement);
+      return;
+    }
 
     var value = Element.collectTextNodesIgnoreClass(selectedElement, 'informal');
     var lastTokenPos = this.findLastToken();
@@ -602,10 +604,6 @@ Ajax.InPlaceEditor.prototype = {
       this.oldInnerHTML = null;
     }
     return false;
-    if (this.oldInnerHTML) {
-      this.element.innerHTML = this.oldInnerHTML;
-      this.oldInnerHTML = null;
-    }
   },
   onSubmit: function() {
     this.saving = true;

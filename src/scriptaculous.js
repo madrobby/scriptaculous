@@ -1,4 +1,4 @@
-Scriptaculous = {
+var Scriptaculous = {
   Version: '1.5_pre4_trunk',
   require: function(libraryName) {
     // inserting via DOM fails in Safari 2.0, so brute force approach

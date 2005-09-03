@@ -218,7 +218,7 @@ Position.page = function(forElement) {
       
   } while (element = element.offsetParent);
 
-  var element = forElement;
+  element = forElement;
   do {
     valueT -= element.scrollTop  || 0;
     valueL -= element.scrollLeft || 0;    

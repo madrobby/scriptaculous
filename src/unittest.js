@@ -78,7 +78,7 @@ Event.simulateKeys = function(element, command) {
   }
 };
 
-Test = {}
+var Test = {}
 Test.Unit = {};
 
 // security exception workaround
@@ -333,21 +333,18 @@ Test.Unit.Assertions.prototype = {
   },
   _isVisible: function(element) {
     element = $(element);
-    if(element == document) return true;
+    if(!element.parentNode) return true;
     this.assertNotNull(element);
-    // if it's not an element (just check parent) may be a text node for example
-    if (element.style && Element.getStyle(element, 'display') == 'none') {
+    if(element.style && Element.getStyle(element, 'display') == 'none')
       return false;
-    } else {
-      return this._isVisible(element.parentNode);
-    }
-    this.assertVisible(element.parentNode);
+    
+    return this._isVisible(element.parentNode);
   },
   assertNotVisible: function(element) {
-    this.assert(!this._isVisible(element), Test.Unit.inspect(element) + " was not hidden and didn't have a hidden parent either");
+    this.assert(!this._isVisible(element), Test.Unit.inspect(element) + " was not hidden and didn't have a hidden parent either. " + ("" || arguments[1]));
   },
   assertVisible: function(element) {
-    this.assert(this._isVisible(element), Test.Unit.inspect(element) + " was not visible");
+    this.assert(this._isVisible(element), Test.Unit.inspect(element) + " was not visible. " + ("" || arguments[1]));
   }
 }
 
