@@ -4,6 +4,7 @@
 // Contributors:
 //  Richard Livsey
 //  Rahul Bhargava
+//  Rob Wills
 // 
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -240,7 +241,10 @@ Autocompleter.Base.prototype = {
     } else {
       this.element.value = value;
     }
-    this.element.focus(); 
+    this.element.focus();
+    
+    if (this.options.afterUpdateElement)
+      this.options.afterUpdateElement(this.element, selectedElement);
   },
 
   updateChoices: function(choices) {

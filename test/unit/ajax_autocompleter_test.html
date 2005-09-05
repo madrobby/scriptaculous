@@ -24,6 +24,9 @@
 <input id="ac_input" type="text" autocomplete="off" />
 <div id="ac_update" style="display:none;border:1px solid black;background-color:white;position:relative;"></div>
 
+<input id="ac2_input" type="text" autocomplete="off" />
+<div id="ac2_update" style="display:none;border:1px solid black;background-color:white;position:relative;"></div>
+
 <input id="actoken_input" type="text" autocomplete="off" />
 <div id="actoken_update" style="display:none;border:1px solid black;background-color:white;position:relative;"></div>
 
@@ -102,6 +105,26 @@
             }});
           }});
         }});
+      }});
+    }},
+    
+    testAfterUpdateElement: function() { with(this) {
+      var ac = new Ajax.Autocompleter('ac2_input','ac2_update','_autocomplete_result.html',
+        { method: 'get',
+          afterUpdateElement: function(element,selectedElement) { 
+            element.value = 'afterupdate:' + selectedElement.tagName; 
+          }
+         });
+      assertInstanceOf(Ajax.Autocompleter, ac);
+      
+      Event.simulateMouse('ac2_input', 'click');
+      Event.simulateKeys('ac2_input','abcdefg');
+      
+      wait(1000, function() { with(this) {
+        assertVisible('ac2_update');
+        Event.simulateKey('ac2_input','keypress',{keyCode:Event.KEY_TAB});
+        
+        assertEqual('afterupdate:LI',$('ac2_input').value);
       }});
     }},
     

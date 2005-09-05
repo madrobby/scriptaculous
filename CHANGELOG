@@ -1,5 +1,7 @@
 *SVN*
 
+* Controls.js Autocompleter.Base.updateElement() hook #2116 [Rob Wills]
+
 * Refactoring to use the Prototype enumerable extensions
 
 * Update to Prototype 1.4.0_pre4
