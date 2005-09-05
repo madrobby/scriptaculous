@@ -406,7 +406,7 @@ var Sortable = {
       options.droppables.push(element);
     }
 
-    (this.findElements(element, options) || []).each( function(e) {
+    (this.findElements(element, options) || []).each( function(e) {
       // handles are per-draggable
       var handle = options.handle ? 
         Element.Class.childrenWith(e, options.handle)[0] : e;    

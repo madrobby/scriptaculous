@@ -446,7 +446,6 @@ Effect.BlindUp = function(element) {
 
 Effect.BlindDown = function(element) {
   element = $(element);
-  element.style.height = '0px';
   Element.makeClipping(element);
   Element.show(element);
   return new Effect.Scale(element, 100, 
@@ -456,6 +455,7 @@ Effect.BlindDown = function(element) {
       scaleFrom: 0,
       afterFinish: function(effect) {
         Element.undoClipping(effect.element);
+        effect.element.style.height = 'auto';
       }
     }, arguments[1] || {})
   );
@@ -521,8 +521,10 @@ Effect.SlideDown = function(element) {
     afterUpdate: function(effect) 
       { effect.element.firstChild.style.bottom = 
           (effect.originalHeight - effect.element.clientHeight) + 'px'; },
-    afterFinish: function(effect) 
-      {  Element.undoClipping(effect.element); }
+    afterFinish: function(effect) { 
+      Element.undoClipping(effect.element);
+      effect.element.style.height = 'auto';
+    }
     }, arguments[1] || {})
   );
 }

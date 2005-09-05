@@ -1,5 +1,9 @@
 *SVN*
 
+* Set container element height to auto on finishing Effect.BlindDown und Effect.SlideDown #2123 [Tony Arnold]
+
+* Fixed a weird char in dragdrop.js
+
 * Controls.js Autocompleter.Base.updateElement() hook #2116 [Rob Wills]
 
 * Refactoring to use the Prototype enumerable extensions
