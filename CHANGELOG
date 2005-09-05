@@ -1,3 +1,9 @@
+*SVN*
+
+* Refactoring to use the Prototype enumerable extensions
+
+* Update to Prototype 1.4.0_pre4
+
 *V1.5.0_pre4*
 
 * Added a queue option to effects for easy stacking and simple timeline building. Valid values are "front", "end" and "parallel" (default), see for test/functional/effects_queue_test.html for usage

@@ -25,19 +25,19 @@
 var Effect = {
   tagifyText: function(element) {
     var tagifyStyle = "position:relative";
-    if(/MSIE/.test(navigator.userAgent)) tagifyStyle += ";zoom:1"; 
+    if(/MSIE/.test(navigator.userAgent)) tagifyStyle += ";zoom:1";
     element = $(element);
-    var children = element.childNodes;
-    for (var i = 0; i < children.length; i++)
-      if(children[i].nodeType==3) {
-        var child = children[i];
-        for (var j = 0; j < child.nodeValue.length; j++)
+    $A(element.childNodes).each( function(child) {
+      if(child.nodeType==3) {
+        $A(child.nodeValue).each( function(character) {
           element.insertBefore(
             Builder.node('span',{style: tagifyStyle},
-              child.nodeValue.substr(j,1) == " " ? String.fromCharCode(160) : 
-              child.nodeValue.substr(j,1)), child);
+              character == " " ? String.fromCharCode(160) : character), 
+              child);  
+        });
         Element.remove(child);
       }
+    });
   },
   multiple: function(element, effect) {
     if(((typeof element == 'object') || 
@@ -54,9 +54,9 @@ var Effect = {
     var speed = options.speed;
     var delay = options.delay;
 
-    for(var i = 0; i < elements.length; i++)
-      new effect(elements[i], 
-        Object.extend(options, { delay: delay + i*speed }));
+    $A(elements).each( function(element, index) {
+      new effect(element, Object.extend(options, { delay: delay + index * speed }));
+    });
   }
 };
 
@@ -97,28 +97,20 @@ Effect.Transitions.full = function(pos) {
 Effect.Queue = {
   effects:  [],
   interval: null,
-  findLast: function() {
-    var timestamp = false;
-    for(var i = 0; i < this.effects.length; i++)
-      if(!timestamp || (this.effects[i].finishOn>timestamp))
-        timestamp = this.effects[i].finishOn;
-    return timestamp;
-  },
   add: function(effect) {
     var timestamp = new Date().getTime();
     
     switch(effect.options.queue) {
       case 'front':
         // move unstarted effects after this effect  
-        for(var i = 0; i < this.effects.length; i++)
-          if(this.effects[i].state == 'idle') {
-            this.effects[i].startOn  += effect.finishOn;
-            this.effects[i].finishOn += effect.finishOn;
-          }
+        this.effects.findAll(function(e){ return e.state=='idle' }).each( function(e) {
+            e.startOn  += effect.finishOn;
+            e.finishOn += effect.finishOn;
+          });
         break;
       case 'end':
         // start effect after last queued effect has finished
-        timestamp = this.findLast() || timestamp;
+        timestamp = this.effects.pluck('finishOn').max() || timestamp;
         break;
     }
     
@@ -131,8 +123,7 @@ Effect.Queue = {
       this.interval = setInterval(this.loop.bind(this), 40);
   },
   remove: function(effect) {
-    for(var i = 0; i < this.effects.length; i++)
-      if(this.effects[i]==effect) this.effects.splice(i,1);
+    this.effects = this.effects.reject(function(e) { return e==effect });
     if(this.effects.length == 0) {
       clearInterval(this.interval);
       this.interval = null;
@@ -140,9 +131,7 @@ Effect.Queue = {
   },
   loop: function() {
     var timePos = new Date().getTime();
-    for(var i = 0; i < this.effects.length; i++) {
-      this.effects[i].loop(timePos);
-    }
+    this.effects.invoke('loop', timePos);
   }
 }
 
@@ -211,14 +200,13 @@ Object.extend(Object.extend(Effect.Parallel.prototype, Effect.Base.prototype), {
     this.start(arguments[1]);
   },
   update: function(position) {
-    for (var i = 0; i < this.effects.length; i++)
-      this.effects[i].render(position);
+    this.effects.invoke('render', position);
   },
   finish: function(position) {
-    for (var i = 0; i < this.effects.length; i++) {
-      this.effects[i].cancel();
-      if(this.effects[i].finish) this.effects[i].finish(position);
-    }
+    this.effects.each( function(effect) {
+      effect.cancel();
+      if(effect.finish) effect.finish(position);
+    });
   }
 });
 

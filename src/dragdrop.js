@@ -25,12 +25,10 @@
 /*--------------------------------------------------------------------------*/
 
 var Droppables = {
-  drops: false,
+  drops: [],
 
   remove: function(element) {
-    for(var i = 0; i < this.drops.length; i++)
-      if(this.drops[i].element == element)
-        this.drops.splice(i,1);
+    this.drops = this.drops.reject(function(e) { return e==element });
   },
 
   add: function(element) {
@@ -42,34 +40,25 @@ var Droppables = {
 
     // cache containers
     if(options.containment) {
-      options._containers = new Array();
+      options._containers = [];
       var containment = options.containment;
       if((typeof containment == 'object') && 
         (containment.constructor == Array)) {
-        for(var i=0; i<containment.length; i++)
-          options._containers.push($(containment[i]));
+        containment.each( function(c) { options._containers.push($(c)) });
       } else {
         options._containers.push($(containment));
       }
-      options._containers_length = 
-        options._containers.length-1;
     }
 
     Element.makePositioned(element); // fix IE
-
     options.element = element;
 
-    // activate the droppable    
-    if(!this.drops) this.drops = [];
     this.drops.push(options);
   },
 
   isContained: function(element, drop) {
-    var containers = drop._containers;
     var parentNode = element.parentNode;
-    var i = drop._containers_length;
-    do { if(parentNode==containers[i]) return true; } while (i--);
-    return false;
+    return drop._containers.detect(function(c) { return parentNode == c });
   },
 
   isAffected: function(pX, pY, element, drop) {
@@ -83,7 +72,8 @@ var Droppables = {
   },
 
   deactivate: function(drop) {
-    Element.Class.remove(drop.element, drop.hoverclass);
+    if(drop.hoverclass)
+      Element.Class.remove(drop.element, drop.hoverclass);
     this.last_active = null;
   },
 
@@ -120,7 +110,6 @@ var Droppables = {
     if (this.isAffected(Event.pointerX(event), Event.pointerY(event), element, this.last_active))
       if (this.last_active.onDrop) 
         this.last_active.onDrop(element, this.last_active.element);
-
   },
 
   reset: function() {
@@ -135,13 +124,10 @@ var Draggables = {
     this.observers.push(observer);    
   },
   removeObserver: function(element) {  // element instead of obsever fixes mem leaks
-    for(var i = 0; i < this.observers.length; i++)
-      if(this.observers[i].element && (this.observers[i].element == element))
-        this.observers.splice(i,1);
+    this.observers = this.observers.reject( function(o) { return o.element==element });
   },
   notify: function(eventName, draggable) {  // 'onStart', 'onEnd'
-    for(var i = 0; i < this.observers.length; i++)
-      this.observers[i][eventName](draggable);
+    this.observers.invoke(eventName, draggable);
   }
 }
 
@@ -340,24 +326,16 @@ var Sortable = {
   sortables: new Array(),
   options: function(element){
     element = $(element);
-    for(var i=0;i<this.sortables.length;i++)
-      if(this.sortables[i].element == element)
-        return this.sortables[i];
-    return null;        
+    return this.sortables.detect(function(s) { return s.element == element });
   },
   destroy: function(element){
     element = $(element);
-    for(var i=0;i<this.sortables.length;i++) {
-      if(this.sortables[i].element == element) {
-        var s = this.sortables[i];
-        Draggables.removeObserver(s.element);
-        for(var j=0;j<s.droppables.length;j++)
-          Droppables.remove(s.droppables[j]);
-        for(j=0;j<s.draggables.length;j++)
-          s.draggables[j].destroy();
-        this.sortables.splice(i,1);
-      }
-    }
+    this.sortables.findAll(function(s) { return s.element == element }).each(function(s){
+      Draggables.removeObserver(s.element);
+      s.droppables.each(function(d){ Droppables.remove(d) });
+      s.draggables.invoke('destroy');
+    });
+    this.sortables = this.sortables.reject(function(s) { return s.element == element });
   },
   create: function(element) {
     element = $(element);
@@ -385,7 +363,7 @@ var Sortable = {
       revert:      true,
       ghosting:    options.ghosting,
       constraint:  options.constraint,
-      handle:      handle };
+      handle:      options.handle };
 
     if(options.starteffect)
       options_for_draggable.starteffect = options.starteffect;
@@ -428,18 +406,15 @@ var Sortable = {
       options.droppables.push(element);
     }
 
-    var elements = this.findElements(element, options);
-    if(elements) {
-      for (var i = 0; i < elements.length; i++) {
-        // handles are per-draggable
-        var handle = options.handle ? 
-          Element.Class.childrenWith(elements[i], options.handle)[0] : elements[i];
-            options.draggables.push(new Draggable(elements[i], Object.extend(options_for_draggable, { handle: handle })));
-            Droppables.add(elements[i], options_for_droppable);
-
-        options.droppables.push(elements[i]);
-      }
-    }
+    (this.findElements(element, options) || []).each( function(e) {
+      // handles are per-draggable
+      var handle = options.handle ? 
+        Element.Class.childrenWith(e, options.handle)[0] : e;    
+      options.draggables.push(
+        new Draggable(e, Object.extend(options_for_draggable, { handle: handle })));
+      Droppables.add(e, options_for_droppable);
+      options.droppables.push(e);      
+    });
 
     // keep reference
     this.sortables.push(options);
@@ -453,16 +428,15 @@ var Sortable = {
   findElements: function(element, options) {
     if(!element.hasChildNodes()) return null;
     var elements = [];
-    var children = element.childNodes;
-    for(var i = 0; i<children.length; i++) {
-      if(children[i].tagName && children[i].tagName==options.tag.toUpperCase() &&
-        (!options.only || (Element.Class.has(children[i], options.only))))
-          elements.push(children[i]);
+    $A(element.childNodes).each( function(e) {
+      if(e.tagName && e.tagName==options.tag.toUpperCase() &&
+        (!options.only || (Element.Class.has(e, options.only))))
+          elements.push(e);
       if(options.tree) {
-        var grandchildren = this.findElements(children[i], options);
+        var grandchildren = this.findElements(e, options);
         if(grandchildren) elements.push(grandchildren);
       }
-    }
+    });
 
     return (elements.length>0 ? elements.flatten() : null);
   },
@@ -529,17 +503,9 @@ var Sortable = {
       only: sortableOptions.only,
       name: element.id
     }, arguments[1] || {});
-
-    var items = $(element).childNodes;
-    var queryComponents = new Array();
-
-    for(var i=0; i<items.length; i++)
-      if(items[i].tagName && items[i].tagName==options.tag.toUpperCase() &&
-        (!options.only || (Element.Class.has(items[i], options.only))))
-        queryComponents.push(
-          encodeURIComponent(options.name) + "[]=" + 
-          encodeURIComponent(items[i].id.split("_")[1]));
-
-    return queryComponents.join("&");
+    return $A(element.childNodes).collect( function(item) { 
+      return (encodeURIComponent(options.name) + "[]=" + 
+              encodeURIComponent(item.id.split("_")[1]));
+    }).join("&");
   }
 } 

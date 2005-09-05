@@ -4,7 +4,7 @@ require 'rake'
 
 PKG_NAME        = 'scriptaculous-js'
 PKG_BUILD       = ENV['PKG_BUILD'] ? '.' + ENV['PKG_BUILD'] : ''
-PKG_VERSION     = '1.5_pre4' + PKG_BUILD
+PKG_VERSION     = '1.5_rc1' + PKG_BUILD
 PKG_FILE_NAME   = "#{PKG_NAME}-#{PKG_VERSION}"
 PKG_DESTINATION = ENV["RAILS_PKG_DESTINATION"] || "dist"
 

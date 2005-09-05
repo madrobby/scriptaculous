@@ -84,16 +84,16 @@ var Builder = {
   },
   _children: function(element, children) {
     if(typeof children=='object') { // array can hold nodes and text
-      children = children.flatten();
-      for(var i = 0; i<children.length; i++)
-        if(typeof children[i]=='object')
-          element.appendChild(children[i]);
+      children.flatten().each( function(e) {
+        if(typeof e=='object')
+          element.appendChild(e)
         else
-          if(this._isStringOrNumber(children[i]))
-            element.appendChild(this._text(children[i]));
+          if(Builder._isStringOrNumber(e))
+            element.appendChild(Builder._text(e));
+      });
     } else
-      if(this._isStringOrNumber(children)) 
-         element.appendChild(this._text(children));
+      if(Builder._isStringOrNumber(children)) 
+         element.appendChild(Builder._text(children));
   },
   _isStringOrNumber: function(param) {
     return(typeof param=='string' || typeof param=='number');
@@ -410,20 +410,4 @@ Element.Class = {
 
       return elements;
     }
-}
-
-/*--------------------------------------------------------------------------*/
-
-String.prototype.parseQuery = function() {
-  var str = this;
-  if(str.substring(0,1) == '?') {
-    str = this.substring(1);
-  }
-  var result = {};
-  var pairs = str.split('&');
-  for(var i = 0; i < pairs.length; i++) {
-    var pair = pairs[i].split('=');
-    result[pair[0]] = pair[1];
-  }
-  return result;
 }
