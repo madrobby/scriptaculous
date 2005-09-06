@@ -1,5 +1,9 @@
 *SVN*
 
+* Make effects "stateless" by cleaning up element.style after finish of effect #2133 [agr30 AT uni-koeln DOT de]
+
+* Add "internal" events to effects, to make them more easily extendable [Martin Bialasinski]
+
 * Set container element height to auto on finishing Effect.BlindDown und Effect.SlideDown #2123 [Tony Arnold]
 
 * Fixed a weird char in dragdrop.js

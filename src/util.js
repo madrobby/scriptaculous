@@ -127,27 +127,56 @@ Element.getStyle = function(element, style) {
       var css = document.defaultView.getComputedStyle(element, null);
       value = (css!=null) ? css.getPropertyValue(style) : null;
     } else if(element.currentStyle) {
-      value = element.currentStyle[style.camelize()];  
+      value = element.currentStyle[style.camelize()];
     }
+    // If top, left, bottom, or right values have been queried, return "auto" for consistency resaons 
+    // if position is "static", as Opera (and others?) returns the pixel values relative to root element 
+    // (or positioning context?)
+    if (window.opera && (style == "left" || style == "top" || style == "right" || style == "bottom"))
+      if (Element.getStyle(element, "position") == "static") value = "auto";
+    
   if(value=='auto') value = null;
   return value;
 }
 
 Element.makePositioned = function(element) {
   element = $(element);
-  if(Element.getStyle(element, 'position')=='static')
+  if(Element.getStyle(element, 'position')=='static') {
+    element._madePositioned = true;
     element.style.position = "relative";
+    // Opera returns the offset relative to the positioning context, when an element is position relative 
+    // but top and left have not been defined
+    if (window.opera){
+      element.style.top = 0;
+      element.style.left = 0;
+    }  
+  }
+}
+  
+Element.undoPositioned = function(element) {
+  element = $(element);
+  if(typeof element._madePositioned != "undefined"){
+    element._madePositioned = undefined;
+    element.style.position = "";
+    element.style.top = "";
+    element.style.left = "";
+    element.style.bottom = "";
+    element.style.right = "";	  
+  }
 }
 
 Element.makeClipping = function(element) {
   element = $(element);
-  element._overflow = Element.getStyle(element, 'overflow') || 'visible';
-  if(element._overflow!='hidden') element.style.overflow = 'hidden';
+  if (typeof element._overflow != 'undefined') return;
+  element._overflow = element.style.overflow;
+  if((Element.getStyle(element, 'overflow') || 'visible') != 'hidden') element.style.overflow = 'hidden';
 }
 
 Element.undoClipping = function(element) {
   element = $(element);
-  if(element._overflow!='hidden') element.style.overflow = element._overflow;
+  if (typeof element._overflow == 'undefined') return;
+  element.style.overflow = element._overflow;
+  element._overflow = undefined;
 }
 
 Element.collectTextNodesIgnoreClass = function(element, ignoreclass) {
@@ -166,6 +195,79 @@ Element.collectTextNodesIgnoreClass = function(element, ignoreclass) {
 
   return text;
 }
+
+// old: new Effect.ContentZoom(element, percent)
+// new: Element.setContentZoom(element, percent) 
+
+Element.setContentZoom = function(element, percent) {
+  element = $(element);
+  element.style.fontSize = (percent/100) + "em";  
+  if(navigator.appVersion.indexOf('AppleWebKit')>0) window.scrollBy(0,0);
+}
+
+Element.getOpacity = function(element){
+  return parseFloat(Element.getStyle(element, "opacity") 
+    || Element.getStyle(element, "-moz-opacity") 
+    || Element.getStyle(element, "-khtml-opacity") 
+    || '1');
+}
+
+Element.setOpacity = function(element, value){
+  element= $(element);
+  var els = element.style;
+  if (value == 1){
+    els.opacity = typeof els.MozOpacity == "undefined" ? 1 : '0.999999';
+    //els.MozOpacity = '0.999999';
+    //els.KhtmlOpacity = 1;
+    els.filter  = null;
+  } else {
+    if(value < 0.00001) value = 0;
+    els.opacity = value;
+    //els.MozOpacity = value;
+    //els.KhtmlOpacity = value;
+    els.filter  = "alpha(opacity:"+value*100+")";
+  }  
+}
+
+Element.getInlineOpacity = function(element){
+  element= $(element);
+  var op;
+  op = element.style.opacity;
+  if (typeof op != "undefined" && op != "") return op;
+  op = element.style.MozOpacity;
+  if (typeof op != "undefined" && op != "") return op;
+  op = element.style.KhtmlOpacity;
+  if (typeof op != "undefined" && op != "") return op;
+  return ""
+}
+
+Element.setInlineOpacity = function(element, value){
+  element= $(element);
+  var els = element.style;
+  els.opacity = value;
+  els.MozOpacity = value;
+  els.KhtmlOpacity = value;
+}
+
+Element.getDimensions = function(element){
+  element = $(element);
+  // All *Width and *Height properties give 0 on elements with display "none", so enable the element temporarily
+  if (element.style.display == "none"){
+    var originalVisibility = element.style.visibility;
+    var originalPosition = element.style.position;
+    element.style.visibility = "hidden";
+    element.style.position = "absolute";
+    element.style.display = "";
+    var originalWidth = element.clientWidth;
+    var originalHeight = element.clientHeight;
+    element.style.display = "none";
+    element.style.position = originalPosition;
+    element.style.visibility = originalVisibility;
+    return {width: originalWidth, height: originalHeight};    
+  } else {
+    return {width: element.offsetWidth, height: element.offsetHeight};
+  }
+} 
 
 /*--------------------------------------------------------------------------*/
 
