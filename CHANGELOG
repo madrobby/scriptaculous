@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed an issue with Element.makePositioned causing Effect.SlideDown to fail on Safari
+
 * Make effects "stateless" by cleaning up element.style after finish of effect #2133 [agr30 AT uni-koeln DOT de]
 
 * Add "internal" events to effects, to make them more easily extendable [Martin Bialasinski]

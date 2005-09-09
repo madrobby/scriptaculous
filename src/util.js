@@ -141,7 +141,8 @@ Element.getStyle = function(element, style) {
 
 Element.makePositioned = function(element) {
   element = $(element);
-  if(Element.getStyle(element, 'position')=='static') {
+  var pos = Element.getStyle(element, 'position');
+  if(pos =='static' || !pos) {
     element._madePositioned = true;
     element.style.position = "relative";
     // Opera returns the offset relative to the positioning context, when an element is position relative 
