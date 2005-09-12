@@ -1,5 +1,7 @@
 *SVN*
 
+* Added MIT-LICENSE header to scriptaculous.js, cut back on license info in other libs to keep files smaller
+
 * Fix issues with form elements inside draggables not clickable with Firefox #2129
 
 * Fixed an error in dragdrop.js with Draggables when no Droppables are defined

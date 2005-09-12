@@ -1,5 +1,6 @@
-// small but works-for-me stuff for testing javascripts
-// not ready for "production" use
+// Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+//
+// See scriptaculous.js for full license.
 
 Object.inspect = function(obj) {
   var info = [];
