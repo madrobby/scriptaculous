@@ -85,7 +85,7 @@ var Droppables = {
   },
 
   show: function(event, element) {
-    if(!this.drops) return;
+    if(!this.drops.length) return;
     var pX = Event.pointerX(event);
     var pY = Event.pointerY(event);
     Position.prepare();
@@ -119,7 +119,7 @@ var Droppables = {
 }
 
 var Draggables = {
-  observers: new Array(),
+  observers: [],
   addObserver: function(observer) {
     this.observers.push(observer);    
   },
@@ -201,6 +201,15 @@ Draggable.prototype = {
   },
   startDrag: function(event) {
     if(Event.isLeftClick(event)) {
+      
+      // abort on form elements, fixes a Firefox issue
+      var src = Event.element(event);
+      if(src.tagName && (
+        src.tagName=='INPUT' ||
+        src.tagName=='SELECT' ||
+        src.tagName=='BUTTON' ||
+        src.tagName=='TEXTAREA')) return;
+      
       this.registerEvents();
       this.active = true;
       var pointer = [Event.pointerX(event), Event.pointerY(event)];

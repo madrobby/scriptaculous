@@ -1,5 +1,9 @@
 *SVN*
 
+* Fix issues with form elements inside draggables not clickable with Firefox #2129
+
+* Fixed an error in dragdrop.js with Draggables when no Droppables are defined
+
 * Fixed an issue with Element.makePositioned causing Effect.SlideDown to fail on Safari
 
 * Make effects "stateless" by cleaning up element.style after finish of effect #2133 [agr30 AT uni-koeln DOT de]
