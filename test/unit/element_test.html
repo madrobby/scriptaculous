@@ -37,6 +37,15 @@
 <div><div></div> </div><span> </span>
 </div>
 
+<!-- Test Element.Class.childrenWith -->
+<div id="Container">
+  <span id="1" class="firstClass">First class</span>
+  <span id="2" class="secondClass">Second class</span>
+  <span id="3" class="firstClass secondClass">First and Second class</span>
+  <span id="4" class="thirdClass">Third class <span id="5" class="firstClass">Nested First class</span></span>
+  
+</div>
+
 <!-- Tests follow -->
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
@@ -135,6 +144,47 @@
       assert(Element.Class.has_any("test_1",["a","bbbbbbbbbbbb"]));
       assert(Element.Class.has_any("test_1",["a","bbbbbbbbbbb"]));
       assert(Element.Class.has_any("test_1",["a","bbbbbbbbbbbbbb"]));
+    }},
+    
+    testElementClassChildrenWith: function() { with(this) {
+      var firstClassElems = Element.Class.childrenWith("Container", "firstClass");
+      var secondClassElems = Element.Class.childrenWith("Container", "secondClass");
+      var thirdClassElems = Element.Class.childrenWith("Container", "thirdClass");
+      var nonExistentClassElems = Element.Class.childrenWith("Container", "");
+    
+      // Ensure the correct number of elements with corresponding classes have been found
+      assertEqual(firstClassElems.length, 3, "Did not find all elements defined with first class");
+      assertEqual(secondClassElems.length, 2, "Did not find all elements defined with second class");
+      assertEqual(thirdClassElems.length, 1, "Did not find all elements defined with third class");
+    
+      // ... and that none that don't exist have been found.
+      assertNotEqual(nonExistentClassElems.length > 0, true, "Found non-existent class elems!");
+    
+      // Ensure that the found elements are the correct ones.
+      assertEqual(firstClassElems[0].id, "1", 
+        "First element with firstClass definition found has id: " + firstClassElems[0].id);
+      // (Prevent runtime errors -- if only one was found)
+      if (firstClassElems.length > 1) {
+        assertEqual(firstClassElems[1].id, "3", 
+          "Second element with firstClass definition found has id: " + firstClassElems[1].id);
+      }
+      // (Prevent runtime errors -- if only one or two were found)
+      if (firstClassElems.length > 2) {
+        assertEqual(firstClassElems[2].id, "5", 
+          "Third element with firstClass definition found has id: " + firstClassElems[2].id);
+      }
+    
+      assertEqual(secondClassElems[0].id, "2", 
+        "First element with secondClass definition found has id " + secondClassElems[0].id);
+      // (Prevent runtime errors -- if only one was found)
+      if (secondClassElems.length > 1) {
+        assertEqual(secondClassElems[1].id, "3", 
+          "Second element with secondClass definition found has id " + secondClassElems[1].id);
+      }
+    
+      assertEqual(thirdClassElems[0].id, "4",
+        "First element with thirdClass definition found has id " + thirdClassElems[0].id);
+    
     }}
 
   }, "testlog");

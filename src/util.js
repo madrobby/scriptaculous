@@ -505,12 +505,9 @@ Element.Class = {
       var children = $(element).getElementsByTagName('*');
       var elements = new Array();
 
-      for (var i = 0; i < children.length; i++) {
-        if (Element.Class.has(children[i], className)) {
+      for (var i = 0; i < children.length; i++)
+        if (Element.Class.has(children[i], className))
           elements.push(children[i]);
-          break;
-        }
-      }
 
       return elements;
     }
