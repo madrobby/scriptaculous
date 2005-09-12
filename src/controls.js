@@ -509,6 +509,7 @@ Ajax.InPlaceEditor.prototype = {
     Element.hide(this.element);
     this.form = this.getForm();
     this.element.parentNode.insertBefore(this.form, this.element);
+    Field.focus(this.editField);
   },
   getForm: function() {
     form = document.createElement("form");

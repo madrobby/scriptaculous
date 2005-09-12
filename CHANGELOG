@@ -1,5 +1,7 @@
 *SVN*
 
+* Added focusing the text field or text area created when using Ajax.InPlaceEditor #2126 [thx to Lee Mallabone]
+
 * Fixed Element.Class.childrenWith not returning the correct elements #2120 [cmees AT rogers DOT com]
 
 * Added MIT-LICENSE header to scriptaculous.js, cut back on license info in other libs to keep files smaller
