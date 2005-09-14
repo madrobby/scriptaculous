@@ -194,8 +194,11 @@ Object.extend(Object.extend(Effect.Parallel.prototype, Effect.Base.prototype), {
   },
   finish: function(position) {
     this.effects.each( function(effect) {
+      effect.render(1.0);
       effect.cancel();
+      effect.event('beforeFinish');
       if(effect.finish) effect.finish(position);
+      effect.event('afterFinish');
     });
   }
 });
