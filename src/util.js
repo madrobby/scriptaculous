@@ -208,25 +208,21 @@ Element.setContentZoom = function(element, percent) {
 }
 
 Element.getOpacity = function(element){
-  return parseFloat(Element.getStyle(element, "opacity") 
-    || Element.getStyle(element, "-moz-opacity") 
-    || Element.getStyle(element, "-khtml-opacity") 
-    || '1');
+  return parseFloat(Element.getStyle(element, "opacity")) || '1';
+  //  || Element.getStyle(element, "-moz-opacity") 
+  //  || Element.getStyle(element, "-khtml-opacity") 
+  //  || '1');
 }
 
 Element.setOpacity = function(element, value){
   element= $(element);
   var els = element.style;
   if (value == 1){
-    els.opacity = typeof els.MozOpacity == "undefined" ? 1 : '0.999999';
-    //els.MozOpacity = '0.999999';
-    //els.KhtmlOpacity = 1;
+    els.opacity = '0.999999';
     els.filter  = null;
   } else {
     if(value < 0.00001) value = 0;
     els.opacity = value;
-    //els.MozOpacity = value;
-    //els.KhtmlOpacity = value;
     els.filter  = "alpha(opacity:"+value*100+")";
   }  
 }
@@ -236,19 +232,19 @@ Element.getInlineOpacity = function(element){
   var op;
   op = element.style.opacity;
   if (typeof op != "undefined" && op != "") return op;
-  op = element.style.MozOpacity;
-  if (typeof op != "undefined" && op != "") return op;
-  op = element.style.KhtmlOpacity;
-  if (typeof op != "undefined" && op != "") return op;
-  return ""
+  //op = element.style.MozOpacity;
+  //if (typeof op != "undefined" && op != "") return op;
+  //op = element.style.KhtmlOpacity;
+  //if (typeof op != "undefined" && op != "") return op;
+  return "";
 }
 
 Element.setInlineOpacity = function(element, value){
   element= $(element);
   var els = element.style;
   els.opacity = value;
-  els.MozOpacity = value;
-  els.KhtmlOpacity = value;
+  //els.MozOpacity = value;
+  //els.KhtmlOpacity = value;
 }
 
 Element.getDimensions = function(element){

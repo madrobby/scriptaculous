@@ -1,5 +1,7 @@
 *SVN*
 
+* Make Element.setOpacity work correctly again (browser-specific extensions, except for IE, are disabled at this time)
+
 * Added focusing the text field or text area created when using Ajax.InPlaceEditor #2126 [thx to Lee Mallabone]
 
 * Fixed Element.Class.childrenWith not returning the correct elements #2120 [cmees AT rogers DOT com]
