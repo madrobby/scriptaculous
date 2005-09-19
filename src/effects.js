@@ -212,9 +212,9 @@ Object.extend(Object.extend(Effect.Opacity.prototype, Effect.Base.prototype), {
     this.element = $(element);
     /*@cc_on   
       @if (@_jscript)
-      if (!element.hasLayout) {
+      if (!this.element.hasLayout) {
         // Then it does not have zoom set, as this would force layout
-        element.style.zoom = 1;
+        this.element.style.zoom = 1;
       }  
       @end 
     @*/

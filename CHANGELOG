@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed autoapplying a 'layout' on IE with Effect.Opacity not working for elements given as id string
+
 * Make Effect.Parallel render final frames and call beforeFinish/afterFinish on included effects
 
 * Make Element.setOpacity work correctly again (browser-specific extensions, except for IE, are disabled at this time)
