@@ -1,5 +1,7 @@
 *SVN*
 
+* New Control.Slider() for horizontal and vertical sliders [Marty Haught]
+
 * Fixed autoapplying a 'layout' on IE with Effect.Opacity not working for elements given as id string
 
 * Make Effect.Parallel render final frames and call beforeFinish/afterFinish on included effects

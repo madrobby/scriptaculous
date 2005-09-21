@@ -38,6 +38,7 @@ var Scriptaculous = {
         this.require(path + 'effects.js');
         this.require(path + 'dragdrop.js');
         this.require(path + 'controls.js');
+        this.require(path + 'slider.js');
         break;
       }
     }
