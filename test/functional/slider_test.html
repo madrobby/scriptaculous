@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+    <title>Text effects tests</title>
+    <script type="text/javascript" src="../../lib/prototype.js"></script> 
+    <script type="text/javascript" src="../../src/scriptaculous.js"></script>
+</head>    
+<body>
+
+  <h1>Sliders</h1>
+  
+  <h2>Standard horizontal slider</h2>
+  
+  <div id="track1" style="width:200px;background-color:#aaa;height:5px;">
+    <div id="handle1" style="width:5px;height:10px;background-color:#f00;"> </div>
+  </div>
+  
+  <p id="debug1"> </p>
+  
+  <h2>Vertical slider</h2>
+  
+  <div id="track2" style="height:100px;background-color:#aaa;width:5px;">
+    <div id="handle2" style="width:10px;height:5px;background-color:#f00;"> </div>
+  </div>
+  
+  <p id="debug2"> </p>
+  
+  <h2>Slider with predefined values [0,50,100,150,150,200]</h2>
+  
+  <div id="track3" style="width:200px;background-color:#aaa;height:5px;">
+    <div id="handle3" style="width:5px;height:10px;background-color:#f00;"> </div>
+  </div>
+  
+  <p id="debug3"> </p>
+  
+  <!-- FIXME: add more demos here -->
+  
+  <script type="text/javascript" language="javascript">
+  // <![CDATA[
+    new Control.Slider('handle1','track1',{
+      onSlide:function(v){$('debug1').innerHTML='slide: '+v},
+      onChange:function(v){$('debug1').innerHTML='changed! '+v}});
+    new Control.Slider('handle2','track2',{axis:'vertical',
+        onSlide:function(v){$('debug2').innerHTML='slide: '+v},
+        onChange:function(v){$('debug2').innerHTML='changed! '+v}});
+    new Control.Slider('handle3','track3',{values:[0,50,100,150,150,200],
+        onSlide:function(v){$('debug3').innerHTML='slide: '+v},
+        onChange:function(v){$('debug3').innerHTML='changed! '+v}});
+  // ]]>
+  </script>
+  
+</body>
+</html>
