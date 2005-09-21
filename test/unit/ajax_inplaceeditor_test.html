@@ -21,6 +21,7 @@
 <h1 id="tobeedited">To be edited</h1>
 <a id="tobeeditedEditControl" href="#">edit</a>
 
+<div id="tobeeditedMultiLine">First line<br/>Second line<br/>Third line</div>
 
 <!-- Tests follow -->
 <script type="text/javascript" language="javascript" charset="utf-8">
@@ -31,6 +32,9 @@
     setup: function() { with(this) {
       inPlaceEditor = new Ajax.InPlaceEditor($('tobeedited'), '_ajax_inplaceeditor_result.html', {
         externalControl: $('tobeeditedEditControl'),
+        ajaxOptions: {method: 'get'} //override so we can use a static for the result
+      });
+      inPlaceEditorMultiLine = new Ajax.InPlaceEditor($('tobeeditedMultiLine'), '_ajax_inplaceeditor_result.html', {
         ajaxOptions: {method: 'get'} //override so we can use a static for the result
       });
     }},
@@ -166,6 +170,41 @@
       assertNotVisible($('tobeeditedEditControl'));
       Event.simulateMouse(document.forms[0].childNodes[2],'click');
       assertVisible($('tobeeditedEditControl'));
+    }},
+    
+    testHasLineBreaksDetectsHTMLLineBreaks: function() { with(this) {
+      assert(inPlaceEditorMultiLine.hasHTMLLineBreaks("Line 1<br/>Line 2"));
+      assert(inPlaceEditorMultiLine.hasHTMLLineBreaks("Line 1<br>Line 2"));
+      assert(inPlaceEditorMultiLine.hasHTMLLineBreaks("<p>Line 1</p>Line 2"));
+      assert(inPlaceEditorMultiLine.hasHTMLLineBreaks("Line 1<BR/>Line 2"));
+      assert(inPlaceEditorMultiLine.hasHTMLLineBreaks("Line 1<BR>Line 2"));
+      assert(inPlaceEditorMultiLine.hasHTMLLineBreaks("<P>Line 1</P>Line 2"));
+      assert(inPlaceEditorMultiLine.hasHTMLLineBreaks("<P>Line 1<P>Line 2"));
+      assert(!inPlaceEditorMultiLine.hasHTMLLineBreaks("One line"));
+    }},
+    
+    testConvertsHTMLLineBreaksIntoNewLines: function() { with(this) {
+      assertEqual("Line 1\nLine 2", inPlaceEditorMultiLine.convertHTMLLineBreaks("Line 1<br/>Line 2"));
+      assertEqual("Line 1\nLine 2", inPlaceEditorMultiLine.convertHTMLLineBreaks("Line 1<br>Line 2"));
+      // <p> not supported (too hard)
+      //assertEqual("Line 1\nLine 2", inPlaceEditorMultiLine.convertHTMLLineBreaks("<p>Line 1</p>Line 2"));
+      assertEqual("Line 1\nLine 2", inPlaceEditorMultiLine.convertHTMLLineBreaks("Line 1<BR/>Line 2"));
+      assertEqual("Line 1\nLine 2", inPlaceEditorMultiLine.convertHTMLLineBreaks("Line 1<BR>Line 2"));
+      // <p> not supported (too hard)
+      //assertEqual("Line 1\nLine 2", inPlaceEditorMultiLine.convertHTMLLineBreaks("<P>Line 1</P>Line 2"));
+      // unclosed <P>s not supported yet
+      //assertEqual("Line 1\nLine 2", inPlaceEditorMultiLine.convertHTMLLineBreaks("<P>Line 1<P>Line 2"));
+      // <p> not supported (too hard)
+      //assertEqual("Line 1\nLine 2\nLine 3\nLine 4", inPlaceEditorMultiLine.convertHTMLLineBreaks("<P>Line 1</P>Line 2<br>Line 3<p>Line 4</P>"));
+      assertEqual("One line", inPlaceEditorMultiLine.convertHTMLLineBreaks("One line"));
+    }},
+    
+    testConvertsParagraphsAndBRsIntoLineBreaks: function() { with(this) {
+      inPlaceEditorMultiLine.enterEditMode();
+      assertEqual("TEXTAREA", document.forms[0].firstChild.tagName);
+      assertEqual("First line\nSecond line\nThird line", document.forms[0].firstChild.value)
+      // doesn't automatically determine size yet
+      //assertEqual(3, document.forms[0].firstChild.rows);
     }}
 
   });

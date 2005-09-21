@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed a bug with Safari and the InPlaceEditor with form submission. Add support for interpreting simple <br>s into linebreaks. [Jon Tirsen]
+
 * New Control.Slider() for horizontal and vertical sliders [Marty Haught]
 
 * Fixed autoapplying a 'layout' on IE with Effect.Opacity not working for elements given as id string

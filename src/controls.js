@@ -458,6 +458,7 @@ Ajax.InPlaceEditor.prototype = {
       callback: function(form) {
         return Form.serialize(form);
       },
+      handleLineBreaks: true,
       loadingText: 'Loading...',
       savingClassName: 'inplaceeditor-saving',
       formClassName: 'inplaceeditor-form',
@@ -510,6 +511,10 @@ Ajax.InPlaceEditor.prototype = {
     this.form = this.getForm();
     this.element.parentNode.insertBefore(this.form, this.element);
     Field.focus(this.editField);
+    // stop the event to avoid a page refresh in Safari
+    if (arguments.length > 1) {
+      Event.stop(arguments[0]);
+    }
   },
   getForm: function() {
     form = document.createElement("form");
@@ -536,8 +541,15 @@ Ajax.InPlaceEditor.prototype = {
     form.appendChild(cancelLink);
     return form;
   },
+  hasHTMLLineBreaks: function(string) {
+    if (!this.options.handleLineBreaks) return false;
+    return string.match(/<br/i) || string.match(/<p>/i);
+  },
+  convertHTMLLineBreaks: function(string) {
+    return string.replace(/<br>/gi, "\n").replace(/<br\/>/gi, "\n").replace(/<\/p>/gi, "\n").replace(/<p>/gi, "");
+  },
   createEditField: function(form) {
-    if (this.options.rows == 1) {
+    if (this.options.rows == 1 && !this.hasHTMLLineBreaks(this.getText())) {
       this.options.textarea = false;
       var textField = document.createElement("input");
       textField.type = "text";
@@ -553,7 +565,7 @@ Ajax.InPlaceEditor.prototype = {
       this.options.textarea = true;
       var textArea = document.createElement("textarea");
       textArea.name = "value";
-      textArea.value = this.getText();
+      textArea.value = this.convertHTMLLineBreaks(this.getText());
       textArea.rows = this.options.rows;
       textArea.cols = this.options.cols || 40;
       form.appendChild(textArea);
@@ -609,6 +621,10 @@ Ajax.InPlaceEditor.prototype = {
       }, this.options.ajaxOptions)
     );
     this.onLoading();
+    // stop the event to avoid a page refresh in Safari
+    if (arguments.length > 1) {
+      Event.stop(arguments[0]);
+    }
     return false;
   },
   onLoading: function() {
