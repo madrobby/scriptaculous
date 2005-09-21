@@ -25,7 +25,7 @@
   
   <p id="debug2"> </p>
   
-  <h2>Slider with predefined values [0,50,100,150,150,200]</h2>
+  <h2>Slider with predefined values [0,50,100,150,200]</h2>
   
   <div id="track3" style="width:200px;background-color:#aaa;height:5px;">
     <div id="handle3" style="width:5px;height:10px;background-color:#f00;"> </div>
@@ -43,7 +43,7 @@
     new Control.Slider('handle2','track2',{axis:'vertical',
         onSlide:function(v){$('debug2').innerHTML='slide: '+v},
         onChange:function(v){$('debug2').innerHTML='changed! '+v}});
-    new Control.Slider('handle3','track3',{values:[0,50,100,150,150,200],
+    new Control.Slider('handle3','track3',{values:[0,50,100,150,200],
         onSlide:function(v){$('debug3').innerHTML='slide: '+v},
         onChange:function(v){$('debug3').innerHTML='changed! '+v}});
   // ]]>

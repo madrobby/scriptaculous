@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed typos in slider.js and the functional test
+
 * Fixed a bug with Safari and the InPlaceEditor with form submission. Add support for interpreting simple <br>s into linebreaks. [Jon Tirsen]
 
 * New Control.Slider() for horizontal and vertical sliders [Marty Haught]

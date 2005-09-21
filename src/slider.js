@@ -11,7 +11,7 @@ Control.Slider = Class.create();
 //  step: (default: 1)
 //
 // callbacks:
-//  onChnage(value)
+//  onChange(value)
 //  onSlide(value)
 Control.Slider.prototype = {
   initialize: function(handle, track, options) {
