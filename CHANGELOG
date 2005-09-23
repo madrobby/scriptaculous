@@ -1,5 +1,7 @@
 *SVN*
 
+* Make scriptaculous.js work if a query strings are used when calling it
+
 * Fixed typos in slider.js and the functional test
 
 * Fixed a bug with Safari and the InPlaceEditor with form submission. Add support for interpreting simple <br>s into linebreaks. [Jon Tirsen]

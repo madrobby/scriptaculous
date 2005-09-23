@@ -32,8 +32,8 @@ var Scriptaculous = {
       throw("script.aculo.us requires the Prototype JavaScript framework >= 1.4.0");
     var scriptTags = document.getElementsByTagName("script");
     for(var i=0;i<scriptTags.length;i++) {
-      if(scriptTags[i].src && scriptTags[i].src.match(/scriptaculous\.js$/)) {
-        var path = scriptTags[i].src.replace(/scriptaculous\.js$/,'');
+      if(scriptTags[i].src && scriptTags[i].src.match(/scriptaculous\.js(\?.*)?$/)) {
+        var path = scriptTags[i].src.replace(/scriptaculous\.js(\?.*)?$/,'');
         this.require(path + 'util.js');
         this.require(path + 'effects.js');
         this.require(path + 'dragdrop.js');
