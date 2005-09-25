@@ -24,15 +24,23 @@ PKG_FILES = FileList[
   'src/effects.js',
   'src/controls.js',
   'src/unittest.js',
-  'src/util.js'
+  'src/util.js',
+  'src/slider.js',
+  'src/unittest.js',
+  'lib/prototype.js',
+  'test/**/*.html',
+  'test/**/*.css',
+  'test/**/*.png'
 ]
+
+DIRS = %w( src lib test test/functional test/unit  )
 
 desc "Make a ready-for-packaging distribution dir"
 task :fresh_scriptaculous do 
   mkdir PKG_DESTINATION
   mkdir File.join(PKG_DESTINATION, PKG_FILE_NAME)
-  mkdir File.join(PKG_DESTINATION, PKG_FILE_NAME, "src")
-  PKG_FILES.each { |file| cp_r file, File.join(PKG_DESTINATION, PKG_FILE_NAME, file) }
+  mkdir_p DIRS.map { |dir| File.join(PKG_DESTINATION, PKG_FILE_NAME, dir) }
+  PKG_FILES.each { |file| cp file, File.join(PKG_DESTINATION, PKG_FILE_NAME, file) }
 end
 
 desc "Packages the fresh script.aculo.us scripts"

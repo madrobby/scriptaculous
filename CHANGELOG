@@ -1,5 +1,9 @@
 *SVN*
 
+*V1.5.0_rc1*
+
+* Prepared Rakefile and README for V1.5.0_rc1 release
+
 * Droppables w/greedy and hoverclass are now reverted when dragged item is no longer over them, fixes #2184
 
 * Let Effect.Highlight correctly parse IE colors, add String.prototype.parseColor() for this, fixes #2037
