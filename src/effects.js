@@ -13,11 +13,11 @@ var Effect = {
     element = $(element);
     $A(element.childNodes).each( function(child) {
       if(child.nodeType==3) {
-        $A(child.nodeValue).each( function(character) {
+        child.nodeValue.toArray().each( function(character) {
           element.insertBefore(
             Builder.node('span',{style: tagifyStyle},
               character == " " ? String.fromCharCode(160) : character), 
-              child);  
+              child);
         });
         Element.remove(child);
       }
@@ -113,6 +113,7 @@ Effect.Queue = {
     }
   },
   loop: function() {
+    if(!this.effects) return;
     var timePos = new Date().getTime();
     this.effects.invoke('loop', timePos);
   }
@@ -203,21 +204,15 @@ Object.extend(Object.extend(Effect.Parallel.prototype, Effect.Base.prototype), {
   }
 });
 
-// Internet Explorer caveat: works only on elements that have
-// a 'layout', meaning having a given width or height. 
-// There is no way to safely set this automatically.
 Effect.Opacity = Class.create();
 Object.extend(Object.extend(Effect.Opacity.prototype, Effect.Base.prototype), {
   initialize: function(element) {
     this.element = $(element);
-    /*@cc_on   
-      @if (@_jscript)
-      if (!this.element.hasLayout) {
-        // Then it does not have zoom set, as this would force layout
-        this.element.style.zoom = 1;
-      }  
-      @end 
-    @*/
+
+    // make this work on IE on elements without 'layout'
+    if(/MSIE/.test(navigator.userAgent) && (!this.element.hasLayout))
+      this.element.style.zoom = 1;
+      
     var options = Object.extend({
       from: Element.getOpacity(this.element) || 0.0,
       to:   1.0
@@ -389,7 +384,7 @@ Object.extend(Object.extend(Effect.Highlight.prototype, Effect.Base.prototype), 
   },
   finish: function() {
     this.element.style.backgroundColor = this.options.restorecolor;
-    this.element.style.backgroundImage = this.oldBgImage;
+    if(this.oldBgImage) this.element.style.backgroundImage = this.oldBgImage;
   }
 });
 

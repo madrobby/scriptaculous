@@ -1,5 +1,19 @@
 *SVN*
 
+* Fix Effect.Highlight to restore background image only if there was one
+
+* Made Effect.tagifyText work again on IE
+
+* Added String.prototype.toArray because Strings aren't iterable on IE
+
+* Fixed Element.getOpacity falsely returning 0 on IE
+
+* Some cleaning up in util.js
+
+* Cleaned up Effect.Opacity
+
+* Removed useless line in Position.page
+
 * Make scriptaculous.js work if a query strings are used when calling it
 
 * Fixed typos in slider.js and the functional test

@@ -47,6 +47,13 @@ if (!Array.prototype.flatten) {
   }
 }
 
+String.prototype.toArray = function() {
+  var results = [];
+  for (var i = 0; i < this.length; i++)
+    results.push(this.charAt(i));
+  return results;
+}
+
 /*--------------------------------------------------------------------------*/
 
 var Builder = {
@@ -130,11 +137,12 @@ Element.getStyle = function(element, style) {
     } else if(element.currentStyle) {
       value = element.currentStyle[style.camelize()];
     }
-    // If top, left, bottom, or right values have been queried, return "auto" for consistency resaons 
-    // if position is "static", as Opera (and others?) returns the pixel values relative to root element 
-    // (or positioning context?)
-    if (window.opera && (style == "left" || style == "top" || style == "right" || style == "bottom"))
-      if (Element.getStyle(element, "position") == "static") value = "auto";
+  
+  // If top, left, bottom, or right values have been queried, return "auto" for consistency resaons 
+  // if position is "static", as Opera (and others?) returns the pixel values relative to root element 
+  // (or positioning context?)
+  if (window.opera && (style == "left" || style == "top" || style == "right" || style == "bottom"))
+    if (Element.getStyle(element, "position") == "static") value = "auto";
     
   if(value=='auto') value = null;
   return value;
@@ -198,9 +206,6 @@ Element.collectTextNodesIgnoreClass = function(element, ignoreclass) {
   return text;
 }
 
-// old: new Effect.ContentZoom(element, percent)
-// new: Element.setContentZoom(element, percent) 
-
 Element.setContentZoom = function(element, percent) {
   element = $(element);
   element.style.fontSize = (percent/100) + "em";  
@@ -208,10 +213,7 @@ Element.setContentZoom = function(element, percent) {
 }
 
 Element.getOpacity = function(element){
-  return parseFloat(Element.getStyle(element, "opacity")) || '1';
-  //  || Element.getStyle(element, "-moz-opacity") 
-  //  || Element.getStyle(element, "-khtml-opacity") 
-  //  || '1');
+  return parseFloat(Element.getStyle(element, "opacity") || '1');
 }
 
 Element.setOpacity = function(element, value){
@@ -232,10 +234,6 @@ Element.getInlineOpacity = function(element){
   var op;
   op = element.style.opacity;
   if (typeof op != "undefined" && op != "") return op;
-  //op = element.style.MozOpacity;
-  //if (typeof op != "undefined" && op != "") return op;
-  //op = element.style.KhtmlOpacity;
-  //if (typeof op != "undefined" && op != "") return op;
   return "";
 }
 
@@ -243,8 +241,6 @@ Element.setInlineOpacity = function(element, value){
   element= $(element);
   var els = element.style;
   els.opacity = value;
-  //els.MozOpacity = value;
-  //els.KhtmlOpacity = value;
 }
 
 Element.getDimensions = function(element){
@@ -284,7 +280,7 @@ Position.positionedOffset = function(element) {
 }
 
 // Safari returns margins on body which is incorrect if the child is absolutely positioned.
-// for performance reasons, we create a specialized version of Position.positionedOffset for
+// for performance reasons, we create a specialized version of Position.cumulativeOffset for
 // KHTML/WebKit only
 
 if(/Konqueror|Safari|KHTML/.test(navigator.userAgent)) {
@@ -304,7 +300,6 @@ if(/Konqueror|Safari|KHTML/.test(navigator.userAgent)) {
 }
 
 Position.page = function(forElement) {
-  if(element == document.body) return [0, 0];
   var valueT = 0, valueL = 0;
 
   var element = forElement;
