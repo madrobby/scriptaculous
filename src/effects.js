@@ -346,21 +346,11 @@ Object.extend(Object.extend(Effect.Highlight.prototype, Effect.Base.prototype), 
     this.start(options);
   },
   setup: function() {
-    // try to parse current background color as default for endcolor
-    // browser stores this as: "rgb(255, 255, 255)", convert to "#ffffff" format
-    if(!this.options.endcolor) {
-      var endcolor = "#ffffff";
-      var current = Element.getStyle(this.element, 'background-color');
-      // Highlight does not work, when there is a background image defined. So disable it during the effect.
-      this.oldBgImage = this.element.style.backgroundImage;
-      this.element.style.backgroundImage = "none";
-      if(current && current.slice(0,4) == "rgb(") {
-        endcolor = "#";
-        var cols = current.slice(4,current.length-1).split(',');
-        var i=0; do { endcolor += parseInt(cols[i]).toColorPart() } while (++i<3);
-      }
-      this.options.endcolor = endcolor;
-    }
+    // Disable background image during the effect
+    this.oldBgImage = this.element.style.backgroundImage;
+    this.element.style.backgroundImage = "none";
+    if(!this.options.endcolor)
+      this.options.endcolor = Element.getStyle(this.element, 'background-color').parseColor('#ffffff');
     if (typeof this.options.restorecolor == "undefined")
       this.options.restorecolor = this.element.style.backgroundColor;
     // init color calculations
@@ -383,7 +373,7 @@ Object.extend(Object.extend(Effect.Highlight.prototype, Effect.Base.prototype), 
   },
   finish: function() {
     this.element.style.backgroundColor = this.options.restorecolor;
-    if(this.oldBgImage) this.element.style.backgroundImage = this.oldBgImage;
+    this.element.style.backgroundImage = this.oldBgImage;
   }
 });
 
