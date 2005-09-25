@@ -83,6 +83,8 @@ var Droppables = {
         }
       }
     } while (i--);
+    
+    if(this.last_active) this.deactivate(this.last_active);
   },
 
   fire: function(event, element) {
