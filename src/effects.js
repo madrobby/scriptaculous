@@ -113,7 +113,6 @@ Effect.Queue = {
     }
   },
   loop: function() {
-    if(!this.effects) return;
     var timePos = new Date().getTime();
     this.effects.invoke('loop', timePos);
   }
