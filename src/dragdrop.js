@@ -158,24 +158,24 @@ Draggable.prototype = {
     this.eventMouseUp   = this.endDrag.bindAsEventListener(this);
     this.eventMouseMove = this.update.bindAsEventListener(this);
     this.eventKeypress  = this.keyPress.bindAsEventListener(this);
-
-    Event.observe(this.handle, "mousedown", this.eventMouseDown);
+    
+    this.registerEvents();
   },
   destroy: function() {
     Event.stopObserving(this.handle, "mousedown", this.eventMouseDown);
     this.unregisterEvents();
   },
   registerEvents: function() {
-    if(this.active) return;
     Event.observe(document, "mouseup", this.eventMouseUp);
     Event.observe(document, "mousemove", this.eventMouseMove);
     Event.observe(document, "keypress", this.eventKeypress);
+    Event.observe(this.handle, "mousedown", this.eventMouseDown);
   },
   unregisterEvents: function() {
-    if(!this.active) return;
-    Event.stopObserving(document, "mouseup", this.eventMouseUp);
-    Event.stopObserving(document, "mousemove", this.eventMouseMove);
-    Event.stopObserving(document, "keypress", this.eventKeypress);
+    //if(!this.active) return;
+    //Event.stopObserving(document, "mouseup", this.eventMouseUp);
+    //Event.stopObserving(document, "mousemove", this.eventMouseMove);
+    //Event.stopObserving(document, "keypress", this.eventKeypress);
   },
   currentLeft: function() {
     return parseInt(this.element.style.left || '0');
@@ -194,7 +194,7 @@ Draggable.prototype = {
         src.tagName=='BUTTON' ||
         src.tagName=='TEXTAREA')) return;
       
-      this.registerEvents();
+      // this.registerEvents();
       this.active = true;
       var pointer = [Event.pointerX(event), Event.pointerY(event)];
       var offsets = Position.cumulativeOffset(this.element);
@@ -204,7 +204,7 @@ Draggable.prototype = {
     }
   },
   finishDrag: function(event, success) {
-    this.unregisterEvents();
+    // this.unregisterEvents();
 
     this.active = false;
     this.dragging = false;

@@ -1,5 +1,9 @@
 *SVN*
 
+* Attempt to fix crashes in Safari 2.0.1, probably related to the event registering und unregistering in Draggables, possibly fixes #2310
+
+* Changed effects_test.html functional test to incoporate Firefox anti-flicker overflow:hidden CSS property
+
 *V1.5.0_rc1*
 
 * Prepared Rakefile and README for V1.5.0_rc1 release
