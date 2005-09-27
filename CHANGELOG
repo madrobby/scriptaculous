@@ -1,5 +1,7 @@
 *SVN*
 
+* Update lib/prototype.js to corrected Prototype 1.4.0_pre7 (fixed a problem with IE)
+
 * Update lib/prototype.js to Prototype 1.4.0_pre7
 
 * Reverted to patched version of Prototype 1.4.0_pre4 for the time being (getResponseHeader problem on Mozilla)
