@@ -1,5 +1,9 @@
 *SVN*
 
+
+
+*V1.5.0_rc2*
+
 * Update lib/prototype.js to corrected Prototype 1.4.0_pre7 (fixed a problem with IE)
 
 * Update lib/prototype.js to Prototype 1.4.0_pre7
