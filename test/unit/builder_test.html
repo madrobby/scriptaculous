@@ -81,7 +81,7 @@
 
       var XHTML_TAGS = [
         'a','abbr','acronym','address','applet','area',
-        'b','base','bdo','big','blockquote','br','button',
+        'b','bdo','big','blockquote','br','button',
         'caption','cite','code','col','colgroup',
         'dd','del','dfn','div','dl','dt',
         'em',
@@ -108,7 +108,7 @@
           assertEqual(tag.toUpperCase(), element.nodeName);
           assertEqual('tag_'+tag+'_test_id', element.id, 'Setting id attribute for "'+tag+'" failed!');
         } catch(e) {
-          assert(false, 'Error while creating node of type '+tag+'. Note: Firefox bug in 1.0.X on option and optgroup, fixed in 1.5b1.');
+          assert(false, 'Error while creating node of type '+tag+'. Note: Firefox bug in 1.0.X on option and optgroup, fixed in 1.5b1. Internet Explorer 6 doesn\'t support the ABBR tag and has no standard DOM implementation for tables.');
         }
       });      
     }},

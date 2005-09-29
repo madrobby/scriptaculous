@@ -65,6 +65,7 @@ var Builder = {
     LEGEND: 'fieldset',
     OPTGROUP: 'select',
     OPTION: 'select',
+    PARAM: 'object',
     TBODY: 'table',
     TD: 'table',
     TFOOT: 'table',
