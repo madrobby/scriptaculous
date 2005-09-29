@@ -60,7 +60,15 @@
       assertEqual('c', element.className);
 
       Element.Class.remove(element, 'c');
-      assertEqual('', element.className);      
+      assertEqual('', element.className);
+      
+      var element = Builder.node('div',{className: 'a b c d'});
+      
+      Element.Class.remove(element, 'd', 'b');
+      assertEqual('a c', element.className);
+      
+      Element.Class.remove(element, 'a', 'c');
+      assertEqual('', element.className);
     }},
     
     testClassToggleTwiceNotFirstClass: function() { with(this) {
