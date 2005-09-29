@@ -1,6 +1,6 @@
 *SVN*
 
-
+* Improved Builder implementation to deal with Firefox-specific requirements and innerHTML parsing, partly fixes #2325
 
 *V1.5.0_rc2*
 

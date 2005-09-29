@@ -57,10 +57,33 @@ String.prototype.toArray = function() {
 /*--------------------------------------------------------------------------*/
 
 var Builder = {
+  NODEMAP: {
+    AREA: 'map',
+    CAPTION: 'table',
+    COL: 'table',
+    COLGROUP: 'table',
+    LEGEND: 'fieldset',
+    OPTGROUP: 'select',
+    OPTION: 'select',
+    TBODY: 'table',
+    TD: 'table',
+    TFOOT: 'table',
+    TH: 'table',
+    THEAD: 'table',
+    TR: 'table'
+  },
+  // note: For Firefox < 1.5, OPTION and OPTGROUP tags are currently broken,
+  //       due to a Firefox bug
   node: function(elementName) {
-    var element = document.createElement('div');
+    elementName = elementName.toUpperCase();
+    // Firefox is picky about parent tags
+    var parentTag = this.NODEMAP[elementName] || 'div';
+      
+    var element = document.createElement(parentTag);
     element.innerHTML = 
       "<" + elementName + "></" + elementName + ">";
+    if(element.firstChild.tagName != elementName)
+      element = element.getElementsByTagName(elementName)[0].parentNode;
 
     // attributes (or text)
     if(arguments[1])
@@ -69,9 +92,12 @@ var Builder = {
           this._children(element.firstChild, arguments[1]);
         } else {
           var attrs = this._attributes(arguments[1]);
-          if(attrs.length) 
+          if(attrs.length) {
             element.innerHTML = "<" +elementName + " " +
               attrs + "></" + elementName + ">";
+            if(element.firstChild.tagName != elementName)
+              element = element.getElementsByTagName(elementName)[0].parentNode;
+            }
         } 
 
     // text, or array of children

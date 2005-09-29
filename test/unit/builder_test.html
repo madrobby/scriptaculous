@@ -78,6 +78,39 @@
       var element = Builder.node('div',{id:'mydiv'},[1,'2',['3'],[[[4],'5'],6],7,'8',[[[['9']]],0]]);
       assertEqual('1234567890',element.innerHTML);
       assertEqual(10, element.childNodes.length);
+
+      var XHTML_TAGS = [
+        'a','abbr','acronym','address','applet','area',
+        'b','base','bdo','big','blockquote','br','button',
+        'caption','cite','code','col','colgroup',
+        'dd','del','dfn','div','dl','dt',
+        'em',
+        'fieldset','form',
+        'h1','h2','h3','h4','h5','h6','hr',
+        'i','iframe','img','input','ins',
+        'kbd',
+        'label','legend','li','link',
+        'map',
+        'object','ol','optgroup','option',
+        'p','param','pre',
+        'q',
+        'samp','script','select','small','span','strong','style','sub','sup',
+        'table','tbody','td','textarea','tfoot','th','thead','tr','tt',
+        'ul','var']
+        
+      XHTML_TAGS.each(function(tag) {
+        try {
+          var element = Builder.node(tag);
+          assertNotNull(element, 'Tag "'+tag+'" expected, but was null.');
+          assertEqual(tag.toUpperCase(), element.nodeName);
+        
+          var element = Builder.node(tag,{id:'tag_'+tag+'_test_id'});
+          assertEqual(tag.toUpperCase(), element.nodeName);
+          assertEqual('tag_'+tag+'_test_id', element.id, 'Setting id attribute for "'+tag+'" failed!');
+        } catch(e) {
+          assert(false, 'Error while creating node of type '+tag+'. Note: Firefox bug in 1.0.X on option and optgroup, fixed in 1.5b1.');
+        }
+      });      
     }},
     
     testBuilderContatenation: function() { with(this) {
