@@ -77,35 +77,50 @@ var Builder = {
   //       due to a Firefox bug
   node: function(elementName) {
     elementName = elementName.toUpperCase();
-    // Firefox is picky about parent tags
+    
+    // try innerHTML approach
     var parentTag = this.NODEMAP[elementName] || 'div';
+    var parentElement = document.createElement(parentTag);
+    parentElement.innerHTML = "<" + elementName + "></" + elementName + ">";
+    var element = parentElement.firstChild || null;
       
-    var element = document.createElement(parentTag);
-    element.innerHTML = 
-      "<" + elementName + "></" + elementName + ">";
-    if(element.firstChild.tagName != elementName)
-      element = element.getElementsByTagName(elementName)[0].parentNode;
+    // see if browser added wrapping tags
+    if(element && (element.tagName != elementName))
+      element = element.getElementsByTagName(elementName)[0];
+    
+    // fallback to createElement approach
+    if(!element) element = document.createElement(elementName);
+    
+    // abort if nothing could be created
+    if(!element) return;
 
     // attributes (or text)
     if(arguments[1])
       if(this._isStringOrNumber(arguments[1]) ||
         (arguments[1] instanceof Array)) {
-          this._children(element.firstChild, arguments[1]);
+          this._children(element, arguments[1]);
         } else {
           var attrs = this._attributes(arguments[1]);
           if(attrs.length) {
-            element.innerHTML = "<" +elementName + " " +
+            parentElement.innerHTML = "<" +elementName + " " +
               attrs + "></" + elementName + ">";
-            if(element.firstChild.tagName != elementName)
-              element = element.getElementsByTagName(elementName)[0].parentNode;
+            element = parentElement.firstChild || null;
+            // workaround firefox 1.0.X bug
+            if(!element) {
+              element = document.createElement(elementName);
+              for(attr in arguments[1]) 
+                element[attr == 'class' ? 'className' : attr] = arguments[1][attr];
+            }
+            if(element.tagName != elementName)
+              element = parentElement.getElementsByTagName(elementName)[0];
             }
         } 
 
     // text, or array of children
     if(arguments[2])
-      this._children(element.firstChild, arguments[2]);
+      this._children(element, arguments[2]);
 
-     return element.firstChild;
+     return element;
   },
   _text: function(text) {
      return document.createTextNode(text);

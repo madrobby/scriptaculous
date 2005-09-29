@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed Builder for OPTION and OPTGROUP tags on Firefox < 1.5 and Internet Explorer 6, completely fixes #2325
+
 * Improved Builder implementation to deal with Firefox-specific requirements and innerHTML parsing, partly fixes #2325
 
 *V1.5.0_rc2*

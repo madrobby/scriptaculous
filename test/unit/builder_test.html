@@ -78,7 +78,10 @@
       var element = Builder.node('div',{id:'mydiv'},[1,'2',['3'],[[[4],'5'],6],7,'8',[[[['9']]],0]]);
       assertEqual('1234567890',element.innerHTML);
       assertEqual(10, element.childNodes.length);
-
+            
+    }},
+    
+    testBuilderAllXHTMLTags: function() { with(this) {
       var XHTML_TAGS = [
         'a','abbr','acronym','address','applet','area',
         'b','bdo','big','blockquote','br','button',
@@ -89,7 +92,7 @@
         'h1','h2','h3','h4','h5','h6','hr',
         'i','iframe','img','input','ins',
         'kbd',
-        'label','legend','li','link',
+        'label','legend','li',
         'map',
         'object','ol','optgroup','option',
         'p','param','pre',
@@ -110,7 +113,22 @@
         } catch(e) {
           assert(false, 'Error while creating node of type '+tag+'. Note: Firefox bug in 1.0.X on option and optgroup, fixed in 1.5b1. Internet Explorer 6 doesn\'t support the ABBR tag and has no standard DOM implementation for tables.');
         }
-      });      
+      });
+    }},
+    
+    // special case, because requires workarounds on IE and Firefox < 1.5
+    testBuilderOptionTag: function() { with(this) {
+      assertEqual('', Builder.node('option').innerHTML);
+      assertEqual('test', Builder.node('option','test').innerHTML);
+      assertEqual('', Builder.node('option',{className:'test'}).innerHTML);
+      assertEqual('test', Builder.node('option',{className:'test'},'test').innerHTML);
+      assertEqual('test', Builder.node('option',{},'test').innerHTML);
+      
+      var selectElement = Builder.node('select');
+      var optionElement = Builder.node('option',{className:'test',id:'option_123'},123);
+      selectElement.appendChild(optionElement);
+      document.body.appendChild(selectElement);
+      assertEqual('123', $('option_123').innerHTML);
     }},
     
     testBuilderContatenation: function() { with(this) {
