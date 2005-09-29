@@ -45,6 +45,73 @@
         Object.inspect({x:"test",y:{}}));
       assertEqual("'[object Object]' #object: {x => \"test\", y => [object Object]}",
         Object.inspect({x:"test",y:{z:"test",blah:{}}}));
+    }},
+    
+    testElementClassRemove: function() { with(this) {
+      var element = Builder.node('div',{className: 'a b c d'});
+      
+      Element.Class.remove(element, 'b');
+      assertEqual('a c d', element.className);
+      
+      Element.Class.remove(element, 'a');
+      assertEqual('c d', element.className);
+      
+      Element.Class.remove(element, 'd');
+      assertEqual('c', element.className);
+
+      Element.Class.remove(element, 'c');
+      assertEqual('', element.className);      
+    }},
+    
+    testClassToggleTwiceNotFirstClass: function() { with(this) {
+      // Insert a new element
+      var newel = document.createElement('span');
+      newel.id = 'test'; newel.className = 'atest btest';
+      $('testlog').parentNode.appendChild(newel);
+    
+      try {
+        assertEqual('atest btest', Element.Class.get('test').join(' '));
+    
+        Element.Class.toggle('test', 'btest', 'ctest');
+        assertEqual('atest ctest', Element.Class.get('test').join(' '));
+    
+        Element.Class.toggle('test', 'btest', 'ctest');
+        assertEqual('atest btest', Element.Class.get('test').join(' '));
+      } finally {
+        $('testlog').parentNode.removeChild(newel);
+      }
+    }},
+    
+    testClassToggleTwiceFirstClass: function() { with(this) {
+      // Insert a new element
+      var newel = document.createElement('span');
+      newel.id = 'test'; newel.className = 'atest btest';
+      $('testlog').parentNode.appendChild(newel);
+    
+      try {
+        assertEqual('atest btest', Element.Class.get('test').join(' '));
+    
+        Element.Class.toggle('test', 'atest', 'ctest');
+        assertEqual('btest ctest', Element.Class.get('test').join(' '));
+    
+        Element.Class.toggle('test', 'atest', 'ctest');
+        assertEqual('btest atest', Element.Class.get('test').join(' '));
+      } finally {
+        $('testlog').parentNode.removeChild(newel);
+      }
+    }},
+    
+    testRemoveClassNameInMiddle: function() { with(this) {
+      var newel = document.createElement('span');
+      newel.id = 'test'; newel.className = 'atest btest ctest';
+      $('testlog').parentNode.appendChild(newel);
+    
+      try {
+        Element.Class.remove(newel, 'btest');
+        assertEqual('atest ctest', Element.Class.get(newel).join(' '));
+      } finally {
+        $('testlog').parentNode.removeChild(newel);
+      }
     }}
 
   }, "testlog");

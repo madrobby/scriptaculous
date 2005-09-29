@@ -487,18 +487,18 @@ Element.Class = {
 
     // gets space-delimited classnames of an element as an array
     get: function(element) {
-      element = $(element);
-      return element.className.split(' ');
+      return $(element).className.split(' ');
     },
 
     // functions adapted from original functions by Gavin Kistner
     remove: function(element) {
       element = $(element);
-      var regEx;
-      for(var i = 1; i < arguments.length; i++) {
-        regEx = new RegExp("(^|\\s)" + arguments[i] + "(\\s|$)", 'g');
-        element.className = element.className.replace(regEx, '')
-      }
+      var removeClasses = arguments;
+      $R(1,arguments.length-1).each( function(index) {
+        element.className = 
+          element.className.split(' ').reject( 
+            function(klass) { return (klass == removeClasses[index]) } ).join(' ');
+      });
     },
 
     add: function(element) {
