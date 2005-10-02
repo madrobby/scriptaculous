@@ -279,11 +279,14 @@ Element.setOpacity = function(element, value){
   var els = element.style;
   if (value == 1){
     els.opacity = '0.999999';
-    els.filter  = null;
+    if(navigator.appVersion.match(/MSIE/))
+      els.filter = els.filter.replace(/alpha\(.*\)/,'');
   } else {
     if(value < 0.00001) value = 0;
     els.opacity = value;
-    els.filter  = "alpha(opacity:"+value*100+")";
+    if(navigator.appVersion.match(/MSIE/))
+      els.filter = els.filter.replace(/alpha\(.*\)/,'') + 
+        "alpha(opacity:"+value*100+")";
   }  
 }
 
