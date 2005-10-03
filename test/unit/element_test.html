@@ -11,6 +11,7 @@
   <style type="text/css" media="screen">
     #style_test_1 { color:rgb(0, 0, 255); background-color: rgb(0, 0, 255); }
     blah { color:rgb(0, 255, 0); }
+    #op2 { opacity:0.5;filter:alpha(opacity=50)progid:DXImageTransform.Microsoft.Blur(strength=10);}
   </style>
 </head>
 <body>
@@ -36,6 +37,12 @@
 
 <div><div></div> </div><span> </span>
 </div>
+
+<!-- Test Element opacity functions -->
+<img id="op1" alt="op2" src="icon.png" style="opacity:0.5;filter:alpha(opacity=50)" />
+<img id="op2" alt="op2" src="icon.png"/>
+<img id="op3" alt="op3" src="icon.png"/>
+<img id="op4-ie" alt="op3" src="icon.png" style="filter:alpha(opacity=30)" />
 
 <!-- Test Element.Class.childrenWith -->
 <div id="Container">
@@ -88,6 +95,27 @@
       
       assertEqual(1, $("test_whitespace").firstChild.nextSibling.nextSibling.nodeType);
       assertEqual('SPAN', $("test_whitespace").firstChild.nextSibling.nextSibling.tagName);
+    }},
+    
+    testElementOpacity: function() { with(this) {
+      assertEqual(0.5, Element.getOpacity('op1'));
+      assertEqual(0.5, Element.getOpacity('op2'));
+      assertEqual(1.0, Element.getOpacity('op3'));
+      
+      Element.setOpacity('op1','0.3');
+      Element.setOpacity('op2','0.3');
+      Element.setOpacity('op3','0.3');
+      
+      assertEqual(0.3, Element.getOpacity('op1'));
+      assertEqual(0.3, Element.getOpacity('op2'));
+      assertEqual(0.3, Element.getOpacity('op3'));
+      
+      if(navigator.appVersion.match(/MSIE/)) {
+        assertEqual('alpha(opacity=30)', Element.getStyle('op1','filter'));
+        assertEqual('progid:DXImageTransform.Microsoft.Blur(strength=10)alpha(opacity=30)', Element.getStyle('op2','filter'));
+        assertEqual('alpha(opacity=30)', Element.getStyle('op3','filter'));
+        assertEqual(0.3, Element.getOpacity('op4-ie'));
+      }
     }},
     
     testElementClassHas: function() { with(this) {

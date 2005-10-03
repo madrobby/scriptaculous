@@ -271,7 +271,13 @@ Element.setContentZoom = function(element, percent) {
 }
 
 Element.getOpacity = function(element){
-  return parseFloat(Element.getStyle(element, "opacity") || '1');
+  var opacity;
+  if (opacity = Element.getStyle(element, "opacity"))
+    return parseFloat(opacity);
+  if (opacity = Element.getStyle(element, "filter").match(/alpha\(opacity=(.*)\)/))
+    if(opacity[1]) return parseFloat(opacity[1]) / 100;
+  
+  return 1.0;
 }
 
 Element.setOpacity = function(element, value){
@@ -279,14 +285,14 @@ Element.setOpacity = function(element, value){
   var els = element.style;
   if (value == 1){
     els.opacity = '0.999999';
-    if(navigator.appVersion.match(/MSIE/))
-      els.filter = els.filter.replace(/alpha\(.*\)/,'');
+    if(/MSIE/.test(navigator.userAgent))
+      els.filter = Element.getStyle(element,'filter').replace(/alpha\([^\)]*\)/gi,'');
   } else {
     if(value < 0.00001) value = 0;
     els.opacity = value;
-    if(navigator.appVersion.match(/MSIE/))
-      els.filter = els.filter.replace(/alpha\(.*\)/,'') + 
-        "alpha(opacity:"+value*100+")";
+    if(/MSIE/.test(navigator.userAgent))
+      els.filter = Element.getStyle(element,'filter').replace(/alpha\([^\)]*\)/gi,'') + 
+        "alpha(opacity="+value*100+")";
   }  
 }
 
