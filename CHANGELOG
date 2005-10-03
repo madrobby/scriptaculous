@@ -1,5 +1,7 @@
 *SVN*
 
+* Force indicator to be hidden on hiding autocompletion update element, #2342
+
 * Make Draggables honor external CSS positioning [thx to Mark Shawkey], #2359
 
 * Make zindex handling for Draggables honor external CSS styles

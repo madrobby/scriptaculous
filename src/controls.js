@@ -96,6 +96,7 @@ Autocompleter.Base.prototype = {
   },
 
   hide: function() {
+    this.stopIndicator();
     if(Element.getStyle(this.update, 'display')!='none') this.options.onHide(this.element, this.update);
     if(this.iefix) Element.hide(this.iefix);
   },
