@@ -1,6 +1,8 @@
 *SVN*
 
-* Make zindex handling for Draggable honor external CSS styles [thx to Mark Shawkey], #2359
+* Make Draggables honor external CSS positioning [thx to Mark Shawkey], #2359
+
+* Make zindex handling for Draggables honor external CSS styles
 
 * Fix two Sortable.serialize issues, [thx Avi, Gorou], #2339, #2357
 
