@@ -496,7 +496,7 @@ var Sortable = {
       only: sortableOptions.only,
       name: element.id
     }, arguments[1] || {});
-    return $A(element.childNodes).collect( function(item) { 
+    return $(this.findElements(element, options) || []).collect( function(item) { 
       return (encodeURIComponent(options.name) + "[]=" + 
               encodeURIComponent(item.id.split("_")[1]));
     }).join("&");

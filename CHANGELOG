@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix two Sortable.serialize issues, [thx Avi, Gorou], #2339, #2357
+
 * Make Element.getOpacity work with IE, added unit tests [thx to Greg Hill]
 
 * Make Element.setOpacity honor non-alpha filters on IE (it now works with filters for alpha PNGs)
