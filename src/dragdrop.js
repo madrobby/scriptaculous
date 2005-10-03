@@ -137,7 +137,11 @@ Draggable.prototype = {
     }, arguments[1] || {});
 
     this.element      = $(element);
-    this.handle       = options.handle ? $(options.handle) : this.element;
+    if(options.handle && (typeof options.handle == 'string'))
+      this.handle = Element.Class.childrenWith(this.element, options.handle)[0];
+      
+    if(!this.handle) this.handle = $(options.handle);
+    if(!this.handle) this.handle = this.element;
 
     Element.makePositioned(this.element); // fix IE    
 
