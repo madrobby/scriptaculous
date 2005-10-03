@@ -147,7 +147,6 @@ Draggable.prototype = {
     this.originalTop  = this.currentTop();
     this.originalX    = this.element.offsetLeft;
     this.originalY    = this.element.offsetTop;
-    this.originalZ    = parseInt(this.element.style.zIndex || "0");
 
     this.options      = options;
 
@@ -230,7 +229,8 @@ Draggable.prototype = {
       this.originalTop  = this.currentTop();
     }
 
-    this.element.style.zIndex = this.originalZ;
+    if(this.options.zindex)
+      this.element.style.zIndex = this.originalZ;
 
     if(this.options.endeffect) 
       this.options.endeffect(this.element);
@@ -271,8 +271,14 @@ Draggable.prototype = {
       if(!this.dragging) {
         var style = this.element.style;
         this.dragging = true;
-        if(style.position=="") style.position = "relative";
-        style.zIndex = this.options.zindex;
+        
+        if(Element.getStyle(this.element,'position')=='') 
+          style.position = "relative";
+        
+        if(this.options.zindex) {
+          this.options.originalZ = parseInt(Element.getStyle(this.element,'z-index') || 0);
+          style.zIndex = this.options.zindex;
+        }
 
         if(this.options.ghosting) {
           this._clone = this.element.cloneNode(true);

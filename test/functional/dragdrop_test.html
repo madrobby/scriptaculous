@@ -10,6 +10,7 @@
   <style type="text/css" media="screen">
     #thelist li { background: green; margin:5px; padding: 30px; }
     #thelist2 li { background: #ffb; margin:2px; padding: 2px; }
+    #revertbox2 { position:absolute;top:0;left:0;z-index:1000;width:150px;height:150px;background:#bbf; }
   </style>
 </head>
 <body>
@@ -22,7 +23,7 @@
   <input type="checkbox" id="shouldrevert1"/> Revert?
 </div>
 
-<div id="revertbox2" class="box" style="z-index:1000;width:150px;height:150px;background:#bbf;">
+<div id="revertbox2" class="box">
   <span id="handle2">drag here</span><br/>
   <input type="checkbox" id="shouldrevert2"/> Revert?
 </div>
@@ -31,7 +32,7 @@
 
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-  new Draggable('revertbox1',{handle:'handle1',revert:function(element){return ($('shouldrevert1').checked)}});
+  new Draggable('revertbox1',{zindex:-5,handle:'handle1',revert:function(element){return ($('shouldrevert1').checked)}});
   new Draggable('revertbox2',{handle:'handle2',revert:function(element){return ($('shouldrevert2').checked)}});
   Droppables.add('xxxx',{accept:['box1','box2'],onDrop:function(){alert('drop!')}});
 // ]]>

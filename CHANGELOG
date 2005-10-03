@@ -1,5 +1,7 @@
 *SVN*
 
+* Make zindex handling for Draggable honor external CSS styles [thx to Mark Shawkey], #2359
+
 * Fix two Sortable.serialize issues, [thx Avi, Gorou], #2339, #2357
 
 * Make Element.getOpacity work with IE, added unit tests [thx to Greg Hill]
