@@ -1,5 +1,9 @@
 *SVN*
 
+* Fixed that IE6 would incorrectly render the "fix-windowed-elements-overlapping" IFRAME on autocompletion [thx tshinnic], #2403
+
+* Fixed Element.getOpacity throwing an error on Safari in some situations (this caused the autocompleter not to work)
+
 * Added format option to Sortable.create and Sortable.serialize to allow custom id formats. The format option takes a regular expression where the first grouping that matches is used for building the parameters. The default format is /^[^_]*_(.*)$/ which matches the string_identifier format. If you want to use the full id of the elements, use "format: /(.*)/". More examples are available in the sortable unit test file.
 
 * Started refactorings to use the new Prototype features and general code-cleanup

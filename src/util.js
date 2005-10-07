@@ -249,9 +249,8 @@ Element.getOpacity = function(element){
   var opacity;
   if (opacity = Element.getStyle(element, "opacity"))
     return parseFloat(opacity);
-  if (opacity = Element.getStyle(element, "filter").match(/alpha\(opacity=(.*)\)/))
+  if (opacity = (Element.getStyle(element, "filter") || '').match(/alpha\(opacity=(.*)\)/))
     if(opacity[1]) return parseFloat(opacity[1]) / 100;
-  
   return 1.0;
 }
 

@@ -207,11 +207,9 @@ Effect.Opacity = Class.create();
 Object.extend(Object.extend(Effect.Opacity.prototype, Effect.Base.prototype), {
   initialize: function(element) {
     this.element = $(element);
-
     // make this work on IE on elements without 'layout'
     if(/MSIE/.test(navigator.userAgent) && (!this.element.hasLayout))
       this.element.style.zoom = 1;
-      
     var options = Object.extend({
       from: Element.getOpacity(this.element) || 0.0,
       to:   1.0

@@ -60,7 +60,7 @@ Autocompleter.Base.prototype = {
         update.style.position = 'absolute';
         Position.clone(element, update, {setHeight: false, offsetTop: element.offsetHeight});
       }
-      new Effect.Appear(update,{duration:0.15});
+      Effect.Appear(update,{duration:0.15});
     };
     this.options.onHide = this.options.onHide || 
     function(element, update){ new Effect.Fade(update,{duration:0.15}) };
@@ -87,12 +87,14 @@ Autocompleter.Base.prototype = {
        'src="javascript:false;" frameborder="0" scrolling="no"></iframe>');
       this.iefix = $(this.update.id+'_iefix');
     }
-    if(this.iefix) {
-      Position.clone(this.update, this.iefix);
-      this.iefix.style.zIndex = 1;
-      this.update.style.zIndex = 2;
-      Element.show(this.iefix);
-    }
+    if(this.iefix) setTimeout(this.fixIEOverlapping.bind(this), 50);
+  },
+  
+  fixIEOverlapping: function() {
+    Position.clone(this.update, this.iefix);
+    this.iefix.style.zIndex = 1;
+    this.update.style.zIndex = 2;
+    Element.show(this.iefix);
   },
 
   hide: function() {
