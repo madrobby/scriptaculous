@@ -1,5 +1,7 @@
 *SVN*
 
+* Made Droppables.remove work again [thx Mindaugas Pelionis], #2409
+
 * Fixed that IE6 would incorrectly render the "fix-windowed-elements-overlapping" IFRAME on autocompletion [thx tshinnic], #2403
 
 * Fixed Element.getOpacity throwing an error on Safari in some situations (this caused the autocompleter not to work)
