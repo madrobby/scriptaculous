@@ -187,7 +187,7 @@ Autocompleter.Base.prototype = {
   
   markPrevious: function() {
     if(this.index > 0) this.index--
-      else this.index = this.entryCcount-1;
+      else this.index = this.entryCount-1;
   },
   
   markNext: function() {

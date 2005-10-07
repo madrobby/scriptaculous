@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed a typo breaking the up arrow key for autocompletion [thx tshinnic], #2406
+
 * Changed the handle option on Draggbles to accept classnames, or ids or elements [thx to Andrew West], #2274
 
 * Force indicator to be hidden on hiding autocompletion update element, #2342
