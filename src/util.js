@@ -2,7 +2,8 @@
 //
 // See scriptaculous.js for full license.
 
-Object.inspect = function(obj) {
+
+Object.debug = function(obj) {
   var info = [];
   
   if(typeof obj in ["string","number"]) {
@@ -20,32 +21,6 @@ Object.inspect = function(obj) {
     ": {" + info.join(", ") + "}");
 }
 
-// borrowed from http://www.schuerig.de/michael/javascript/stdext.js
-// Copyright (c) 2005, Michael Schuerig, michael@schuerig.de
-
-Array.flatten = function(array, excludeUndefined) {
-  if (excludeUndefined === undefined) {
-    excludeUndefined = false;
-  }
-  var result = [];
-  var len = array.length;
-  for (var i = 0; i < len; i++) {
-    var el = array[i];
-    if (el instanceof Array) {
-      var flat = el.flatten(excludeUndefined);
-      result = result.concat(flat);
-    } else if (!excludeUndefined || el != undefined) {
-      result.push(el);
-    }
-  }
-  return result;
-};
-
-if (!Array.prototype.flatten) {
-  Array.prototype.flatten = function(excludeUndefined) {
-    return Array.flatten(this, excludeUndefined);
-  }
-}
 
 String.prototype.toArray = function() {
   var results = [];
@@ -312,22 +287,24 @@ Element.setInlineOpacity = function(element, value){
 
 Element.getDimensions = function(element){
   element = $(element);
-  // All *Width and *Height properties give 0 on elements with display "none", so enable the element temporarily
-  if (element.style.display == "none"){
-    var originalVisibility = element.style.visibility;
-    var originalPosition = element.style.position;
-    element.style.visibility = "hidden";
-    element.style.position = "absolute";
-    element.style.display = "";
+  // All *Width and *Height properties give 0 on elements with display "none", 
+  // so enable the element temporarily
+  if (Element.getStyle(element,'display') == "none"){
+    var els = element.style;
+    var originalVisibility = els.visibility;
+    var originalPosition = els.position;
+    els.visibility = "hidden";
+    els.position = "absolute";
+    els.display = "";
     var originalWidth = element.clientWidth;
     var originalHeight = element.clientHeight;
-    element.style.display = "none";
-    element.style.position = originalPosition;
-    element.style.visibility = originalVisibility;
+    els.display = "none";
+    els.position = originalPosition;
+    els.visibility = originalVisibility;
     return {width: originalWidth, height: originalHeight};    
-  } else {
-    return {width: element.offsetWidth, height: element.offsetHeight};
   }
+  
+  return {width: element.offsetWidth, height: element.offsetHeight};
 } 
 
 /*--------------------------------------------------------------------------*/

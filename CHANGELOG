@@ -1,5 +1,9 @@
 *SVN*
 
+* Started refactorings to use the new Prototype features and general code-cleanup
+
+* Update lib/prototype.js to Prototype 1.4.0_pre11
+
 * Fixed a typo breaking the up arrow key for autocompletion [thx tshinnic], #2406
 
 * Changed the handle option on Draggbles to accept classnames, or ids or elements [thx to Andrew West], #2274

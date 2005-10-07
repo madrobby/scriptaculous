@@ -30,21 +30,21 @@
 
   new Test.Unit.Runner({
 
-    testObjectInspect: function() { with(this) {
+    testObjectDebug: function() { with(this) {
       assertEqual("'[object Object]' #object: {}",
-        Object.inspect({}));
+        Object.debug({}));
       assertEqual("'[object Object]' #object: {}",
-        Object.inspect({x:function(){}}));
+        Object.debug({x:function(){}}));
       assertEqual("'[object Object]' #object: {x => \"test\"}",
-        Object.inspect({x:"test"}));
+        Object.debug({x:"test"}));
       assertEqual("'[object Object]' #object: {x => \"test\", y => 123}",
-        Object.inspect({x:"test",y:123}));
+        Object.debug({x:"test",y:123}));
       assertEqual("'[object Object]' #object: {x => [object Object]}",
-        Object.inspect({x:{}}));
+        Object.debug({x:{}}));
       assertEqual("'[object Object]' #object: {x => \"test\", y => [object Object]}",
-        Object.inspect({x:"test",y:{}}));
+        Object.debug({x:"test",y:{}}));
       assertEqual("'[object Object]' #object: {x => \"test\", y => [object Object]}",
-        Object.inspect({x:"test",y:{z:"test",blah:{}}}));
+        Object.debug({x:"test",y:{z:"test",blah:{}}}));
     }},
     
     testElementClassRemove: function() { with(this) {
