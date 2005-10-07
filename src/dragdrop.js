@@ -354,6 +354,7 @@ var Sortable = {
       only:        false,
       hoverclass:  null,
       ghosting:    false,
+      format:      null,
       onChange:    function() {},
       onUpdate:    function() {}
     }, arguments[1] || {});
@@ -504,11 +505,12 @@ var Sortable = {
     var options = Object.extend({
       tag:  sortableOptions.tag,
       only: sortableOptions.only,
-      name: element.id
+      name: element.id,
+      format: sortableOptions.format || /^[^_]*_(.*)$/
     }, arguments[1] || {});
-    return $(this.findElements(element, options) || []).collect( function(item) { 
+    return $(this.findElements(element, options) || []).collect( function(item) {
       return (encodeURIComponent(options.name) + "[]=" + 
-              encodeURIComponent(item.id.split("_")[1]));
+              encodeURIComponent(item.id.match(options.format) ? item.id.match(options.format)[1] : ''));
     }).join("&");
   }
 } 

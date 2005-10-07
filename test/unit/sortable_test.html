@@ -36,6 +36,16 @@
   
 </div>
 
+<ul id="sortable_specialcreate">
+  <li id="y1item">item 1</li>
+  <li id="y2item">item 1<ul><li id="yyyy9928282hjhd">!!!</li></ul></li>
+</ul>
+
+<ul id="sortable_specialformat">
+  <li id="x1item">item 1</li>
+  <li id="x2item">item 1<ul><li id="xxxxx88888item">!!!</li></ul></li>
+</ul>
+
 <!-- Tests follow -->
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
@@ -46,21 +56,43 @@
       Sortable.create('sortable1');
       Sortable.create('sortable2',{tag:'div'});
       Sortable.create('sortable3');
+      Sortable.create('sortable_specialcreate',{ format:/(\d+)/ });
+      Sortable.create('sortable_specialformat');
     }},
     
     teardown: function() { with(this) {
       Sortable.destroy('sortable1');
       Sortable.destroy('sortable2');
       Sortable.destroy('sortable3');
+      Sortable.destroy('sortable_specialformat');
+      Sortable.destroy('sortable_specialcreate');
     }},
     
     testSortableSerialize: function() { with(this) {
-      assertEqual('sortable1[]=1&sortable1[]=2&sortable1[]=3', Sortable.serialize('sortable1'));
-      assertEqual('sortable2[]=3&sortable2[]=4', Sortable.serialize('sortable2'));
+      assertEqual('sortable1[]=1&sortable1[]=2&sortable1[]=3', Sortable.serialize('sortable1'));      
+      // test empty sortable
       assertEqual('', Sortable.serialize('sortable3'));
       
       Element.remove('item_4');
       assertEqual('sortable2[]=3', Sortable.serialize('sortable2'));
+    }},
+    
+    testSortableSerializeFormat: function() { with(this) {
+      // shauld correctly serialize from option given to Sortable.create()
+      assertEqual('sortable_specialcreate[]=1&sortable_specialcreate[]=2', 
+        Sortable.serialize('sortable_specialcreate'));
+      
+      // test special format given explicitly
+      assertEqual('sortable_specialformat[]=1&sortable_specialformat[]=2', 
+        Sortable.serialize('sortable_specialformat', {format:/(\d+)/}));
+ 
+      // return full id
+      assertEqual('sortable_specialformat[]=x1item&sortable_specialformat[]=x2item', 
+        Sortable.serialize('sortable_specialformat', {format:/(.*)/}));
+      
+      // test default format given explicitly
+      assertEqual('sortable1[]=1&sortable1[]=2&sortable1[]=3', 
+        Sortable.serialize('sortable1',{format:/^[^_]*_(.*)$/}));
     }}
 
   }, "testlog");
