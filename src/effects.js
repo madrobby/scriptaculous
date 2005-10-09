@@ -120,6 +120,7 @@ Effect.Queue = {
 
 Effect.Base = function() {};
 Effect.Base.prototype = {
+  position: null,
   setOptions: function(options) {
     this.options = Object.extend({
       transition: Effect.Transitions.sinoidal,
@@ -169,6 +170,7 @@ Effect.Base.prototype = {
     if(this.options.transition) pos = this.options.transition(pos);
     pos *= (this.options.to-this.options.from);
     pos += this.options.from;
+    this.position = pos;
     this.event('beforeUpdate');
     if(this.update) this.update(pos);
     this.event('afterUpdate');

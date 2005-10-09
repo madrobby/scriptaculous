@@ -1,5 +1,7 @@
 *SVN*
 
+* Make Effect position available to callbacks
+
 * Droppables.fire: send event to onDrop callback [François Beausoleil], #2389
 
 * InPlaceEditor: Add disabling the field while loadTextURL loads and add a class while loading, plus fix various bugs with Internet Explorer and InPlaceEditor, [Jon Tirsen] #2302, #2303

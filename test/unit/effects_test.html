@@ -48,6 +48,18 @@
         var effect = new Effect[COMBINED_EFFECTS[j]]('test_element',{sync:true});
         assertEqual(0, effect.currentFrame);
       }
+    }},
+    
+    testEffectPosition: function() { with(this) {
+      var testeffect = new Effect.Opacity('sandbox',{ 
+        afterUpdate: function(effect) { $('sandbox').innerHTML = effect.position; },
+        duration: 0.5, from: 1.0, to: 0.5
+      });
+      assertNull(testeffect.position);
+      wait(1000, function() {
+        assertEqual('0.5', $('sandbox').innerHTML);
+        assertEqual(0.5, testeffect.position);
+      });
     }}
 
   });
