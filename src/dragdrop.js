@@ -93,7 +93,7 @@ var Droppables = {
 
     if (this.isAffected(Event.pointerX(event), Event.pointerY(event), element, this.last_active))
       if (this.last_active.onDrop) 
-        this.last_active.onDrop(element, this.last_active.element);
+        this.last_active.onDrop(element, this.last_active.element, event);
   },
 
   reset: function() {
