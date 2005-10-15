@@ -184,7 +184,10 @@ Autocompleter.Base.prototype = {
         this.show();
         this.active = true;
       }
-    } else this.hide();
+    } else {
+      this.active = false;
+      this.hide();
+    }
   },
   
   markPrevious: function() {
