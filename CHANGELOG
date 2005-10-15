@@ -1,5 +1,7 @@
 *SVN*
 
+* Give Builder it's own file
+
 * Fix a logic issue with Autocompleter [thx tshinnic], #2457
 
 *V1.5.0_rc3*
