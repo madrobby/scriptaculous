@@ -1,6 +1,6 @@
 *SVN*
 
-* Synced with Rails 0.14.0, update to Prototype 1.4.0_rc1, removed util.js, merged rests of util.js into effects.js to prepare for refactoring
+* Synced to Rails 1.0 release candidate, update to Prototype 1.4.0_rc1, removed util.js, merged rests of util.js into effects.js to prepare for refactoring
 
 * Give Builder it's own file
 
