@@ -4,7 +4,7 @@ require 'rake'
 
 PKG_NAME        = 'scriptaculous-js'
 PKG_BUILD       = ENV['PKG_BUILD'] ? '.' + ENV['PKG_BUILD'] : ''
-PKG_VERSION     = '1.5_rc2' + PKG_BUILD
+PKG_VERSION     = '1.5_rc3' + PKG_BUILD
 PKG_FILE_NAME   = "#{PKG_NAME}-#{PKG_VERSION}"
 PKG_DESTINATION = ENV["RAILS_PKG_DESTINATION"] || "dist"
 
@@ -24,7 +24,7 @@ PKG_FILES = FileList[
   'src/effects.js',
   'src/controls.js',
   'src/unittest.js',
-  'src/util.js',
+  'src/builder.js',
   'src/slider.js',
   'src/unittest.js',
   'lib/prototype.js',
