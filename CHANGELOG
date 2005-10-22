@@ -1,5 +1,7 @@
 *SVN*
 
+* Reset the zIndex on Draggables correctly, #2483 [thx Jon Whitcraft]
+
 * Fix onChange callback on Sortables when dragging between sortables, #2488 [thx Dylan Greene]
 
 * Removed Builder code from effects.js, removed Object.debug (implemented as Test.Unit.inspect)

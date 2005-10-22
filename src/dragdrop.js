@@ -280,7 +280,7 @@ Draggable.prototype = {
           style.position = "relative";
         
         if(this.options.zindex) {
-          this.options.originalZ = parseInt(Element.getStyle(this.element,'z-index') || 0);
+          this.originalZ = parseInt(Element.getStyle(this.element,'z-index') || 0);
           style.zIndex = this.options.zindex;
         }
 
