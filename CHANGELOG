@@ -1,5 +1,9 @@
 *SVN*
 
+* Removed Builder code from effects.js, removed Object.debug (implemented as Test.Unit.inspect)
+
+* Added slider unit tests, fixed handling of values to autocalculate min/max, fixed upper/lower boundaries on setting the value programmatically
+
 * Synced to Rails 1.0 release candidate, update to Prototype 1.4.0_rc1, removed util.js, merged rests of util.js into effects.js to prepare for refactoring
 
 * Give Builder it's own file

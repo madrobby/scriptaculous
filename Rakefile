@@ -61,6 +61,7 @@ JavaScriptTestTask.new(:unittest) do |t|
   t.run("/test/unit/effects_test.html")
   t.run("/test/unit/ajax_autocompleter_test.html")
   t.run("/test/unit/ajax_inplaceeditor_test.html")
+  t.run("/test/unit/slider_test.html")
   t.run("/test/unit/string_test.html")
   t.run("/test/unit/builder_test.html")
   t.run("/test/unit/element_test.html")

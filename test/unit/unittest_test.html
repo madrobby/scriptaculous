@@ -47,6 +47,23 @@
 
   new Test.Unit.Runner({
     
+    testInspect: function() { with(this) {
+      assertEqual("'[object Object]' #object: {}",
+        Test.Unit.inspect({}));
+      assertEqual("'[object Object]' #object: {}",
+        Test.Unit.inspect({x:function(){}}));
+      assertEqual("'[object Object]' #object: {x => \"test\"}",
+        Test.Unit.inspect({x:"test"}));
+      assertEqual("'[object Object]' #object: {x => \"test\", y => 123}",
+        Test.Unit.inspect({x:"test",y:123}));
+      assertEqual("'[object Object]' #object: {x => [object Object]}",
+        Test.Unit.inspect({x:{}}));
+      assertEqual("'[object Object]' #object: {x => \"test\", y => [object Object]}",
+        Test.Unit.inspect({x:"test",y:{}}));
+      assertEqual("'[object Object]' #object: {x => \"test\", y => [object Object]}",
+        Test.Unit.inspect({x:"test",y:{z:"test",blah:{}}}));
+    }},
+    
     testAssertEqual: function() { with(this) {
       assertEqual(0, 0);
       assertEqual(0, 0, "test");

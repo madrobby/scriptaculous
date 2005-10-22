@@ -18,7 +18,7 @@
 <body>
 <h1>script.aculo.us Unit test file</h1>
 <p>
-  Test of utility functions in util.js
+  Test of utility functions
 </p>
 
 <!-- Log output -->
@@ -29,23 +29,6 @@
 // <![CDATA[
 
   new Test.Unit.Runner({
-
-    testObjectDebug: function() { with(this) {
-      assertEqual("'[object Object]' #object: {}",
-        Object.debug({}));
-      assertEqual("'[object Object]' #object: {}",
-        Object.debug({x:function(){}}));
-      assertEqual("'[object Object]' #object: {x => \"test\"}",
-        Object.debug({x:"test"}));
-      assertEqual("'[object Object]' #object: {x => \"test\", y => 123}",
-        Object.debug({x:"test",y:123}));
-      assertEqual("'[object Object]' #object: {x => [object Object]}",
-        Object.debug({x:{}}));
-      assertEqual("'[object Object]' #object: {x => \"test\", y => [object Object]}",
-        Object.debug({x:"test",y:{}}));
-      assertEqual("'[object Object]' #object: {x => \"test\", y => [object Object]}",
-        Object.debug({x:"test",y:{z:"test",blah:{}}}));
-    }},
     
     testElementClassRemove: function() { with(this) {
       var element = Builder.node('div',{className: 'a b c d'});

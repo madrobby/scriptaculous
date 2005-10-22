@@ -46,9 +46,6 @@ Control.Slider.prototype = {
     this.originalTop  = this.currentTop();
     this.originalZ    = parseInt(this.handle.style.zIndex || "0");
 
-    // Prepopulate Slider value
-    this.setSliderValue(parseInt(this.options.sliderValue) || 0);
-
     this.active   = false;
     this.dragging = false;
     this.disabled = false;
@@ -65,6 +62,13 @@ Control.Slider.prototype = {
 
     // Value Array
     this.values = this.options.values || false;  // Add method to validate and sort??
+    if(this.values) {
+      this.minimum = this.values.min();
+      this.maximum = this.values.max();
+    }
+
+    // Prepopulate Slider value
+    this.setSliderValue(parseInt(this.options.sliderValue) || this.minimum);
 
     Element.makePositioned(this.handle); // fix IE
 
@@ -114,22 +118,24 @@ Control.Slider.prototype = {
   }, 
   getNearestValue: function(value){
     if(this.values){
-      var i = 0;
+      if(value >= this.values.max()) return(this.values.max());
+      if(value <= this.values.min()) return(this.values.min());
+
       var offset = Math.abs(this.values[0] - value);
       var newValue = this.values[0];
 
-      for(i=0; i < this.values.length; i++){
-        var currentOffset = Math.abs(this.values[i] - value);
-        if(currentOffset < offset){
-          newValue = this.values[i];
+      this.values.each( function(v) {
+        var currentOffset = Math.abs(v - value);
+        if(currentOffset <= offset){
+          newValue = v;
           offset = currentOffset;
-        }
-      }
+        } 
+      });
       return newValue;
     }
     return value;
   },
-  setSliderValue:  function(sliderValue){
+  setSliderValue: function(sliderValue){
     // First check our max and minimum and nearest values
     sliderValue = this.getNearestValue(sliderValue);	
     if(sliderValue > this.maximum) sliderValue = this.maximum;
