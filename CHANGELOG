@@ -1,5 +1,7 @@
 *SVN*
 
+* Fixed Effect.SlideDown/SlideUp to honor refactoring of Effect.Scale, fixes #2523 [thx obiwanki]
+
 * Reset the zIndex on Draggables correctly, #2483 [thx Jon Whitcraft]
 
 * Fix onChange callback on Sortables when dragging between sortables, #2488 [thx Dylan Greene]

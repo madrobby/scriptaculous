@@ -747,7 +747,7 @@ Effect.SlideDown = function(element) {
     },  
     afterUpdateInternal: function(effect) { 
       effect.element.firstChild.style.bottom = 
-        (effect.originalHeight - effect.element.clientHeight) + 'px'; },
+        (effect.dims[0] - effect.element.clientHeight) + 'px'; },
     afterFinishInternal: function(effect) { 
       Element.undoClipping(effect.element); 
       Element.undoPositioned(effect.element.firstChild);
@@ -774,7 +774,7 @@ Effect.SlideUp = function(element) {
     },  
     afterUpdateInternal: function(effect) { 
      effect.element.firstChild.style.bottom = 
-       (effect.originalHeight - effect.element.clientHeight) + 'px'; },
+       (effect.dims[0] - effect.element.clientHeight) + 'px'; },
     afterFinishInternal: function(effect) { 
         Element.hide(effect.element);
         Element.undoClipping(effect.element); 
