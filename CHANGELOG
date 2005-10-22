@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix onChange callback on Sortables when dragging between sortables, #2488 [thx Dylan Greene]
+
 * Removed Builder code from effects.js, removed Object.debug (implemented as Test.Unit.inspect)
 
 * Added slider unit tests, fixed handling of values to autocalculate min/max, fixed upper/lower boundaries on setting the value programmatically

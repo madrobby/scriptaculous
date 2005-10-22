@@ -68,12 +68,19 @@
 </div>
 </div>
 
+<hr style="clear:both" />
+
+<pre id="firstlist_debug"></pre>
+<pre id="secondlist_debug"></pre>
+
  <script type="text/javascript">
  // <![CDATA[
    Sortable.create("firstlist",
-     {dropOnEmpty:true,containment:["firstlist","secondlist"],constraint:false});
+     {dropOnEmpty:true,containment:["firstlist","secondlist"],constraint:false,
+      onChange:function(){$('firstlist_debug').innerHTML = Sortable.serialize('firstlist') }});
    Sortable.create("secondlist",
-     {dropOnEmpty:true,handle:'handle',containment:["firstlist","secondlist"],constraint:false});
+     {dropOnEmpty:true,handle:'handle',containment:["firstlist","secondlist"],constraint:false,
+     onChange:function(){$('secondlist_debug').innerHTML = Sortable.serialize('secondlist') }});
  // ]]>
  </script>
  
