@@ -33,6 +33,26 @@
   
   <p id="debug3"> </p>
   
+  <h2>Slider with multiple handles</h2>
+  
+  <div id="track4" style="width:200px;background-color:#aaa;height:5px;position:relative;">
+    <div id="handle4-1" style="position:absolute;top:0;left:0;width:5px;height:10px;background-color:#f00;"> </div>
+    <div id="handle4-2" style="position:absolute;top:0;left:0;width:5px;height:10px;background-color:#0f0;"> </div>
+    <div id="handle4-3" style="position:absolute;top:0;left:0;width:5px;height:10px;background-color:#00f;"> </div>
+  </div>
+  
+  <p id="debug4"> </p>
+  
+  <h2>Slider with multiple handles and predefined values</h2>
+  
+  <div id="track5" style="width:200px;background-color:#aaa;height:5px;position:relative;">
+    <div id="handle5-1" style="opacity:0.5;position:absolute;top:0;left:0;width:5px;height:10px;background-color:#f00;"> </div>
+    <div id="handle5-2" style="opacity:0.5;position:absolute;top:0;left:0;width:5px;height:10px;background-color:#0f0;"> </div>
+    <div id="handle5-3" style="opacity:0.5;position:absolute;top:0;left:0;width:5px;height:10px;background-color:#00f;"> </div>
+  </div>
+  
+  <p id="debug5"> </p>
+  
   <!-- FIXME: add more demos here -->
   
   <script type="text/javascript" language="javascript">
@@ -46,6 +66,12 @@
     new Control.Slider('handle3','track3',{values:[0,50,100,150,200],
         onSlide:function(v){$('debug3').innerHTML='slide: '+v},
         onChange:function(v){$('debug3').innerHTML='changed! '+v}});
+    new Control.Slider(['handle4-1','handle4-2','handle4-3'],'track4',{
+        onSlide:function(v){$('debug4').innerHTML='slide: '+v.inspect()},
+        onChange:function(v){$('debug4').innerHTML='changed! '+v.inspect()}});
+    new Control.Slider(['handle5-1','handle5-2','handle5-3'],'track5',{values:[0,50,100,150,200],
+        onSlide:function(v){$('debug5').innerHTML='slide: '+v.inspect()},
+        onChange:function(v){$('debug5').innerHTML='changed! '+v.inspect()}});
   // ]]>
   </script>
   

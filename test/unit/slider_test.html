@@ -16,15 +16,27 @@
 </p>
 
 <div id="track1" style="width:200px;background-color:#aaa;height:5px;">
-  <div id="handle1" style="width:5px;height:10px;background-color:#f00;"> </div>
+  <div id="handle1" style="width:15px;height:25px;background-color:#f00;"> </div>
 </div>
 
 <div id="track2-vertical" style="height:100px;background-color:#aaa;width:5px;">
-  <div id="handle2-vertical" style="width:10px;height:5px;background-color:#f00;"> </div>
+  <div id="handle2-vertical" style="width:25px;height:10px;background-color:#f00;"> </div>
 </div>
 
 <div id="track2-horizontal" style="height:5px;background-color:#aaa;width:300px;">
-  <div id="handle2-horizontal" style="width:10px;height:5px;background-color:#f00;"> </div>
+  <div id="handle2-horizontal" style="width:10px;height:25px;background-color:#f00;"> </div>
+</div>
+
+<div id="track3" style="width:300px;background-color:#cfb;height:30px;">
+  <span id="handle3-1">1</span>
+  <span id="handle3-2">2</span>
+  <span id="handle3-3">3</span>
+</div>  
+
+<div id="track4" style="width:300px;background-color:#cbf;height:30px;">
+  <span id="handle4-1" style="background-color:#f00;">1</span>
+  <span id="handle4-2" style="background-color:#0f0;">2</span>
+  <span id="handle4-3" style="background-color:#00f;">3</span>
 </div>
 
 <!-- Log output -->
@@ -41,7 +53,7 @@
     testSliderBasics: function() { with(this) {
       var slider = new Control.Slider('handle1', 'track1');
       assertInstanceOf(Control.Slider, slider);
-      assertEqual(5, Event.observers.length);
+      assertEqual(4, Event.observers.length);
       
       assertEqual('horizontal', slider.axis);
       assertEqual(false, slider.disabled);
@@ -56,16 +68,21 @@
         assertEqual(axis, slider.axis);
         assertEqual(10, slider.value);
         
-        slider.setSliderValue(5);
+        slider.setValue(5);
         assertEqual(10, slider.value);
         
-        slider.setSliderValue(22);
+        slider.setValueBy(8);
+        assertEqual(20, slider.value);
+        slider.setValueBy(-15);
+        assertEqual(10, slider.value);
+        
+        slider.setValue(22);
         assertEqual(20, slider.value);
         
-        slider.setSliderValue(25);
+        slider.setValue(25);
         assertEqual(30, slider.value);
         
-        slider.setSliderValue(55555);
+        slider.setValue(55555);
         assertEqual(50, slider.value);
         
         // leave active to be able to play around with the sliders
@@ -77,19 +94,74 @@
     
     testSliderOnChange: function() { with(this) {
       var slider = new Control.Slider('handle1', 'track1', { onChange:function(v){ globalValue = v; } });
-      slider.setSliderValue(100);
+      slider.setValue(100);
       assert(100, globalValue);
       assert(100, slider.value);
       
       slider.setDisabled();
-      slider.setSliderValue(50);
+      slider.setValue(50);
       assert(100, globalValue);
       assert(100, slider.value);
       
       slider.setEnabled();
-      slider.setSliderValue(50);
+      slider.setValue(50);
       assert(50, globalValue);
       assert(50, slider.value);
+      
+      var slider = new Control.Slider(['handle3-1','handle3-2','handle3-3'], 'track3', {
+        onChange:function(v){ globalValue = v; } });
+       
+      slider.setValue(50,1);
+      assertEqual([0,50,0].inspect(), globalValue.inspect());
+       
+     slider.dispose();
+    }},
+    
+    testMultipleHandles: function() { with(this) {
+      var slider = new Control.Slider(['handle3-1','handle3-2','handle3-3'], 'track3');
+      assertInstanceOf(Control.Slider, slider);
+      
+      slider.setValue(20, 0);
+      slider.setValue(50, 1);
+      slider.setValue(70, 2);
+      assertEqual(20, slider.values[0]);
+      assertEqual(50, slider.values[1]);
+      assertEqual(70, slider.values[2]);
+      assertEqual("20px", slider.handles[0].style.left);
+      assertEqual("50px", slider.handles[1].style.left);
+      assertEqual("70px", slider.handles[2].style.left);
+      
+      // should change last manipulated handled by -10,
+      // so check for handle with idx 2
+      slider.setValueBy(-10);
+      assertEqual(60, slider.values[2]);
+      
+      slider.setValueBy(10, 0);
+      assertEqual(20, slider.values[0]);
+      slider.setValueBy(10, 1);
+      assertEqual(60, slider.values[1]);
+      slider.setValueBy(20, slider.activeHandleIdx);
+      assertEqual(80, slider.values[1]);
+    }},
+    
+    testMultipleHandlesValues: function() { with(this) {
+      var slider = new Control.Slider(['handle4-1','handle4-2','handle4-3'], 'track4', {values:[50,150,160,170,180]});
+      assertInstanceOf(Control.Slider, slider);
+      
+      slider.setValue(20, 0);
+      slider.setValue(150, 2);
+      slider.setValue(179, 1);
+      
+      assertEqual(50, slider.values[0]);
+      assertEqual(150, slider.values[2]);
+      assertEqual(180, slider.values[1]);
+      
+      assertEqual("0px", slider.handles[0].style.left);
+      assertEqual("100px", slider.handles[2].style.left);
+      assertEqual("130px", slider.handles[1].style.left);
+      
+      assertEqual($R(50,150).inspect(), slider.getRange().inspect());
+      assertEqual(30, slider.getRange(1).max()-slider.getRange(1).min());
     }}
     
   }, "testlog");
