@@ -31,6 +31,7 @@ Control.Slider.prototype = {
     this.step      = parseInt(this.options.step || '1');
     this.value     = 0; // assure backwards compat
     this.values    = this.handles.map( function() { return 0 });
+    this.spans     = this.options.spans ? this.options.spans.map(function(s){ return $(s) }) : false;
 
     var defaultMaximum = Math.round(this.track.offsetWidth / this.increment);
     if(this.isVertical()) defaultMaximum = Math.round(this.track.offsetHeight / this.increment);   
@@ -169,6 +170,7 @@ Control.Slider.prototype = {
     this.values[handleIdx || this.activeHandleIdx || 0] = sliderValue;
     this.value = this.values[0]; // assure backwards compat
     
+    this.drawSpans();
     this.updateFinished();
   },
   setValueBy: function(delta, handleIdx) {
@@ -176,7 +178,7 @@ Control.Slider.prototype = {
       handleIdx || this.activeHandleIdx || 0);
   },
   getRange: function(range) {
-    var v = this.values.sort(function(a,b) { return a-b });
+    var v = this.values.sortBy(Prototype.K); 
     range = range || 0;
     return $R(v[range],v[range+1]);
   },
@@ -192,6 +194,20 @@ Control.Slider.prototype = {
   },  
   isVertical:  function(){
     return (this.axis == 'vertical');
+  },
+  drawSpans: function() {
+    var slider = this;
+    if(this.spans)
+      $R(0, this.spans.length-1).each(function(r) { slider.setSpan(r, slider.getRange(r)) });
+  },
+  setSpan: function(span, range) {
+    if(this.isVertical()) {
+      this.spans[span].style.top = range.start + "px";
+      this.spans[span].style.height = (range.end - range.start) + "px";
+    } else {
+      this.spans[span].style.left = range.start + "px";
+      this.spans[span].style.width = (range.end - range.start) + "px";
+    }
   },
   startDrag: function(event) {
     if(Event.isLeftClick(event)) {
@@ -253,6 +269,7 @@ Control.Slider.prototype = {
     }
     
     this.value = this.values[0];
+    this.drawSpans();
     if(this.options.onSlide) this.options.onSlide(this.values.length>1 ? this.values : this.value, this);
   },
   endDrag: function(event) {

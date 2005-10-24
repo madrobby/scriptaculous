@@ -39,6 +39,26 @@
   <span id="handle4-3" style="background-color:#00f;">3</span>
 </div>
 
+<div id="track5" style="width:300px;background-color:#cbf;height:30px;position:relative;z-index:0;">
+  <div id="handle5-1" style="top:0;left:0;position:absolute;background-color:#f00;z-index:2">1</div>
+  <div id="handle5-2" style="top:0;left:0;position:absolute;background-color:#0f0;z-index:2">2</div>
+  <div id="handle5-3" style="top:0;left:0;position:absolute;background-color:#00f;z-index:2">3</div>
+  
+  <div id="span5-1" style="top:0;left:0;position:absolute;background-color:#000;height:20px;z-index:1;"> </div>
+  <div id="span5-2" style="top:0;left:0;position:absolute;background-color:#444;height:20px;z-index:1;"> </div>
+</div>
+
+<div id="track6" style="width:20px;background-color:#cbf;height:100px;position:relative;z-index:0;">
+  <div id="handle6-1" style="top:0;left:0;position:absolute;background-color:#f00;z-index:2">1</div>
+  <div id="handle6-2" style="top:0;left:0;position:absolute;background-color:#0f0;z-index:2">2</div>
+  <div id="handle6-3" style="top:0;left:0;position:absolute;background-color:#00f;z-index:2">3</div>
+  
+  <div id="span6-1" style="top:0;left:0;position:absolute;background-color:#000;width:20px;z-index:1;"> </div>
+  <div id="span6-2" style="top:0;left:0;position:absolute;background-color:#444;width:20px;z-index:1;"> </div>
+</div>
+
+<div id="debug"> </div>
+
 <!-- Log output -->
 <div id="testlog"> </div>
 
@@ -162,6 +182,52 @@
       
       assertEqual($R(50,150).inspect(), slider.getRange().inspect());
       assertEqual(30, slider.getRange(1).max()-slider.getRange(1).min());
+    }},
+    
+    testMultipleHandlesSpans: function() { with(this) {
+      var slider = new Control.Slider(['handle5-1','handle5-2','handle5-3'], 'track5', {spans:['span5-1','span5-2']});
+      assertInstanceOf(Control.Slider, slider);
+      
+      slider.setValue(20,  0);
+      slider.setValue(100, 1);
+      slider.setValue(150, 2);
+  
+      assertEqual("20px", $('span5-1').style.left);
+      assertEqual("80px", $('span5-1').style.width);
+      assertEqual("100px", $('span5-2').style.left);
+      assertEqual("50px", $('span5-2').style.width);
+      
+      slider.setValue(30, 0);
+      slider.setValue(110, 1);
+      slider.setValue(90, 2);
+  
+      assertEqual("30px", $('span5-1').style.left);
+      assertEqual("60px", $('span5-1').style.width);
+      assertEqual("90px", $('span5-2').style.left);
+      assertEqual("20px", $('span5-2').style.width);
+    }},
+    
+    testMultipleHandlesSpansVertical: function() { with(this) {
+      var slider = new Control.Slider(['handle6-1','handle6-2','handle6-3'], 'track6', {axis:'vertical',spans:['span6-1','span6-2']});
+      assertInstanceOf(Control.Slider, slider);
+      
+      slider.setValue(20, 0);
+      slider.setValue(80, 1);
+      slider.setValue(90, 2);
+  
+      assertEqual("20px", $('span6-1').style.top);
+      assertEqual("60px", $('span6-1').style.height);
+      assertEqual("80px", $('span6-2').style.top);
+      assertEqual("10px", $('span6-2').style.height);
+      
+      slider.setValue(30, 0);
+      slider.setValue(20, 1);
+      slider.setValue(95, 2);
+  
+      assertEqual("20px", $('span6-1').style.top);
+      assertEqual("10px", $('span6-1').style.height);
+      assertEqual("30px", $('span6-2').style.top);
+      assertEqual("65px", $('span6-2').style.height);
     }}
     
   }, "testlog");

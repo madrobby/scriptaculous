@@ -1,5 +1,7 @@
 *SVN*
 
+* Added spans support for Control.Slider to mark spans bordered by slider handles, see unit test [thx to www.bartenbach.de for sponsoring this functionality]
+
 * Added preliminary support for optional multiple handles to Control.Slider [thx to www.bartenbach.de for sponsoring this functionality]
 
 * Fixed wrong inclusion of libs in inplace editor functional test
