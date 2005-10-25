@@ -1,5 +1,7 @@
 *SVN*
 
+* major slider refactoring, changed slider range to default to [0,1]. Slider Range can be set with range:$R(from,to) option. The increment option is not active for now.
+
 * Added spans support for Control.Slider to mark spans bordered by slider handles, see unit test [thx to www.bartenbach.de for sponsoring this functionality]
 
 * Added preliminary support for optional multiple handles to Control.Slider [thx to www.bartenbach.de for sponsoring this functionality]
