@@ -23,7 +23,7 @@ String.prototype.parseColor = function() {
   }  
   return(color.length==7 ? color : (arguments[0] || this));  
 }  
- 
+
 Element.collectTextNodesIgnoreClass = function(element, ignoreclass) {  
   var children = $(element).childNodes;  
   var text     = "";  
@@ -38,15 +38,15 @@ Element.collectTextNodesIgnoreClass = function(element, ignoreclass) {
     }  
   }  
  
-  return text;  
-}  
- 
+  return text;
+}
+
 Element.setContentZoom = function(element, percent) {  
   element = $(element);  
   element.style.fontSize = (percent/100) + "em";   
   if(navigator.appVersion.indexOf('AppleWebKit')>0) window.scrollBy(0,0);  
-}  
- 
+}
+
 Element.getOpacity = function(element){  
   var opacity;  
   if (opacity = Element.getStyle(element, "opacity"))  
@@ -54,8 +54,8 @@ Element.getOpacity = function(element){
   if (opacity = (Element.getStyle(element, "filter") || '').match(/alpha\(opacity=(.*)\)/))  
     if(opacity[1]) return parseFloat(opacity[1]) / 100;  
   return 1.0;  
-}  
- 
+}
+
 Element.setOpacity = function(element, value){  
   element= $(element);  
   var els = element.style;  
@@ -256,6 +256,9 @@ Effect.Transitions.full = function(pos) {
 
 Effect.Queue = {
   effects:  [],
+  _each: function(iterator) {
+    this.effects._each(iterator);
+  },
   interval: null,
   add: function(effect) {
     var timestamp = new Date().getTime();
@@ -292,6 +295,7 @@ Effect.Queue = {
     this.effects.invoke('loop', timePos);
   }
 }
+Object.extend(Effect.Queue, Enumerable);
 
 Effect.Base = function() {};
 Effect.Base.prototype = {
@@ -872,7 +876,7 @@ Effect.Grow = function(element) {
                els.top = oldTop;
                els.left = oldLeft;
                els.height = oldHeight;
-               els.width = originalWidth;
+               els.width = originalWidth + 'px';
                Element.setInlineOpacity(el, oldOpacity);
              }
            }, options)

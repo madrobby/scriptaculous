@@ -31,11 +31,103 @@
   var COMBINED_EFFECTS =
     ['Fade','Appear','BlindUp','BlindDown','Puff','SwitchOff','DropOut','Shake',
      'SlideUp','SlideDown','Pulsate','Squish','Fold','Grow','Shrink'];
+     
+  var tmp, tmp2;
 
   new Test.Unit.Runner({
 
     setup: function() { with (this) {
       $('sandbox').innerHTML = "";
+    }},
+    
+    teardown: function() { with(this) {
+      // remove all queued effects
+      Effect.Queue.each(function(e) { e.cancel() });
+    }},
+    
+    testBackwardsCompat: function() { with(this) {
+      assertInstanceOf(Effect.Opacity, new Effect2.Fade('sandbox'));
+    }},
+    
+    testCallbacks: function() { with(this) {
+      tmp = tmp2 = 0;
+      var e1 = new Effect.Opacity('sandbox',{from:1.0,to:0.5,duration:0.5,
+        beforeStart: function() { tmp++ },
+        beforeStartInternal: function() { tmp++ },
+        beforeSetup: function() { tmp++ },
+        beforeSetupInternal: function() { tmp++ },
+        afterSetup: function() { tmp++ },
+        afterSetupInternal: function() { tmp++ },
+        beforeUpdate: function() { tmp2++ },
+        beforeUpdateInternal: function() { tmp2++ },
+        beforeFinish: function() { tmp++ },
+        beforeFinishInternal: function() { tmp++ },
+        afterFinish: function() { tmp++ },
+        afterFinishInternal: function() { tmp++ }
+      });
+      wait(1000, function() {
+        assertEqual(10, tmp);
+        assert(tmp2 > 0);
+      });
+    }},
+    
+    testEffectsQueue: function() { with(this) {
+      var e1 = new Effect.Highlight('sandbox');
+      var e2 = new Effect.Appear('sandbox');
+      
+      assertEqual(2, Effect.Queue.effects.length);
+      
+      tmp = 0;
+      Effect.Queue.each(function(e) { tmp++ });
+      assertEqual(2, tmp);
+      
+      // the internal interval timer should be active
+      assertNotNull(Effect.Queue.interval);
+      e1.cancel();
+      e2.cancel();
+      assertEqual(0, Effect.Queue.effects.length);
+      
+      // should be inactive after all effects are removed from queue
+      assertNull(Effect.Queue.interval);
+      
+      // should be in e3,e1,e2 order
+      var e1 = new Effect.Highlight('sandbox');
+      var e2 = new Effect.Appear('sandbox',{queue:'end'});
+      var e3 = new Effect.Fade('sandbox',{queue:'front'});
+      assert(e2.startOn > e1.startOn);
+      assert(e3.startOn < e1.startOn);
+      assert(e3.startOn < e2.startOn);
+      assertEqual(3, Effect.Queue.effects.length);
+      
+      Effect.Queue.each(function(e) { e.cancel() });
+      assertEqual(0, Effect.Queue.effects.length);
+    }},
+    
+    testEffectMultiple: function() { with(this) {
+      $('sandbox').appendChild(Builder.node('div',{id:'test_1'}));
+      $('sandbox').appendChild(Builder.node('div',{id:'test_2'},[Builder.node('div',{id:'test_2a'})]));
+      $('sandbox').appendChild(Builder.node('div',{id:'test_3'}));
+      
+      // only direct child elements
+      Effect.multiple('sandbox',Effect.Fade);
+      assertEqual(3, Effect.Queue.effects.length);
+      
+      Effect.Queue.each(function(e) { e.cancel() });
+      assertEqual(0, Effect.Queue.effects.length);
+      
+      // call with array
+      Effect.multiple(['test_1','test_3'],Effect.Puff);
+      assertEqual(2, Effect.Queue.effects.length);
+    }},
+    
+    testEffectTagifyText: function() { with(this) {
+      $('sandbox').innerHTML = "Blah<strong>bleb</strong> Blub";
+      assertEqual(3, $('sandbox').childNodes.length);
+      Effect.tagifyText('sandbox');
+      assertEqual(10, $('sandbox').childNodes.length);
+      
+      Effect.multiple('sandbox', Effect.Fade);
+      assertEqual(10, Effect.Queue.effects.length);
     }},
 
     // test if all combined effects correctly initialize themselves
@@ -45,9 +137,29 @@
         $('sandbox').appendChild(
           Builder.node('div',{id:'test_element'},
             [Builder.node('span','test')])); //some effects require a child element
-        var effect = new Effect[COMBINED_EFFECTS[j]]('test_element',{sync:true});
+            
+        // should work with new Effect.Blah syntax
+        var effect = new Effect[COMBINED_EFFECTS[j]]('test_element');
+        assertEqual(0, effect.currentFrame);
+        
+        // and without the 'new'
+        var effect = Effect[COMBINED_EFFECTS[j]]('test_element');
         assertEqual(0, effect.currentFrame);
       }
+    }},
+    
+    testSynchronizedEffects: function() { with(this) {
+      var e1 = new Effect.Fade('sandbox',{sync:true});
+      wait(250, function() {
+        // effect should still be at frame 0
+        assertEqual(0, e1.currentFrame);
+        assertEqual('idle', e1.state);
+        e1.render(0.01);
+        
+        // no frame count for sync effects
+        assertEqual(0, e1.currentFrame);
+        assertEqual('running', e1.state);
+      });
     }},
     
     testEffectPosition: function() { with(this) {
@@ -56,9 +168,11 @@
         duration: 0.5, from: 1.0, to: 0.5
       });
       assertNull(testeffect.position);
+      assertEqual('idle', testeffect.state);
       wait(1000, function() {
         assertEqual('0.5', $('sandbox').innerHTML);
         assertEqual(0.5, testeffect.position);
+        assertEqual('finished', testeffect.state);
       });
     }}
 

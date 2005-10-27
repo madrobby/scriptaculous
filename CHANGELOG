@@ -1,5 +1,7 @@
 *SVN*
 
+* Make Effect.Queue an Enumerable, fix a problem with Effect.Grow, more unit tests
+
 * Added restricted option to prevent moved of handles prior/after adjacent handles on Sliders with multiple handles
 
 * Update lib/prototype.js to Prototype 1.4.0_rc2
