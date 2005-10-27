@@ -32,6 +32,7 @@ Control.Slider.prototype = {
     this.value     = 0; // assure backwards compat
     this.values    = this.handles.map( function() { return 0 });
     this.spans     = this.options.spans ? this.options.spans.map(function(s){ return $(s) }) : false;
+    this.restricted = this.options.restricted || false;
 
     this.maximum   = this.options.maximum || this.range.end;
     this.minimum   = this.options.minimum || this.range.start;
@@ -108,11 +109,18 @@ Control.Slider.prototype = {
       this.activeHandle    = this.handles[handleIdx];
       this.activeHandleIdx = handleIdx;
     }
+    handleIdx = handleIdx || this.activeHandleIdx || 0;
+    if(this.restricted) {
+      if((handleIdx>0) && (sliderValue<this.values[handleIdx-1]))
+        sliderValue = this.values[handleIdx-1];
+      if((handleIdx < (this.handles.length-1)) && (sliderValue>this.values[handleIdx+1]))
+        sliderValue = this.values[handleIdx+1];
+    }
     sliderValue = this.getNearestValue(sliderValue);
-    this.values[handleIdx || this.activeHandleIdx || 0] = sliderValue;
+    this.values[handleIdx] = sliderValue;
     this.value = this.values[0]; // assure backwards compat
     
-    this.handles[handleIdx || this.activeHandleIdx || 0].style[ this.isVertical() ? 'top' : 'left'] = 
+    this.handles[handleIdx].style[ this.isVertical() ? 'top' : 'left'] = 
       this.translateToPx(sliderValue);
     
     this.drawSpans();

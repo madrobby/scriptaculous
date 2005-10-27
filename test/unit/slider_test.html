@@ -185,7 +185,8 @@
     }},
     
     testMultipleHandlesSpans: function() { with(this) {
-      var slider = new Control.Slider(['handle5-1','handle5-2','handle5-3'], 'track5', {spans:['span5-1','span5-2'],range:$R(0,300)});
+      var slider = new Control.Slider(['handle5-1','handle5-2','handle5-3'], 'track5',
+        {spans:['span5-1','span5-2'],range:$R(0,300)});
       assertInstanceOf(Control.Slider, slider);
       
       slider.setValue(20,  0);
@@ -205,6 +206,46 @@
       assertEqual("60px", $('span5-1').style.width);
       assertEqual("90px", $('span5-2').style.left);
       assertEqual("20px", $('span5-2').style.width);
+      
+      slider.dispose();
+    }},
+    
+    testMultipleHandlesSpansRestricted: function() { with(this) {
+      var slider = new Control.Slider(['handle5-1','handle5-2','handle5-3'], 'track5', 
+        {restricted:true,spans:['span5-1','span5-2'],range:$R(0,300)});
+      assertInstanceOf(Control.Slider, slider);
+      
+      slider.setValue(20, 0);
+      slider.setValue(100, 1);
+      slider.setValue(150,  2);      
+      assertEqual(0, slider.values[0]);
+      assertEqual(0, slider.values[1]);
+      assertEqual(150, slider.values[2]);
+      
+      slider.setValue(150, 2);
+      slider.setValue(100, 1);
+      slider.setValue(20,  0);
+      assertEqual(20, slider.values[0]);
+      assertEqual(100, slider.values[1]);
+      assertEqual(150, slider.values[2]);
+      assertEqual("20px", $('span5-1').style.left);
+      assertEqual("80px", $('span5-1').style.width);
+      assertEqual("100px", $('span5-2').style.left);
+      assertEqual("50px", $('span5-2').style.width);
+      
+      slider.setValue(30, 0);
+      slider.setValue(110, 1);
+      slider.setValue(90, 2);
+      assertEqual(30, slider.values[0]);
+      assertEqual(110, slider.values[1]);
+      assertEqual(110, slider.values[2], '???');
+  
+      assertEqual("30px", $('span5-1').style.left);
+      assertEqual("80px", $('span5-1').style.width);
+      assertEqual("110px", $('span5-2').style.left);
+      assertEqual("0px", $('span5-2').style.width);
+      
+      slider.dispose();
     }},
     
     testMultipleHandlesSpansVertical: function() { with(this) {

@@ -54,7 +54,7 @@
   
   <p id="debug5"> </p>
   
-  <h2>Slider with multiple handles and external controls</h2>
+  <h2>Slider with multiple handles, external controls, handles are restricted (can't be moved prior/after adjacent handles)</h2>
   
   <div id="track6" style="width:200px;background-color:#aaa;height:5px;position:relative;">
     <div id="handle6-1" style="position:absolute;top:0;left:0;width:5px;height:10px;background-color:#f00;"> </div>
@@ -87,7 +87,7 @@
     new Control.Slider(['handle5-1','handle5-2','handle5-3'],'track5',{values:[0,0.2,0.4,0.6,0.8],
         onSlide:function(v){$('debug5').innerHTML='slide: '+v.inspect()},
         onChange:function(v){$('debug5').innerHTML='changed! '+v.inspect()}});
-    var slider6 = new Control.Slider(['handle6-1','handle6-2'],'track6',{
+    var slider6 = new Control.Slider(['handle6-1','handle6-2'],'track6',{restricted:true,
         onSlide:function(v){$('debug6').innerHTML='slide: '+v.inspect()},
         onChange:function(v){$('debug6').innerHTML='changed! '+v.inspect()}});  
   // ]]>

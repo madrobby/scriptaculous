@@ -1,5 +1,7 @@
 *SVN*
 
+* Added restricted option to prevent moved of handles prior/after adjacent handles on Sliders with multiple handles
+
 * Update lib/prototype.js to Prototype 1.4.0_rc2
 
 * Fix a bug with wrongly scrolling to the page top in Ajax.InPlaceEditor (circumvents various browser bugs) [Jon Tirsen], #2616
