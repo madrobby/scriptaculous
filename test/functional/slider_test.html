@@ -54,6 +54,20 @@
   
   <p id="debug5"> </p>
   
+  <h2>Slider with multiple handles and external controls</h2>
+  
+  <div id="track6" style="width:200px;background-color:#aaa;height:5px;position:relative;">
+    <div id="handle6-1" style="position:absolute;top:0;left:0;width:5px;height:10px;background-color:#f00;"> </div>
+    <div id="handle6-2" style="position:absolute;top:0;left:0;width:5px;height:10px;background-color:#0f0;"> </div>
+  </div>
+  
+  <br/><br/>
+  <a href="#" onclick="slider6.setValueBy(-0.1);return false;">&lt;--</a>
+  <a href="#" onclick="slider6.setValueBy(0.1);return false;">--&gt;</a>
+  
+  <p id="debug6"> </p>
+  
+  
   <!-- FIXME: add more demos here -->
   
   <script type="text/javascript">
@@ -73,6 +87,9 @@
     new Control.Slider(['handle5-1','handle5-2','handle5-3'],'track5',{values:[0,0.2,0.4,0.6,0.8],
         onSlide:function(v){$('debug5').innerHTML='slide: '+v.inspect()},
         onChange:function(v){$('debug5').innerHTML='changed! '+v.inspect()}});
+    var slider6 = new Control.Slider(['handle6-1','handle6-2'],'track6',{
+        onSlide:function(v){$('debug6').innerHTML='slide: '+v.inspect()},
+        onChange:function(v){$('debug6').innerHTML='changed! '+v.inspect()}});  
   // ]]>
   </script>
   
