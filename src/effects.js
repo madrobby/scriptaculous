@@ -521,6 +521,8 @@ Object.extend(Object.extend(Effect.Highlight.prototype, Effect.Base.prototype), 
     this.start(options);
   },
   setup: function() {
+    // Prevent executing on elements not in the layout flow
+    if(this.element.style.display=='none') { this.cancel(); return; }
     // Disable background image during the effect
     this.oldBgImage = this.element.style.backgroundImage;
     this.element.style.backgroundImage = "none";
