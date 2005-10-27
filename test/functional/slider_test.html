@@ -64,7 +64,7 @@
     new Control.Slider('handle2','track2',{axis:'vertical',
         onSlide:function(v){$('debug2').innerHTML='slide: '+v},
         onChange:function(v){$('debug2').innerHTML='changed! '+v}});
-    new Control.Slider('handle3','track3',{values:[0,0.2,0.4,0.6,0.8],range:[2,15],
+    new Control.Slider('handle3','track3',{values:[2,4,6,8],range:$R(2,15),
         onSlide:function(v){$('debug3').innerHTML='slide: '+v},
         onChange:function(v){$('debug3').innerHTML='changed! '+v}});
     new Control.Slider(['handle4-1','handle4-2','handle4-3'],'track4',{
