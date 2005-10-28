@@ -17,12 +17,15 @@ See the CHANGELOG file for information on what's new.
 == Installation/Usage
 
 This pre-release version of script.aculo.us includes the
-Prototype framework 1.4.0_pre4. You can use later versions,
+Prototype framework 1.4.0_rc2. You can use later versions,
 as they become available (see http://prototype.conio.net).
 
 Put prototype.js, and the six files scriptaculous.js, 
-util.js, effects.js, dragdrop.js, controls.js and slider.js 
+builder.js, effects.js, dragdrop.js, controls.js and slider.js 
 in a directory of your website, e.g. /javascripts.
+
+(The unittest.js file is optional and is only needed if you
+want to do unit testing on your own javascripts).
 
 Now, you can include the scripts by adding the following 
 tags to the HEAD section of your HTML pages:

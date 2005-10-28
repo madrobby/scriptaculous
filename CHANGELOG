@@ -1,4 +1,4 @@
-*SVN*
+*V1.5.0_rc4*
 
 * Abort Effect.Highlight on elements which have display:none set (prevents problem with Safari)
 
