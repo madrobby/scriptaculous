@@ -1,3 +1,9 @@
+*SVN*
+
+* Make track clickable for sliders (moves last active handle [or first handle] to nearest possible position)
+
+* Make initial values on slider work for single and multiple handle sliders
+
 *V1.5.0_rc4*
 
 * Abort Effect.Highlight on elements which have display:none set (prevents problem with Safari)

@@ -62,16 +62,23 @@ Control.Slider.prototype = {
 
     // Initialize handles
     this.handles.each( function(h,i) {
-      slider.setValue(parseInt(slider.options.sliderValue || slider.range.start), i);
+      slider.setValue(parseFloat(
+        (slider.options.sliderValue instanceof Array ? 
+          slider.options.sliderValue[i] : slider.options.sliderValue) || 
+         slider.range.start), i);
       Element.makePositioned(h); // fix IE
       Event.observe(h, "mousedown", slider.eventMouseDown);
     });
     
+    Event.observe(this.track, "mousedown", this.eventMouseDown);
     Event.observe(document, "mouseup", this.eventMouseUp);
     Event.observe(document, "mousemove", this.eventMouseMove);
+    
+    this.initialized = true;
   },
   dispose: function() {
     var slider = this;    
+    Event.stopObserving(this.track, "mousedown", this.eventMouseDown);
     Event.stopObserving(document, "mouseup", this.eventMouseUp);
     Event.stopObserving(document, "mousemove", this.eventMouseMove);
     this.handles.each( function(h) {
@@ -110,7 +117,7 @@ Control.Slider.prototype = {
       this.activeHandleIdx = handleIdx;
     }
     handleIdx = handleIdx || this.activeHandleIdx || 0;
-    if(this.restricted) {
+    if(this.initialized && this.restricted) {
       if((handleIdx>0) && (sliderValue<this.values[handleIdx-1]))
         sliderValue = this.values[handleIdx-1];
       if((handleIdx < (this.handles.length-1)) && (sliderValue>this.values[handleIdx+1]))
@@ -170,19 +177,28 @@ Control.Slider.prototype = {
       if(!this.disabled){
         this.active = true;
         
-        // find the handle (prevents issues with Safari)
         var handle = Event.element(event);
-        while((this.handles.indexOf(handle) == -1) && handle.parentNode) 
-          handle = handle.parentNode;
-        
-        this.activeHandle    = handle;
-        this.activeHandleIdx = this.handles.indexOf(this.activeHandle);
-        
         var pointer  = [Event.pointerX(event), Event.pointerY(event)];
-        var offsets  = Position.cumulativeOffset(this.activeHandle);
-        this.offsetX = (pointer[0] - offsets[0]);
-        this.offsetY = (pointer[1] - offsets[1]);
+        if(handle==this.track) {
+          var offsets  = Position.cumulativeOffset(this.track);          
+          this.setValue(this.translateToValue( 
+            this.isVertical() ? pointer[1]-offsets[1] : pointer[0]-offsets[0]
+          ));
+          offsets  = Position.cumulativeOffset(this.activeHandle);
+          this.offsetX = (pointer[0] - offsets[0]);
+          this.offsetY = (pointer[1] - offsets[1]);
+        } else {
+          // find the handle (prevents issues with Safari)
+          while((this.handles.indexOf(handle) == -1) && handle.parentNode) 
+            handle = handle.parentNode;
         
+          this.activeHandle    = handle;
+          this.activeHandleIdx = this.handles.indexOf(this.activeHandle);
+        
+          var offsets  = Position.cumulativeOffset(this.activeHandle);
+          this.offsetX = (pointer[0] - offsets[0]);
+          this.offsetY = (pointer[1] - offsets[1]);
+        }
       }
       Event.stop(event);
     }
@@ -205,7 +221,7 @@ Control.Slider.prototype = {
     pointer[0] -= this.offsetX + offsets[0];
     pointer[1] -= this.offsetY + offsets[1];
     this.setValue(this.translateToValue( this.isVertical() ? pointer[1] : pointer[0] ));
-    if(this.options.onSlide) this.options.onSlide(this.values.length>1 ? this.values : this.value, this);
+    if(this.initialized && this.options.onSlide) this.options.onSlide(this.values.length>1 ? this.values : this.value, this);
   },
   endDrag: function(event) {
     if(this.active && this.dragging) {
@@ -221,6 +237,6 @@ Control.Slider.prototype = {
     this.updateFinished();
   },
   updateFinished: function() {
-    if(this.options.onChange) this.options.onChange(this.values.length>1 ? this.values : this.value, this);
+    if(this.initialized && this.options.onChange) this.options.onChange(this.values.length>1 ? this.values : this.value, this);
   }
 }

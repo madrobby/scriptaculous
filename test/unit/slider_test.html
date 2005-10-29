@@ -73,7 +73,7 @@
     testSliderBasics: function() { with(this) {
       var slider = new Control.Slider('handle1', 'track1');
       assertInstanceOf(Control.Slider, slider);
-      assertEqual(4, Event.observers.length);
+      assertEqual(5, Event.observers.length);
       
       assertEqual('horizontal', slider.axis);
       assertEqual(false, slider.disabled);
@@ -110,6 +110,43 @@
       });
       assertEqual("100px", $('handle2-horizontal').style.left);    
       assertEqual("100px", $('handle2-vertical').style.top);
+    }},
+    
+    testSliderInitialValues: function() { with(this) {
+      var slider = new Control.Slider('handle1', 'track1',{sliderValue:0.5});
+      assertEqual(0.5, slider.value);
+      
+      var slider = new Control.Slider(['handle4-1','handle4-2','handle4-3'], 'track4', {
+        sliderValue:[50,145,170],
+        values:[50,150,160,170,180],
+        range:$R(50,180)
+      });
+      assertEqual(50, slider.value);
+      assertEqual(50, slider.values[0]);
+      assertEqual(150, slider.values[1]);
+      assertEqual(170, slider.values[2]);
+      slider.dispose();
+      
+      var slider = new Control.Slider(['handle4-1','handle4-2','handle4-3'], 'track4', {
+        sliderValue:[50,145,170],
+        values:[50,150,160,170,180]
+      });
+      assertEqual(50, slider.value);
+      assertEqual(50, slider.values[0]);
+      assertEqual(150, slider.values[1]);
+      assertEqual(170, slider.values[2]);
+      slider.dispose();
+      
+      var slider = new Control.Slider(['handle4-1','handle4-2','handle4-3'], 'track4', {
+        restricted:true,
+        sliderValue:[50,145,170],
+        values:[50,150,160,170,180]
+      });
+      assertEqual(50, slider.value);
+      assertEqual(50, slider.values[0]);
+      assertEqual(150, slider.values[1]);
+      assertEqual(170, slider.values[2]);
+      slider.dispose();
     }},
     
     testSliderOnChange: function() { with(this) {

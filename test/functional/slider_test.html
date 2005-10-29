@@ -73,6 +73,7 @@
   <script type="text/javascript">
   // <![CDATA[
     new Control.Slider('handle1','track1',{
+      sliderValue:0.5,
       onSlide:function(v){$('debug1').innerHTML='slide: '+v},
       onChange:function(v){$('debug1').innerHTML='changed! '+v}});
     new Control.Slider('handle2','track2',{axis:'vertical',
@@ -87,7 +88,9 @@
     new Control.Slider(['handle5-1','handle5-2','handle5-3'],'track5',{values:[0,0.2,0.4,0.6,0.8],
         onSlide:function(v){$('debug5').innerHTML='slide: '+v.inspect()},
         onChange:function(v){$('debug5').innerHTML='changed! '+v.inspect()}});
-    var slider6 = new Control.Slider(['handle6-1','handle6-2'],'track6',{restricted:true,
+    var slider6 = new Control.Slider(['handle6-1','handle6-2'],'track6',{
+        sliderValue:[0.3, 0.8],
+        restricted:true,
         onSlide:function(v){$('debug6').innerHTML='slide: '+v.inspect()},
         onChange:function(v){$('debug6').innerHTML='changed! '+v.inspect()}});  
   // ]]>
