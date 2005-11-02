@@ -279,6 +279,35 @@
       slider.dispose();
     }},
     
+    testMultipleHandlesStyles: function() { with(this) {
+      var slider = new Control.Slider(['handle7-1','handle7-2','handle7-3'], 'track7',
+        { spans:['span7-1','span7-2'],
+          startSpan:'span7-start',
+          endSpan:'span7-end',
+          range:$R(0,200) });
+      assertInstanceOf(Control.Slider, slider);
+      assert(Element.hasClassName('handle7-1','selected'));
+      assert(!Element.hasClassName('handle7-2','selected'));
+      assert(!Element.hasClassName('handle7-3','selected'));
+      
+      slider.setValue(20,  0);
+      assert(Element.hasClassName('handle7-1','selected'));
+      assert(!Element.hasClassName('handle7-2','selected'));
+      assert(!Element.hasClassName('handle7-3','selected'));
+            
+      slider.setValue(100, 1);
+      assert(!Element.hasClassName('handle7-1','selected'));
+      assert(Element.hasClassName('handle7-2','selected'));
+      assert(!Element.hasClassName('handle7-3','selected'));
+      
+      slider.setValue(150, 2);
+      assert(!Element.hasClassName('handle7-1','selected'));
+      assert(!Element.hasClassName('handle7-2','selected'));
+      assert(Element.hasClassName('handle7-3','selected'));
+      
+      slider.dispose();
+    }},
+    
     testMultipleHandlesSpansRestricted: function() { with(this) {
       var slider = new Control.Slider(['handle5-1','handle5-2','handle5-3'], 'track5', 
         {restricted:true,spans:['span5-1','span5-2'],range:$R(0,300)});

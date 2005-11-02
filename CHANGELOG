@@ -1,5 +1,7 @@
 *SVN*
 
+* Give currently active handle on slider the "selected" CSS class
+
 * Add start and end spans to slider
 
 * Make track clickable for sliders (moves last active handle [or first handle] to nearest possible position)

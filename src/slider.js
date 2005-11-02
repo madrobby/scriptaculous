@@ -63,8 +63,9 @@ Control.Slider.prototype = {
     this.eventMouseUp   = this.endDrag.bindAsEventListener(this);
     this.eventMouseMove = this.update.bindAsEventListener(this);
 
-    // Initialize handles
+    // Initialize handles in reverse (make sure first handle is active)
     this.handles.each( function(h,i) {
+      i = slider.handles.length-1-i;
       slider.setValue(parseFloat(
         (slider.options.sliderValue instanceof Array ? 
           slider.options.sliderValue[i] : slider.options.sliderValue) || 
@@ -118,6 +119,7 @@ Control.Slider.prototype = {
     if(!this.active) {
       this.activeHandle    = this.handles[handleIdx];
       this.activeHandleIdx = handleIdx;
+      this.updateStyles();
     }
     handleIdx = handleIdx || this.activeHandleIdx || 0;
     if(this.initialized && this.restricted) {
@@ -179,6 +181,10 @@ Control.Slider.prototype = {
       span.style.width = this.translateToPx(range.end - range.start);
     }
   },
+  updateStyles: function() {
+    this.handles.each( function(h){ Element.removeClassName(h, 'selected') });
+    Element.addClassName(this.activeHandle, 'selected');
+  },
   startDrag: function(event) {
     if(Event.isLeftClick(event)) {
       if(!this.disabled){
@@ -201,6 +207,7 @@ Control.Slider.prototype = {
         
           this.activeHandle    = handle;
           this.activeHandleIdx = this.handles.indexOf(this.activeHandle);
+          this.updateStyles();
         
           var offsets  = Position.cumulativeOffset(this.activeHandle);
           this.offsetX = (pointer[0] - offsets[0]);
