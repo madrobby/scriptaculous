@@ -32,6 +32,9 @@ Control.Slider.prototype = {
     this.value     = 0; // assure backwards compat
     this.values    = this.handles.map( function() { return 0 });
     this.spans     = this.options.spans ? this.options.spans.map(function(s){ return $(s) }) : false;
+    this.options.startSpan = $(this.options.startSpan || null);
+    this.options.endSpan   = $(this.options.endSpan || null);
+
     this.restricted = this.options.restricted || false;
 
     this.maximum   = this.options.maximum || this.range.end;
@@ -161,15 +164,19 @@ Control.Slider.prototype = {
   drawSpans: function() {
     var slider = this;
     if(this.spans)
-      $R(0, this.spans.length-1).each(function(r) { slider.setSpan(r, slider.getRange(r)) });
+      $R(0, this.spans.length-1).each(function(r) { slider.setSpan(slider.spans[r], slider.getRange(r)) });
+    if(this.options.startSpan)
+      this.setSpan(this.options.startSpan, $R(0, this.getRange(0).min()));
+    if(this.options.endSpan)
+      this.setSpan(this.options.endSpan, $R(this.getRange(this.spans.length-1).max(), this.maximum));
   },
   setSpan: function(span, range) {
     if(this.isVertical()) {
-      this.spans[span].style.top = this.translateToPx(range.start);
-      this.spans[span].style.height = this.translateToPx(range.end - range.start);
+      span.style.top = this.translateToPx(range.start);
+      span.style.height = this.translateToPx(range.end - range.start);
     } else {
-      this.spans[span].style.left = this.translateToPx(range.start);
-      this.spans[span].style.width = this.translateToPx(range.end - range.start);
+      span.style.left = this.translateToPx(range.start);
+      span.style.width = this.translateToPx(range.end - range.start);
     }
   },
   startDrag: function(event) {

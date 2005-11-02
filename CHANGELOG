@@ -1,5 +1,7 @@
 *SVN*
 
+* Add start and end spans to slider
+
 * Make track clickable for sliders (moves last active handle [or first handle] to nearest possible position)
 
 * Make initial values on slider work for single and multiple handle sliders
