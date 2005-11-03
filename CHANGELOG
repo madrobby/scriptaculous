@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix Builder.node() throwing unresolved errors in IE6, #2707 [thx flwombat]
+
 * Give currently active handle on slider the "selected" CSS class
 
 * Add start and end spans to slider

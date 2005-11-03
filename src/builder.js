@@ -27,7 +27,9 @@ var Builder = {
     // try innerHTML approach
     var parentTag = this.NODEMAP[elementName] || 'div';
     var parentElement = document.createElement(parentTag);
-    parentElement.innerHTML = "<" + elementName + "></" + elementName + ">";
+    try { // prevent IE "feature": http://dev.rubyonrails.org/ticket/2707
+      parentElement.innerHTML = "<" + elementName + "></" + elementName + ">";
+    } catch(e) {}
     var element = parentElement.firstChild || null;
       
     // see if browser added wrapping tags
@@ -48,8 +50,10 @@ var Builder = {
         } else {
           var attrs = this._attributes(arguments[1]);
           if(attrs.length) {
-            parentElement.innerHTML = "<" +elementName + " " +
-              attrs + "></" + elementName + ">";
+            try { // prevent IE "feature": http://dev.rubyonrails.org/ticket/2707
+              parentElement.innerHTML = "<" +elementName + " " +
+                attrs + "></" + elementName + ">";
+            } catch(e) {}
             element = parentElement.firstChild || null;
             // workaround firefox 1.0.X bug
             if(!element) {
