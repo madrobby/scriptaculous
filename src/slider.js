@@ -168,9 +168,11 @@ Control.Slider.prototype = {
     if(this.spans)
       $R(0, this.spans.length-1).each(function(r) { slider.setSpan(slider.spans[r], slider.getRange(r)) });
     if(this.options.startSpan)
-      this.setSpan(this.options.startSpan, $R(0, this.getRange(0).min()));
+      this.setSpan(this.options.startSpan,
+        $R(0, this.values.length>1 ? this.getRange(0).min() : this.value ));
     if(this.options.endSpan)
-      this.setSpan(this.options.endSpan, $R(this.getRange(this.spans.length-1).max(), this.maximum));
+      this.setSpan(this.options.endSpan, 
+        $R(this.values.length>1 ? this.getRange(this.spans.length-1).max() : this.value, this.maximum));
   },
   setSpan: function(span, range) {
     if(this.isVertical()) {

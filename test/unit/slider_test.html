@@ -281,6 +281,23 @@
       slider.dispose();
     }},
     
+    testSingleHandleSpansStartEnd: function() { with(this) {
+      var slider = new Control.Slider('handle7-1', 'track7',
+        { spans:['span7-1','span7-2'],
+          startSpan:'span7-start',
+          endSpan:'span7-end',
+          range:$R(0,200) });
+      assertInstanceOf(Control.Slider, slider);
+      
+      slider.setValue(20,  0);
+      assertEqual("0px", $('span7-start').style.left);
+      assertEqual("20px", $('span7-start').style.width);
+      assertEqual("20px", $('span7-end').style.left);
+      assertEqual("180px", $('span7-end').style.width);
+      
+      slider.dispose();
+    }},
+    
     testMultipleHandlesStyles: function() { with(this) {
       var slider = new Control.Slider(['handle7-1','handle7-2','handle7-3'], 'track7',
         { spans:['span7-1','span7-2'],

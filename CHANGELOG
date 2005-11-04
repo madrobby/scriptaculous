@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix a problem with Start/End spans and single handles
+
 * Add event property to Slider object so that callbacks can determine if setValue originated from a UI event or from script
 
 * Fix Builder.node() throwing unresolved errors in IE6, #2707 [thx flwombat]
