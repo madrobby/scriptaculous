@@ -178,11 +178,13 @@
       assert(0.2, globalValue);
       assert(0.2, slider.value);
       
+      // s.event should be null if setValue is called from script
       var slider = new Control.Slider(['handle3-1','handle3-2','handle3-3'], 'track3', {
-        onChange:function(v){ globalValue = v; } });
+        onChange:function(v, s){ if(!s.event) globalValue = v; } });
        
       slider.setValue(0.5,1);
       assertEqual([0,0.5,0].inspect(), globalValue.inspect());
+      assert(!slider.event);
        
       slider.dispose();
     }},

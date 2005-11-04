@@ -193,7 +193,8 @@ Control.Slider.prototype = {
         var handle = Event.element(event);
         var pointer  = [Event.pointerX(event), Event.pointerY(event)];
         if(handle==this.track) {
-          var offsets  = Position.cumulativeOffset(this.track);          
+          var offsets  = Position.cumulativeOffset(this.track); 
+          this.event = event;         
           this.setValue(this.translateToValue( 
             this.isVertical() ? pointer[1]-offsets[1] : pointer[0]-offsets[0]
           ));
@@ -234,6 +235,7 @@ Control.Slider.prototype = {
     var offsets = Position.cumulativeOffset(this.track);
     pointer[0] -= this.offsetX + offsets[0];
     pointer[1] -= this.offsetY + offsets[1];
+    this.event = event;
     this.setValue(this.translateToValue( this.isVertical() ? pointer[1] : pointer[0] ));
     if(this.initialized && this.options.onSlide) this.options.onSlide(this.values.length>1 ? this.values : this.value, this);
   },
@@ -251,6 +253,8 @@ Control.Slider.prototype = {
     this.updateFinished();
   },
   updateFinished: function() {
-    if(this.initialized && this.options.onChange) this.options.onChange(this.values.length>1 ? this.values : this.value, this);
+    if(this.initialized && this.options.onChange) 
+      this.options.onChange(this.values.length>1 ? this.values : this.value, this);
+    this.event = null;
   }
 }
