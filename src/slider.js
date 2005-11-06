@@ -136,7 +136,7 @@ Control.Slider.prototype = {
       this.translateToPx(sliderValue);
     
     this.drawSpans();
-    this.updateFinished();
+    if(!this.event) this.updateFinished();
   },
   setValueBy: function(delta, handleIdx) {
     this.setValue(this.values[handleIdx || this.activeHandleIdx || 0] + delta, 

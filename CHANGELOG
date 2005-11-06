@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix slider firing onChange events to eagerly on dragging a handle [thx wombert]
+
 * Fix a problem with Start/End spans and single handles
 
 * Add event property to Slider object so that callbacks can determine if setValue originated from a UI event or from script
