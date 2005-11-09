@@ -27,11 +27,15 @@
   <input type="checkbox" id="shouldrevert2"/> Revert?
 </div>
 
+<div id="droptarget1" style="width:200px;height:200px;background-color:#eee;">accepts first box</div>
+<div id="droptarget2" style="width:200px;height:200px;background-color:#eee;">accepts second box</div>
+
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
   new Draggable('revertbox1',{handle:'handle1',revert:function(element){return ($('shouldrevert1').checked)}});
-  //new Draggable('revertbox2',{handle:'handle2',revert:function(element){return ($('shouldrevert2').checked)}});
-  // Droppables.add('xxxx',{accept:['box1','box2'],onDrop:function(){alert('drop!')}});
+  new Draggable('revertbox2',{handle:'handle2',revert:function(element){return ($('shouldrevert2').checked)}});
+  Droppables.add('droptarget1',{accept:['box1','otherstuff'],onDrop:function(){alert('drop!')}});
+  Droppables.add('droptarget2',{accept:'box',onDrop:function(){alert('drop!')}});
 // ]]>
 </script>
 

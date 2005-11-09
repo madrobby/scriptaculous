@@ -44,7 +44,7 @@
 <img id="op3" alt="op3" src="icon.png"/>
 <img id="op4-ie" alt="op3" src="icon.png" style="filter:alpha(opacity=30)" />
 
-<!-- Test Element.Class.childrenWith -->
+<!-- Test Element.childrenWithClassName -->
 <div id="Container">
   <span id="1" class="firstClass">First class</span>
   <span id="2" class="secondClass">Second class</span>
@@ -118,99 +118,43 @@
       }
     }},
     
-    testElementClassHas: function() { with(this) {
-      assert(Element.Class.has("test_1","a"));
-      assert(Element.Class.has("test_1","dddd"));
-      assert(Element.Class.has("test_1","bbbbbbbbbbbb"));
-      assert(!Element.Class.has("test_1","bbbbbbbbbbb"));
-      assert(!Element.Class.has("test_1","bbbbbbbbbbbbbb"));
-      
-      assert(Element.Class.has("test_1",["a"]));
-      assert(Element.Class.has("test_1",["dddd"]));
-      assert(Element.Class.has("test_1",["bbbbbbbbbbbb"]));
-      assert(!Element.Class.has("test_1",["bbbbbbbbbbb"]));
-      assert(!Element.Class.has("test_1",["bbbbbbbbbbbbbb"]));
-      
-      assert(!Element.Class.has("test_1",["x","a"]));
-      assert(!Element.Class.has("test_1",["x","dddd"]));
-      assert(!Element.Class.has("test_1",["x","bbbbbbbbbbbb"]));
-      assert(!Element.Class.has("test_1",["x","bbbbbbbbbbb"]));
-      assert(!Element.Class.has("test_1",["x","bbbbbbbbbbbbbb"]));
-      
-      assert(Element.Class.has("test_1",["a","a"]));
-      assert(Element.Class.has("test_1",["a","dddd"]));
-      assert(Element.Class.has("test_1",["a","bbbbbbbbbbbb"]));
-      assert(!Element.Class.has("test_1",["a","bbbbbbbbbbb"]));
-      assert(!Element.Class.has("test_1",["a","bbbbbbbbbbbbbb"]));
-      
-      assert(Element.Class.has("test_2","classA-foobar"));
-      assert(Element.Class.has("test_2","classB-foobar"));
-      assert(!Element.Class.has("test_2","classA"));
-    }},
-
-    testElementClassHasAny: function() { with(this) {
-      assert(Element.Class.has_any("test_1","a"));
-      assert(Element.Class.has_any("test_1","dddd"));
-      assert(Element.Class.has_any("test_1","bbbbbbbbbbbb"));
-      assert(!Element.Class.has_any("test_1","bbbbbbbbbbb"));
-      assert(!Element.Class.has_any("test_1","bbbbbbbbbbbbbb"));
-
-      assert(Element.Class.has_any("test_1",["a"]));
-      assert(Element.Class.has_any("test_1",["dddd"]));
-      assert(Element.Class.has_any("test_1",["bbbbbbbbbbbb"]));
-      assert(!Element.Class.has_any("test_1",["bbbbbbbbbbb"]));
-      assert(!Element.Class.has_any("test_1",["bbbbbbbbbbbbbb"]));
-
-      assert(Element.Class.has_any("test_1",["x","a"]));
-      assert(Element.Class.has_any("test_1",["x","dddd"]));
-      assert(Element.Class.has_any("test_1",["x","bbbbbbbbbbbb"]));
-      assert(!Element.Class.has_any("test_1",["x","bbbbbbbbbbb"]));
-      assert(!Element.Class.has_any("test_1",["x","bbbbbbbbbbbbbb"]));
-
-      assert(Element.Class.has_any("test_1",["a","a"]));
-      assert(Element.Class.has_any("test_1",["a","dddd"]));
-      assert(Element.Class.has_any("test_1",["a","bbbbbbbbbbbb"]));
-      assert(Element.Class.has_any("test_1",["a","bbbbbbbbbbb"]));
-      assert(Element.Class.has_any("test_1",["a","bbbbbbbbbbbbbb"]));
-    }},
-    
-    testElementClassChildrenWith: function() { with(this) {
-      var firstClassElems = Element.Class.childrenWith("Container", "firstClass");
-      var secondClassElems = Element.Class.childrenWith("Container", "secondClass");
-      var thirdClassElems = Element.Class.childrenWith("Container", "thirdClass");
-      var nonExistentClassElems = Element.Class.childrenWith("Container", "");
+    testElementChildrenWithClassName: function() { with(this) {
+      var firstClassElems = Element.childrenWithClassName("Container", "firstClass");
+      var secondClassElems = Element.childrenWithClassName("Container", "secondClass");
+      var thirdClassElems = Element.childrenWithClassName("Container", "thirdClass");
+      var nonExistentClassElems = Element.childrenWithClassName("Container", "");
     
       // Ensure the correct number of elements with corresponding classes have been found
-      assertEqual(firstClassElems.length, 3, "Did not find all elements defined with first class");
-      assertEqual(secondClassElems.length, 2, "Did not find all elements defined with second class");
-      assertEqual(thirdClassElems.length, 1, "Did not find all elements defined with third class");
+      assertEqual(3, firstClassElems.length, "Did not find all elements defined with first class");
+      assertEqual(2, secondClassElems.length, "Did not find all elements defined with second class");
+      assertEqual(1, thirdClassElems.length, "Did not find all elements defined with third class");
     
       // ... and that none that don't exist have been found.
-      assertNotEqual(nonExistentClassElems.length > 0, true, "Found non-existent class elems!");
+      assert(nonExistentClassElems.length==0, "Found non-existent class elems!");
     
       // Ensure that the found elements are the correct ones.
-      assertEqual(firstClassElems[0].id, "1", 
+      assertEqual("1", firstClassElems[0].id,
         "First element with firstClass definition found has id: " + firstClassElems[0].id);
       // (Prevent runtime errors -- if only one was found)
       if (firstClassElems.length > 1) {
-        assertEqual(firstClassElems[1].id, "3", 
+        assertEqual("3", firstClassElems[1].id,
           "Second element with firstClass definition found has id: " + firstClassElems[1].id);
       }
       // (Prevent runtime errors -- if only one or two were found)
       if (firstClassElems.length > 2) {
-        assertEqual(firstClassElems[2].id, "5", 
+        assertEqual("5", firstClassElems[2].id,
           "Third element with firstClass definition found has id: " + firstClassElems[2].id);
       }
     
-      assertEqual(secondClassElems[0].id, "2", 
+      assertEqual("2", secondClassElems[0].id,
         "First element with secondClass definition found has id " + secondClassElems[0].id);
       // (Prevent runtime errors -- if only one was found)
       if (secondClassElems.length > 1) {
-        assertEqual(secondClassElems[1].id, "3", 
+        assertEqual("3", secondClassElems[1].id,
           "Second element with secondClass definition found has id " + secondClassElems[1].id);
       }
     
-      assertEqual(thirdClassElems[0].id, "4",
+      assertEqual("4", thirdClassElems[0].id,
         "First element with thirdClass definition found has id " + thirdClassElems[0].id);
     
     }}

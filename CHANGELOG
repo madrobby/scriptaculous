@@ -1,5 +1,7 @@
 *SVN*
 
+* Remove Element.Class in favour of Prototype Element.ClassNames, new function Element.childrenWithClassName()
+
 * Update Copyright notice in slider.js
 
 * Fix slider firing onChange events to eagerly on dragging a handle [thx wombert]

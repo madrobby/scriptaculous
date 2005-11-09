@@ -67,7 +67,6 @@ JavaScriptTestTask.new(:unittest) do |t|
   t.run("/test/unit/element_test.html")
   t.run("/test/unit/sortable_test.html")
   t.run("/test/unit/position_clone_test.html")
-  t.run("/test/unit/util_test.html")
   
   t.browser(:safari)
   t.browser(:firefox)

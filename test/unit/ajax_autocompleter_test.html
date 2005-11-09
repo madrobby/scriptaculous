@@ -62,13 +62,13 @@
         assertEqual('test2', $('ac_update').firstChild.firstChild.nextSibling.innerHTML);
         
         // first entry should be selected
-        assert(Element.Class.has($('ac_update').firstChild.firstChild),'selected');
+        assert(Element.hasClassName($('ac_update').firstChild.firstChild, 'selected'),'Selected item should have a className of: selected');
         
         Event.simulateKey('ac_input','keypress',{keyCode:Event.KEY_DOWN});
         
         // second entry should be selected
-        assert(!Element.Class.has($('ac_update').firstChild.firstChild),'selected');
-        assert(Element.Class.has($('ac_update').firstChild.firstChild.nextSibling),'selected');
+        assert(!Element.hasClassName($('ac_update').firstChild.firstChild),'Item shouldn\'t have a className of: selected');
+        assert(Element.hasClassName($('ac_update').firstChild.firstChild.nextSibling, 'selected'),'Second entry should have a className of: selected');
         
         // check selecting with <TAB>
         Event.simulateKey('ac_input','keypress',{keyCode:Event.KEY_TAB});
