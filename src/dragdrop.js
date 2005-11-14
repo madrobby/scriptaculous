@@ -146,7 +146,8 @@ Draggable.prototype = {
          new Effect.Opacity(element, {duration:0.2, from:0.7, to:1.0}); 
       },
       zindex: 1000,
-      revert: false
+      revert: false,
+      snap: false   // false, or xy or [x,y] or function(x,y){ return [x,y] }
     }, arguments[1] || {});
 
     this.element      = $(element);
@@ -277,10 +278,29 @@ Draggable.prototype = {
     offsets[0] -= this.currentLeft();
     offsets[1] -= this.currentTop();
     var style = this.element.style;
+    
+    var pos = [
+      (pointer[0] - offsets[0] - this.offsetX),
+      (pointer[1] - offsets[1] - this.offsetY)];
+    
+    if(this.options.snap) {
+      if(typeof this.options.snap == 'function') {
+        pos = this.options.snap(pos[0],pos[1]);
+      } else {
+      var draggable = this;
+      if(this.options.snap instanceof Array) {
+        pos = pos.collect( function(v, i) {
+          return Math.round(v/draggable.options.snap[i])*draggable.options.snap[i] })
+      } else {
+        pos = pos.collect( function(v) {
+          return Math.round(v/draggable.options.snap)*draggable.options.snap })
+      }
+    }}
+    
     if((!this.options.constraint) || (this.options.constraint=='horizontal'))
-      style.left = (pointer[0] - offsets[0] - this.offsetX) + "px";
+      style.left = pos[0] + "px";
     if((!this.options.constraint) || (this.options.constraint=='vertical'))
-      style.top  = (pointer[1] - offsets[1] - this.offsetY) + "px";
+      style.top  = pos[1] + "px";
     if(style.visibility=="hidden") style.visibility = ""; // fix gecko rendering
   },
   update: function(event) {
