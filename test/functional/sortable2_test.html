@@ -20,6 +20,9 @@
       padding:4px;
       cursor:move;
     }
+    ul.testlist li.over {
+      background-color:#fcb;
+    }
     ul.testlist li img {
       float:left;
       margin-right:8px;
@@ -55,7 +58,7 @@
 
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-  Sortable.create('testlist',{ghosting:true,constraint:false,
+  Sortable.create('testlist',{ghosting:true,constraint:false,hoverclass:'over',
     onUpdate:function(sortable){alert(Sortable.serialize(sortable))},
     onChange:function(element){$('testlist_serialize').innerHTML = Sortable.serialize(element.parentNode)}
   });
@@ -79,7 +82,7 @@
 
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-  Sortable.create('testlist2',{ghosting:false,constraint:false,
+  Sortable.create('testlist2',{ghosting:false,constraint:false,hoverclass:'over',
     onUpdate:function(sortable){alert(Sortable.serialize(sortable))},
     onChange:function(element){$('testlist2_serialize').innerHTML = Sortable.serialize(element.parentNode)}
   });
