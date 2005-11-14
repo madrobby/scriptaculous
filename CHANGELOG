@@ -1,5 +1,7 @@
 *SVN*
 
+* Prevent an exception on IE with a functional test, see #2706
+
 * Add functional testing of hoverclasses for sortables
 
 * Add an assert for correct UTF-8 return chars in Autocompleter
