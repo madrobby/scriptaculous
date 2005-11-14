@@ -1,5 +1,7 @@
 *SVN*
 
+* Added Form.Element.DelayedObserver to controls.js for live-search fields
+
 * Remove Element.Class in favour of Prototype Element.ClassNames, new function Element.childrenWithClassName()
 
 * Update Copyright notice in slider.js

@@ -719,3 +719,29 @@ Ajax.InPlaceEditor.prototype = {
     }
   }
 };
+
+// Delayed observer, like Form.Element.Observer, 
+// but waits for delay after last key input
+// Ideal for live-search fields
+
+Form.Element.DelayedObserver = Class.create();
+Form.Element.DelayedObserver.prototype = {
+  initialize: function(element, delay, callback) {
+    this.delay     = delay || 0.5;
+    this.element   = $(element);
+    this.callback  = callback;
+    this.timer     = null;
+    this.lastValue = $F(this.element); 
+    Event.observe(this.element,'keyup',this.delayedListener.bindAsEventListener(this));
+  },
+  delayedListener: function(event) {
+    if(this.lastValue == $F(this.element)) return;
+    if(this.timer) clearTimeout(this.timer);
+    this.timer = setTimeout(this.onTimerEvent.bind(this), this.delay * 1000);
+    this.lastValue = $F(this.element);
+  },
+  onTimerEvent: function() {
+    this.timer = null;
+    this.callback(this.element, $F(this.element));
+  }
+};
