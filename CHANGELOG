@@ -1,5 +1,7 @@
 *SVN*
 
+* Add onDrag callback to Draggable observers, #2827 [thx saimonmoore]
+
 * Added Form.Element.DelayedObserver to controls.js for live-search fields
 
 * Remove Element.Class in favour of Prototype Element.ClassNames, new function Element.childrenWithClassName()

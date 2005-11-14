@@ -106,13 +106,25 @@ var Droppables = {
 var Draggables = {
   observers: [],
   addObserver: function(observer) {
-    this.observers.push(observer);    
+    this.observers.push(observer);
+    this._cacheObserverCallbacks();
   },
-  removeObserver: function(element) {  // element instead of obsever fixes mem leaks
+  removeObserver: function(element) {  // element instead of observer fixes mem leaks
     this.observers = this.observers.reject( function(o) { return o.element==element });
+    this._cacheObserverCallbacks();
   },
-  notify: function(eventName, draggable) {  // 'onStart', 'onEnd'
-    this.observers.invoke(eventName, draggable);
+  notify: function(eventName, draggable, event) {  // 'onStart', 'onEnd', 'onDrag'
+    if(this[eventName+'Count'] > 0)
+      this.observers.each( function(o) {
+        if(o[eventName]) o[eventName](eventName, draggable, event);
+      });
+  },
+  _cacheObserverCallbacks: function() {
+    ['onStart','onEnd','onDrag'].each( function(eventName) {
+      Draggables[eventName+'Count'] = Draggables.observers.select(
+        function(o) { return o[eventName]; }
+      ).length;
+    });
   }
 }
 
@@ -220,7 +232,7 @@ Draggable.prototype = {
     }
 
     if(success) Droppables.fire(event, this.element);
-    Draggables.notify('onEnd', this);
+    Draggables.notify('onEnd', this, event);
 
     var revert = this.options.revert;
     if(revert && typeof revert == 'function') revert = revert(this.element);
@@ -291,11 +303,12 @@ Draggable.prototype = {
           this.element.parentNode.insertBefore(this._clone, this.element);
         }
 
-        Draggables.notify('onStart', this);
+        Draggables.notify('onStart', this, event);
         if(this.options.starteffect) this.options.starteffect(this.element);
       }
 
       Droppables.show(event, this.element);
+      Draggables.notify('onDrag', this, event);
       this.draw(event);
       if(this.options.change) this.options.change(this);
 
