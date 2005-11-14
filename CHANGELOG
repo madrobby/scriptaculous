@@ -1,5 +1,7 @@
 *SVN*
 
+* Add an assert for correct UTF-8 return chars in Autocompleter
+
 * Correct IE detection in Autocompleter for Opera, fixes #2558 [thx gary]
 
 * Add onDrag callback to Draggable observers, #2827 [thx saimonmoore]

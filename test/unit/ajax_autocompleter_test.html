@@ -61,6 +61,9 @@
         assertEqual('test1', $('ac_update').firstChild.firstChild.innerHTML);
         assertEqual('test2', $('ac_update').firstChild.firstChild.nextSibling.innerHTML);
         
+        // intl. characters return (UTF-8)
+        assertEqual('Here we have some international ©∏Á®Äç†∑rß', $('ac_update').firstChild.lastChild.innerHTML);
+                
         // first entry should be selected
         assert(Element.hasClassName($('ac_update').firstChild.firstChild, 'selected'),'Selected item should have a className of: selected');
         
