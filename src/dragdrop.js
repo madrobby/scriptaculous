@@ -510,9 +510,15 @@ var Sortable = {
       document.getElementsByTagName("body").item(0).appendChild(Sortable._marker);
     }    
     var offsets = Position.cumulativeOffset(dropon);
-    Sortable._marker.style.top  = offsets[1] + 'px';
-    if(position=='after') Sortable._marker.style.top = (offsets[1]+dropon.clientHeight) + 'px';
     Sortable._marker.style.left = offsets[0] + 'px';
+    Sortable._marker.style.top = offsets[1] + 'px';
+    
+    if(position=='after')
+      if(sortable.overlap == 'horizontal') 
+        Sortable._marker.style.left = (offsets[0]+dropon.clientWidth) + 'px';
+      else
+        Sortable._marker.style.top = (offsets[1]+dropon.clientHeight) + 'px';
+    
     Element.show(Sortable._marker);
   },
 

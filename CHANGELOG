@@ -1,5 +1,7 @@
 *SVN*
 
+* Support horizontal ghostable Sortables, fixes #2794, [thx johnm]
+
 * Prevent an exception on IE with a functional test, see #2706
 
 * Add functional testing of hoverclasses for sortables

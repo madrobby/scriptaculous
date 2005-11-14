@@ -36,6 +36,9 @@
       z-index:1000;
       overflow: hidden;
     }
+    #testlist4 li {
+      float:left;
+    }
   </style>
 </head>
 <body>
@@ -109,6 +112,31 @@
   Sortable.create('testlist3',{ghosting:true,constraint:false,
     onUpdate:function(sortable){alert(Sortable.serialize(sortable))},
     onChange:function(element){$('testlist3_serialize').innerHTML = Sortable.serialize(element.parentNode)}
+  });
+// ]]>
+</script>
+
+
+<h2>Ghosting (inside position:relative container)</h2>
+<div style="position:relative;left:100px;top:-5px;">
+<ul id="testlist4" class="testlist">
+<li id="item_417"><img src="icon.png" alt=""/> Lorem ipsum dolor</li>
+<li id="item_418"><img src="icon.png" alt=""/> sit amet</li>
+<li id="item_419"><img src="icon.png" alt=""/> consectetur adipisicing</li>
+<li id="item_420"><img src="icon.png" alt=""/> elit</li>
+<li id="item_421"><img src="icon.png" alt=""/> sed do eiusmod</li>
+<li id="item_422"><img src="icon.png" alt=""/> tempor incididunt</li>
+<li id="item_423"><img src="icon.png" alt=""/> ut labore et dolore</li>
+<li id="item_424"><img src="icon.png" alt=""/> magna aliqua</li>
+</ul>
+</div>
+<p id="testlist4_serialize">(waiting for onChange)</p>
+
+<script type="text/javascript" language="javascript" charset="utf-8">
+// <![CDATA[
+  Sortable.create('testlist4',{overlap:'horizontal',ghosting:true,constraint:false,
+    onUpdate:function(sortable){alert(Sortable.serialize(sortable))},
+    onChange:function(element){$('testlist4_serialize').innerHTML = Sortable.serialize(element.parentNode)}
   });
 // ]]>
 </script>
