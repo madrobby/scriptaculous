@@ -80,7 +80,10 @@ Autocompleter.Base.prototype = {
 
   show: function() {
     if(Element.getStyle(this.update, 'display')=='none') this.options.onShow(this.element, this.update);
-    if(!this.iefix && (navigator.appVersion.indexOf('MSIE')>0) && (Element.getStyle(this.update, 'position')=='absolute')) {
+    if(!this.iefix && 
+      (navigator.appVersion.indexOf('MSIE')>0) &&
+      (navigator.userAgent.indexOf('Opera')<0) &&
+      (Element.getStyle(this.update, 'position')=='absolute')) {
       new Insertion.After(this.update, 
        '<iframe id="' + this.update.id + '_iefix" '+
        'style="display:none;position:absolute;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);" ' +

@@ -1,5 +1,7 @@
 *SVN*
 
+* Correct IE detection in Autocompleter for Opera, fixes #2558 [thx gary]
+
 * Add onDrag callback to Draggable observers, #2827 [thx saimonmoore]
 
 * Added Form.Element.DelayedObserver to controls.js for live-search fields
