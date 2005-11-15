@@ -151,11 +151,11 @@ Control.Slider.prototype = {
     this.values[handleIdx] = sliderValue;
     this.value = this.values[0]; // assure backwards compat
     
-    this.handles[handleIdx].style[ this.isVertical() ? 'top' : 'left'] = 
+    this.handles[handleIdx].style[this.isVertical() ? 'top' : 'left'] = 
       this.translateToPx(sliderValue);
     
     this.drawSpans();
-    if(!this.event) this.updateFinished();
+    if(!this.dragging || !this.event) this.updateFinished();
   },
   setValueBy: function(delta, handleIdx) {
     this.setValue(this.values[handleIdx || this.activeHandleIdx || 0] + delta, 
@@ -219,9 +219,6 @@ Control.Slider.prototype = {
           this.setValue(this.translateToValue( 
             this.isVertical() ? pointer[1]-offsets[1] : pointer[0]-offsets[0]
           ));
-          offsets  = Position.cumulativeOffset(this.activeHandle);
-          this.offsetX = (pointer[0] - offsets[0]);
-          this.offsetY = (pointer[1] - offsets[1]);
         } else {
           // find the handle (prevents issues with Safari)
           while((this.handles.indexOf(handle) == -1) && handle.parentNode) 
@@ -241,10 +238,7 @@ Control.Slider.prototype = {
   },
   update: function(event) {
    if(this.active) {
-      if(!this.dragging) {
-        this.dragging = true;
-        if(this.activeHandle.style.position=="") style.position = "relative";
-      }
+      if(!this.dragging) this.dragging = true;
       this.draw(event);
       // fix AppleWebKit rendering
       if(navigator.appVersion.indexOf('AppleWebKit')>0) window.scrollBy(0,0);

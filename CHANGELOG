@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix some possible exceptions in slider.js
+
 * Support for various snapping options on Draggables, adresses #2826, [thx saimonmoore]
 
 * Support horizontal ghostable Sortables, fixes #2794, [thx johnm]
