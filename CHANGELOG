@@ -1,5 +1,7 @@
 *SVN*
 
+* Make 'contents' a synonym for 'content' on Effect.Scale scaleMode option
+
 * Fix some possible exceptions in slider.js
 
 * Support for various snapping options on Draggables, adresses #2826, [thx saimonmoore]
