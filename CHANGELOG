@@ -1,5 +1,7 @@
 *SVN*
 
+* Update lib/prototype.js to Prototype 1.4.0_rc3
+
 * Make 'contents' a synonym for 'content' on Effect.Scale scaleMode option
 
 * Fix some possible exceptions in slider.js
