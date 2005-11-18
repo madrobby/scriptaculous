@@ -65,6 +65,7 @@ JavaScriptTestTask.new(:unittest) do |t|
   t.run("/test/unit/string_test.html")
   t.run("/test/unit/builder_test.html")
   t.run("/test/unit/element_test.html")
+  t.run("/test/unit/dragdrop_test.html")
   t.run("/test/unit/sortable_test.html")
   t.run("/test/unit/position_clone_test.html")
   

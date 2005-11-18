@@ -8,7 +8,7 @@ var Droppables = {
   drops: [],
 
   remove: function(element) {
-    this.drops = this.drops.reject(function(d) { return d.element==element });
+    this.drops = this.drops.reject(function(d) { return d.element==$(element) });
   },
 
   add: function(element) {

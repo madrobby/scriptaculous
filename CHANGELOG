@@ -1,5 +1,9 @@
 *SVN*
 
+* Make Droppables.remove accept DOM IDs in addition to elements
+
+* Added some unit tests for drag and drop
+
 * Update lib/prototype.js to Prototype 1.4.0_rc3
 
 * Make 'contents' a synonym for 'content' on Effect.Scale scaleMode option
