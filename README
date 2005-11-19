@@ -17,7 +17,7 @@ See the CHANGELOG file for information on what's new.
 == Installation/Usage
 
 This pre-release version of script.aculo.us includes the
-Prototype framework 1.4.0_rc2. You can use later versions,
+Prototype framework 1.4.0_rc3. You can use later versions,
 as they become available (see http://prototype.conio.net).
 
 Put prototype.js, and the six files scriptaculous.js, 
