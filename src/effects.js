@@ -355,7 +355,7 @@ Object.extend(Object.extend(Effect.Scale.prototype, Effect.Base.prototype), {
     this.restoreAfterFinish = this.options.restoreAfterFinish || false;
     this.elementPositioning = Element.getStyle(this.element,'position');
     
-    effect.originalStyle = {};
+    this.originalStyle = {};
     ['top','left','width','height','fontSize'].each( function(k) {
       this.originalStyle[k] = this.element.style[k];
     }.bind(this));
