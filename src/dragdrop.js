@@ -124,6 +124,7 @@ var Draggables = {
   },
   
   activate: function(draggable) {
+    window.focus(); // allows keypress events if window isn't currently focused, fails for Safari
     this.activeDraggable = draggable;
   },
   
