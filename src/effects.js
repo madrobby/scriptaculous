@@ -87,7 +87,7 @@ Element.childrenWithClassName = function(element, className) {
 
 Array.prototype.call = function() {
   var args = arguments;
-  this.each(function(f) { f.apply(this, args) });
+  this.each(function(f){ f.apply(this, args) });
 }
 
 /*--------------------------------------------------------------------------*/
@@ -122,11 +122,9 @@ var Effect = {
       speed: 0.1,
       delay: 0.0
     }, arguments[2] || {});
-    var speed = options.speed;
-    var delay = options.delay;
 
     $A(elements).each( function(element, index) {
-      new effect(element, Object.extend(options, { delay: delay + index * speed }));
+      new effect(element, Object.extend(options, { delay: options.delay + index * options.speed }));
     });
   }
 };
@@ -354,15 +352,13 @@ Object.extend(Object.extend(Effect.Scale.prototype, Effect.Base.prototype), {
     this.start(options);
   },
   setup: function() {
-    var effect = this;
-    
     this.restoreAfterFinish = this.options.restoreAfterFinish || false;
     this.elementPositioning = Element.getStyle(this.element,'position');
     
     effect.originalStyle = {};
     ['top','left','width','height','fontSize'].each( function(k) {
-      effect.originalStyle[k] = effect.element.style[k];
-    });
+      this.originalStyle[k] = this.element.style[k];
+    }.bind(this));
       
     this.originalTop  = this.element.offsetTop;
     this.originalLeft = this.element.offsetLeft;
@@ -370,10 +366,10 @@ Object.extend(Object.extend(Effect.Scale.prototype, Effect.Base.prototype), {
     var fontSize = Element.getStyle(this.element,'font-size') || '100%';
     ['em','px','%'].each( function(fontSizeType) {
       if(fontSize.indexOf(fontSizeType)>0) {
-        effect.fontSize     = parseFloat(fontSize);
-        effect.fontSizeType = fontSizeType;
+        this.fontSize     = parseFloat(fontSize);
+        this.fontSizeType = fontSizeType;
       }
-    });
+    }.bind(this));
     
     this.factor = (this.options.scaleTo - this.options.scaleFrom)/100;
     
@@ -426,28 +422,19 @@ Object.extend(Object.extend(Effect.Highlight.prototype, Effect.Base.prototype), 
     if(Element.getStyle(this.element, 'display')=='none') { this.cancel(); return; }
     // Disable background image during the effect
     this.oldStyle = {
-      backgroundImage: Element.getStyle(this.element, 'background-image') }
+      backgroundImage: Element.getStyle(this.element, 'background-image') };
     Element.setStyle(this.element, {backgroundImage: 'none'});
     if(!this.options.endcolor)
       this.options.endcolor = Element.getStyle(this.element, 'background-color').parseColor('#ffffff');
     if(!this.options.restorecolor)
       this.options.restorecolor = Element.getStyle(this.element, 'background-color');
     // init color calculations
-    this.colors_base = [
-      parseInt(this.options.startcolor.slice(1,3),16),
-      parseInt(this.options.startcolor.slice(3,5),16),
-      parseInt(this.options.startcolor.slice(5),16) ];
-    this.colors_delta = [
-      parseInt(this.options.endcolor.slice(1,3),16)-this.colors_base[0],
-      parseInt(this.options.endcolor.slice(3,5),16)-this.colors_base[1],
-      parseInt(this.options.endcolor.slice(5),16)-this.colors_base[2]];
+    this._base  = $R(0,2).map(function(i){ return parseInt(this.options.startcolor.slice(i*2+1,i*2+3),16) }.bind(this));
+    this._delta = $R(0,2).map(function(i){ return parseInt(this.options.endcolor.slice(i*2+1,i*2+3),16)-this._base[i] }.bind(this));
   },
   update: function(position) {
-    var effect = this; var colors = $R(0,2).map( function(i){ 
-      return Math.round(effect.colors_base[i]+(effect.colors_delta[i]*position))
-    });
-    Element.setStyle(this.element, { backgroundColor: 
-      '#' + colors[0].toColorPart() + colors[1].toColorPart() + colors[2].toColorPart() });
+    Element.setStyle(this.element,{backgroundColor: '#' + $R(0,2).map(function(i){
+      return Math.round(this._base[i]+(this._delta[i]*position)).toColorPart(); }.bind(this)).join('') });
   },
   finish: function() {
     Element.setStyle(this.element, Object.extend(this.oldStyle, {

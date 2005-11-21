@@ -327,12 +327,11 @@ Draggable.prototype = {
   },
   
   draw: function(point) {
-    var draggable = this;
     var pos = Position.cumulativeOffset(this.element);
     var d = this.currentDelta();
     pos[0] -= d[0]; pos[1] -= d[1];
     
-    var p = [0,1].map( function(i) { return (point[i]-pos[i]-draggable.offset[i]) });
+    var p = [0,1].map(function(i){ return (point[i]-pos[i]-this.offset[i]) }.bind(this));
     
     if(this.options.snap) {
       if(typeof this.options.snap == 'function') {
@@ -340,10 +339,10 @@ Draggable.prototype = {
       } else {
       if(this.options.snap instanceof Array) {
         p = p.map( function(v, i) {
-          return Math.round(v/draggable.options.snap[i])*draggable.options.snap[i] })
+          return Math.round(v/this.options.snap[i])*this.options.snap[i] }.bind(this))
       } else {
         p = p.map( function(v) {
-          return Math.round(v/draggable.options.snap)*draggable.options.snap })
+          return Math.round(v/this.options.snap)*this.options.snap }.bind(this))
       }
     }}
     
