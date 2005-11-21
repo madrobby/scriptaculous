@@ -433,8 +433,8 @@ Object.extend(Object.extend(Effect.Highlight.prototype, Effect.Base.prototype), 
     this._delta = $R(0,2).map(function(i){ return parseInt(this.options.endcolor.slice(i*2+1,i*2+3),16)-this._base[i] }.bind(this));
   },
   update: function(position) {
-    Element.setStyle(this.element,{backgroundColor: '#' + $R(0,2).map(function(i){
-      return Math.round(this._base[i]+(this._delta[i]*position)).toColorPart(); }.bind(this)).join('') });
+    Element.setStyle(this.element,{backgroundColor: $R(0,2).inject('#',function(m,v,i){
+      return m+(Math.round(this._base[i]+(this._delta[i]*position)).toColorPart()); }.bind(this)) });
   },
   finish: function() {
     Element.setStyle(this.element, Object.extend(this.oldStyle, {
