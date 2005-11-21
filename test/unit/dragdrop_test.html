@@ -111,10 +111,10 @@
       Droppables.add('droppable_test');
       
       Position.prepare();
-      assert(!Droppables.isAffected(-10, -10, null, Droppables.drops[0]));
+      assert(!Droppables.isAffected([-10, -10], null, Droppables.drops[0]));
       
       var p = Position.page($('droppable_test'));
-      assert(Droppables.isAffected(p[0], p[1], null, Droppables.drops[0]));
+      assert(Droppables.isAffected(p, null, Droppables.drops[0]));
     }}
     
   }, "testlog");
