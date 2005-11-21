@@ -1,5 +1,7 @@
 *SVN*
 
+* More effects.js refactoring
+
 * Refactoring and optimizations for effects (not complete yet)
 
 * Refactoring and optimizations for Draggables/Droppables/Sortables (not complete yet)
