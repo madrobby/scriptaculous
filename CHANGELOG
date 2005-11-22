@@ -1,5 +1,7 @@
 *SVN*
 
+* Added offset option to Effect.ScrollTo
+
 * More effects.js/dragdrop.js refactoring
 
 * Refactoring and optimizations for effects (not complete yet)

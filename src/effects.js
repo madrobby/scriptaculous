@@ -452,6 +452,7 @@ Object.extend(Object.extend(Effect.ScrollTo.prototype, Effect.Base.prototype), {
   setup: function() {
     Position.prepare();
     var offsets = Position.cumulativeOffset(this.element);
+    if(this.options.offset) offsets[1] += this.options.offset;
     var max = window.innerHeight ? 
       window.height - window.innerHeight :
       document.body.scrollHeight - 
