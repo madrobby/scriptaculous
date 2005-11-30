@@ -1,5 +1,7 @@
 *SVN*
 
+* Added functional test for DOM-based UL sortables #3016
+
 * Added offset option to Effect.ScrollTo
 
 * More effects.js/dragdrop.js refactoring
