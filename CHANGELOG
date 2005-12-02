@@ -1,5 +1,11 @@
 *SVN*
 
+* Fix Effect.multiple to deal correctly with delays
+
+* Safeguard Effect.Base.render to only do updates when Effect is in running state, fixes #2912
+
+* Added inspect method to Effect.Base
+
 * Added functional test for DOM-based UL sortables #3016
 
 * Added offset option to Effect.ScrollTo

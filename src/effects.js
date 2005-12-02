@@ -122,9 +122,10 @@ var Effect = {
       speed: 0.1,
       delay: 0.0
     }, arguments[2] || {});
+    var masterDelay = options.delay;
 
     $A(elements).each( function(element, index) {
-      new effect(element, Object.extend(options, { delay: options.delay + index * options.speed }));
+      new effect(element, Object.extend(options, { delay: index * options.speed + masterDelay }));
     });
   }
 };
@@ -255,13 +256,15 @@ Effect.Base.prototype = {
       if(this.setup) this.setup();
       this.event('afterSetup');
     }
-    if(this.options.transition) pos = this.options.transition(pos);
-    pos *= (this.options.to-this.options.from);
-    pos += this.options.from;
-    this.position = pos;
-    this.event('beforeUpdate');
-    if(this.update) this.update(pos);
-    this.event('afterUpdate');
+    if(this.state == 'running') {
+      if(this.options.transition) pos = this.options.transition(pos);
+      pos *= (this.options.to-this.options.from);
+      pos += this.options.from;
+      this.position = pos;
+      this.event('beforeUpdate');
+      if(this.update) this.update(pos);
+      this.event('afterUpdate');
+    }
   },
   cancel: function() {
     if(!this.options.sync) Effect.Queue.remove(this);
@@ -270,6 +273,9 @@ Effect.Base.prototype = {
   event: function(eventName) {
     if(this.options[eventName + 'Internal']) this.options[eventName + 'Internal'](this);
     if(this.options[eventName]) this.options[eventName](this);
+  },
+  inspect: function() {
+    return '#<Effect:' + $H(this).inspect() + ',options:' + $H(this.options).inspect() + '>';
   }
 }
 
