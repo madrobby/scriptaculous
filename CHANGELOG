@@ -1,5 +1,7 @@
 *SVN*
 
+* Added Basic unit test for Effect.inspect
+
 * Fix Effect.multiple to deal correctly with delays
 
 * Safeguard Effect.Base.render to only do updates when Effect is in running state, fixes #2912

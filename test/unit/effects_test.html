@@ -71,6 +71,15 @@
       });
     }},
     
+    testInspect: function() { with(this) {
+      var e1 = new Effect.Opacity('sandbox',{from:1.0,to:0.5,duration:0.5});
+      assertEqual(0, e1.inspect().indexOf('#<Effect:'));
+      assert(e1.inspect().indexOf('idle')>0);
+      wait(1000, function() {
+        assert(e1.inspect().indexOf('finished')>0);
+      });
+    }},
+    
     testEffectsQueue: function() { with(this) {
       var e1 = new Effect.Highlight('sandbox');
       var e2 = new Effect.Appear('sandbox');
