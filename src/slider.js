@@ -64,6 +64,7 @@ Control.Slider.prototype = {
     this.alignY = parseInt(this.options.alignY || '0');
     
     this.trackLength = this.maximumOffset() - this.minimumOffset();
+    this.handleLength = this.isVertical() ? this.handles[0].offsetHeight : this.handles[0].offsetWidth;
 
     this.active   = false;
     this.dragging = false;
@@ -162,10 +163,13 @@ Control.Slider.prototype = {
       handleIdx || this.activeHandleIdx || 0);
   },
   translateToPx: function(value) {
-    return Math.round((this.trackLength / (this.range.end - this.range.start)) * (value - this.range.start)) + "px";
+    return Math.round(
+      ((this.trackLength-this.handleLength)/(this.range.end-this.range.start)) * 
+      (value - this.range.start)) + "px";
   },
   translateToValue: function(offset) {
-    return ((offset/this.trackLength) * (this.range.end - this.range.start)) + this.range.start;
+    return ((offset/(this.trackLength-this.handleLength) * 
+      (this.range.end-this.range.start)) + this.range.start);
   },
   getRange: function(range) {
     var v = this.values.sortBy(Prototype.K); 
@@ -217,7 +221,7 @@ Control.Slider.prototype = {
           var offsets  = Position.cumulativeOffset(this.track); 
           this.event = event;         
           this.setValue(this.translateToValue( 
-            this.isVertical() ? pointer[1]-offsets[1] : pointer[0]-offsets[0]
+           (this.isVertical() ? pointer[1]-offsets[1] : pointer[0]-offsets[0])-(this.handleLength/2)
           ));
         } else {
           // find the handle (prevents issues with Safari)

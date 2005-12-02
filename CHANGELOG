@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix slider to make handle width/height count for track length, fixes #3040, fixes #3017, [thx buggedcom]
+
 * Added Basic unit test for Effect.inspect
 
 * Fix Effect.multiple to deal correctly with delays

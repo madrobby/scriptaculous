@@ -49,9 +49,9 @@
 </div>
 
 <div id="track6" style="width:20px;background-color:#cbf;height:100px;position:relative;z-index:0;">
-  <div id="handle6-1" style="top:0;left:0;position:absolute;background-color:#f00;z-index:2">1</div>
-  <div id="handle6-2" style="top:0;left:0;position:absolute;background-color:#0f0;z-index:2">2</div>
-  <div id="handle6-3" style="top:0;left:0;position:absolute;background-color:#00f;z-index:2">3</div>
+  <div id="handle6-1" style="top:0;left:0;height:13px;position:absolute;background-color:#f00;z-index:2">1</div>
+  <div id="handle6-2" style="top:0;left:0;height:13px;position:absolute;background-color:#0f0;z-index:2">2</div>
+  <div id="handle6-3" style="top:0;left:0;height:13px;position:absolute;background-color:#00f;z-index:2">3</div>
   
   <div id="span6-1" style="top:0;left:0;position:absolute;background-color:#000;width:20px;z-index:1;"> </div>
   <div id="span6-2" style="top:0;left:0;position:absolute;background-color:#444;width:20px;z-index:1;"> </div>
@@ -121,8 +121,8 @@
         // leave active to be able to play around with the sliders
         // slider.dispose();
       });
-      assertEqual("100px", $('handle2-horizontal').style.left);    
-      assertEqual("100px", $('handle2-vertical').style.top);
+      assertEqual("90px", $('handle2-horizontal').style.left);    
+      assertEqual("90px", $('handle2-vertical').style.top);
     }},
     
     testSliderInitialValues: function() { with(this) {
@@ -200,8 +200,8 @@
       assertEqual(50, slider.values[1]);
       assertEqual(70, slider.values[2]);
       assertEqual("20px", slider.handles[0].style.left);
-      assertEqual("50px", slider.handles[1].style.left);
-      assertEqual("70px", slider.handles[2].style.left);
+      assertEqual("49px", slider.handles[1].style.left);
+      assertEqual("68px", slider.handles[2].style.left);
       
       // should change last manipulated handled by -10,
       // so check for handle with idx 2
@@ -229,8 +229,8 @@
       assertEqual(180, slider.values[1]);
       
       assertEqual("0px", slider.handles[0].style.left);
-      assertEqual("231px", slider.handles[2].style.left);
-      assertEqual("300px", slider.handles[1].style.left);
+      assertEqual("225px", slider.handles[2].style.left);
+      assertEqual("293px", slider.handles[1].style.left);
       
       assertEqual($R(50,150).inspect(), slider.getRange().inspect());
       assertEqual(30, slider.getRange(1).end-slider.getRange(1).start);
@@ -246,17 +246,17 @@
       slider.setValue(150, 2);
   
       assertEqual("20px", $('span5-1').style.left);
-      assertEqual("80px", $('span5-1').style.width);
-      assertEqual("100px", $('span5-2').style.left);
-      assertEqual("50px", $('span5-2').style.width);
+      assertEqual("78px", $('span5-1').style.width);
+      assertEqual("98px", $('span5-2').style.left);
+      assertEqual("49px", $('span5-2').style.width);
       
       slider.setValue(30, 0);
       slider.setValue(110, 1);
       slider.setValue(90, 2);
   
-      assertEqual("30px", $('span5-1').style.left);
-      assertEqual("60px", $('span5-1').style.width);
-      assertEqual("90px", $('span5-2').style.left);
+      assertEqual("29px", $('span5-1').style.left);
+      assertEqual("59px", $('span5-1').style.width);
+      assertEqual("88px", $('span5-2').style.left);
       assertEqual("20px", $('span5-2').style.width);
       
       slider.dispose();
@@ -274,9 +274,9 @@
       slider.setValue(100, 1);
       slider.setValue(150, 2);
       assertEqual("0px", $('span7-start').style.left);
-      assertEqual("20px", $('span7-start').style.width);
-      assertEqual("150px", $('span7-end').style.left);
-      assertEqual("50px", $('span7-end').style.width);
+      assertEqual("19px", $('span7-start').style.width);
+      assertEqual("145px", $('span7-end').style.left);
+      assertEqual("48px", $('span7-end').style.width);
       
       slider.dispose();
     }},
@@ -291,9 +291,9 @@
       
       slider.setValue(20,  0);
       assertEqual("0px", $('span7-start').style.left);
-      assertEqual("20px", $('span7-start').style.width);
-      assertEqual("20px", $('span7-end').style.left);
-      assertEqual("180px", $('span7-end').style.width);
+      assertEqual("19px", $('span7-start').style.width);
+      assertEqual("19px", $('span7-end').style.left);
+      assertEqual("174px", $('span7-end').style.width);
       
       slider.dispose();
     }},
@@ -346,9 +346,9 @@
       assertEqual(100, slider.values[1]);
       assertEqual(150, slider.values[2]);
       assertEqual("20px", $('span5-1').style.left);
-      assertEqual("80px", $('span5-1').style.width);
-      assertEqual("100px", $('span5-2').style.left);
-      assertEqual("50px", $('span5-2').style.width);
+      assertEqual("78px", $('span5-1').style.width);
+      assertEqual("98px", $('span5-2').style.left);
+      assertEqual("49px", $('span5-2').style.width);
       
       slider.setValue(30, 0);
       slider.setValue(110, 1);
@@ -357,9 +357,9 @@
       assertEqual(110, slider.values[1]);
       assertEqual(110, slider.values[2], '???');
   
-      assertEqual("30px", $('span5-1').style.left);
-      assertEqual("80px", $('span5-1').style.width);
-      assertEqual("110px", $('span5-2').style.left);
+      assertEqual("29px", $('span5-1').style.left);
+      assertEqual("78px", $('span5-1').style.width);
+      assertEqual("107px", $('span5-2').style.left);
       assertEqual("0px", $('span5-2').style.width);
       
       slider.dispose();
@@ -373,35 +373,35 @@
       slider.setValue(80, 1);
       slider.setValue(90, 2);
   
-      assertEqual("20px", $('span6-1').style.top);
-      assertEqual("60px", $('span6-1').style.height);
-      assertEqual("80px", $('span6-2').style.top);
-      assertEqual("10px", $('span6-2').style.height);
+      assertEqual("17px", $('span6-1').style.top);
+      assertEqual("52px", $('span6-1').style.height);
+      assertEqual("70px", $('span6-2').style.top);
+      assertEqual("9px", $('span6-2').style.height);
       
       slider.setValue(30, 0);
       slider.setValue(20, 1);
       slider.setValue(95, 2);
   
-      assertEqual("20px", $('span6-1').style.top);
-      assertEqual("10px", $('span6-1').style.height);
-      assertEqual("30px", $('span6-2').style.top);
-      assertEqual("65px", $('span6-2').style.height);
+      assertEqual("17px", $('span6-1').style.top);
+      assertEqual("9px", $('span6-1').style.height);
+      assertEqual("26px", $('span6-2').style.top);
+      assertEqual("57px", $('span6-2').style.height);
     }},
     
     testRange: function() { with(this) {
       var slider = new Control.Slider('handle1','track1');
       assertEqual(0, slider.value);
       slider.setValue(1);
-      assertEqual("200px", $('handle1').style.left);
+      assertEqual("185px", $('handle1').style.left);
       slider.dispose();
       
       var slider = new Control.Slider('handle1','track1',{range:$R(10,20)});
       assertEqual(10, slider.value);
       assertEqual("0px", $('handle1').style.left);
       slider.setValue(15);
-      assertEqual("100px", $('handle1').style.left);
+      assertEqual("93px", $('handle1').style.left);
       slider.setValue(20);
-      assertEqual("200px", $('handle1').style.left);
+      assertEqual("185px", $('handle1').style.left);
       slider.dispose();
       
     }}
