@@ -52,7 +52,7 @@ Element.setContentZoom = function(element, percent) {
 }
 
 Element.getOpacity = function(element){  
-  var opacity;  
+  var opacity;
   if (opacity = Element.getStyle(element, 'opacity'))  
     return parseFloat(opacity);  
   if (opacity = (Element.getStyle(element, 'filter') || '').match(/alpha\(opacity=(.*)\)/))  
@@ -62,8 +62,10 @@ Element.getOpacity = function(element){
 
 Element.setOpacity = function(element, value){  
   element= $(element);  
-  if (value == 1){  
-    Element.setStyle(element, {opacity: 0.999999});
+  if (value == 1){
+    Element.setStyle(element, { opacity: 
+      (/Gecko/.test(navigator.userAgent) && !/Konqueror|Safari|KHTML/.test(navigator.userAgent)) ? 
+      0.999999 : null });
     if(/MSIE/.test(navigator.userAgent))  
       Element.setStyle(element, {filter: Element.getStyle(element,'filter').replace(/alpha\([^\)]*\)/gi,'')});  
   } else {  
