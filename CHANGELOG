@@ -1,4 +1,6 @@
-*SVN*
+*V1.5.0_rc6*
+
+* Update lib/prototype.js to Prototype 1.4.0_rc4
 
 * Fix Effect.SlideDown/SlideUp on Internet Explorer, includes a change to Effect.Scale, (should) fix #2962 and others, [thx wyldeone]
 
