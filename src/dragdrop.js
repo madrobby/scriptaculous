@@ -487,7 +487,7 @@ var Sortable = {
     if(!element.hasChildNodes()) return null;
     var elements = [];
     $A(element.childNodes).each( function(e) {
-      if(e.tagName && e.tagName==options.tag.toUpperCase() &&
+      if(e.tagName && e.tagName.toUpperCase()==options.tag.toUpperCase() &&
         (!options.only || (Element.hasClassName(e, options.only))))
           elements.push(e);
       if(options.tree) {

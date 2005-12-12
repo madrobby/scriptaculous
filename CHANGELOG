@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix Sortable.findElements for XHTML in Gecko, fixes #3081, [thx fgnass]
+
 * Fix a problem with the slider getting NaN results when clicking directly on the track, fixes #3020, [thx rectalogic]
 
 * Fix a problem with Safari not doing sub-pixel rendering when setting opacity to 1 with Element.setOpacity
