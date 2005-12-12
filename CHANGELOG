@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix a problem with the slider getting NaN results when clicking directly on the track, fixes #3020, [thx rectalogic]
+
 * Fix a problem with Safari not doing sub-pixel rendering when setting opacity to 1 with Element.setOpacity
 
 * Fix slider to make handle width/height count for track length, fixes #3040, fixes #3017, [thx buggedcom]
