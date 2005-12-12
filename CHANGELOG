@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix a problem with a wrong reference in Effect.Pulsate, fixes #3184, [thx cyx_]
+
 * Fix Sortable.findElements for XHTML in Gecko, fixes #3081, [thx fgnass]
 
 * Fix a problem with the slider getting NaN results when clicking directly on the track, fixes #3020, [thx rectalogic]
