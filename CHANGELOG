@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix Effect.SlideDown/SlideUp on Internet Explorer, includes a change to Effect.Scale, (should) fix #2962 and others, [thx wyldeone]
+
 * Make Draggables that are reverting cancel the default revert effect when they are dragged again while reverting, fixes #3188, [thx maverick]
 
 * Fix a problem with a wrong reference in Effect.Pulsate, fixes #3184, [thx cyx_]

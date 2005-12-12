@@ -383,7 +383,7 @@ Object.extend(Object.extend(Effect.Scale.prototype, Effect.Base.prototype), {
     
     this.dims = null;
     if(this.options.scaleMode=='box')
-      this.dims = [this.element.clientHeight, this.element.clientWidth];
+      this.dims = [this.element.offsetHeight, this.element.offsetWidth];
     if(/^content/.test(this.options.scaleMode))
       this.dims = [this.element.scrollHeight, this.element.scrollWidth];
     if(!this.dims)
@@ -632,6 +632,7 @@ Effect.SlideDown = function(element) {
     scaleMode: {originalHeight: elementDimensions.height, originalWidth: elementDimensions.width},
     restoreAfterFinish: true,
     afterSetup: function(effect) { with(Element) {
+      makePositioned(effect.element);
       makePositioned(effect.element.firstChild);
       if(window.opera) setStyle(effect.element, {top: ''});
       makeClipping(effect.element);
@@ -643,6 +644,7 @@ Effect.SlideDown = function(element) {
     afterFinishInternal: function(effect) { with(Element) {
       undoClipping(effect.element); 
       undoPositioned(effect.element.firstChild);
+      undoPositioned(effect.element);
       setStyle(effect.element.firstChild, {bottom: oldInnerBottom}); }}
     }, arguments[1] || {})
   );
@@ -659,6 +661,7 @@ Effect.SlideUp = function(element) {
     scaleFrom: 100,
     restoreAfterFinish: true,
     beforeStartInternal: function(effect) { with(Element) {
+      makePositioned(effect.element);
       makePositioned(effect.element.firstChild);
       if(window.opera) setStyle(effect.element, {top: ''});
       makeClipping(effect.element);
@@ -669,6 +672,7 @@ Effect.SlideUp = function(element) {
     afterFinishInternal: function(effect) { with(Element) {
         [hide, undoClipping].call(effect.element); 
         undoPositioned(effect.element.firstChild);
+        undoPositioned(effect.element);
         setStyle(effect.element.firstChild, {bottom: oldInnerBottom}); }}
    }, arguments[1] || {})
   );
