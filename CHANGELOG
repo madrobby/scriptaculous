@@ -1,5 +1,7 @@
 *SVN*
 
+* Make Draggables that are reverting cancel the default revert effect when they are dragged again while reverting, fixes #3188, [thx maverick]
+
 * Fix a problem with a wrong reference in Effect.Pulsate, fixes #3184, [thx cyx_]
 
 * Fix Sortable.findElements for XHTML in Gecko, fixes #3081, [thx fgnass]

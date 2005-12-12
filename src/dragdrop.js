@@ -191,7 +191,7 @@ Draggable.prototype = {
       },
       reverteffect: function(element, top_offset, left_offset) {
         var dur = Math.sqrt(Math.abs(top_offset^2)+Math.abs(left_offset^2))*0.02;
-        new Effect.MoveBy(element, -top_offset, -left_offset, {duration:dur});
+        element._revert = new Effect.MoveBy(element, -top_offset, -left_offset, {duration:dur});
       },
       endeffect: function(element) { 
         new Effect.Opacity(element, {duration:0.2, from:0.7, to:1.0}); 
@@ -240,6 +240,11 @@ Draggable.prototype = {
         src.tagName=='SELECT' ||
         src.tagName=='BUTTON' ||
         src.tagName=='TEXTAREA')) return;
+        
+      if(this.element._revert) {
+        this.element._revert.cancel();
+        this.element._revert = null;
+      }
       
       var pointer = [Event.pointerX(event), Event.pointerY(event)];
       var pos     = Position.cumulativeOffset(this.element);
