@@ -146,6 +146,7 @@ var Draggables = {
     if(!this.activeDraggable) return;
     this._lastPointer = null;
     this.activeDraggable.endDrag(event);
+    this.activeDraggable = null;
   },
   
   keyPress: function(event) {
