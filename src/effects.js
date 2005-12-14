@@ -166,16 +166,22 @@ Effect.Transitions.full = function(pos) {
 
 /* ------------- core effects ------------- */
 
-Effect.Queue = {
-  effects:  [],
+Effect.ScopedQueue = Class.create();
+Object.extend(Object.extend(Effect.ScopedQueue.prototype, Enumerable), {
+  initialize: function() {
+    this.effects  = [];
+    this.interval = null;
+  },
   _each: function(iterator) {
     this.effects._each(iterator);
   },
-  interval: null,
   add: function(effect) {
     var timestamp = new Date().getTime();
     
-    switch(effect.options.queue) {
+    var position = (typeof effect.options.queue == 'string') ? 
+      effect.options.queue : effect.options.queue.position;
+    
+    switch(position) {
       case 'front':
         // move unstarted effects after this effect  
         this.effects.findAll(function(e){ return e.state=='idle' }).each( function(e) {
@@ -206,8 +212,21 @@ Effect.Queue = {
     var timePos = new Date().getTime();
     this.effects.invoke('loop', timePos);
   }
+});
+
+Effect.Queues = {
+  instances: {},
+  get: function(queueName) {
+    if(typeof queueName != 'string') {
+      return queueName;
+    }
+    if(!this.instances[queueName]) {
+      this.instances[queueName] = new Effect.ScopedQueue();
+    }
+    return this.instances[queueName];
+  }
 }
-Object.extend(Effect.Queue, Enumerable);
+Effect.Queue = Effect.Queues.get('global');
 
 Effect.DefaultOptions = {
   transition: Effect.Transitions.sinoidal,
@@ -230,7 +249,9 @@ Effect.Base.prototype = {
     this.startOn      = this.options.delay*1000;
     this.finishOn     = this.startOn + (this.options.duration*1000);
     this.event('beforeStart');
-    if(!this.options.sync) Effect.Queue.add(this);
+    if(!this.options.sync)
+      Effect.Queues.get(typeof this.options.queue == 'string' ? 
+        'global' : this.options.queue.scope).add(this);
   },
   loop: function(timePos) {
     if(timePos >= this.startOn) {
@@ -268,7 +289,9 @@ Effect.Base.prototype = {
     }
   },
   cancel: function() {
-    if(!this.options.sync) Effect.Queue.remove(this);
+    if(!this.options.sync)
+      Effect.Queues.get(typeof this.options.queue == 'string' ? 
+        'global' : this.options.queue.scope).remove(this);
     this.state = 'finished';
   },
   event: function(eventName) {
@@ -318,13 +341,16 @@ Object.extend(Object.extend(Effect.Opacity.prototype, Effect.Base.prototype), {
   }
 });
 
-Effect.MoveBy = Class.create();
-Object.extend(Object.extend(Effect.MoveBy.prototype, Effect.Base.prototype), {
-  initialize: function(element, toTop, toLeft) {
-    this.element      = $(element);
-    this.toTop        = toTop;
-    this.toLeft       = toLeft;
-    this.start(arguments[3]);
+Effect.Move = Class.create();
+Object.extend(Object.extend(Effect.Move.prototype, Effect.Base.prototype), {
+  initialize: function(element) {
+    this.element = $(element);
+    var options = Object.extend({
+      x:    0,
+      y:    0,
+      mode: 'relative'
+    }, arguments[1] || {});
+    this.start(options);
   },
   setup: function() {
     // Bug in Opera: Opera returns the "real" position of a static element or
@@ -332,16 +358,27 @@ Object.extend(Object.extend(Effect.MoveBy.prototype, Effect.Base.prototype), {
     // ==> Always set top and left for position relative elements in your stylesheets 
     // (to 0 if you do not need them) 
     Element.makePositioned(this.element);
-    this.originalTop  = parseFloat(Element.getStyle(this.element,'top')  || '0');
     this.originalLeft = parseFloat(Element.getStyle(this.element,'left') || '0');
+    this.originalTop  = parseFloat(Element.getStyle(this.element,'top')  || '0');
+    if(this.options.mode == 'absolute') {
+      // absolute movement, so we need to calc deltaX and deltaY
+      this.options.x = this.options.x - this.originalLeft;
+      this.options.y = this.options.y - this.originalTop;
+    }
   },
   update: function(position) {
     Element.setStyle(this.element, {
-      top:  this.toTop  * position + this.originalTop + 'px',
-      left: this.toLeft * position + this.originalLeft + 'px'
+      left: this.options.x  * position + this.originalLeft + 'px',
+      top:  this.options.y  * position + this.originalTop  + 'px'
     });
   }
 });
+
+// for backwards compatibility
+Effect.MoveBy = function(element, toTop, toLeft) {
+  return new Effect.Move(element, 
+    Object.extend({ x: toLeft, y: toTop }, arguments[3] || {}));
+};
 
 Effect.Scale = Class.create();
 Object.extend(Object.extend(Effect.Scale.prototype, Effect.Base.prototype), {
@@ -584,7 +621,7 @@ Effect.DropOut = function(element) {
     left: Element.getStyle(element, 'left'),
     opacity: Element.getInlineOpacity(element) };
   return new Effect.Parallel(
-    [ new Effect.MoveBy(element, 100, 0, { sync: true }), 
+    [ new Effect.Move(element, {x: 0, y: 100, sync: true }), 
       new Effect.Opacity(element, { sync: true, to: 0.0 }) ],
     Object.extend(
       { duration: 0.5,
@@ -601,18 +638,18 @@ Effect.Shake = function(element) {
   var oldStyle = {
     top: Element.getStyle(element, 'top'),
     left: Element.getStyle(element, 'left') };
-  return new Effect.MoveBy(element, 0, 20, 
-    { duration: 0.05, afterFinishInternal: function(effect) {
-  new Effect.MoveBy(effect.element, 0, -40, 
-    { duration: 0.1, afterFinishInternal: function(effect) {
-  new Effect.MoveBy(effect.element, 0, 40, 
-    { duration: 0.1, afterFinishInternal: function(effect) {
-  new Effect.MoveBy(effect.element, 0, -40, 
-    { duration: 0.1, afterFinishInternal: function(effect) {
-  new Effect.MoveBy(effect.element, 0, 40, 
-    { duration: 0.1, afterFinishInternal: function(effect) {
-  new Effect.MoveBy(effect.element, 0, -20, 
-    { duration: 0.05, afterFinishInternal: function(effect) { with(Element) {
+	  return new Effect.Move(element, 
+	    { x:  20, y: 0, duration: 0.05, afterFinishInternal: function(effect) {
+	  new Effect.Move(effect.element,
+	    { x: -40, y: 0, duration: 0.1,  afterFinishInternal: function(effect) {
+	  new Effect.Move(effect.element,
+	    { x:  40, y: 0, duration: 0.1,  afterFinishInternal: function(effect) {
+	  new Effect.Move(effect.element,
+	    { x: -40, y: 0, duration: 0.1,  afterFinishInternal: function(effect) {
+	  new Effect.Move(effect.element,
+	    { x:  40, y: 0, duration: 0.1,  afterFinishInternal: function(effect) {
+	  new Effect.Move(effect.element,
+	    { x: -20, y: 0, duration: 0.05, afterFinishInternal: function(effect) { with(Element) {
         undoPositioned(effect.element);
         setStyle(effect.element, oldStyle);
   }}}) }}) }}) }}) }}) }});
@@ -736,7 +773,9 @@ Effect.Grow = function(element) {
       break;
   }
   
-  return new Effect.MoveBy(element, initialMoveY, initialMoveX, { 
+  return new Effect.Move(element, {
+    x: initialMoveX,
+    y: initialMoveY,
     duration: 0.01, 
     beforeSetup: function(effect) { with(Element) {
       hide(effect.element);
@@ -746,7 +785,7 @@ Effect.Grow = function(element) {
     afterFinishInternal: function(effect) {
       new Effect.Parallel(
         [ new Effect.Opacity(effect.element, { sync: true, to: 1.0, from: 0.0, transition: options.opacityTransition }),
-          new Effect.MoveBy(effect.element, moveY, moveX, { sync: true, transition: options.moveTransition }),
+          new Effect.Move(effect.element, { x: moveX, y: moveY, sync: true, transition: options.moveTransition }),
           new Effect.Scale(effect.element, 100, {
             scaleMode: { originalHeight: dims.height, originalWidth: dims.width }, 
             sync: true, scaleFrom: window.opera ? 1 : 0, transition: options.scaleTransition, restoreAfterFinish: true})
@@ -806,7 +845,7 @@ Effect.Shrink = function(element) {
   return new Effect.Parallel(
     [ new Effect.Opacity(element, { sync: true, to: 0.0, from: 1.0, transition: options.opacityTransition }),
       new Effect.Scale(element, window.opera ? 1 : 0, { sync: true, transition: options.scaleTransition, restoreAfterFinish: true}),
-      new Effect.MoveBy(element, moveY, moveX, { sync: true, transition: options.moveTransition })
+      new Effect.Move(element, { x: moveX, y: moveY, sync: true, transition: options.moveTransition })
     ], Object.extend({            
          beforeStartInternal: function(effect) { with(Element) {
            [makePositioned, makeClipping].call(effect.effects[0].element) }},

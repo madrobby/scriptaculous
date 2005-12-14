@@ -1,5 +1,9 @@
 *SVN*
 
+* Added local/scoped effect queues [thx David Zülke]
+
+* New core effect Effect.Move that can do absolute/relative movement [thx David Zülke]
+
 * Make default effects options modifyable globally by setting Effect.DefaultOptions
 
 * Make Draggables recognize top/left CSS properties defined in an external stylesheet, fixes #3205 [thx ansonparker]
