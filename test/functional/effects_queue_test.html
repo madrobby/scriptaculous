@@ -34,8 +34,14 @@
 </div>
 
 <div style="clear: both">
-  <a href="#" onclick="startTimeline(); return false;">Start queued effects</a>
+  <a href="#" onclick="startTimeline(); return false;">Start queued effects</a> (in 'global' queue)
 </div>
+
+<div id="sliding"><div style="background-color:#ccc;font-size:20px;height:300px;width:150px;">
+  <a href="#" onclick="Effect.SlideUp('sliding',{queue:{scope:'myscope', position:'end'}}); Effect.SlideDown('sliding',{queue:{scope:'myscope', position:'end'}}); return false;">
+    Do a bit sliding in parallel, with a scoped queue
+  </a>
+</div></div>
 
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
