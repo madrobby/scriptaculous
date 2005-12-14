@@ -1,5 +1,7 @@
 *SVN*
 
+* Added selective component loading to scriptaculous.js, see test/unit/loading_test.html for usage [thx David Zülke]
+
 * Added local/scoped effect queues [thx David Zülke]
 
 * New core effect Effect.Move that can do absolute/relative movement [thx David Zülke]

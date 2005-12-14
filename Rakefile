@@ -57,6 +57,7 @@ JavaScriptTestTask.new(:unittest) do |t|
   t.mount("/src")
   t.mount("/test")
   
+  t.run("/test/unit/loading_test.html")
   t.run("/test/unit/unittest_test.html")
   t.run("/test/unit/effects_test.html")
   t.run("/test/unit/ajax_autocompleter_test.html")
