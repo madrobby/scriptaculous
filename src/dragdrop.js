@@ -228,8 +228,8 @@ Draggable.prototype = {
   
   currentDelta: function() {
     return([
-      parseInt(this.element.style.left || '0'),
-      parseInt(this.element.style.top || '0')]);
+      parseInt(Element.getStyle(this.element,'left') || '0'),
+      parseInt(Element.getStyle(this.element,'top') || '0')]);
   },
   
   initDrag: function(event) {
