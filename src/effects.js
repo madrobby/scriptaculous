@@ -129,6 +129,20 @@ var Effect = {
     $A(elements).each( function(element, index) {
       new effect(element, Object.extend(options, { delay: index * options.speed + masterDelay }));
     });
+  },
+  PAIRS: {
+    'slide':  ['SlideDown','SlideUp'],
+    'blind':  ['BlindDown','BlindUp'],
+    'appear': ['Appear','Fade']
+  },
+  toggle: function(element, effect) {
+    element = $(element);
+    effect = (effect || 'appear').toLowerCase();
+    var options = Object.extend({
+      queue: { position:'end', scope:(element.id || 'global') }
+    }, arguments[2] || {});
+    Effect[Element.visible(element) ? 
+      Effect.PAIRS[effect][1] : Effect.PAIRS[effect][0]](element, options);
   }
 };
 
