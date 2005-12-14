@@ -80,6 +80,20 @@
       });
     }},
     
+    testDefaultOptions: function() { with(this) {
+      var oldDefaultOptions = Object.extend({},Effect.DefaultOptions);
+      
+      assertEqual(1.0, Effect.DefaultOptions.duration);
+      Effect.DefaultOptions.duration = 0.5;
+      var e1 = new Effect.Opacity('sandbox');
+      assertEqual(0.5, e1.options.duration);
+      
+      wait(750, function() {
+        assertEqual('finished', e1.state);
+        Effect.DefaultOptions = oldDefaultOptions;
+      });
+    }},
+    
     testEffectsQueue: function() { with(this) {
       var e1 = new Effect.Highlight('sandbox');
       var e2 = new Effect.Appear('sandbox');

@@ -1,5 +1,7 @@
 *SVN*
 
+* Make default effects options modifyable globally by setting Effect.DefaultOptions
+
 * Make Draggables recognize top/left CSS properties defined in an external stylesheet, fixes #3205 [thx ansonparker]
 
 * Fixed draggables starting to drag even if mouse button was released with no movement, [thx topfunky]

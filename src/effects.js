@@ -209,23 +209,22 @@ Effect.Queue = {
 }
 Object.extend(Effect.Queue, Enumerable);
 
+Effect.DefaultOptions = {
+  transition: Effect.Transitions.sinoidal,
+  duration:   1.0,   // seconds
+  fps:        25.0,  // max. 25fps due to Effect.Queue implementation
+  sync:       false, // true for combining
+  from:       0.0,
+  to:         1.0,
+  delay:      0.0,
+  queue:      'parallel'
+}
+
 Effect.Base = function() {};
 Effect.Base.prototype = {
   position: null,
-  setOptions: function(options) {
-    this.options = Object.extend({
-      transition: Effect.Transitions.sinoidal,
-      duration:   1.0,   // seconds
-      fps:        25.0,  // max. 25fps due to Effect.Queue implementation
-      sync:       false, // true for combining
-      from:       0.0,
-      to:         1.0,
-      delay:      0.0,
-      queue:      'parallel'
-    }, options || {});
-  },
   start: function(options) {
-    this.setOptions(options || {});
+    this.options      = Object.extend(Object.extend({},Effect.DefaultOptions), options || {});
     this.currentFrame = 0;
     this.state        = 'idle';
     this.startOn      = this.options.delay*1000;
