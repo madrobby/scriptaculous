@@ -42,7 +42,7 @@
     
     teardown: function() { with(this) {
       // remove all queued effects
-      Effect.QueueFactory.getInstance('global').each(function(e) { e.cancel() });
+      Effect.Queue.each(function(e) { e.cancel() });
     }},
     
     testBackwardsCompat: function() { with(this) {
@@ -133,14 +133,14 @@
       
       // only direct child elements
       Effect.multiple('sandbox',Effect.Fade);
-      assertEqual(3, Effect.QueueFactory.getInstance('global').effects.length);
+      assertEqual(3, Effect.Queue.effects.length);
       
-      Effect.QueueFactory.getInstance('global').each(function(e) { e.cancel() });
-      assertEqual(0, Effect.QueueFactory.getInstance('global').effects.length);
+      Effect.Queue.each(function(e) { e.cancel() });
+      assertEqual(0, Effect.Queue.effects.length);
       
       // call with array
       Effect.multiple(['test_1','test_3'],Effect.Puff);
-      assertEqual(2, Effect.QueueFactory.getInstance('global').effects.length);
+      assertEqual(2, Effect.Queue.effects.length);
     }},
     
     testEffectTagifyText: function() { with(this) {
@@ -150,7 +150,7 @@
       assertEqual(10, $('sandbox').childNodes.length);
       
       Effect.multiple('sandbox', Effect.Fade);
-      assertEqual(10, Effect.QueueFactory.getInstance('global').effects.length);
+      assertEqual(10, Effect.Queue.effects.length);
     }},
 
     // test if all combined effects correctly initialize themselves
