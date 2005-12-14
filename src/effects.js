@@ -215,14 +215,13 @@ Object.extend(Object.extend(Effect.ScopedQueue.prototype, Enumerable), {
 });
 
 Effect.Queues = {
-  instances: {},
+  instances: $H(),
   get: function(queueName) {
-    if(typeof queueName != 'string') {
-      return queueName;
-    }
-    if(!this.instances[queueName]) {
+    if(typeof queueName != 'string') return queueName;
+    
+    if(!this.instances[queueName])
       this.instances[queueName] = new Effect.ScopedQueue();
-    }
+      
     return this.instances[queueName];
   }
 }
