@@ -1,5 +1,8 @@
 *SVN*
 
+* In-place editor: add ok/cancel visibility options and onblur() submission, fixes #3233 [thx pulsation]
+  Note: currently, blur form submission breaks the cancel link functionality, if enabled
+
 * Added Effect.toggle for slide, blind and appear/fade effects, fixes #2704 [thx Azad]
 
 * Added selective component loading to scriptaculous.js, see test/unit/loading_test.html for usage [thx David Zülke]

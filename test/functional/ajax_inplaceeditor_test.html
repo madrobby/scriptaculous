@@ -24,6 +24,15 @@ new Ajax.InPlaceEditor($('tobeedited'), '_ajax_inplaceeditor_result.html', {
         });
 </script>
 
+<h1 id="tobeeditedblur">To be edited w/ blur</h1>
+<script>
+new Ajax.InPlaceEditor($('tobeeditedblur'), '_ajax_inplaceeditor_result.html', {
+        submitOnBlur: true, okButton: false, cancelLink: true,
+        ajaxOptions: {method: 'get'} //override so we can use a static for the result
+        });
+</script>
+
+
 <span id="tobeedited2">With external edit control</span> &nbsp; <a id="tobeedited2EditControl" href="#">edit</a>
 <script>
 new Ajax.InPlaceEditor($('tobeedited2'), '_ajax_inplaceeditor_result.html', {
