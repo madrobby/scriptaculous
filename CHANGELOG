@@ -1,5 +1,7 @@
 *SVN*
 
+* Add select option to Autocompleter to optionally use textnodes from elements with a specific CSS class (see test/functional/ajax_autocompleter_test.html for usage)
+
 * In-place editor: add ok/cancel visibility options and onblur() submission, fixes #3233 [thx pulsation]
   Note: currently, blur form submission breaks the cancel link functionality, if enabled
 

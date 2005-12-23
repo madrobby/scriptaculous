@@ -38,7 +38,7 @@ Autocompleter ac2 w/ parameters: <input id="ac2" type="text" name="ac2"/>
 
 <br/>
 
-Autocompleter ac3 (nested in postion:relative div):
+Autocompleter ac3 (nested in postion:relative div, selects "selectme" class):
 <br/> 
 <div style="position:relative">
 <input id="ac3" type="text"/>
@@ -47,7 +47,7 @@ Autocompleter ac3 (nested in postion:relative div):
 
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-  new Ajax.Autocompleter('ac3','ac3update','_autocomplete_result.html');
+  new Ajax.Autocompleter('ac3','ac3update','_autocomplete_result.html',{select:'selectme'});
 // ]]>
 </script>
 
