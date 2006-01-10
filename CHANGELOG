@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix a crash because of an IE bug in Effect.SlideDown, fixes #3192 [thx Rob Mayhew]
+
 * Added experimental auto-scroll option to Draggables and Sortables, activate with scroll: 'id_of_scroll_container_element'.
   Note: needs testing, call syntax might change
   See test/functional/dragdrop3_test.html for usage/demo

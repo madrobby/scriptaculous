@@ -690,8 +690,14 @@ Effect.SlideDown = function(element) {
         (effect.dims[0] - effect.element.clientHeight) + 'px' }); }},
     afterFinishInternal: function(effect) { with(Element) {
       undoClipping(effect.element); 
-      undoPositioned(effect.element.firstChild);
-      undoPositioned(effect.element);
+      // IE will crash if child is undoPositioned first
+      if(/MSIE/.test(navigator.userAgent)){
+        undoPositioned(effect.element);
+        undoPositioned(effect.element.firstChild);
+      }else{
+        undoPositioned(effect.element.firstChild);
+        undoPositioned(effect.element);
+      }
       setStyle(effect.element.firstChild, {bottom: oldInnerBottom}); }}
     }, arguments[1] || {})
   );
