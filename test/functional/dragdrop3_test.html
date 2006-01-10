@@ -17,7 +17,7 @@
 
 <h2>Draggables/Droppables</h2>
 
-<div style="width:400px;height:400px;overflow:scroll;position:relative;">
+<div style="width:400px;height:400px;overflow:scroll;position:relative;" id="scroll-container">
 
 <ul id="thelist2" style="padding: 2px; background:red;">
 <li>Relatively here!</li>
@@ -81,7 +81,7 @@
 // <![CDATA[
 //  Sortable.create('thelist', {overlap: 'horizontal', constraint: false});
 Position.includeScrollOffsets = true;
-Sortable.create('thelist2');
+Sortable.create('thelist2',{scroll:'scroll-container'});
 
 // ]]>
 </script>

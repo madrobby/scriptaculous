@@ -1,6 +1,12 @@
-*V1.5.1*
+*SVN*
+
+* Added experimental auto-scroll option to Draggables and Sortables, activate with scroll: 'id_of_scroll_container_element'.
+  Note: needs testing, call syntax might change
+  See test/functional/dragdrop3_test.html for usage/demo
 
 * Added activate method to Autocompleter that allows you to trigger the suggestions through other means than user input [DHH]
+
+*V1.5.1*
 
 * Add select option to Autocompleter to optionally use textnodes from elements with a specific CSS class (see test/functional/ajax_autocompleter_test.html for usage)
 
