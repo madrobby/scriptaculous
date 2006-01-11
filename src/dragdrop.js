@@ -244,6 +244,7 @@ Draggable.prototype = {
       if(src.tagName && (
         src.tagName=='INPUT' ||
         src.tagName=='SELECT' ||
+        src.tagName=='OPTION' ||
         src.tagName=='BUTTON' ||
         src.tagName=='TEXTAREA')) return;
         
