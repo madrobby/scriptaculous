@@ -51,6 +51,8 @@
   <span id="3" class="firstClass secondClass">First and Second class</span>
   <span id="4" class="thirdClass">Third class <span id="5" class="firstClass">Nested First class</span></span>
   
+  <div id="collect">1<span class="ignore"><span class="someclass">2</span>3</span><ul><li class="ignore">4</li></ul></div>
+  
 </div>
 
 <!-- Tests follow -->
@@ -95,6 +97,13 @@
       
       assertEqual(1, $("test_whitespace").firstChild.nextSibling.nextSibling.nodeType);
       assertEqual('SPAN', $("test_whitespace").firstChild.nextSibling.nextSibling.tagName);
+    }},
+    
+    testElementCollectTextNodes: function() { with(this) {
+      assertEqual('1234', Element.collectTextNodes('collect'));
+      assertEqual('1234', Element.collectTextNodesIgnoreClass('collect', 'somethingcompletelydifferent'));
+      assertEqual('1',    Element.collectTextNodesIgnoreClass('collect', 'ignore'));
+      assertEqual('134',  Element.collectTextNodesIgnoreClass('collect', 'someclass'));
     }},
     
     testElementOpacity: function() { with(this) {

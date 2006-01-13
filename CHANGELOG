@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix Element.collectTextNodesIgnoreClass to correctly filter child nodes, fixes #3380 [thx lam]
+
 * Fix a condition where OPTION elements could cause unwanted dragging on Draggables, fixes #3441 [thx tom]
 
 * Fix a crash because of an IE bug in Effect.SlideDown, fixes #3192 [thx Rob Mayhew]
