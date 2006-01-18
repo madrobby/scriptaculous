@@ -1,5 +1,7 @@
 *SVN*
 
+* Add limit option to effect queues to limit the maximum number of effects in a queue, new unit tests for scoped effect queues, fixes #3498 [thx Abdur-Rahman Advany]
+
 * Fix Element.collectTextNodesIgnoreClass to correctly filter child nodes, fixes #3380 [thx lam]
 
 * Fix a condition where OPTION elements could cause unwanted dragging on Draggables, fixes #3441 [thx tom]

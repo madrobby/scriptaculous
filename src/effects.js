@@ -137,7 +137,7 @@ var Effect = {
     element = $(element);
     effect = (effect || 'appear').toLowerCase();
     var options = Object.extend({
-      queue: { position:'end', scope:(element.id || 'global') }
+      queue: { position:'end', scope:(element.id || 'global'), limit: 1 }
     }, arguments[2] || {});
     Effect[Element.visible(element) ? 
       Effect.PAIRS[effect][1] : Effect.PAIRS[effect][0]](element, options);
@@ -209,7 +209,10 @@ Object.extend(Object.extend(Effect.ScopedQueue.prototype, Enumerable), {
     
     effect.startOn  += timestamp;
     effect.finishOn += timestamp;
-    this.effects.push(effect);
+
+    if(!effect.options.queue.limit || (this.effects.length < effect.options.queue.limit))
+      this.effects.push(effect);
+    
     if(!this.interval) 
       this.interval = setInterval(this.loop.bind(this), 40);
   },

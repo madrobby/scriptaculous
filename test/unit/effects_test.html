@@ -126,6 +126,62 @@
       assertEqual(0, Effect.Queue.effects.length);
     }},
     
+    testScopedEffectsQueue: function() { with(this) {
+      var e1 = new Effect.Highlight('sandbox', {queue: {scope:'myscope'} } );
+      var e2 = new Effect.Appear('sandbox', {queue: {scope:'myscope'} } );
+      var e3 = new Effect.Highlight('sandbox', {queue: {scope:'secondscope'} } );
+      var e4 = new Effect.Appear('sandbox');
+     
+      assertEqual(2, Effect.Queues.get('myscope').effects.length);
+      assertEqual(1, Effect.Queues.get('secondscope').effects.length);
+      assertEqual(1, Effect.Queues.get('global').effects.length);
+      assertEqual(Effect.Queue.effects.length, Effect.Queues.get('global').effects.length);
+     
+      tmp = 0;
+      Effect.Queues.get('myscope').effects.each(function(e) { tmp++ });
+      assertEqual(2, tmp);
+     
+      // the internal interval timer should be active
+      assertNotNull(Effect.Queues.get('myscope').interval);
+      assertNotNull(Effect.Queues.get('secondscope').interval);
+      assertNotNull(Effect.Queues.get('global').interval);
+    
+      e1.cancel(); e2.cancel(); e3.cancel(); e4.cancel();
+     
+      assertEqual(0, Effect.Queues.get('myscope').effects.length);
+      assertEqual(0, Effect.Queues.get('secondscope').effects.length);
+      assertEqual(0, Effect.Queues.get('global').effects.length);
+     
+      // should be inactive after all effects are removed from queues
+      assertNull(Effect.Queues.get('myscope').interval);
+      assertNull(Effect.Queues.get('secondscope').interval);
+      assertNull(Effect.Queues.get('global').interval);
+     
+      // should be in e3 and e4 together and then e1,e2 order
+      var e1 = new Effect.Highlight('sandbox', {queue: {scope:'myscope'} } );
+      var e2 = new Effect.Appear('sandbox', {queue: {position: 'end', scope:'myscope'} } );
+      var e3 = new Effect.Fade('sandbox', {queue: {position: 'front', scope:'myscope'} } );
+      var e4 = new Effect.Appear('sandbox');
+      assert(e2.startOn > e1.startOn);
+      assert(e3.startOn < e1.startOn);
+      assert(e3.startOn < e2.startOn);
+      assert(e3.startOn = e4.startOn);
+      assertEqual(3, Effect.Queues.get('myscope').effects.length);
+     
+      Effect.Queues.get('myscope').each(function(e) { e.cancel() });
+      assertEqual(0, Effect.Queues.get('myscope').effects.length);
+    
+      Effect.Queues.get('global').each(function(e) { e.cancel() });
+      assertEqual(0, Effect.Queues.get('global').effects.length);
+     
+      // should only allow the first two effects and ignore the third
+      var e1 = new Effect.Highlight('sandbox', {queue: {scope:'myscope', limit: 2} } );
+      var e2 = new Effect.Appear('sandbox', {queue: {position: 'end', scope:'myscope', limit: 2} } );
+      var e3 = new Effect.Fade('sandbox', {queue: {position: 'front', scope:'myscope', limit: 2} } );
+     
+      assertEqual(2, Effect.Queues.get('myscope').effects.length);
+    }},
+    
     testEffectMultiple: function() { with(this) {
       $('sandbox').appendChild(Builder.node('div',{id:'test_1'}));
       $('sandbox').appendChild(Builder.node('div',{id:'test_2'},[Builder.node('div',{id:'test_2a'})]));
