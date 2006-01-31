@@ -128,7 +128,7 @@ var Draggables = {
     this.activeDraggable = draggable;
   },
   
-  deactivate: function(draggbale) {
+  deactivate: function() {
     this.activeDraggable = null;
   },
   

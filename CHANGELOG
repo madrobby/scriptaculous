@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix a wrong parameter in dragdrop.js, fixes #3555
+
 * Fix two typos in effects.js, fixes #3481 [thx jtolds]
 
 * Add assertEnumEqual for unit testing (from Prototype SVN trunk) [Sam Stephenson]
