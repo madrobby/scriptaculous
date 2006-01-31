@@ -750,7 +750,7 @@ Effect.Grow = function(element) {
   element = $(element);
   var options = Object.extend({
     direction: 'center',
-    moveTransistion: Effect.Transitions.sinoidal,
+    moveTransition: Effect.Transitions.sinoidal,
     scaleTransition: Effect.Transitions.sinoidal,
     opacityTransition: Effect.Transitions.full
   }, arguments[1] || {});
@@ -826,7 +826,7 @@ Effect.Shrink = function(element) {
   element = $(element);
   var options = Object.extend({
     direction: 'center',
-    moveTransistion: Effect.Transitions.sinoidal,
+    moveTransition: Effect.Transitions.sinoidal,
     scaleTransition: Effect.Transitions.sinoidal,
     opacityTransition: Effect.Transitions.none
   }, arguments[1] || {});
