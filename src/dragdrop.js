@@ -634,7 +634,7 @@ var Sortable = {
     Element.show(Sortable._marker);
   },
 
-  serialize: function(element) {
+  sequence: function(element) {
     element = $(element);
     var sortableOptions = this.options(element);
     var options = Object.extend({
@@ -644,8 +644,14 @@ var Sortable = {
       format: sortableOptions.format || /^[^_]*_(.*)$/
     }, arguments[1] || {});
     return $(this.findElements(element, options) || []).map( function(item) {
-      return (encodeURIComponent(options.name) + "[]=" + 
-              encodeURIComponent(item.id.match(options.format) ? item.id.match(options.format)[1] : ''));
-    }).join("&");
+      return item.id.match(options.format) ? item.id.match(options.format)[1] : '';
+    });
+  },
+
+  serialize: function(element) {
+    element = $(element);
+    return Sortable.sequence(element, arguments[1]).map( function(item) {
+      return encodeURIComponent(element.id) + "[]=" + encodeURIComponent(item);
+    }).join('&');
   }
 }
