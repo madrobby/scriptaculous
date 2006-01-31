@@ -1,5 +1,7 @@
 *SVN*
 
+* Add assertEnumEqual for unit testing (from Prototype SVN trunk) [Sam Stephenson]
+
 * Add Sortable.sequence method to extract the current sequence of a Sortable as an array, fixes #3675 [thx sphivo]
 
 * Add limit option to effect queues to limit the maximum number of effects in a queue, new unit tests for scoped effect queues, fixes #3498 [thx Abdur-Rahman Advany]

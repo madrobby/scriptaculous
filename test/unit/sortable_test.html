@@ -72,11 +72,11 @@
       assertEqual('sortable1[]=1&sortable1[]=2&sortable1[]=3', Sortable.serialize('sortable1'));      
       // test empty sortable
       assertEqual('', Sortable.serialize('sortable3'));
-      assertEqual([].inspect(), Sortable.sequence('sortable3').inspect());
+      assertEnumEqual([], Sortable.sequence('sortable3'));
       
       Element.remove('item_4');
       assertEqual('sortable2[]=3', Sortable.serialize('sortable2'));
-      assertEqual(['3'].inspect(), Sortable.sequence('sortable2').inspect());
+      assertEnumEqual(['3'], Sortable.sequence('sortable2'));
     }},
     
     testSortableSerializeFormat: function() { with(this) {
@@ -99,20 +99,20 @@
     
     testSortableSequenceFormat: function() { with(this) {
       // shauld correctly serialize from option given to Sortable.create()
-      assertEqual(['1','2'].inspect(), 
-        Sortable.sequence('sortable_specialcreate').inspect());
+      assertEnumEqual(['1','2'], 
+        Sortable.sequence('sortable_specialcreate'));
       
       // test special format given explicitly
-      assertEqual(['1','2'].inspect(), 
-        Sortable.sequence('sortable_specialformat', {format:/(\d+)/}).inspect());
+      assertEnumEqual(['1','2'], 
+        Sortable.sequence('sortable_specialformat', {format:/(\d+)/}));
  
       // return full id
-      assertEqual(['x1item','x2item'].inspect(), 
-        Sortable.sequence('sortable_specialformat', {format:/(.*)/}).inspect());
+      assertEnumEqual(['x1item','x2item'], 
+        Sortable.sequence('sortable_specialformat', {format:/(.*)/}));
       
       // test default format given explicitly
-      assertEqual(['1','2','3'].inspect(), 
-        Sortable.sequence('sortable1',{format:/^[^_]*_(.*)$/}).inspect());
+      assertEnumEqual(['1','2','3'], 
+        Sortable.sequence('sortable1',{format:/^[^_]*_(.*)$/}));
     }}
     
 
