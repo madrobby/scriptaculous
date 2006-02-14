@@ -1,4 +1,6 @@
-*SVN*
+*V1.5.2*
+
+* Change version number to V1.5.2
 
 * Fix a wrong parameter in dragdrop.js, fixes #3555
 
