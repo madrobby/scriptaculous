@@ -96,6 +96,11 @@
       assertEqual('sortable1[]=1&sortable1[]=2&sortable1[]=3', 
         Sortable.serialize('sortable1',{format:/^[^_]*_(.*)$/}));
     }},
+
+    testSortableSerializeName: function() { with(this) {
+	  assertEqual('dumdidu[]=1&dumdidu[]=2',
+		Sortable.serialize('sortable_specialcreate',{name:'dumdidu'}));
+	}},
     
     testSortableSequenceFormat: function() { with(this) {
       // shauld correctly serialize from option given to Sortable.create()

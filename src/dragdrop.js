@@ -650,8 +650,10 @@ var Sortable = {
 
   serialize: function(element) {
     element = $(element);
+    var name = encodeURIComponent(
+      (arguments[1] && arguments[1].name) ? arguments[1].name : element.id);
     return Sortable.sequence(element, arguments[1]).map( function(item) {
-      return encodeURIComponent(element.id) + "[]=" + encodeURIComponent(item);
+      return name + "[]=" + encodeURIComponent(item);
     }).join('&');
   }
 }
