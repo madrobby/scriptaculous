@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix span positioning for sliders with ranges not starting at 0, fixes #3731 [thx michal]
+
 * Make name option on Sortable.serialize work again, fixes #3873
 
 * Make dragging cancel only on ESC key, not on any key, fixes #3817
