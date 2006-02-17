@@ -1,5 +1,7 @@
 *SVN*
 
+* Make dragging cancel only on ESC key, not on any key, fixes #3817
+
 * Fix Rakefile for V1.5.2
 
 *V1.5.2*

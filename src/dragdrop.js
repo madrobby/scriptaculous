@@ -349,7 +349,7 @@ Draggable.prototype = {
   },
   
   keyPress: function(event) {
-    if(!event.keyCode==Event.KEY_ESC) return;
+    if(event.keyCode!=Event.KEY_ESC) return;
     this.finishDrag(event, false);
     Event.stop(event);
   },
