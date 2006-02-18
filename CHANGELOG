@@ -1,5 +1,7 @@
 *SVN*
 
+* Added unit test for #3732 (currently fails due to Prototype #3877) [thx michal]
+
 * Fix span positioning for sliders with ranges not starting at 0, fixes #3731 [thx michal]
 
 * Make name option on Sortable.serialize work again, fixes #3873

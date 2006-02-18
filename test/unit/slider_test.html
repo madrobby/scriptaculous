@@ -78,7 +78,6 @@
 <!-- Tests follow -->
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-
   var globalValue;
 
   new Test.Unit.Runner({
@@ -402,8 +401,34 @@
       assertEqual("93px", $('handle1').style.left);
       slider.setValue(20);
       assertEqual("185px", $('handle1').style.left);
+      slider.dispose();      
+    }},
+    
+    // test for #3732
+    testRangeValues: function() { with(this) {
+      // test for non-zero starting range
+      var slider = new Control.Slider('handle1','track1',{
+        range:$R(1,3), values:[1,2,3]
+      });
+      assertEqual(1, slider.value);
+      assertEqual("0px", $('handle1').style.left);
+      slider.setValue(2);
+      assertEqual("93px", $('handle1').style.left);
+      slider.setValue(3);
+      assertEqual("185px", $('handle1').style.left);
       slider.dispose();
       
+      // test zero-starting range
+      var slider = new Control.Slider('handle1','track1',{
+        range:$R(0,2), values:[0,1,2]
+      });
+      assertEqual(0, slider.value);
+      assertEqual("0px", $('handle1').style.left);
+      slider.setValue(1);
+      assertEqual("93px", $('handle1').style.left);
+      slider.setValue(2);
+      assertEqual("185px", $('handle1').style.left);
+      slider.dispose();
     }}
     
   }, "testlog");
