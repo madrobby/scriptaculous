@@ -1,5 +1,7 @@
 *SVN*
 
+* Enable in place editor to use RJS (implements a new evalScripts option for the in place editor), #3490 [thx Richard Livsey]
+
 * Added Sortable.setSequence to programmatically reorder a Sortable, #3711 [thx Mike A. Owens]
 
 * Added unit test for #3732 (currently fails due to Prototype #3877) [thx michal]
