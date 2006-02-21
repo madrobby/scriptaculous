@@ -761,6 +761,33 @@ Ajax.InPlaceEditor.prototype = {
   }
 };
 
+Ajax.InPlaceCollectionEditor = Class.create();
+Object.extend(Ajax.InPlaceCollectionEditor.prototype, Ajax.InPlaceEditor.prototype);
+Object.extend(Ajax.InPlaceCollectionEditor.prototype, {
+  createEditField: function() {
+    if (!this.cached_selectTag) {
+      var selectTag = document.createElement("select");
+      var collection = this.options.collection || [];
+      var optionTag;
+      collection.each(function(e,i) {
+        optionTag = document.createElement("option");
+        optionTag.value = (e instanceof Array) ? e[0] : e;
+        if(this.options.value==optionTag.value) optionTag.selected = true;
+        optionTag.appendChild(document.createTextNode((e instanceof Array) ? e[1] : e));
+        selectTag.appendChild(optionTag);
+      }.bind(this));
+      this.cached_selectTag = selectTag;
+    }
+
+    this.editField = this.cached_selectTag;
+    if(this.options.loadTextURL) this.loadExternalText();
+    this.form.appendChild(this.editField);
+    this.options.callback = function(form, value) {
+      return "value=" + encodeURIComponent(value);
+    }
+  }
+});
+
 // Delayed observer, like Form.Element.Observer, 
 // but waits for delay after last key input
 // Ideal for live-search fields

@@ -1,5 +1,7 @@
 *SVN*
 
+* Added Ajax.InPlaceCollectionEditor which uses a SELECT element instead of a text field (see test/functional/ajax_inplacecollectioneditor_test.html for usage), #3491 [thx anna]
+
 * Enable in place editor to use RJS (implements a new evalScripts option for the in place editor), #3490 [thx Richard Livsey]
 
 * Added Sortable.setSequence to programmatically reorder a Sortable, #3711 [thx Mike A. Owens]
