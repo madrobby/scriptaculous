@@ -1,5 +1,7 @@
 *SVN*
 
+* Added Sortable.setSequence to programmatically reorder a Sortable, #3711 [thx Mike A. Owens]
+
 * Added unit test for #3732 (currently fails due to Prototype #3877) [thx michal]
 
 * Fix span positioning for sliders with ranges not starting at 0, fixes #3731 [thx michal]

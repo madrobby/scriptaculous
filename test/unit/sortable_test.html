@@ -118,8 +118,30 @@
       // test default format given explicitly
       assertEnumEqual(['1','2','3'], 
         Sortable.sequence('sortable1',{format:/^[^_]*_(.*)$/}));
+    }},
+
+    testSortableSetSequence: function() { with(this) {
+        // make sure assigning current sequence is a no-op 
+        var o = Sortable.sequence('sortable1');
+        Sortable.setSequence('sortable1', ['1','2','3']);
+        assertEnumEqual(o, Sortable.sequence('sortable1'));
+      
+        // check new sequence   
+        Sortable.setSequence('sortable1', ['3','2','1']);
+        assertEnumEqual(['3','2','1'], Sortable.sequence('sortable1'));
+
+        // non-default format
+        Sortable.setSequence('sortable_specialformat', ['2','1'], { format:/(\d+)/ });
+        assertEnumEqual(['2','1'], Sortable.sequence('sortable_specialformat'));
+
+        // invalid sequence ids should be ignored
+        Sortable.setSequence('sortable1', ['x', '1', 'y', '2', '3', 'z']);
+        assertEnumEqual(['1', '2', '3'], Sortable.sequence('sortable1'));
+
+        // elements omitted in new sequence should be cropped
+        Sortable.setSequence('sortable1', ['1', '3']);
+        assertEnumEqual(['1', '3'], Sortable.sequence('sortable1'));
     }}
-    
 
   }, "testlog");
 // ]]>
