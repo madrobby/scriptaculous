@@ -1,4 +1,6 @@
-*SVN*
+*V1.5.3*
+
+* Change version number to V1.5.3, prepare Rakefile
 
 * Remove unneeded height restoring in Effect.BlindDown as that is handled internally by the restoreAfterFinish option to Effect.Scale, fixes #3667 [thx Ross Lawley]
 
