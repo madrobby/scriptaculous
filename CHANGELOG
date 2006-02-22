@@ -1,5 +1,7 @@
 *SVN*
 
+* Remove unneeded height restoring in Effect.BlindDown as that is handled internally by the restoreAfterFinish option to Effect.Scale, fixes #3667 [thx Ross Lawley]
+
 * Added Ajax.InPlaceCollectionEditor which uses a SELECT element instead of a text field (see test/functional/ajax_inplacecollectioneditor_test.html for usage), #3491 [thx anna]
 
 * Enable in place editor to use RJS (implements a new evalScripts option for the in place editor), #3490 [thx Richard Livsey]
