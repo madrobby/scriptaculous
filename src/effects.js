@@ -545,6 +545,10 @@ Effect.Appear = function(element) {
   var options = Object.extend({
   from: (Element.getStyle(element, 'display') == 'none' ? 0.0 : Element.getOpacity(element) || 0.0),
   to:   1.0,
+  // force Safari to render floated elements properly
+  afterFinishInternal: function(effect) {
+    effect.element.innerHTML += ""; 
+  },
   beforeSetup: function(effect) { with(Element) {
     setOpacity(effect.element, effect.options.from);
     show(effect.element); }}
