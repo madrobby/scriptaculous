@@ -85,6 +85,12 @@ Element.childrenWithClassName = function(element, className) {
     function(c) { return Element.hasClassName(c, className) });
 }
 
+Element.forceRerendering = function(element) {
+  var n = document.createTextNode(' ');
+  $(element).appendChild(n);
+  Element.remove(n);
+}
+
 Array.prototype.call = function() {
   var args = arguments;
   this.each(function(f){ f.apply(this, args) });
@@ -547,7 +553,7 @@ Effect.Appear = function(element) {
   to:   1.0,
   // force Safari to render floated elements properly
   afterFinishInternal: function(effect) {
-    effect.element.innerHTML += ""; 
+    Element.forceRerendering(effect.element);
   },
   beforeSetup: function(effect) { with(Element) {
     setOpacity(effect.element, effect.options.from);
