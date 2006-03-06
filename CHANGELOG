@@ -1,6 +1,6 @@
 *SVN*
 
-* added visualEffect method for the Element Mixin [Rick Olson]
+* added visualEffect method for the Element Mixin, fixed so you can chain multiple calls. [Rick Olson]
 
 * Fix only option on Sortable.create to accept multiple class names, fixes #3427 [thx glenn nilsson]
 

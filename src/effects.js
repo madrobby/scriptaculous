@@ -924,5 +924,6 @@ if(Element.Methods) {
     s = effect.gsub(/_/, '-').camelize();
     effect_class = s.charAt(0).toUpperCase() + s.substring(1);
     new Effect[effect_class](element, options);
+    return $(element);
   }
 }
