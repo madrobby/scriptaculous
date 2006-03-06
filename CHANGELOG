@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix only option on Sortable.create to accept multiple class names, fixes #3427 [thx glenn nilsson]
+
 * Added workaround for a rendering bug in Safari when using floating elements with Effect.Appear
 
 * Update lib/prototype.js to Prototype 1.5.0_pre0 
