@@ -1,5 +1,7 @@
 *SVN*
 
+* added visualEffect method for the Element Mixin [Rick Olson]
+
 * Fix only option on Sortable.create to accept multiple class names, fixes #3427 [thx glenn nilsson]
 
 * Added workaround for a rendering bug in Safari when using floating elements with Effect.Appear
