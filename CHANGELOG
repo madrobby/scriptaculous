@@ -1,5 +1,7 @@
 *SVN*
 
+* Make Element.forceRerendering give up on any exception (this fixes various problems with IE)
+
 * added visualEffect method for the Element Mixin, fixed so you can chain multiple calls. [Rick Olson]
 
 * Fix only option on Sortable.create to accept multiple class names, fixes #3427 [thx glenn nilsson]
