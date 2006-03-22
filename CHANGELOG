@@ -1,5 +1,7 @@
 *SVN*
 
+* Make it possible to scroll window on dragging, #3921 [thx rdmiller]
+
 * Make Element.forceRerendering give up on any exception (this fixes various problems with IE)
 
 * added visualEffect method for the Element Mixin, fixed so you can chain multiple calls. [Rick Olson]

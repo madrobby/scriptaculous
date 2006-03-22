@@ -32,7 +32,7 @@
 
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-  new Draggable('revertbox1',{handle:'handle1',revert:function(element){return ($('shouldrevert1').checked)}});
+  new Draggable('revertbox1',{scroll:window,handle:'handle1',revert:function(element){return ($('shouldrevert1').checked)}});
   new Draggable('revertbox2',{handle:'handle2',revert:function(element){return ($('shouldrevert2').checked)}});
   Droppables.add('droptarget1',{accept:['box1','otherstuff'],onDrop:function(){alert('drop!')}});
   Droppables.add('droptarget2',{accept:'box',onDrop:function(){alert('drop!')}});
