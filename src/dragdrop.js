@@ -524,6 +524,8 @@ var Sortable = {
       hoverclass:  null,
       ghosting:    false,
       scroll:      false,
+      scrollSensitivity: 20,
+      scrollSpeed: 15,
       format:      /^[^_]*_(.*)$/,
       onChange:    Prototype.emptyFunction,
       onUpdate:    Prototype.emptyFunction
@@ -536,6 +538,8 @@ var Sortable = {
     var options_for_draggable = {
       revert:      true,
       scroll:      options.scroll,
+      scrollSpeed: options.scrollSpeed,
+      scrollSensitivity: options.scrollSensitivity,
       ghosting:    options.ghosting,
       constraint:  options.constraint,
       handle:      options.handle };
