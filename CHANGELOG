@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix shift-tab for autocompleter in Safari, fixes #4423 [thx matt]
+
 * Prepare for script.aculo.us 1.6, add Prototype 1.5 requirement and check that Element.Methods is available in the scriptaculous loader
 
 * Refactor effects.js to use the new Prototype 1.5 Element Methods syntax
