@@ -278,8 +278,8 @@ Draggable.prototype = {
     }
     
     if(this.options.scroll) {
-      if (this.options.scroll.scrollTo) {
-        var where= this._getWindowScroll(this.options.scroll);
+      if (this.options.scroll == window) {
+        var where = this._getWindowScroll(this.options.scroll);
         this.originalScrollLeft = where.left;
         this.originalScrollTop = where.top;
       } else {
@@ -304,7 +304,7 @@ Draggable.prototype = {
       this.stopScrolling();
       
       var p;
-      if (this.options.scroll.scrollTo) {
+      if (this.options.scroll == window) {
         with(this._getWindowScroll(this.options.scroll)) { p = [ left, top, left+width, top+height ]; }
       } else {
         p = Position.page(this.options.scroll);
@@ -378,7 +378,7 @@ Draggable.prototype = {
     var d = this.currentDelta();
     pos[0] -= d[0]; pos[1] -= d[1];
     
-    if(this.options.scroll && !this.options.scroll.scrollTo) {
+    if(this.options.scroll && (this.options.scroll != window)) {
       pos[0] -= this.options.scroll.scrollLeft-this.originalScrollLeft;
       pos[1] -= this.options.scroll.scrollTop-this.originalScrollTop;
     }
@@ -425,7 +425,7 @@ Draggable.prototype = {
     var current = new Date();
     var delta = current - this.lastScrolled;
     this.lastScrolled = current;
-    if(this.options.scroll.scrollTo) {
+    if(this.options.scroll == window) {
       with (this._getWindowScroll(this.options.scroll)) {
         if (this.scrollSpeed[0] || this.scrollSpeed[1]) {
           var d = delta / 1000;

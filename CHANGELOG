@@ -1,5 +1,13 @@
 *SVN*
 
+* Prepare for script.aculo.us 1.6, add Prototype 1.5 requirement and check that Element.Methods is available in the scriptaculous loader
+
+* Refactor effects.js to use the new Prototype 1.5 Element Methods syntax
+
+* Update to latest Prototype 1.5.0_pre0 trunk
+
+* Fix a problem with the draggable window scrolling code and scrolling inside overflow containers
+
 * Add passing through of scroll options from Sortable to Draggable [thx Gregory Hill]
 
 * Make it possible to scroll window on dragging, #3921 [thx rdmiller]

@@ -31,6 +31,8 @@
 <div id="style_test_1" style="display:none;"></div>
 <div id="style_test_2" class="blah" style="font-size:11px;"></div>
 
+<div id="style_test_3">blah</div>
+
 <div id="test_whitespace"> <span> </span> 
 
 
@@ -60,6 +62,18 @@
 // <![CDATA[
 
   new Test.Unit.Runner({
+    
+    testElementSetStyle: function() { with(this) {
+      Element.setStyle('style_test_3',{ 'left': '2px' });
+      assertEqual('2px', $('style_test_3').style.left);
+      
+      Element.setStyle('style_test_3',{ marginTop: '1px' });
+      assertEqual('1px', $('style_test_3').style.marginTop);
+      
+      $('style_test_3').setStyle({ 'margin-top': '2px', left: '-1px' });
+      assertEqual('-1px', $('style_test_3').style.left);
+      assertEqual('2px', $('style_test_3').style.marginTop);
+    }},
     
     testElementGetStyle: function() { with(this) {
       assertEqual("none",
@@ -108,14 +122,14 @@
     
     testElementOpacity: function() { with(this) {
       assertEqual(0.5, Element.getOpacity('op1'));
-      assertEqual(0.5, Element.getOpacity('op2'));
+      assertEqual(0.5, $('op2').getOpacity());
       assertEqual(1.0, Element.getOpacity('op3'));
       
       Element.setOpacity('op1','0.3');
-      Element.setOpacity('op2','0.3');
+      $('op2').setOpacity('0.3');
       Element.setOpacity('op3','0.3');
       
-      assertEqual(0.3, Element.getOpacity('op1'));
+      assertEqual(0.3, $('op1').getOpacity());
       assertEqual(0.3, Element.getOpacity('op2'));
       assertEqual(0.3, Element.getOpacity('op3'));
       
