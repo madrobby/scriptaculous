@@ -1,5 +1,7 @@
 *SVN*
 
+* Update to latest Prototype 1.5.0_pre1 trunk
+
 * Add functional "random effects" test, also for browser compatibility testing
 
 * Fix two typos introduced with the 1.5 Methods syntax update
