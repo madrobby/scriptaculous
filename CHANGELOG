@@ -1,5 +1,7 @@
 *SVN*
 
+* Major speedup for sortable with handles initialization [thx Jamis Buck]
+
 * Update to latest Prototype 1.5.0_pre1 trunk
 
 * Add functional "random effects" test, also for browser compatibility testing
