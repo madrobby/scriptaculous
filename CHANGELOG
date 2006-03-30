@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix problem with id-based handle names and draggables
+
 * More Element.childrenWithClassName optimization
 
 * Added benchmark method to unittest.js; some cleaning up of unit tests

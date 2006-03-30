@@ -207,8 +207,10 @@ Draggable.prototype = {
 
     this.element = $(element);
     
-    if(options.handle && (typeof options.handle == 'string'))
-      this.handle = Element.childrenWithClassName(this.element, options.handle, true)[0];  
+    if(options.handle && (typeof options.handle == 'string')) {
+      var h = Element.childrenWithClassName(this.element, options.handle, true);
+      if(h.length>0) this.handle = h[0];
+    }
     if(!this.handle) this.handle = $(options.handle);
     if(!this.handle) this.handle = this.element;
     

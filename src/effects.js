@@ -78,9 +78,11 @@ Element.getInlineOpacity = function(element){
 
 Element.childrenWithClassName = function(element, className, findFirst) {
   var classNameRegExp = new RegExp("(^|\\s)" + className + "(\\s|$)");
-  return [$A($(element).getElementsByTagName('*'))[findFirst ? 'detect' : 'select']( function(c) { 
-    return c.className ? c.className.match(classNameRegExp) : false;
-  })].flatten();
+  var results = $A($(element).getElementsByTagName('*'))[findFirst ? 'detect' : 'select']( function(c) { 
+    return (c.className && c.className.match(classNameRegExp));
+  });
+  if(!results) results = [];
+  return results;
 }
 
 Element.forceRerendering = function(element) {
