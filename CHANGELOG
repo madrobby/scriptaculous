@@ -1,5 +1,7 @@
 *SVN*
 
+* Let the benchmark method return the time taken in ms, so it can be used for time-based assertions
+
 * Fix problem with id-based handle names and draggables
 
 * More Element.childrenWithClassName optimization

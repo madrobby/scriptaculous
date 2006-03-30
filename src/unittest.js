@@ -343,9 +343,10 @@ Test.Unit.Assertions.prototype = {
   benchmark: function(operation, iterations) {
     var startAt = new Date();
     (iterations || 1).times(operation);
-    var endAt = new Date();
+    var timeTaken = ((new Date())-startAt);
     this.info((arguments[2] || 'Operation') + ' finished ' + 
-       iterations + ' iterations in ' + ((endAt-startAt)/1000)+'s' );
+       iterations + ' iterations in ' + (timeTaken/1000)+'s' );
+    return timeTaken;
   }
 }
 

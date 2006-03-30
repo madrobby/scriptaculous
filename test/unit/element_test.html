@@ -120,6 +120,10 @@
     
     testElementCollectTextNodes: function() { with(this) {
       assertEqual('1234', Element.collectTextNodes('collect'));
+      assert(benchmark(function(){
+        Element.collectTextNodes('collect')
+      },50) < 1000);
+      
       benchmark(function(){
         Element.collectTextNodes('collect')
       },10,'Element.collectTextNodes');
