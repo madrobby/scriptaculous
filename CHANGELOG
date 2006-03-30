@@ -1,3 +1,11 @@
+*SVN*
+
+* More Element.childrenWithClassName optimization
+
+* Added benchmark method to unittest.js; some cleaning up of unit tests
+
+* Add fix for IE memory leaks in included prototype.js from [4094]
+
 *V1.6.0*
 
 * Major speedup for sortable with handles initialization [thx Jamis Buck]

@@ -137,7 +137,7 @@
       assertEqual(1, Effect.Queues.get('global').effects.length);
       assertEqual(Effect.Queue.effects.length, Effect.Queues.get('global').effects.length);
      
-      tmp = 0;
+      var tmp = 0;
       Effect.Queues.get('myscope').effects.each(function(e) { tmp++ });
       assertEqual(2, tmp);
      

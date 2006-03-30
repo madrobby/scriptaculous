@@ -84,6 +84,10 @@
       // shauld correctly serialize from option given to Sortable.create()
       assertEqual('sortable_specialcreate[]=1&sortable_specialcreate[]=2', 
         Sortable.serialize('sortable_specialcreate'));
+        
+      benchmark(function(){
+        Sortable.serialize('sortable_specialcreate')
+      },1,'Sortable.serialize');
       
       // test special format given explicitly
       assertEqual('sortable_specialformat[]=1&sortable_specialformat[]=2', 
@@ -121,8 +125,12 @@
         Sortable.sequence('sortable1',{format:/^[^_]*_(.*)$/}));
     }},
     
-    testSortableFindElement: function() { with(this) {
+    testSortableFindElements: function() { with(this) {
       assertEqual(3, Sortable.findElements($('sortable1'),{tag:'li',only:['a','b']}).length);
+      benchmark(function(){
+        Sortable.findElements($('sortable1'),{tag:'li',only:['a','b']})
+      },1,'Sortable.findElements/1');
+      
       assertEqual(1, Sortable.findElements($('sortable1'),{tag:'li',only:['x']}).length);
       assertEqual(1, Sortable.findElements($('sortable1'),{tag:'li',only:'a'}).length);
       assertEqual(2, Sortable.findElements($('sortable1'),{tag:'li',only:'b'}).length);

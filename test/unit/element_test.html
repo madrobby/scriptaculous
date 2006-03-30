@@ -78,6 +78,11 @@
     testElementGetStyle: function() { with(this) {
       assertEqual("none",
         Element.getStyle('style_test_1','display'));
+        
+      benchmark(function(){
+        Element.getStyle('style_test_1','display')
+      },1,'Element.getStyle');
+        
       // not displayed, so "null" ("auto" is tranlated to "null")
       assertNull(Element.getStyle('style_test_1','width'));
       assertEqual("static",Element.getStyle('style_test_1','position'), "Note: Safari bug! (see http://bugzilla.opendarwin.org/show_bug.cgi?id=4125)");
@@ -115,8 +120,16 @@
     
     testElementCollectTextNodes: function() { with(this) {
       assertEqual('1234', Element.collectTextNodes('collect'));
+      benchmark(function(){
+        Element.collectTextNodes('collect')
+      },10,'Element.collectTextNodes');
+      
       assertEqual('1234', Element.collectTextNodesIgnoreClass('collect', 'somethingcompletelydifferent'));
       assertEqual('1',    Element.collectTextNodesIgnoreClass('collect', 'ignore'));
+      benchmark(function(){
+        Element.collectTextNodesIgnoreClass('collect','ignore')
+      },10,'Element.collectTextNodesIgnoreClass');
+      
       assertEqual('134',  Element.collectTextNodesIgnoreClass('collect', 'someclass'));
     }},
     
@@ -151,6 +164,11 @@
       assertEqual(3, firstClassElems.length, "Did not find all elements defined with first class");
       assertEqual(2, secondClassElems.length, "Did not find all elements defined with second class");
       assertEqual(1, thirdClassElems.length, "Did not find all elements defined with third class");
+    
+    
+      benchmark(function(){
+        Element.childrenWithClassName("Container", "firstClass") 
+      },1,'Element.childrenWithClassName');
     
       // ... and that none that don't exist have been found.
       assert(nonExistentClassElems.length==0, "Found non-existent class elems!");
