@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix a problem with window scrolling on draggables [thx Gregory Hill]
+
 * Let the benchmark method return the time taken in ms, so it can be used for time-based assertions
 
 * Fix problem with id-based handle names and draggables
