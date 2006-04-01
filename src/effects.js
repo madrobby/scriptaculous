@@ -94,11 +94,6 @@ Element.forceRerendering = function(element) {
   } catch(e) { }
 };
 
-['setOpacity','getOpacity','getInlineOpacity','forceRerendering','setContentZoom',
- 'collectTextNodes','collectTextNodesIgnoreClass','childrenWithClassName'].each( 
-  function(f) { Element.Methods[f] = Element[f]; } 
-);
-
 /*--------------------------------------------------------------------------*/
 
 Array.prototype.call = function() {
@@ -946,7 +941,12 @@ Effect.Fold = function(element) {
         effect.element.setStyle(oldStyle);
       } });
   }}, arguments[1] || {}));
-}
+};
+
+['setOpacity','getOpacity','getInlineOpacity','forceRerendering','setContentZoom',
+ 'collectTextNodes','collectTextNodesIgnoreClass','childrenWithClassName'].each( 
+  function(f) { Element.Methods[f] = Element[f]; }
+);
 
 Element.Methods.visualEffect = function(element, effect, options) {
   s = effect.gsub(/_/, '-').camelize();
@@ -954,3 +954,5 @@ Element.Methods.visualEffect = function(element, effect, options) {
   new Effect[effect_class](element, options);
   return $(element);
 };
+
+Element.addMethods();

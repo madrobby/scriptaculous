@@ -1,5 +1,7 @@
 *SVN*
 
+* Added prototype $() performance patch from #4477 and updated effects.js to new Element.addMethods() syntax
+
 * Sortable trees [thx Sammi Williams, sammi@oriontransfer.co.nz]
   - Added functional test (test/functional/sortable_tree_test.html)
   - removed greedy option
