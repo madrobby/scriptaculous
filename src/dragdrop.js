@@ -414,7 +414,7 @@ Draggable.prototype = {
     
     if(this.options.snap) {
       if(typeof this.options.snap == 'function') {
-        p = this.options.snap(p[0],p[1]);
+        p = this.options.snap(p[0],p[1],this);
       } else {
       if(this.options.snap instanceof Array) {
         p = p.map( function(v, i) {
