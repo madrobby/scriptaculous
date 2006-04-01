@@ -1,5 +1,37 @@
 *SVN*
 
+* Sortable trees [thx Sammi Williams, sammi@oriontransfer.co.nz]
+  - Added functional test (test/functional/sortable_tree_test.html)
+  - removed greedy option
+  - modified the way Droppables.show works - added affected list
+  - added Droppables.findDeepestChild
+  - modified Sortable.options to work for trees
+  - modified Sortable.onEmptyHover with additional logic to insert
+    the element at a certain place according to the overlap
+  - modified Sortable.onHover to avoid DOM Exceptions
+  - modified Sortable.create to support the creation of Sortable trees
+  - added two convenience functions - Sortable.findElements and 
+    Sortable.findTreeElements
+  - Added Sortable.tree (and a number of private functions to facilitate it)
+    Returns a tree structure:
+      var root = {
+        id: null,
+        parent: null,
+        children: <children>,
+        container: <sortable element>,
+      }
+      var child = {
+        parent: <node>,
+        children: <array>,
+        id: <string> (as per options.format),
+        element: <element>,
+        container: <element>,
+        position: <integer>
+      }
+    This is intended to become part of the public API, and can be used to manipulate
+    the tree programatically.
+  - Modified Sortable.serialize to use Sortable.tree when set in the options.
+
 * Fix a problem with window scrolling on draggables [thx Gregory Hill]
 
 * Let the benchmark method return the time taken in ms, so it can be used for time-based assertions

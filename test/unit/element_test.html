@@ -57,11 +57,20 @@
   
 </div>
 
+<div id="perftest1"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
 <!-- Tests follow -->
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
 
   new Test.Unit.Runner({
+    
+    test$: function() { with(this) {
+      var elems = $A($('perftest1').childNodes)
+      benchmark(function(){
+        elems.each($)
+      },1);
+    }},
     
     testElementSetStyle: function() { with(this) {
       Element.setStyle('style_test_3',{ 'left': '2px' });
@@ -77,7 +86,7 @@
     
     testElementGetStyle: function() { with(this) {
       assertEqual("none",
-        Element.getStyle('style_test_1','display'));
+        $('style_test_1').getStyle('display'));
         
       benchmark(function(){
         Element.getStyle('style_test_1','display')
@@ -129,7 +138,7 @@
       },10,'Element.collectTextNodes');
       
       assertEqual('1234', Element.collectTextNodesIgnoreClass('collect', 'somethingcompletelydifferent'));
-      assertEqual('1',    Element.collectTextNodesIgnoreClass('collect', 'ignore'));
+      assertEqual('1',    $('collect').collectTextNodesIgnoreClass('ignore'));
       benchmark(function(){
         Element.collectTextNodesIgnoreClass('collect','ignore')
       },10,'Element.collectTextNodesIgnoreClass');
