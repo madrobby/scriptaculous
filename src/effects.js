@@ -701,7 +701,7 @@ Effect.SlideDown = function(element) {
   return new Effect.Scale(element, 100, Object.extend({ 
     scaleContent: false, 
     scaleX: false, 
-    scaleFrom: 0,
+    scaleFrom: window.opera ? 0 : 1,
     scaleMode: {originalHeight: elementDimensions.height, originalWidth: elementDimensions.width},
     restoreAfterFinish: true,
     afterSetup: function(effect) {
@@ -734,7 +734,7 @@ Effect.SlideUp = function(element) {
   element = $(element);
   element.cleanWhitespace();
   var oldInnerBottom = $(element.firstChild).getStyle('bottom');
-  return new Effect.Scale(element, 0, 
+  return new Effect.Scale(element, window.opera ? 0 : 1,
    Object.extend({ scaleContent: false, 
     scaleX: false, 
     scaleMode: 'box',
