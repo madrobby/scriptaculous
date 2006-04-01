@@ -1,5 +1,7 @@
 *SVN*
 
+* Add parsing/setting of any currently set opacity CSS rule to default opacity effect on draggables, fixes #3682 [thx Mike A. Owens]
+
 * Added prototype $() performance patch from #4477 and updated effects.js to new Element.addMethods() syntax
 
 * Sortable trees [thx Sammi Williams, sammi@oriontransfer.co.nz]

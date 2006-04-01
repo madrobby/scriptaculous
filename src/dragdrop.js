@@ -208,15 +208,17 @@ Draggable.prototype = {
   initialize: function(element) {
     var options = Object.extend({
       handle: false,
-      starteffect: function(element) { 
-        new Effect.Opacity(element, {duration:0.2, from:1.0, to:0.7}); 
+      starteffect: function(element) {
+        element._opacity = Element.getOpacity(element); 
+        new Effect.Opacity(element, {duration:0.2, from:element._opacity, to:0.7}); 
       },
       reverteffect: function(element, top_offset, left_offset) {
         var dur = Math.sqrt(Math.abs(top_offset^2)+Math.abs(left_offset^2))*0.02;
         element._revert = new Effect.Move(element, { x: -left_offset, y: -top_offset, duration: dur});
       },
-      endeffect: function(element) { 
-        new Effect.Opacity(element, {duration:0.2, from:0.7, to:1.0}); 
+      endeffect: function(element) {
+        var toOpacity = typeof element._opacity == 'number' ? element._opacity : 1.0
+        new Effect.Opacity(element, {duration:0.2, from:0.7, to:toOpacity}); 
       },
       zindex: 1000,
       revert: false,
