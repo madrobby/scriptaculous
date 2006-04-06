@@ -1,5 +1,7 @@
 *SVN*
 
+* Update to Prototype 1.5.0_rc0
+
 * Add Draggable object as third parameter to snap, fixes #4074 [thx mdaines]
 
 * Fix an IE flicker with SlideUp/SlideDown, fixes #3774, [thx sbbowers]
