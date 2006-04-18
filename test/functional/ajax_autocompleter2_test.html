@@ -61,6 +61,19 @@ Local incremental array autocompleter ac4<br/> with full-search. Type 'Jac', hit
   new Array("John Jackson", "", "Jack Johnson", "", "Jane Agnews"), { tokens: new Array(',','\n'), fullSearch: true, partialSearch: true });
 // ]]>
 </script>
+<br/><br/>
+
+Local incremental array autocompleter ac5<br/> with fixed height and scrollbar. Type 'Jac', hit enter a few <br/>times, type 'gne'.<br/> <input id="ac5" type="text" autocomplete="off"/>
+<div id="ac5update" style="display:none;border:1px solid black;background-color:white;height:50px;overflow:auto;"></div>
+
+<script type="text/javascript" language="javascript" charset="utf-8">
+// <![CDATA[
+  new Autocompleter.Local('ac5','ac5update',
+  new Array("John Jackson", "Jack Johnson", "Jane Agnews", "Jack Johnson", "Jane Agnews", "Jack Johnson", "Jane Agnews"), { tokens: new Array(',','\n'), fullSearch: true, partialSearch: true });
+// ]]>
+</script>
+
+
 <br /><br /><br />
 <br /><br /><br />
 <div id="debug" style="font-size:11px;"></div>
