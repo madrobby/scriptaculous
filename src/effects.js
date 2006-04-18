@@ -589,7 +589,7 @@ Effect.Puff = function(element) {
 Effect.BlindUp = function(element) {
   element = $(element);
   element.makeClipping();
-  return new Effect.Scale(element, 0, 
+  return new Effect.Scale(element, 0,
     Object.extend({ scaleContent: false, 
       scaleX: false, 
       restoreAfterFinish: true,
@@ -604,28 +604,27 @@ Effect.BlindUp = function(element) {
 Effect.BlindDown = function(element) {
   element = $(element);
   var elementDimensions = element.getDimensions();
-  return new Effect.Scale(element, 100, 
-    Object.extend({ scaleContent: false, 
-      scaleX: false,
-      scaleFrom: 0,
-      scaleMode: {originalHeight: elementDimensions.height, originalWidth: elementDimensions.width},
-      restoreAfterFinish: true,
-      afterSetup: function(effect) {
-        effect.element.makeClipping();
-        effect.element.setStyle({height: '0px'});
-        effect.element.show(); 
-      },  
-      afterFinishInternal: function(effect) {
-        effect.element.undoClipping();
-      }
-    }, arguments[1] || {})
-  );
+  return new Effect.Scale(element, 100, $H({ 
+    scaleContent: false, 
+    scaleX: false,
+    scaleFrom: 0,
+    scaleMode: {originalHeight: elementDimensions.height, originalWidth: elementDimensions.width},
+    restoreAfterFinish: true,
+    afterSetup: function(effect) {
+      effect.element.makeClipping();
+      effect.element.setStyle({height: '0px'});
+      effect.element.show(); 
+    },  
+    afterFinishInternal: function(effect) {
+      effect.element.undoClipping();
+    }
+  }).merge(arguments[1] || {}));
 }
 
 Effect.SwitchOff = function(element) {
   element = $(element);
   var oldOpacity = element.getInlineOpacity();
-  return new Effect.Appear(element, { 
+  return new Effect.Appear(element, $H({ 
     duration: 0.4,
     from: 0,
     transition: Effect.Transitions.flicker,
@@ -645,7 +644,7 @@ Effect.SwitchOff = function(element) {
         }
       })
     }
-  });
+  }).merge(arguments[1] || {}));
 }
 
 Effect.DropOut = function(element) {

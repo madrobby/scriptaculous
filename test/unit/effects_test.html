@@ -211,20 +211,26 @@
 
     // test if all combined effects correctly initialize themselves
     testCombinedEffectsInitialize: function() { with(this) {
-      for (var j=0;j<COMBINED_EFFECTS.length;j++){
+      COMBINED_EFFECTS.each(function(fx){
         $('sandbox').innerHTML = "";
         $('sandbox').appendChild(
           Builder.node('div',{id:'test_element'},
             [Builder.node('span','test')])); //some effects require a child element
             
         // should work with new Effect.Blah syntax
-        var effect = new Effect[COMBINED_EFFECTS[j]]('test_element');
+        var effect = new Effect[fx]('test_element');
         assertEqual(0, effect.currentFrame);
         
         // and without the 'new'
-        var effect = Effect[COMBINED_EFFECTS[j]]('test_element');
+        var effect = Effect[fx]('test_element');
         assertEqual(0, effect.currentFrame);
-      }
+        
+        // options parsing (shake, squish and grow are special here)
+        if(!['Shake','Squish','Grow'].include(fx)) {
+          var effect = Effect[fx]('test_element',{duration:2.0});
+          assertEqual(2.0, effect.options.duration, fx);
+        }
+      });
     }},
     
     testSynchronizedEffects: function() { with(this) {

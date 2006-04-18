@@ -1,3 +1,7 @@
+*SVN*
+
+* Corrected options parsing on switchoff effect, fixes #4710 [thx haldini]
+
 *V1.6.1*
 
 * Update to Prototype 1.5.0_rc0
