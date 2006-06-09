@@ -137,8 +137,8 @@ Control.Slider.prototype = {
   },
   setValue: function(sliderValue, handleIdx){
     if(!this.active) {
-      this.activeHandle    = this.handles[handleIdx];
-      this.activeHandleIdx = handleIdx;
+      this.activeHandleIdx = handleIdx || 0;
+      this.activeHandle    = this.handles[this.activeHandleIdx];
       this.updateStyles();
     }
     handleIdx = handleIdx || this.activeHandleIdx || 0;
@@ -217,7 +217,8 @@ Control.Slider.prototype = {
         
         var handle = Event.element(event);
         var pointer  = [Event.pointerX(event), Event.pointerY(event)];
-        if(handle==this.track) {
+        var track = handle;
+        if(track==this.track) {
           var offsets  = Position.cumulativeOffset(this.track); 
           this.event = event;
           this.setValue(this.translateToValue( 
