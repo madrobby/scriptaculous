@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix IE hack in Effect.Opacity, fixes #5444 [thx nicholas]
+
 * Fix IFRAME layout fix for IE and Autocompleter, fixes #5192 [thx tommy skaue]
 
 * Fix only option in onEmptyHover, fiex #5348 [thx glenn nilsson]
