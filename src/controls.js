@@ -533,7 +533,7 @@ Ajax.InPlaceEditor.prototype = {
     Element.hide(this.element);
     this.createForm();
     this.element.parentNode.insertBefore(this.form, this.element);
-    Field.scrollFreeActivate(this.editField);
+    if (!this.options.loadTextURL) Field.scrollFreeActivate(this.editField);
     // stop the event to avoid a page refresh in Safari
     if (evt) {
       Event.stop(evt);
@@ -638,6 +638,7 @@ Ajax.InPlaceEditor.prototype = {
     Element.removeClassName(this.form, this.options.loadingClassName);
     this.editField.disabled = false;
     this.editField.value = transport.responseText.stripTags();
+    Field.scrollFreeActivate(this.editField);
   },
   onclickCancel: function() {
     this.onComplete();

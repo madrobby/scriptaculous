@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix a problem with field focus on Ajax.InPlaceEditor and loading external text, fixes #4988, #5244 [thx rob]
+
 * Do not attempt to scroll if scrollspeed is 0/0, fixes #5035 [thx tomg]
 
 * Fix a problem with Sortable Tree serialization, fixes #4939, #4688, #4767  [thx Sammi Williams]
