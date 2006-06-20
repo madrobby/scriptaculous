@@ -869,7 +869,7 @@ var Sortable = {
     
     if (options.tree) {
       return Sortable.tree(element, arguments[1]).children.map( function (item) {
-        return [name + Sortable._constructIndex(item) + "=" + 
+        return [name + Sortable._constructIndex(item) + "[id]=" + 
                 encodeURIComponent(item.id)].concat(item.children.map(arguments.callee));
       }).flatten().join('&');
     } else {
