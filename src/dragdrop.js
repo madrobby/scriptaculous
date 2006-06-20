@@ -709,7 +709,7 @@ var Sortable = {
     if(!Element.isParent(dropon, element)) {
       var index;
       
-      var children = Sortable.findElements(dropon, {tag: droponOptions.tag});
+      var children = Sortable.findElements(dropon, {tag: droponOptions.tag, only: droponOptions.only});
       var child = null;
             
       if(children) {
