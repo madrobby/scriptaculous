@@ -1,5 +1,7 @@
 *SVN*
 
+* Do not attempt to scroll if scrollspeed is 0/0, fixes #5035 [thx tomg]
+
 * Fix a problem with Sortable Tree serialization, fixes #4939, #4688, #4767  [thx Sammi Williams]
 
 * Fix an endless loop with sliders, fixes #3226, #4051, #4765 [thx jeff]

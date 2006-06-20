@@ -442,6 +442,7 @@ Draggable.prototype = {
   },
   
   startScrolling: function(speed) {
+    if(!(speed[0] || speed[1])) return;
     this.scrollSpeed = [speed[0]*this.options.scrollSpeed,speed[1]*this.options.scrollSpeed];
     this.lastScrolled = new Date();
     this.scrollInterval = setInterval(this.scroll.bind(this), 10);
