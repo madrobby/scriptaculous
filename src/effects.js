@@ -604,7 +604,7 @@ Effect.BlindUp = function(element) {
 Effect.BlindDown = function(element) {
   element = $(element);
   var elementDimensions = element.getDimensions();
-  return new Effect.Scale(element, 100, $H({ 
+  return new Effect.Scale(element, 100, Object.extend({ 
     scaleContent: false, 
     scaleX: false,
     scaleFrom: 0,
@@ -618,13 +618,13 @@ Effect.BlindDown = function(element) {
     afterFinishInternal: function(effect) {
       effect.element.undoClipping();
     }
-  }).merge(arguments[1] || {}));
+  }, arguments[1] || {}));
 }
 
 Effect.SwitchOff = function(element) {
   element = $(element);
   var oldOpacity = element.getInlineOpacity();
-  return new Effect.Appear(element, $H({ 
+  return new Effect.Appear(element, Object.extend({
     duration: 0.4,
     from: 0,
     transition: Effect.Transitions.flicker,
@@ -644,7 +644,7 @@ Effect.SwitchOff = function(element) {
         }
       })
     }
-  }).merge(arguments[1] || {}));
+  }, arguments[1] || {}));
 }
 
 Effect.DropOut = function(element) {

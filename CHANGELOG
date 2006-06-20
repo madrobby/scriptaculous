@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix Effect.BlindDown and SwitchOff handling of supplied callbacks, fixes #5089 [thx martinstrom]
+
 * Fix a problem with field focus on Ajax.InPlaceEditor and loading external text, fixes #4988, #5244 [thx rob]
 
 * Do not attempt to scroll if scrollspeed is 0/0, fixes #5035 [thx tomg]
