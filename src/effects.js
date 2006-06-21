@@ -433,7 +433,7 @@ Object.extend(Object.extend(Effect.Scale.prototype, Effect.Base.prototype), {
     this.originalLeft = this.element.offsetLeft;
     
     var fontSize = this.element.getStyle('font-size') || '100%';
-    ['em','px','%'].each( function(fontSizeType) {
+    ['em','px','%','pt'].each( function(fontSizeType) {
       if(fontSize.indexOf(fontSizeType)>0) {
         this.fontSize     = parseFloat(fontSize);
         this.fontSizeType = fontSizeType;

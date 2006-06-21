@@ -1,5 +1,7 @@
 *SVN*
 
+* Make Effect.Scale recognize font sizes that use the pt unit, fixes #4136 [thx aljoscha]
+
 * Fix IE hack in Effect.Opacity, fixes #5444 [thx nicholas]
 
 * Fix IFRAME layout fix for IE and Autocompleter, fixes #5192 [thx tommy skaue]
