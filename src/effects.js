@@ -461,8 +461,8 @@ Object.extend(Object.extend(Effect.Scale.prototype, Effect.Base.prototype), {
   },
   setDimensions: function(height, width) {
     var d = {};
-    if(this.options.scaleX) d.width = width + 'px';
-    if(this.options.scaleY) d.height = height + 'px';
+    if(this.options.scaleX) d.width = Math.round(width) + 'px';
+    if(this.options.scaleY) d.height = Math.round(height) + 'px';
     if(this.options.scaleFromCenter) {
       var topd  = (height - this.dims[0])/2;
       var leftd = (width  - this.dims[1])/2;

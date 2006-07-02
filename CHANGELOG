@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix a slight inaccuracy with Effect.Scale that could lead the scaling to be one pixel off
+
 * Be more prototypish with Effect.Transitions.linear
 
 * Make Effect.Scale recognize font sizes that use the pt unit, fixes #4136 [thx aljoscha]
