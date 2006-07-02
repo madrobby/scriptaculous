@@ -161,9 +161,8 @@ var Effect2 = Effect; // deprecated
 
 Effect.Transitions = {}
 
-Effect.Transitions.linear = function(pos) {
-  return pos;
-}
+Effect.Transitions.linear = Prototype.K;
+
 Effect.Transitions.sinoidal = function(pos) {
   return (-Math.cos(pos*Math.PI)/2) + 0.5;
 }

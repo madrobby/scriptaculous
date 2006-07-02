@@ -1,5 +1,7 @@
 *SVN*
 
+* Be more prototypish with Effect.Transitions.linear
+
 * Make Effect.Scale recognize font sizes that use the pt unit, fixes #4136 [thx aljoscha]
 
 * Fix IE hack in Effect.Opacity, fixes #5444 [thx nicholas]
