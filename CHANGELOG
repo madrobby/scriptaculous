@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix a missing semicolon in dragdrop.js, fixes #5569 [thx mackalicious]
+
 * Fix a slight inaccuracy with Effect.Scale that could lead the scaling to be one pixel off
 
 * Be more prototypish with Effect.Transitions.linear

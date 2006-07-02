@@ -217,7 +217,7 @@ Draggable.prototype = {
         element._revert = new Effect.Move(element, { x: -left_offset, y: -top_offset, duration: dur});
       },
       endeffect: function(element) {
-        var toOpacity = typeof element._opacity == 'number' ? element._opacity : 1.0
+        var toOpacity = typeof element._opacity == 'number' ? element._opacity : 1.0;
         new Effect.Opacity(element, {duration:0.2, from:0.7, to:toOpacity}); 
       },
       zindex: 1000,
