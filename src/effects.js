@@ -392,8 +392,8 @@ Object.extend(Object.extend(Effect.Move.prototype, Effect.Base.prototype), {
   },
   update: function(position) {
     this.element.setStyle({
-      left: this.options.x  * position + this.originalLeft + 'px',
-      top:  this.options.y  * position + this.originalTop  + 'px'
+      left: Math.round(this.options.x  * position + this.originalLeft) + 'px',
+      top:  Math.round(this.options.y  * position + this.originalTop)  + 'px'
     });
   }
 });
