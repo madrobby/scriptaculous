@@ -47,23 +47,6 @@
 
   new Test.Unit.Runner({
     
-    testInspect: function() { with(this) {
-      assertEqual("'[object Object]' #object: {}",
-        Test.Unit.inspect({}));
-      assertEqual("'[object Object]' #object: {}",
-        Test.Unit.inspect({x:function(){}}));
-      assertEqual("'[object Object]' #object: {x => \"test\"}",
-        Test.Unit.inspect({x:"test"}));
-      assertEqual("'[object Object]' #object: {x => \"test\", y => 123}",
-        Test.Unit.inspect({x:"test",y:123}));
-      assertEqual("'[object Object]' #object: {x => [object Object]}",
-        Test.Unit.inspect({x:{}}));
-      assertEqual("'[object Object]' #object: {x => \"test\", y => [object Object]}",
-        Test.Unit.inspect({x:"test",y:{}}));
-      assertEqual("'[object Object]' #object: {x => \"test\", y => [object Object]}",
-        Test.Unit.inspect({x:"test",y:{z:"test",blah:{}}}));
-    }},
-    
     testAssertEqual: function() { with(this) {
       assertEqual(0, 0);
       assertEqual(0, 0, "test");
@@ -76,6 +59,16 @@
       assertNotEqual({},{});
       assertNotEqual([],[]);
       assertNotEqual([],{});
+    }},
+    
+    testAssertMatch: function() { with(this) {
+      assertMatch(/knowmad.jpg$/, 'http://script.aculo.us/images/knowmad.jpg');
+      assertMatch(/Fuc/, 'Thomas Fuchs');
+      assertMatch(/^\$(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?$/, '$19.95');
+      assertMatch(/(\d{3}\) ?)|(\d{3}[- \.])?\d{3}[- \.]\d{4}(\s(x\d+)?){0,1}$/, '704-343-9330');
+           assertMatch(/^(?:(?:(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(\/|-|\.)(?:0?2\1(?:29)))|(?:(?:(?:1[6-9]|[2-9]\d)?\d{2})(\/|-|\.)(?:(?:(?:0?[13578]|1[02])\2(?:31))|(?:(?:0?[1,3-9]|1[0-2])\2(29|30))|(?:(?:0?[1-9])|(?:1[0-2]))\2(?:0?[1-9]|1\d|2[0-8]))))$/, '2001-06-16');
+      assertMatch(/^((0?[123456789])|(1[012]))\s*:\s*([012345]\d)(\s*:\s*([012345]\d))?\s*[ap]m\s*-\s*((0?[123456789])|(1[012]))\s*:\s*([012345]\d)(\s*:\s*([012345]\d))?\s*[ap]m$/i, '2:00PM-2:15PM');
+      
     }},
     
     testAssertInstanceOf: function() { with(this) {

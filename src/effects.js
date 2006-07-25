@@ -727,7 +727,7 @@ Effect.SlideDown = function(element) {
     }, arguments[1] || {})
   );
 }
-  
+
 Effect.SlideUp = function(element) {
   element = $(element);
   element.cleanWhitespace();

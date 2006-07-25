@@ -1,5 +1,7 @@
 *SVN*
 
+* Add the assertMatch unit test assertion for asserts with RegExps [thx Ian Tyndall]
+
 * Fix a problem with Effect.Move causing "jumping" elements because of very low float numbers in some situations
 
 * Fix a missing semicolon in dragdrop.js, fixes #5569 [thx mackalicious]

@@ -303,6 +303,13 @@ Test.Unit.Assertions.prototype = {
       this.fail(message + ': got "' + Test.Unit.inspect(obj) + '"'); }
     catch(e) { this.error(e); }
   },
+  assertMatch: function(expected, actual) {
+    var message = arguments[2] || 'assertRegex';
+    var regex = new RegExp(expected);
+    try { (regex.exec(actual)) ? this.pass() :
+      this.fail(message + ' : regex: "' +  Test.Unit.inspect(expected) + ' did not match: ' + Test.Unit.inspect(actual) + '"'); }
+    catch(e) { this.error(e); }
+  },
   assertHidden: function(element) {
     var message = arguments[1] || 'assertHidden';
     this.assertEqual("none", element.style.display, message);
