@@ -304,7 +304,7 @@ Test.Unit.Assertions.prototype = {
     catch(e) { this.error(e); }
   },
   assertMatch: function(expected, actual) {
-    var message = arguments[2] || 'assertRegex';
+    var message = arguments[2] || 'assertMatch';
     var regex = new RegExp(expected);
     try { (regex.exec(actual)) ? this.pass() :
       this.fail(message + ' : regex: "' +  Test.Unit.inspect(expected) + ' did not match: ' + Test.Unit.inspect(actual) + '"'); }
