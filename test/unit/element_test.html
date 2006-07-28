@@ -95,6 +95,9 @@
       // not displayed, so "null" ("auto" is tranlated to "null")
       assertNull(Element.getStyle('style_test_1','width'));
       assertEqual("static",Element.getStyle('style_test_1','position'), "Note: Safari bug! (see http://bugzilla.opendarwin.org/show_bug.cgi?id=4125)");
+      
+      $('style_test_1').show();
+      
       // from id rule
       assertEqual("rgb(0, 0, 255)",
         Element.getStyle('style_test_1','color'));
