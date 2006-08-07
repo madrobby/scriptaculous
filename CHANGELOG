@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix possible memory leaks with Draggables, fixes #3436 [thx aal]
+
 * Throw nicer errors when requires script.aculo.us libraries are not loaded, fixes #5339
 
 * Make slider handles work when not displayed initially by using CSS width/height, fixes #4011 [thx foysavas]
