@@ -208,23 +208,30 @@ var Draggables = {
 
 var Draggable = Class.create();
 Draggable._revertCache = {};
+Draggable._dragging    = {};
 
 Draggable.prototype = {
   initialize: function(element) {
     var options = Object.extend({
       handle: false,
       starteffect: function(element) {
-        element._opacity = Element.getOpacity(element); 
+        element._opacity = Element.getOpacity(element);
+        Draggable._dragging[element] = true;
         new Effect.Opacity(element, {duration:0.2, from:element._opacity, to:0.7}); 
       },
       reverteffect: function(element, top_offset, left_offset) {
         var dur = Math.sqrt(Math.abs(top_offset^2)+Math.abs(left_offset^2))*0.02;
         Draggable._revertCache[element] =
-          new Effect.Move(element, { x: -left_offset, y: -top_offset, duration: dur});
+          new Effect.Move(element, { x: -left_offset, y: -top_offset, duration: dur,
+            queue: {scope:'_draggable', position:'end'}
+          });
       },
       endeffect: function(element) {
         var toOpacity = typeof element._opacity == 'number' ? element._opacity : 1.0;
-        new Effect.Opacity(element, {duration:0.2, from:0.7, to:toOpacity}); 
+        new Effect.Opacity(element, {duration:0.2, from:0.7, to:toOpacity, 
+          queue: {scope:'_draggable', position:'end'},
+          afterFinish: function(){ Draggable._dragging[element] = false }
+        }); 
       },
       zindex: 1000,
       revert: false,
@@ -270,6 +277,8 @@ Draggable.prototype = {
   },
   
   initDrag: function(event) {
+    if(typeof Draggable._dragging[this.element] != undefined &&
+      Draggable._dragging[this.element]) return;
     if(Event.isLeftClick(event)) {    
       // abort on form elements, fixes a Firefox issue
       var src = Event.element(event);

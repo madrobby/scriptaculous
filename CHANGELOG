@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix a problem in the drag and drop logic if an reverting/drag ending draggable was initialized for a new drag (for example by clicking repeatedly) for all cases where the default start/revert/end-effects are used, fixes #4706 [thx tecM0]
+
 * Fix possible memory leaks with Draggables, fixes #3436 [thx aal]
 
 * Throw nicer errors when requires script.aculo.us libraries are not loaded, fixes #5339
