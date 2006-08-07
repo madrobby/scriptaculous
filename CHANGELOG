@@ -1,5 +1,7 @@
 *SVN*
 
+* Make slider handles work when not displayed initially by using CSS width/height, fixes #4011 [thx foysavas]
+
 * Update sortable functional test with onUpdate counter
 
 * Make more Element extensions unit tests work on Safari
