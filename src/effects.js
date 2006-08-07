@@ -105,6 +105,9 @@ Array.prototype.call = function() {
 
 var Effect = {
   tagifyText: function(element) {
+    if(typeof Builder == 'undefined')
+      throw("Effect.tagifyText requires including script.aculo.us' builder.js library");
+      
     var tagifyStyle = 'position:relative';
     if(/MSIE/.test(navigator.userAgent)) tagifyStyle += ';zoom:1';
     element = $(element);

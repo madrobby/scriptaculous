@@ -5,6 +5,9 @@
 
 /*--------------------------------------------------------------------------*/
 
+if(typeof Effect == 'undefined')
+  throw("dragdrop.js requires including script.aculo.us' effects.js library");
+
 var Droppables = {
   drops: [],
 
