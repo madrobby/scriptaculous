@@ -1,5 +1,7 @@
 *SVN*
 
+* Update sortable functional test with onUpdate counter
+
 * Make more Element extensions unit tests work on Safari
 
 * Add the assertMatch unit test assertion for asserts with RegExps [thx Ian Tyndall]

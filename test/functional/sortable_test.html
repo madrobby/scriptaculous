@@ -20,6 +20,9 @@
      overflow: hidden;
     }
   </style>
+  <script type="text/javascript" charset="utf-8">
+    var callsToOnUpdate = 0;
+  </script>
 </head>
 <body>
 <ul id="thelist">
@@ -28,7 +31,7 @@
 <li id="thelist_3">Hey there! I'm item#3</li>
 </ul>
 
-<a href="#" onclick="Sortable.create('thelist');return false;">Create sortable</a> | 
+<a href="#" onclick="Sortable.create('thelist',{onUpdate:function(){$('debug').update(++callsToOnUpdate+' call(s) to onUpdate')}});return false;">Create sortable</a> | 
 <a href="#" onclick="Sortable.destroy('thelist');return false;">Destroy sortable</a> |
 <a href="#" onclick="alert(Sortable.serialize('thelist'));return false;">Serialize sortable</a>
 
@@ -92,9 +95,11 @@
 </li>
 </ul>
 
-<a href="#" onclick="Sortable.create('thehandlelist',{handle:'handle'});return false;">Create sortable</a> | 
+<a href="#" onclick="Sortable.create('thehandlelist',{handle:'handle',onUpdate:function(){$('debug').update(++callsToOnUpdate+' call(s) to onUpdate')}});return false;">Create sortable</a> | 
 <a href="#" onclick="Sortable.destroy('thehandlelist');return false;">Destroy sortable</a> |
 <a href="#" onclick="alert(Sortable.serialize('thehandlelist'));return false;">Serialize sortable</a>
+
+<p id="debug">no calls to onUpdate</p>
 
 </body>
 </html>
