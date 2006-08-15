@@ -1,4 +1,4 @@
-*SVN*
+*V1.6.2*
 
 * Fix a problem in the drag and drop logic if an reverting/drag ending draggable was initialized for a new drag (for example by clicking repeatedly) for all cases where the default start/revert/end-effects are used, fixes #4706 [thx tecM0]
 
