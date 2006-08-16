@@ -27,6 +27,10 @@
   <input type="checkbox" id="shouldrevert2"/> Revert?
 </div>
 
+<div id="specialbox" class="box" style="z-index:1000;width:150px;height:150px;background:#fbb;">
+  This box overrides the default effects
+</div>
+
 <div id="droptarget1" style="width:200px;height:200px;background-color:#eee;">accepts first box</div>
 <div id="droptarget2" style="width:200px;height:200px;background-color:#eee;">accepts second box</div>
 
@@ -36,6 +40,16 @@
   new Draggable('revertbox2',{handle:'handle2',revert:function(element){return ($('shouldrevert2').checked)}});
   Droppables.add('droptarget1',{accept:['box1','otherstuff'],onDrop:function(){alert('drop!')}});
   Droppables.add('droptarget2',{accept:'box',onDrop:function(){alert('drop!')}});
+  
+  
+  new Draggable('specialbox',{
+    starteffect:function(){
+      new Effect.Highlight('specialbox',{queue:'end'});
+    },
+    endeffect:function(){
+      new Effect.Highlight('specialbox',{queue:'end'});
+    }
+  });
 // ]]>
 </script>
 

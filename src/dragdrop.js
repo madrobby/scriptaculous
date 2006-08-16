@@ -277,7 +277,7 @@ Draggable.prototype = {
   },
   
   initDrag: function(event) {
-    if(typeof Draggable._dragging[this.element] != undefined &&
+    if(typeof Draggable._dragging[this.element] != 'undefined' &&
       Draggable._dragging[this.element]) return;
     if(Event.isLeftClick(event)) {    
       // abort on form elements, fixes a Firefox issue
