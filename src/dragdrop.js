@@ -212,13 +212,8 @@ Draggable._dragging    = {};
 
 Draggable.prototype = {
   initialize: function(element) {
-    var options = Object.extend({
+    var defaults = {
       handle: false,
-      starteffect: function(element) {
-        element._opacity = Element.getOpacity(element);
-        Draggable._dragging[element] = true;
-        new Effect.Opacity(element, {duration:0.2, from:element._opacity, to:0.7}); 
-      },
       reverteffect: function(element, top_offset, left_offset) {
         var dur = Math.sqrt(Math.abs(top_offset^2)+Math.abs(left_offset^2))*0.02;
         Draggable._revertCache[element] =
@@ -230,7 +225,9 @@ Draggable.prototype = {
         var toOpacity = typeof element._opacity == 'number' ? element._opacity : 1.0;
         new Effect.Opacity(element, {duration:0.2, from:0.7, to:toOpacity, 
           queue: {scope:'_draggable', position:'end'},
-          afterFinish: function(){ Draggable._dragging[element] = false }
+          afterFinish: function(){ 
+            Draggable._dragging[element] = false 
+          }
         }); 
       },
       zindex: 1000,
@@ -239,7 +236,18 @@ Draggable.prototype = {
       scrollSensitivity: 20,
       scrollSpeed: 15,
       snap: false   // false, or xy or [x,y] or function(x,y){ return [x,y] }
-    }, arguments[1] || {});
+    };
+    
+    if(arguments[1] && typeof arguments[1].endeffect == 'undefined')
+      Object.extend(defaults, {
+        starteffect: function(element) {
+          element._opacity = Element.getOpacity(element);
+          Draggable._dragging[element] = true;
+          new Effect.Opacity(element, {duration:0.2, from:element._opacity, to:0.7}); 
+        }
+      });
+    
+    var options = Object.extend(defaults, arguments[1] || {});
 
     this.element = $(element);
     

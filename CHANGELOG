@@ -1,6 +1,8 @@
 *SVN*
 
-* Fix a bug with the drag/drop logic (affects the solution to #4706)
+* Fix a condition where overriding the endeffect on Draggables without overriding the starteffect too leads to a Javascript error [thx Javier Martinez]
+
+* Fix a possible error with the drag/drop logic (affects the solution to #4706)
 
 *V1.6.2*
 

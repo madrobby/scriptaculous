@@ -28,7 +28,15 @@
 </div>
 
 <div id="specialbox" class="box" style="z-index:1000;width:150px;height:150px;background:#fbb;">
-  This box overrides the default effects
+  This box overrides the default endeffect
+</div>
+
+<div id="specialbox2" class="box" style="z-index:1000;width:150px;height:150px;background:#fbb;">
+  This box overrides the default starteffect
+</div>
+
+<div id="specialbox3" class="box" style="z-index:1000;width:150px;height:150px;background:#fbb;">
+  This box overrides the default end- and starteffects
 </div>
 
 <div id="droptarget1" style="width:200px;height:200px;background-color:#eee;">accepts first box</div>
@@ -43,11 +51,21 @@
   
   
   new Draggable('specialbox',{
-    starteffect:function(){
-      new Effect.Highlight('specialbox',{queue:'end'});
-    },
     endeffect:function(){
       new Effect.Highlight('specialbox',{queue:'end'});
+    }
+  });
+  new Draggable('specialbox2',{
+    starteffect:function(){
+      new Effect.Highlight('specialbox2',{queue:'end'});
+    }
+  });
+  new Draggable('specialbox3',{
+    starteffect:function(){
+      new Effect.Highlight('specialbox3',{queue:'end'});
+    },
+    endeffect:function(){
+      new Effect.Highlight('specialbox3',{queue:'end'});
     }
   });
 // ]]>
