@@ -258,8 +258,10 @@ Draggable.prototype = {
     if(!this.handle) this.handle = $(options.handle);
     if(!this.handle) this.handle = this.element;
     
-    if(options.scroll && !options.scroll.scrollTo && !options.scroll.outerHTML)
+    if(options.scroll && !options.scroll.scrollTo && !options.scroll.outerHTML) {
       options.scroll = $(options.scroll);
+      this._isScrollChild = Element.childOf(this.element, options.scroll);
+    }
 
     Element.makePositioned(this.element); // fix IE    
 
@@ -426,7 +428,7 @@ Draggable.prototype = {
     var d = this.currentDelta();
     pos[0] -= d[0]; pos[1] -= d[1];
     
-    if(this.options.scroll && (this.options.scroll != window)) {
+    if(this.options.scroll && (this.options.scroll != window && this._isScrollChild)) {
       pos[0] -= this.options.scroll.scrollLeft-this.originalScrollLeft;
       pos[1] -= this.options.scroll.scrollTop-this.originalScrollTop;
     }
@@ -490,14 +492,16 @@ Draggable.prototype = {
     Position.prepare();
     Droppables.show(Draggables._lastPointer, this.element);
     Draggables.notify('onDrag', this);
-    Draggables._lastScrollPointer = Draggables._lastScrollPointer || $A(Draggables._lastPointer);
-    Draggables._lastScrollPointer[0] += this.scrollSpeed[0] * delta / 1000;
-    Draggables._lastScrollPointer[1] += this.scrollSpeed[1] * delta / 1000;
-    if (Draggables._lastScrollPointer[0] < 0)
-      Draggables._lastScrollPointer[0] = 0;
-    if (Draggables._lastScrollPointer[1] < 0)
-      Draggables._lastScrollPointer[1] = 0;
-    this.draw(Draggables._lastScrollPointer);
+    if (this._isScrollChild) {
+      Draggables._lastScrollPointer = Draggables._lastScrollPointer || $A(Draggables._lastPointer);
+      Draggables._lastScrollPointer[0] += this.scrollSpeed[0] * delta / 1000;
+      Draggables._lastScrollPointer[1] += this.scrollSpeed[1] * delta / 1000;
+      if (Draggables._lastScrollPointer[0] < 0)
+        Draggables._lastScrollPointer[0] = 0;
+      if (Draggables._lastScrollPointer[1] < 0)
+        Draggables._lastScrollPointer[1] = 0;
+      this.draw(Draggables._lastScrollPointer);
+    }
     
     if(this.options.change) this.options.change(this);
   },

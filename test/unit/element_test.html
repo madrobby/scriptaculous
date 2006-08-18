@@ -47,7 +47,7 @@
 <img id="op4-ie" alt="op3" src="icon.png" style="filter:alpha(opacity=30)" />
 
 <!-- Test Element.childrenWithClassName -->
-<div id="Container">
+<div id="Container" class="moo hoo">
   <span id="1" class="firstClass">First class</span>
   <span id="2" class="secondClass">Second class</span>
   <span id="3" class="firstClass secondClass">First and Second class</span>
@@ -70,6 +70,20 @@
       benchmark(function(){
         elems.each($)
       },1);
+    }},
+    
+    testElementUp: function() { with(this) {
+      assertEqual('Container', $('collect').up().id);
+      assertEqual('Container', $('collect').up(1).id);
+      assertEqual('Container', $('5').up(2).id);
+
+      assertEqual('Container', $('collect').up({tagName:'DIV'}).id);
+      assertEqual('4', $('5').up({className:'thirdClass'}).id);
+      
+      assertEqual('Container',$('5').up({className:'moo',tagName:'DIV'}).id);
+      assertEqual('Container',$('5').up({tag:'div'}).id);
+      assertEqual('Container',$('5').up({'class':'moo','tag':'div'}).id);
+      assertNull($('5').up({className:'moo',tagName:'IMG'}));
     }},
     
     testElementSetStyle: function() { with(this) {
