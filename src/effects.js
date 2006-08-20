@@ -104,6 +104,10 @@ Array.prototype.call = function() {
 /*--------------------------------------------------------------------------*/
 
 var Effect = {
+  _elementDoesNotExistError: {
+    name: 'ElementDoesNotExistError',
+    message: 'The specified DOM element does not exist, but is required for this effect to operate'
+  },
   tagifyText: function(element) {
     if(typeof Builder == 'undefined')
       throw("Effect.tagifyText requires including script.aculo.us' builder.js library");
@@ -354,6 +358,7 @@ Effect.Opacity = Class.create();
 Object.extend(Object.extend(Effect.Opacity.prototype, Effect.Base.prototype), {
   initialize: function(element) {
     this.element = $(element);
+    if(!this.element) throw(Effect._elementDoesNotExistError);
     // make this work on IE on elements without 'layout'
     if(/MSIE/.test(navigator.userAgent) && (!this.element.currentStyle.hasLayout))
       this.element.setStyle({zoom: 1});
@@ -372,6 +377,7 @@ Effect.Move = Class.create();
 Object.extend(Object.extend(Effect.Move.prototype, Effect.Base.prototype), {
   initialize: function(element) {
     this.element = $(element);
+    if(!this.element) throw(Effect._elementDoesNotExistError);
     var options = Object.extend({
       x:    0,
       y:    0,
@@ -410,7 +416,8 @@ Effect.MoveBy = function(element, toTop, toLeft) {
 Effect.Scale = Class.create();
 Object.extend(Object.extend(Effect.Scale.prototype, Effect.Base.prototype), {
   initialize: function(element, percent) {
-    this.element = $(element)
+    this.element = $(element);
+    if(!this.element) throw(Effect._elementDoesNotExistError);
     var options = Object.extend({
       scaleX: true,
       scaleY: true,
@@ -485,6 +492,7 @@ Effect.Highlight = Class.create();
 Object.extend(Object.extend(Effect.Highlight.prototype, Effect.Base.prototype), {
   initialize: function(element) {
     this.element = $(element);
+    if(!this.element) throw(Effect._elementDoesNotExistError);
     var options = Object.extend({ startcolor: '#ffff99' }, arguments[1] || {});
     this.start(options);
   },

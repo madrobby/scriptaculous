@@ -49,6 +49,17 @@
       assertInstanceOf(Effect.Opacity, new Effect2.Fade('sandbox'));
     }},
     
+    testExceptionOnNonExistingElement: function() { with(this) {
+      assertRaise('ElementDoesNotExistError', 
+        function(){new Effect.Opacity('nothing-to-see-here')});
+      assertRaise('ElementDoesNotExistError', 
+        function(){new Effect.Move('nothing-to-see-here')});
+      assertRaise('ElementDoesNotExistError', 
+        function(){new Effect.Scale('nothing-to-see-here')});
+      assertRaise('ElementDoesNotExistError', 
+        function(){new Effect.Highlight('nothing-to-see-here')});
+    }},
+    
     testCallbacks: function() { with(this) {
       tmp = tmp2 = 0;
       var e1 = new Effect.Opacity('sandbox',{from:1.0,to:0.5,duration:0.5,

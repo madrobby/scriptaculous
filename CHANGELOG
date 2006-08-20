@@ -1,5 +1,7 @@
 *SVN*
 
+* Added a custom exception to all base effects when used on non-existing DOM elements, added a assertRaise method to unit tests
+
 * Fix autoscrolling when dragging an element unto a scrollable container, fixes #5017 [thx tomg]
 
 * Fix a condition where overriding the endeffect on Draggables without overriding the starteffect too leads to a Javascript error [thx Javier Martinez]

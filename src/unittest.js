@@ -332,6 +332,15 @@ Test.Unit.Assertions.prototype = {
       this.fail(message + ": object was an instance of the not expected type"); }
     catch(e) { this.error(e); } 
   },
+  assertRaise: function(exceptionName, method) {
+    var message = arguments[2] || 'assertRaise';
+    try { 
+      method();
+      this.fail(message + ": exception expected but none was raised"); }
+    catch(e) {
+      (e.name==exceptionName) ? this.pass() : this.error(e); 
+    }
+  },
   _isVisible: function(element) {
     element = $(element);
     if(!element.parentNode) return true;
