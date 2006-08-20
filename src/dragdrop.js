@@ -425,6 +425,13 @@ Draggable.prototype = {
   
   draw: function(point) {
     var pos = Position.cumulativeOffset(this.element);
+    if(this.options.ghosting) {
+      Position.prepare();
+      var r   = Position.realOffset(this.element);
+      window.status = r.inspect();
+      pos[0] += r[0] - Position.deltaX; pos[1] += r[1] - Position.deltaY;
+    }
+    
     var d = this.currentDelta();
     pos[0] -= d[0]; pos[1] -= d[1];
     
