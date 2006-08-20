@@ -163,6 +163,7 @@ var Draggables = {
     // the same coordinates, prevent needless redrawing (moz bug?)
     if(this._lastPointer && (this._lastPointer.inspect() == pointer.inspect())) return;
     this._lastPointer = pointer;
+    
     this.activeDraggable.updateDrag(event, pointer);
   },
   
@@ -347,6 +348,7 @@ Draggable.prototype = {
     Position.prepare();
     Droppables.show(pointer, this.element);
     Draggables.notify('onDrag', this, event);
+
     this.draw(pointer);
     if(this.options.change) this.options.change(this);
     
@@ -426,7 +428,6 @@ Draggable.prototype = {
   draw: function(point) {
     var pos = Position.cumulativeOffset(this.element);
     if(this.options.ghosting) {
-      Position.prepare();
       var r   = Position.realOffset(this.element);
       window.status = r.inspect();
       pos[0] += r[0] - Position.deltaX; pos[1] += r[1] - Position.deltaY;
@@ -462,6 +463,7 @@ Draggable.prototype = {
       style.left = p[0] + "px";
     if((!this.options.constraint) || (this.options.constraint=='vertical'))
       style.top  = p[1] + "px";
+    
     if(style.visibility=="hidden") style.visibility = ""; // fix gecko rendering
   },
   
