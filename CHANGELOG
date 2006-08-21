@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix autoscrolling inside scrollable containers when window is scrolled too, fixes #5200 [thx wseitz]
+
 * Make Effect.Puff work correctly for floating elements, fixes #3777 [thx michael hartl]
 
 * Add version and timestamp to indvidual library files for easier identification (the files are preprocessed by the Rake fresh_scriptaculous task), fixes #3015 [thx Tobie]

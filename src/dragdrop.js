@@ -362,6 +362,10 @@ Draggable.prototype = {
         p = Position.page(this.options.scroll);
         p[0] += this.options.scroll.scrollLeft;
         p[1] += this.options.scroll.scrollTop;
+        
+        p[0] += (window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0);
+        p[1] += (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0);
+        
         p.push(p[0]+this.options.scroll.offsetWidth);
         p.push(p[1]+this.options.scroll.offsetHeight);
       }
