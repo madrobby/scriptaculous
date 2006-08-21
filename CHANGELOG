@@ -1,5 +1,7 @@
 *SVN*
 
+* Add assertIndentical and assertNotIdentical unit test assertions, which test for equality and common type, fixes #5822 [thx glazedginger]
+
 * Add integration test for Ajax autocompleter for results with no linebreaks, #4149
 
 * Fix an issue with redrawing ghosted draggables that are inside a scrolled container, fixes #3860 [thx gkupps, tsukue]

@@ -51,6 +51,9 @@
       assertEqual(0, 0);
       assertEqual(0, 0, "test");
       
+      assertEqual(0,'0');
+      assertEqual(65.0, 65);
+      
       assertEqual("a", "a");
       assertEqual("a", "a", "test");
       
@@ -59,6 +62,29 @@
       assertNotEqual({},{});
       assertNotEqual([],[]);
       assertNotEqual([],{});
+    }},
+    
+    testAssertIndentical: function() { with(this) { 
+      assertIdentical(0, 0); 
+      assertIdentical(0, 0, "test"); 
+      assertIdentical(1, 1); 
+      assertIdentical('a', 'a'); 
+      assertIdentical('a', 'a', "test"); 
+      assertIdentical('', ''); 
+      assertIdentical(undefined, undefined); 
+      assertIdentical(null, null); 
+      assertIdentical(true, true); 
+      assertIdentical(false, false); 
+      
+      var obj = {a:'b'};
+      assertIdentical(obj, obj);
+      
+      assertNotIdentical({1:2,3:4},{1:2,3:4});
+      
+      assertIdentical(1, 1.0); // both are typeof == 'number'
+      
+      assertNotIdentical(1, '1');
+      assertNotIdentical(1, '1.0');
     }},
     
     testAssertMatch: function() { with(this) {

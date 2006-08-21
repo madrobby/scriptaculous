@@ -297,6 +297,20 @@ Test.Unit.Assertions.prototype = {
       this.fail(message + ': got "' + Test.Unit.inspect(actual) + '"'); }
     catch(e) { this.error(e); }
   },
+  assertIdentical: function(expected, actual) { 
+    var message = arguments[2] || "assertIdentical"; 
+    try { (expected === actual) ? this.pass() : 
+      this.fail(message + ': expected "' + Test.Unit.inspect(expected) +  
+        '", actual "' + Test.Unit.inspect(actual) + '"'); } 
+    catch(e) { this.error(e); } 
+  },
+  assertNotIdentical: function(expected, actual) { 
+    var message = arguments[2] || "assertNotIdentical"; 
+    try { !(expected === actual) ? this.pass() : 
+      this.fail(message + ': expected "' + Test.Unit.inspect(expected) +  
+        '", actual "' + Test.Unit.inspect(actual) + '"'); } 
+    catch(e) { this.error(e); } 
+  },
   assertNull: function(obj) {
     var message = arguments[1] || 'assertNull'
     try { (obj==null) ? this.pass() : 
