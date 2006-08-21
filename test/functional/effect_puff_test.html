@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>script.aculo.us Effects functional test file</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <script src="../../lib/prototype.js" type="text/javascript"></script>
+  <script src="../../src/scriptaculous.js" type="text/javascript"></script>
+  <script src="../../src/unittest.js" type="text/javascript"></script>
+  <script type="text/javascript" charset="utf-8">
+    Position.includeScrollOffsets = true;
+  </script>
+<body>
+<h1>script.aculo.us Effects functional test file</h1>
+
+<h2>Effect.Puff</h2>
+
+<div id="p1" style="width:100px;height:100px;background-color:#dde;" onclick="Effect.Puff(this)">
+  click to test puff, no position set
+</div>
+
+<div id="p2" style="float:right;width:100px;height:100px;background-color:#dde;" onclick="Effect.Puff(this)">
+  click to test puff, floats
+</div>
+
+<div id="p3" style="position:absolute;left:200px;top:100px;width:100px;height:100px;background-color:#dde;" onclick="Effect.Puff(this)">
+  click to test puff, absolute position set
+</div>
+
+<h3>Floating inside a container</h3>
+
+<div style="width:300px;height:300px;border:1px solid red">
+  <div style="float:left;width:100px;height:100px;background-color:#888;" onclick="Effect.Puff(this)">
+    click to puff
+  </div>
+  <div style="float:left;width:100px;height:100px;background-color:#999;" onclick="Effect.Puff(this)">
+    click to puff
+  </div>
+  <div style="float:left;width:100px;height:100px;background-color:#aaa;" onclick="Effect.Puff(this)">
+    click to puff
+  </div>
+  <div style="float:left;width:100px;height:100px;background-color:#bbb;" onclick="Effect.Puff(this)">
+    click to puff
+  </div>
+  <div style="float:left;width:100px;height:100px;background-color:#ccc;" onclick="Effect.Puff(this)">
+    click to puff
+  </div>
+  <div style="float:left;width:100px;height:100px;background-color:#ddd;" onclick="Effect.Puff(this)">
+    click to puff
+  </div>
+  <div style="float:left;width:100px;height:100px;background-color:#eee;" onclick="Effect.Puff(this)">
+    click to puff
+  </div>
+  <div style="float:left;width:100px;height:100px;background-color:#777;" onclick="Effect.Puff(this)">
+    click to puff
+  </div>
+  <div style="float:left;width:100px;height:100px;background-color:#666;" onclick="Effect.Puff(this)">
+    click to puff
+  </div>
+</div>
+  
+</div>
+
+</body>
+</html>
