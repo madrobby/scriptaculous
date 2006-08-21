@@ -1,5 +1,7 @@
 *SVN*
 
+* Add version and timestamp to indvidual library files for easier identification (the files are preprocessed by the Rake fresh_scriptaculous task), fixes #3015 [thx Tobie]
+
 * Add assertIndentical and assertNotIdentical unit test assertions, which test for equality and common type, fixes #5822 [thx glazedginger]
 
 * Add integration test for Ajax autocompleter for results with no linebreaks, #4149

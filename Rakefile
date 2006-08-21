@@ -4,6 +4,7 @@ require 'rake'
 
 PKG_NAME        = 'scriptaculous-js'
 PKG_BUILD       = ENV['PKG_BUILD'] ? '.' + ENV['PKG_BUILD'] : ''
+PKG_TIMESTAMP   = Time.new.to_s
 PKG_VERSION     = '1.6.2' + PKG_BUILD
 PKG_FILE_NAME   = "#{PKG_NAME}-#{PKG_VERSION}"
 PKG_DESTINATION = ENV["RAILS_PKG_DESTINATION"] || "dist"
@@ -19,6 +20,13 @@ PKG_FILES = FileList[
   'CHANGELOG',
   'README',
   'MIT-LICENSE',
+  'lib/prototype.js',
+  'test/**/*.html',
+  'test/**/*.css',
+  'test/**/*.png'
+]
+
+SRC_FILES = FileList[
   'src/scriptaculous.js',
   'src/dragdrop.js',
   'src/effects.js',
@@ -27,10 +35,6 @@ PKG_FILES = FileList[
   'src/builder.js',
   'src/slider.js',
   'src/unittest.js',
-  'lib/prototype.js',
-  'test/**/*.html',
-  'test/**/*.css',
-  'test/**/*.png'
 ]
 
 DIRS = %w( src lib test test/functional test/unit  )
@@ -40,7 +44,13 @@ task :fresh_scriptaculous do
   mkdir PKG_DESTINATION
   mkdir File.join(PKG_DESTINATION, PKG_FILE_NAME)
   mkdir_p DIRS.map { |dir| File.join(PKG_DESTINATION, PKG_FILE_NAME, dir) }
-  PKG_FILES.each { |file| cp file, File.join(PKG_DESTINATION, PKG_FILE_NAME, file) }
+  PKG_FILES.each { |file| cp file, File.join(PKG_DESTINATION, PKG_FILE_NAME, file) }  
+  SRC_FILES.each do |file|
+    File.open(File.join(PKG_DESTINATION, PKG_FILE_NAME, file), 'w+') do |dist|
+      dist << ('// script.aculo.us '+File.basename(file)+' v'+PKG_VERSION+", "+PKG_TIMESTAMP+"\n\n")
+      dist << File.read(file)
+    end
+  end
 end
 
 desc "Packages the fresh script.aculo.us scripts"
