@@ -208,7 +208,6 @@ var Draggables = {
 /*--------------------------------------------------------------------------*/
 
 var Draggable = Class.create();
-Draggable._revertCache = {};
 Draggable._dragging    = {};
 
 Draggable.prototype = {
@@ -217,10 +216,9 @@ Draggable.prototype = {
       handle: false,
       reverteffect: function(element, top_offset, left_offset) {
         var dur = Math.sqrt(Math.abs(top_offset^2)+Math.abs(left_offset^2))*0.02;
-        Draggable._revertCache[element] =
-          new Effect.Move(element, { x: -left_offset, y: -top_offset, duration: dur,
-            queue: {scope:'_draggable', position:'end'}
-          });
+        new Effect.Move(element, { x: -left_offset, y: -top_offset, duration: dur,
+          queue: {scope:'_draggable', position:'end'}
+        });
       },
       endeffect: function(element) {
         var toOpacity = typeof element._opacity == 'number' ? element._opacity : 1.0;
@@ -300,11 +298,6 @@ Draggable.prototype = {
         src.tagName=='BUTTON' ||
         src.tagName=='TEXTAREA')) return;
         
-      if(Draggable._revertCache[this.element]) {
-        Draggable._revertCache[this.element].cancel();
-        Draggable._revertCache[this.element] = null;
-      }
-      
       var pointer = [Event.pointerX(event), Event.pointerY(event)];
       var pos     = Position.cumulativeOffset(this.element);
       this.offset = [0,1].map( function(i) { return (pointer[i] - pos[i]) });

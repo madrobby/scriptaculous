@@ -1,5 +1,7 @@
 *SVN*
 
+* Remove revert cache code obsoleted by #4706, fixes #3436 (again) [thx tomg]
+
 * Fix autoscrolling inside scrollable containers when window is scrolled too, fixes #5200 [thx wseitz]
 
 * Make Effect.Puff work correctly for floating elements, fixes #3777 [thx michael hartl]
