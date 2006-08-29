@@ -206,6 +206,7 @@ var Draggables = {
       this.observers.each( function(o) {
         if(o[eventName]) o[eventName](eventName, draggable, event);
       });
+    if(draggable.options[eventName]) draggable.options[eventName](this);
   },
   
   _cacheObserverCallbacks: function() {
@@ -346,6 +347,7 @@ Draggable.prototype = {
     }
     
     Draggables.notify('onStart', this, event);
+        
     if(this.options.starteffect) this.options.starteffect(this.element);
   },
   
@@ -354,7 +356,7 @@ Draggable.prototype = {
     Position.prepare();
     Droppables.show(pointer, this.element);
     Draggables.notify('onDrag', this, event);
-
+    
     this.draw(pointer);
     if(this.options.change) this.options.change(this);
     
@@ -417,7 +419,7 @@ Draggable.prototype = {
 
     if(this.options.endeffect) 
       this.options.endeffect(this.element);
-
+      
     Draggables.deactivate(this);
     Droppables.reset();
   },

@@ -25,6 +25,8 @@
 <div id="revertbox2" class="box" style="z-index:1000;width:150px;height:150px;background:#bbf;">
   <span id="handle2">drag here</span><br/>
   <input type="checkbox" id="shouldrevert2"/> Revert?
+  I've onStart, onDrag and onEnd events!<br/>
+  <span id="event-info"></span>
 </div>
 
 <div id="specialbox" class="box" style="z-index:1000;width:150px;height:150px;background:#fbb;">
@@ -45,7 +47,14 @@
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
   new Draggable('revertbox1',{scroll:window,handle:'handle1',revert:function(element){return ($('shouldrevert1').checked)}});
-  new Draggable('revertbox2',{handle:'handle2',revert:function(element){return ($('shouldrevert2').checked)}});
+  new Draggable('revertbox2',{
+    handle:'handle2',
+    revert:function(element){return ($('shouldrevert2').checked)},
+    onStart:function(){$('revertbox2').setStyle({backgroundColor:'#bfb'})},
+    onDrag:function(){$('event-info').update('drag!')},
+    onEnd:function(){alert('end!')}
+  });
+  
   Droppables.add('droptarget1',{accept:['box1','otherstuff'],onDrop:function(){alert('drop!')}});
   Droppables.add('droptarget2',{accept:'box',onDrop:function(){alert('drop!')}});
   
