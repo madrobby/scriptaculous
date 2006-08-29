@@ -206,7 +206,7 @@ var Draggables = {
       this.observers.each( function(o) {
         if(o[eventName]) o[eventName](eventName, draggable, event);
       });
-    if(draggable.options[eventName]) draggable.options[eventName](this);
+    if(draggable.options[eventName]) draggable.options[eventName](draggable, event);
   },
   
   _cacheObserverCallbacks: function() {
