@@ -51,7 +51,19 @@ Autocompleter ac3 (nested in postion:relative div, selects "selectme" class):
 // ]]>
 </script>
 
-<br/><select id="ac4"><option>First Item</option><option>Second Item</option><option>Third Item</option></select>
+<br/><select><option>First Item</option><option>Second Item</option><option>Third Item</option></select>
+
+<br/><br/>
+Autocompleter ac4 (autoselects option if single single option is returned):
+<br/> 
+<input id="ac4" type="text"/>
+<div id="ac4update" style="display:none;border:1px solid black;background-color:white;"></div>
+
+<script type="text/javascript" language="javascript" charset="utf-8">
+// <![CDATA[
+  new Ajax.Autocompleter('ac4','ac4update','_autocomplete_result_single.html',{select:'selectme',autoSelect:true});
+// ]]>
+</script>
 
 <div id="debug" style="font-size:11px;"></div>
 

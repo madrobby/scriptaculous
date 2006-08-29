@@ -1,5 +1,7 @@
 *SVN*
 
+* Add autoSelect option to Autocompleters to auto select an entry if only one is returned, fixes #5183 [thx cassiano dandrea]
+
 * Added delay option to Draggables and Sortables, see test/functional/dragdrop_delay_test.html for usage, implements #3325 [thx lsimon, tomg]
 
 * Remove revert cache code obsoleted by #4706, fixes #3436 (again) [thx tomg]
