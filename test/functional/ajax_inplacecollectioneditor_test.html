@@ -17,7 +17,7 @@
   Demo of the Ajax.InPlaceCollectionEditor.
 </p>
 
-<p id="tobeedited">To be edited</p>
+<p id="tobeedited">three</p> (should autoselect "three")
 <script>
 new Ajax.InPlaceCollectionEditor(
   'tobeedited', '_ajax_inplaceeditor_result.html', {
@@ -27,12 +27,31 @@ new Ajax.InPlaceCollectionEditor(
 </script>
 
 
-<p id="tobeedited2">To be edited with index</p>
+<p id="tobeedited2">two</p> (should autoselect "two")
 <script>
 new Ajax.InPlaceCollectionEditor(
   'tobeedited2', '_ajax_inplaceeditor_result.html', {
   collection: [[0,'one'],[1,'two'],[2,'three']],
+   ajaxOptions: {method: 'get'} //override so we can use a static for the result
+});
+</script>
+
+<p id="tobeedited3">three</p> (should manually select "one")
+<script>
+new Ajax.InPlaceCollectionEditor(
+  'tobeedited3', '_ajax_inplaceeditor_result.html', {
+  collection: [[0,'one'],[1,'two'],[2,'three']],
   value: 0,
+  ajaxOptions: {method: 'get'} //override so we can use a static for the result
+});
+</script>
+
+<p id="tobeedited4">one</p> (should manually select "two")
+<script>
+new Ajax.InPlaceCollectionEditor(
+  'tobeedited4', '_ajax_inplaceeditor_result.html', {
+  collection: ['one','two','three'],
+  value: 'two',
   ajaxOptions: {method: 'get'} //override so we can use a static for the result
 });
 </script>
