@@ -148,8 +148,16 @@ var Draggables = {
   },
   
   activate: function(draggable) {
-    window.focus(); // allows keypress events if window isn't currently focused, fails for Safari
-    this.activeDraggable = draggable;
+    if(draggable.options.delay) { 
+      this._timeout = setTimeout(function() { 
+        Draggables._timeout = null; 
+        window.focus(); 
+        Draggables.activeDraggable = draggable; 
+      }.bind(this), draggable.options.delay); 
+    } else {
+      window.focus(); // allows keypress events if window isn't currently focused, fails for Safari
+      this.activeDraggable = draggable;
+    }
   },
   
   deactivate: function() {
@@ -168,6 +176,10 @@ var Draggables = {
   },
   
   endDrag: function(event) {
+    if(this._timeout) { 
+      clearTimeout(this._timeout); 
+      this._timeout = null; 
+    }
     if(!this.activeDraggable) return;
     this._lastPointer = null;
     this.activeDraggable.endDrag(event);
@@ -234,7 +246,8 @@ Draggable.prototype = {
       scroll: false,
       scrollSensitivity: 20,
       scrollSpeed: 15,
-      snap: false   // false, or xy or [x,y] or function(x,y){ return [x,y] }
+      snap: false,  // false, or xy or [x,y] or function(x,y){ return [x,y] }
+      delay: 0
     };
     
     if(arguments[1] && typeof arguments[1].endeffect == 'undefined')
@@ -599,6 +612,7 @@ var Sortable = {
       containment: element,    // also takes array of elements (or id's); or false
       handle:      false,      // or a CSS class
       only:        false,
+      delay:       0,
       hoverclass:  null,
       ghosting:    false,
       scroll:      false,
@@ -618,6 +632,7 @@ var Sortable = {
       scroll:      options.scroll,
       scrollSpeed: options.scrollSpeed,
       scrollSensitivity: options.scrollSensitivity,
+      delay:       options.delay,
       ghosting:    options.ghosting,
       constraint:  options.constraint,
       handle:      options.handle };

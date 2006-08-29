@@ -1,5 +1,7 @@
 *SVN*
 
+* Added delay option to Draggables and Sortables, see test/functional/dragdrop_delay_test.html for usage, implements #3325 [thx lsimon, tomg]
+
 * Remove revert cache code obsoleted by #4706, fixes #3436 (again) [thx tomg]
 
 * Fix autoscrolling inside scrollable containers when window is scrolled too, fixes #5200 [thx wseitz]
