@@ -97,5 +97,21 @@ var Builder = {
   },
   _isStringOrNumber: function(param) {
     return(typeof param=='string' || typeof param=='number');
+  },
+  dump: function(scope) { 
+    if(typeof scope != 'object' && typeof scope != 'function') scope = window; //global scope 
+  
+    var tags = ("A ABBR ACRONYM ADDRESS APPLET AREA B BASE BASEFONT BDO BIG BLOCKQUOTE BODY " +
+      "BR BUTTON CAPTION CENTER CITE CODE COL COLGROUP DD DEL DFN DIR DIV DL DT EM FIELDSET " +
+      "FONT FORM FRAME FRAMESET H1 H2 H3 H4 H5 H6 HEAD HR HTML I IFRAME IMG INPUT INS ISINDEX "+
+      "KBD LABEL LEGEND LI LINK MAP MENU META NOFRAMES NOSCRIPT OBJECT OL OPTGROUP OPTION P "+
+      "PARAM PRE Q S SAMP SCRIPT SELECT SMALL SPAN STRIKE STRONG STYLE SUB SUP TABLE TBODY TD "+
+      "TEXTAREA TFOOT TH THEAD TITLE TR TT U UL VAR").split(/\s+/);
+  
+    tags.each( function(tag){ 
+      scope[tag] = function() { 
+        return Builder.node.apply(Builder, [tag].concat($A(arguments)));  
+      } 
+    });
   }
 }

@@ -170,15 +170,25 @@
       
       // browsers aren't sure about upper and lower case on elements
       assertEqual('<div id="ghosttrain"><div style="font-size: 11px; font-weight: bold;"><h1>ghost train</h1>testtext234<ul><li onclick="alert(\'test\')">click me</li></ul></div></div>', $('result').innerHTML.toLowerCase());
+    }},
+    
+    testBuilderShortcuts: function() { with(this) {
+      Builder.dump();
+      
+      var element = DIV({id:'ghosttrain'},[
+         DIV({style:'font-size: 11px; font-weight: bold;'},[
+           H1('Ghost Train'),
+           "testtext", 2, 3, 4,
+           UL([
+             LI({onclick:'alert(\'test\')'},'click me')
+           ]),
+         ]),
+       ]);
+      assertEqual('DIV', element.nodeName);
+      
+      $('result').appendChild(element);
+      assertEqual('<div id="ghosttrain"><div style="font-size: 11px; font-weight: bold;"><h1>ghost train</h1>testtext234<ul><li onclick="alert(\'test\')">click me</li></ul></div></div>', $('result').innerHTML.toLowerCase()); 
     }}
-
-    //testBuilderStyle: function() { with(this) {
-    //  var element = Builder.node('div',{id:'styletest','style':{'display':'block','position':'absolute'}});
-    //  $('result').appendChild(element);
-    //  assertEqual('styletest', element.id);
-    //  assertEqual('block', element.style.display);
-    //  assertEqual('absolute', element.style.position);
-    //}}
 
   });
 // ]]>
