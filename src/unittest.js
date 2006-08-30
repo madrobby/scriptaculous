@@ -158,7 +158,11 @@ Test.Unit.Runner.prototype = {
         this.tests = [];
         for(var testcase in testcases) {
           if(/^test/.test(testcase)) {
-            this.tests.push(new Test.Unit.Testcase(testcase, testcases[testcase], testcases["setup"], testcases["teardown"]));
+            this.tests.push(
+               new Test.Unit.Testcase(
+                 this.options.context ? ' -> ' + this.options.titles[testcase] : testcase, 
+                 testcases[testcase], testcases["setup"], testcases["teardown"]
+               ));
           }
         }
       }
@@ -229,6 +233,7 @@ Test.Unit.Runner.prototype = {
       errors     +=   this.tests[i].errors;
     }
     return (
+      (this.options.context ? this.options.context + ': ': '') + 
       this.tests.length + " tests, " + 
       assertions + " assertions, " + 
       failures   + " failures, " +
@@ -332,6 +337,22 @@ Test.Unit.Assertions.prototype = {
     var message = arguments[1] || 'assertNotNull';
     this.assert(object != null, message);
   },
+  assertType: function(expected, actual) {
+    var message = arguments[2] || 'assertType';
+    try { 
+      (actual.constructor == expected) ? this.pass() : 
+      this.fail(message + ': expected "' + Test.Unit.inspect(expected) +  
+        '", actual "' + (actual.constructor) + '"'); }
+    catch(e) { this.error(e); }
+  },
+  assertNotOfType: function(expected, actual) {
+    var message = arguments[2] || 'assertNotOfType';
+    try { 
+      (actual.constructor != expected) ? this.pass() : 
+      this.fail(message + ': expected "' + Test.Unit.inspect(expected) +  
+        '", actual "' + (actual.constructor) + '"'); }
+    catch(e) { this.error(e); }
+  },
   assertInstanceOf: function(expected, actual) {
     var message = arguments[2] || 'assertInstanceOf';
     try { 
@@ -345,6 +366,24 @@ Test.Unit.Assertions.prototype = {
       !(actual instanceof expected) ? this.pass() : 
       this.fail(message + ": object was an instance of the not expected type"); }
     catch(e) { this.error(e); } 
+  },
+  assertReturnsTrue: function(method, obj) {
+    var message = arguments[2] || 'assertReturnsTrue';
+    try {
+      var m = obj[method];
+      if(!m) m = obj['is'+method.charAt(0).toUpperCase()+method.slice(1)];
+      m() ? this.pass() : 
+      this.fail(message + ": method returned false"); }
+    catch(e) { this.error(e); }
+  },
+  assertReturnsFalse: function(method, obj) {
+    var message = arguments[2] || 'assertReturnsFalse';
+    try {
+      var m = obj[method];
+      if(!m) m = obj['is'+method.charAt(0).toUpperCase()+method.slice(1)];
+      !m() ? this.pass() : 
+      this.fail(message + ": method returned true"); }
+    catch(e) { this.error(e); }
   },
   assertRaise: function(exceptionName, method) {
     var message = arguments[2] || 'assertRaise';
@@ -387,6 +426,8 @@ Object.extend(Object.extend(Test.Unit.Testcase.prototype, Test.Unit.Assertions.p
     this.name           = name;
     
     if(typeof test == 'string') {
+      test = test.gsub(/(\.should[^\(]+\()/,'#{0}this,');
+      test = test.gsub(/(\.should[^\(]+)\(this,\)/,'#{1}(this)');
       this.test = function() {
         eval('with(this){'+test+'}');
       }
@@ -420,8 +461,42 @@ Object.extend(Object.extend(Test.Unit.Testcase.prototype, Test.Unit.Assertions.p
   }
 });
 
+// *EXPERIMENTAL* BDD-style testing to please non-technical folk
+// This draws many ideas from RSpec http://rspec.rubyforge.org/
+
+Test.setupBDDExtensionMethods = function(){
+  var METHODMAP = {
+    shouldEqual:     'assertEqual',
+    shouldNotEqual:  'assertNotEqual',
+    shouldEqualEnum: 'assertEnumEqual',
+    shouldBeA:       'assertType',
+    shouldNotBeA:    'assertNotOfType',
+    shouldBeAn:      'assertType',
+    shouldNotBeAn:   'assertNotOfType',
+    shouldBeNull:    'assertNull',
+    shouldNotBeNull: 'assertNotNull',
+    
+    shouldBe:        'assertReturnsTrue',
+    shouldNotBe:     'assertReturnsFalse'
+  };
+  Test.BDDMethods = {};
+  for(m in METHODMAP) {
+    Test.BDDMethods[m] = eval(
+      'function(){'+
+      'var args = $A(arguments);'+
+      'var scope = args.shift();'+
+      'scope.'+METHODMAP[m]+'.apply(scope,(args || []).concat([this])); }');
+  }
+  [Array.prototype, String.prototype, Number.prototype].each(
+    function(p){ Object.extend(p, Test.BDDMethods) }
+  );
+}
+
 Test.context = function(name, spec, log){
+  Test.setupBDDExtensionMethods();
+  
   var compiledSpec = {};
+  var titles = {};
   for(specName in spec) {
     switch(specName){
       case "setup":
@@ -437,7 +512,8 @@ Test.context = function(name, spec, log){
           return statement.strip()
         });
         compiledSpec[testName] = body.join('\n');
+        titles[testName] = specName;
     }
   }
-  new Test.Unit.Runner(compiledSpec, log || 'testlog');
+  new Test.Unit.Runner(compiledSpec, { titles: titles, testLog: log || 'testlog', context: name });
 };

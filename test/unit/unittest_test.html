@@ -45,6 +45,15 @@
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
 
+  var testObj = {
+    isNice: function(){
+      return true;
+    },
+    isBroken: function(){
+      return false;
+    }
+  }
+
   new Test.Unit.Runner({
     
     testAssertEqual: function() { with(this) {
@@ -103,6 +112,16 @@
       
       // note: fails with firefox 1.0.X (bug, fixed in Deer Park)
       assertNotInstanceOf(Effect.Parallel, new Effect.Opacity('testcss1',{sync:true}), "(note: fails with firefox 1.0.X, fixed in Deer Park)");   
+    }},
+    
+    testAssertReturns: function() { with(this) {
+      
+      assertReturnsTrue('isNice',testObj);
+      assertReturnsFalse('isBroken',testObj);
+      
+      assertReturnsTrue('nice',testObj);
+      assertReturnsFalse('broken',testObj);
+      
     }},
   
     testAssertVisible: function() { with(this) {
