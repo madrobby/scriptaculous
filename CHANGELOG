@@ -1,5 +1,7 @@
 *SVN*
 
+* Add experimental alternate syntax for unit tests (Behaviour Driven Development-style)
+
 * Add support for onStart, onDrag and onEnd events directly on Draggables (invoked from the Draggables.notify), fixes #4747 [thx scriptkitchen]
 
 * Add element shortcuts to Builder that can be activated by calling Builder.dump() (see the unit test), fixes #4260 [thx napalm]

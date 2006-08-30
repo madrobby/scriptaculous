@@ -385,7 +385,19 @@ Object.extend(Object.extend(Test.Unit.Testcase.prototype, Test.Unit.Assertions.p
   initialize: function(name, test, setup, teardown) {
     Test.Unit.Assertions.prototype.initialize.bind(this)();
     this.name           = name;
-    this.test           = test || function() {};
+    
+    if(test instanceof Array) {
+      this.test = function() {
+        var preppedTest = test.join('\n');
+        ['assert','wait','benchmark','info'].each(function(i){
+          preppedTest = preppedTest.gsub(i,'this.'+i);
+        });
+        eval(preppedTest);
+      }
+    } else {
+      this.test = test || function() {};
+    }
+    
     this.setup          = setup || function() {};
     this.teardown       = teardown || function() {};
     this.isWaiting      = false;
@@ -411,3 +423,25 @@ Object.extend(Object.extend(Test.Unit.Testcase.prototype, Test.Unit.Assertions.p
     catch(e) { this.error(e); }
   }
 });
+
+Test.context = function(name, spec, log){
+  var compiledSpec = {};
+  for(specName in spec) {
+    switch(specName){
+      case "setup":
+      case "teardown":
+        compiledSpec[specName] = spec[specName];
+        break;
+      default:
+        var testName = 'test'+specName.gsub(/\s+/,'-').camelize();
+        var body = spec[specName].toString().split('\n').slice(1);
+        if(/^\{/.test(body[0])) body = body.slice(1);
+        body.pop();
+        body = body.map(function(statement){ 
+          return statement.strip()
+        });
+        compiledSpec[testName] = body;
+    }
+  }
+  new Test.Unit.Runner(compiledSpec, log || 'testlog');
+};
