@@ -386,13 +386,9 @@ Object.extend(Object.extend(Test.Unit.Testcase.prototype, Test.Unit.Assertions.p
     Test.Unit.Assertions.prototype.initialize.bind(this)();
     this.name           = name;
     
-    if(test instanceof Array) {
+    if(typeof test == 'string') {
       this.test = function() {
-        var preppedTest = test.join('\n');
-        ['assert','wait','benchmark','info'].each(function(i){
-          preppedTest = preppedTest.gsub(i,'this.'+i);
-        });
-        eval(preppedTest);
+        eval('with(this){'+test+'}');
       }
     } else {
       this.test = test || function() {};
@@ -440,7 +436,7 @@ Test.context = function(name, spec, log){
         body = body.map(function(statement){ 
           return statement.strip()
         });
-        compiledSpec[testName] = body;
+        compiledSpec[testName] = body.join('\n');
     }
   }
   new Test.Unit.Runner(compiledSpec, log || 'testlog');
