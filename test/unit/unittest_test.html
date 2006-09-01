@@ -73,6 +73,11 @@
       assertNotEqual([],{});
     }},
     
+    testAssertRespondsTo: function() { with(this) {
+      assertRespondsTo('isNice', testObj);
+      assertRespondsTo('isBroken', testObj);
+    }},
+    
     testAssertIndentical: function() { with(this) { 
       assertIdentical(0, 0); 
       assertIdentical(0, 0, "test"); 

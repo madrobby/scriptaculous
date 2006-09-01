@@ -198,7 +198,7 @@
     
       benchmark(function(){
         Element.childrenWithClassName("Container", "firstClass") 
-      },1,'Element.childrenWithClassName');
+      },1000,'Element.childrenWithClassName');
     
       // ... and that none that don't exist have been found.
       assert(nonExistentClassElems.length==0, "Found non-existent class elems!");

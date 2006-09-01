@@ -56,11 +56,14 @@ Test.context("BDD-style testing",{
     assert(moo == 1);
   },
   
-  'should provide extensions to tie in isSomething object methods': function(){
+  'should provide extensions to tie in isSomething and respondsTo object methods': function(){
     Object.extend(testObj, Test.BDDMethods);
     
     testObj.shouldBe('nice');
     testObj.shouldNotBe('broken');
+    
+    testObj.shouldRespondTo('isNice');
+    testObj.shouldRespondTo('isBroken');
   },
   
   'should automatically add extensions to strings': function(){

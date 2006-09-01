@@ -367,6 +367,13 @@ Test.Unit.Assertions.prototype = {
       this.fail(message + ": object was an instance of the not expected type"); }
     catch(e) { this.error(e); } 
   },
+  assertRespondsTo: function(method, obj) {
+    var message = arguments[2] || 'assertRespondsTo';
+    try {
+      (obj[method] && typeof obj[method] == 'function') ? this.pass() : 
+      this.fail(message + ": object doesn't respond to [" + method + "]"); }
+    catch(e) { this.error(e); }
+  },
   assertReturnsTrue: function(method, obj) {
     var message = arguments[2] || 'assertReturnsTrue';
     try {
@@ -477,7 +484,8 @@ Test.setupBDDExtensionMethods = function(){
     shouldNotBeNull: 'assertNotNull',
     
     shouldBe:        'assertReturnsTrue',
-    shouldNotBe:     'assertReturnsFalse'
+    shouldNotBe:     'assertReturnsFalse',
+    shouldRespondTo: 'assertRespondsTo'
   };
   Test.BDDMethods = {};
   for(m in METHODMAP) {
