@@ -37,6 +37,26 @@
   
 </div>
 
+<!-- 
+  By default, _ is the only valid seperator
+  for the DOM ids. Complex element ids as in
+  the form of "some_element_id_1" should also
+  be parsed correctly (only the last part should
+  be serialized)
+-->
+<ul id="sortable_complex">
+  <li id="a_b_item_1" class="a">item 1</li>
+  <li id="ab_item_2" class="c b">item 1
+    <ul>
+      <li id="item_99">!!!</li>
+    </ul>
+  </li>
+  <li id="a-b-item_3z_33" class="b">item 1</li>
+  <li id="a-item-xy" class="x y">item 1</li>
+  <!-- a comment -->
+</ul>
+
+
 <ul id="sortable_specialcreate">
   <li id="y1item">item 1</li>
   <li id="y2item">item 1<ul><li id="yyyy9928282hjhd">!!!</li></ul></li>
@@ -59,6 +79,7 @@
       Sortable.create('sortable3');
       Sortable.create('sortable_specialcreate',{ format:/(\d+)/ });
       Sortable.create('sortable_specialformat');
+      Sortable.create('sortable_complex');
     }},
     
     teardown: function() { with(this) {
@@ -67,10 +88,12 @@
       Sortable.destroy('sortable3');
       Sortable.destroy('sortable_specialformat');
       Sortable.destroy('sortable_specialcreate');
+      Sortable.destroy('sortable_complex');
     }},
     
     testSortableSerializeSequenceBasics: function() { with(this) {
       assertEqual('sortable1[]=1&sortable1[]=2&sortable1[]=3', Sortable.serialize('sortable1'));      
+      
       // test empty sortable
       assertEqual('', Sortable.serialize('sortable3'));
       assertEnumEqual([], Sortable.sequence('sortable3'));
@@ -81,7 +104,7 @@
     }},
     
     testSortableSerializeFormat: function() { with(this) {
-      // shauld correctly serialize from option given to Sortable.create()
+      // should correctly serialize from option given to Sortable.create()
       assertEqual('sortable_specialcreate[]=1&sortable_specialcreate[]=2', 
         Sortable.serialize('sortable_specialcreate'));
         
@@ -100,6 +123,21 @@
       // test default format given explicitly
       assertEqual('sortable1[]=1&sortable1[]=2&sortable1[]=3', 
         Sortable.serialize('sortable1',{format:/^[^_]*_(.*)$/}));
+        
+      // Ensure default options.format handles longer, more complex list
+      // item IDs
+      assertEqual('sortable_complex[]=1&sortable_complex[]=2&sortable_complex[]=33&sortable_complex[]=',
+        Sortable.serialize('sortable_complex'));
+    }},
+    
+    testSortableSerializeRule: function() { with(this) {
+      var ids = ['x','x-y','test_test','x_y_z','x_y-x_z'];
+      ids.each(function(id){
+        assertEqual('1',
+          (id+'_1').match(Sortable.SERIALIZE_RULE)[1]);
+      });
+      
+      assertNull('x'.match(Sortable.SERIALIZE_RULE));
     }},
 
     testSortableSerializeName: function() { with(this) {

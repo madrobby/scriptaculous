@@ -574,6 +574,8 @@ SortableObserver.prototype = {
 }
 
 var Sortable = {
+  SERIALIZE_RULE: /^[^_\-](?:[A-Za-z0-9\-\_]*)[_](.*)$/,
+  
   sortables: {},
   
   _findRootElement: function(element) {
@@ -620,7 +622,7 @@ var Sortable = {
       scroll:      false,
       scrollSensitivity: 20,
       scrollSpeed: 15,
-      format:      /^[^_]*_(.*)$/,
+      format:      this.SERIALIZE_RULE,
       onChange:    Prototype.emptyFunction,
       onUpdate:    Prototype.emptyFunction
     }, arguments[1] || {});

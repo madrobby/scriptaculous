@@ -1,5 +1,7 @@
 *SVN*
 
+* Make Sortable.serialize handle DOM IDs like "some_element_1" correctly, fixes #5324
+
 * Add assertRespondsTo and shouldRespondTo assertions
 
 * Add experimental alternate syntax for unit tests (Behaviour Driven Development-style)
