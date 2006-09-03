@@ -59,13 +59,13 @@ Element.setOpacity = function(element, value){
   if (value == 1){
     Element.setStyle(element, { opacity: 
       (/Gecko/.test(navigator.userAgent) && !/Konqueror|Safari|KHTML/.test(navigator.userAgent)) ? 
-      0.999999 : null });
-    if(/MSIE/.test(navigator.userAgent))  
+      0.999999 : 1.0 });
+    if(/MSIE/.test(navigator.userAgent) && !window.opera)  
       Element.setStyle(element, {filter: Element.getStyle(element,'filter').replace(/alpha\([^\)]*\)/gi,'')});  
   } else {  
     if(value < 0.00001) value = 0;  
     Element.setStyle(element, {opacity: value});
-    if(/MSIE/.test(navigator.userAgent))  
+    if(/MSIE/.test(navigator.userAgent) && !window.opera)  
      Element.setStyle(element, 
        { filter: Element.getStyle(element,'filter').replace(/alpha\([^\)]*\)/gi,'') +
                  'alpha(opacity='+value*100+')' });  
@@ -113,7 +113,7 @@ var Effect = {
       throw("Effect.tagifyText requires including script.aculo.us' builder.js library");
       
     var tagifyStyle = 'position:relative';
-    if(/MSIE/.test(navigator.userAgent)) tagifyStyle += ';zoom:1';
+    if(/MSIE/.test(navigator.userAgent) && !window.opera) tagifyStyle += ';zoom:1';
     element = $(element);
     $A(element.childNodes).each( function(child) {
       if(child.nodeType==3) {
@@ -360,7 +360,7 @@ Object.extend(Object.extend(Effect.Opacity.prototype, Effect.Base.prototype), {
     this.element = $(element);
     if(!this.element) throw(Effect._elementDoesNotExistError);
     // make this work on IE on elements without 'layout'
-    if(/MSIE/.test(navigator.userAgent) && (!this.element.currentStyle.hasLayout))
+    if(/MSIE/.test(navigator.userAgent) && !window.opera && (!this.element.currentStyle.hasLayout))
       this.element.setStyle({zoom: 1});
     var options = Object.extend({
       from: this.element.getOpacity() || 0.0,
@@ -735,7 +735,7 @@ Effect.SlideDown = function(element) {
     afterFinishInternal: function(effect) {
       effect.element.undoClipping(); 
       // IE will crash if child is undoPositioned first
-      if(/MSIE/.test(navigator.userAgent)){
+      if(/MSIE/.test(navigator.userAgent) && !window.opera){
         effect.element.undoPositioned();
         effect.element.firstChild.undoPositioned();
       }else{
