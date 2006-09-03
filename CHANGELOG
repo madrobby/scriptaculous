@@ -1,5 +1,7 @@
 *SVN*
 
+* Update Prototype to revision [4930]
+
 * Fix various issues with IE detection and Opera, and setOpacity, fixes #3886, #5973
 
 * Make Sortable.serialize handle DOM IDs like "some_element_1" correctly, fixes #5324
