@@ -1,5 +1,7 @@
 *SVN*
 
+* Merge assertElementsMatch and assertElementMatches from Prototype's [4986] unittest.js [Sam Stephenson]
+
 * Update Prototype to revision [4930]
 
 * Fix various issues with IE detection and Opera, and setOpacity, fixes #3886, #5973

@@ -401,6 +401,29 @@ Test.Unit.Assertions.prototype = {
       (e.name==exceptionName) ? this.pass() : this.error(e); 
     }
   },
+  assertElementsMatch: function() {
+    var expressions = $A(arguments), elements = $A(expressions.shift());
+    if (elements.length != expressions.length) {
+      this.fail('assertElementsMatch: size mismatch: ' + elements.length + ' elements, ' + expressions.length + ' expressions');
+      return false;
+    }
+    elements.zip(expressions).all(function(pair, index) {
+      var element = $(pair.first()), expression = pair.last();
+      if (element.match(expression)) return true;
+      this.fail('assertElementsMatch: (in index ' + index + ') expected ' + expression.inspect() + ' but got ' + element.inspect());
+    }.bind(this)) && this.pass();
+  },
+  assertElementMatches: function(element, expression) {
+    this.assertElementsMatch([element], expression);
+  },
+  benchmark: function(operation, iterations) {
+    var startAt = new Date();
+    (iterations || 1).times(operation);
+    var timeTaken = ((new Date())-startAt);
+    this.info((arguments[2] || 'Operation') + ' finished ' + 
+       iterations + ' iterations in ' + (timeTaken/1000)+'s' );
+    return timeTaken;
+  },
   _isVisible: function(element) {
     element = $(element);
     if(!element.parentNode) return true;
