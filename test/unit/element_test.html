@@ -72,20 +72,6 @@
       },1);
     }},
     
-    testElementUp: function() { with(this) {
-      assertEqual('Container', $('collect').up().id);
-      assertEqual('Container', $('collect').up(1).id);
-      assertEqual('Container', $('5').up(2).id);
-
-      assertEqual('Container', $('collect').up({tagName:'DIV'}).id);
-      assertEqual('4', $('5').up({className:'thirdClass'}).id);
-      
-      assertEqual('Container',$('5').up({className:'moo',tagName:'DIV'}).id);
-      assertEqual('Container',$('5').up({tag:'div'}).id);
-      assertEqual('Container',$('5').up({'class':'moo','tag':'div'}).id);
-      assertNull($('5').up({className:'moo',tagName:'IMG'}));
-    }},
-    
     testElementSetStyle: function() { with(this) {
       Element.setStyle('style_test_3',{ 'left': '2px' });
       assertEqual('2px', $('style_test_3').style.left);

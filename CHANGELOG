@@ -1,4 +1,6 @@
-*SVN*
+*V1.6.3*
+
+* Update Prototype to V1.5.0_rc1
 
 * Merge assertElementsMatch and assertElementMatches from Prototype's [4986] unittest.js [Sam Stephenson]
 
