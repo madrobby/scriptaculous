@@ -251,7 +251,7 @@ Draggable.prototype = {
       delay: 0
     };
     
-    if(arguments[1] && typeof arguments[1].endeffect == 'undefined')
+    if(!arguments[1] || typeof arguments[1].endeffect == 'undefined')
       Object.extend(defaults, {
         starteffect: function(element) {
           element._opacity = Element.getOpacity(element);

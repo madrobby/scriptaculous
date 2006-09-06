@@ -1,8 +1,10 @@
-*V1.6.4*
+* Fix an issue with Draggables when no options are supplied, fixes #6045 [thx tdd]
+
+*V1.6.4* (September 6, 2006)
 
 * Hotfix IE issues with patched Prototype V1.5.0_rc1
 
-*V1.6.3*
+*V1.6.3* (September 5, 2006)
 
 * Update Prototype to V1.5.0_rc1
 

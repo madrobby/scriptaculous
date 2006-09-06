@@ -25,6 +25,8 @@
 <div id="testlog"> </div>
 
 <p id="p_test">p_test</p>
+<p id="p_test2">p_test2</p>
+<p id="p_test3">p_test3</p>
 <img id="img_test" src="icon.png" alt="img_text"/>
 <div id="droppable_test">droppable_test</div>
 
@@ -50,8 +52,13 @@
     testDraggableBasics: function() { with(this) {
       var d = new Draggable('p_test');
       assertInstanceOf(Draggable, d);
-      
-      
+    }},
+
+    testDraggableStartEffect: function() { with(this) {
+      var d = new Draggable('p_test2');
+      assert(d.options.starteffect, 'There should be a default start effect.');
+      d = new Draggable('p_test3', { endeffect: Prototype.EmptyFunction });
+      assert(undefined === d.options.startEffect, 'There should be no default start effect.');
     }},
     
     testAutoPositioning: function() { with(this) {
