@@ -182,9 +182,13 @@ Effect.Transitions.flicker = function(pos) {
 Effect.Transitions.wobble = function(pos) {
   return (-Math.cos(pos*Math.PI*(9*pos))/2) + 0.5;
 }
-Effect.Transitions.pulse = function(pos) {
-  return (Math.floor(pos*10) % 2 == 0 ? 
-    (pos*10-Math.floor(pos*10)) : 1-(pos*10-Math.floor(pos*10)));
+Effect.Transitions.pulse = function(pos, pulses) { 
+   pulses = pulses || 5; 
+   return (
+        Math.round((pos % (1/pulses)) * pulses) == 0 ? 
+                ((pos * pulses * 2) - Math.floor(pos * pulses * 2)) : 
+            1 - ((pos * pulses * 2) - Math.floor(pos * pulses * 2))
+     );
 }
 Effect.Transitions.none = function(pos) {
   return 0;
@@ -929,10 +933,10 @@ Effect.Pulsate = function(element) {
   var options    = arguments[1] || {};
   var oldOpacity = element.getInlineOpacity();
   var transition = options.transition || Effect.Transitions.sinoidal;
-  var reverser   = function(pos){ return transition(1-Effect.Transitions.pulse(pos)) };
+  var reverser   = function(pos){ return transition(1-Effect.Transitions.pulse(pos, options.pulses)) };
   reverser.bind(transition);
   return new Effect.Opacity(element, 
-    Object.extend(Object.extend({  duration: 3.0, from: 0,
+    Object.extend(Object.extend({  duration: 2.0, from: 0,
       afterFinishInternal: function(effect) { effect.element.setStyle({opacity: oldOpacity}); }
     }, options), {transition: reverser}));
 }

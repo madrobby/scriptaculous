@@ -1,3 +1,7 @@
+* Add a pulses parameter to Effect.Pulsate to control the amount of pulses, fixes #6245 [leeo]
+
+    For example, Effect.Pulsate('d8', {pulses: 2}) would pulsate twice. If the option is not given, it defaults to five pulses.
+
 * Fix an issue with clicking on a slider span resulting in an exception, fixes #4707 [thx sergeykojin]
 
 * Fix an issue with Draggables when no options are supplied, fixes #6045 [thx tdd]
