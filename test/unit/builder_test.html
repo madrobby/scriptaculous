@@ -188,6 +188,16 @@
       
       $('result').appendChild(element);
       assertEqual('<div id="ghosttrain"><div style="font-size: 11px; font-weight: bold;"><h1>ghost train</h1>testtext234<ul><li onclick="alert(\'test\')">click me</li></ul></div></div>', $('result').innerHTML.toLowerCase()); 
+    }},
+    
+    testBuilderBuild: function() { with(this) {
+      ['<span>this is <b>neat!</b></span>',' \n<span>this is <b>neat!</b></span>\n '].each(
+        function(html){
+          var node = Builder.build(html);
+          assertEqual('SPAN', node.tagName.toUpperCase());
+          assertEqual('this is <b>neat!</b>',
+            node.innerHTML.toLowerCase());
+        });
     }}
 
   });
