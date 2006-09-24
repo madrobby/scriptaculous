@@ -1,3 +1,7 @@
+* Do some refactoring to make use of Prototype 1.5 functionalities and save LOC
+
+* Fix an possible crash of IE on Effect.SlideUp, fixes #3192 [thx nel]
+
 * Add Builder.build() to create nodes from strings containing HTML, [DHH]
 
     var node = Builder.build("<p>this is <b>neat!</b></p>");
