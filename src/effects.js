@@ -175,13 +175,13 @@ Effect.Transitions = {
   wobble: function(pos) {
     return (-Math.cos(pos*Math.PI*(9*pos))/2) + 0.5;
   },
-  pulse = function(pos, pulses) { 
-     pulses = pulses || 5; 
-     return (
-          Math.round((pos % (1/pulses)) * pulses) == 0 ? 
-                  ((pos * pulses * 2) - Math.floor(pos * pulses * 2)) : 
-              1 - ((pos * pulses * 2) - Math.floor(pos * pulses * 2))
-       );
+  pulse: function(pos, pulses) { 
+    pulses = pulses || 5; 
+    return (
+      Math.round((pos % (1/pulses)) * pulses) == 0 ? 
+            ((pos * pulses * 2) - Math.floor(pos * pulses * 2)) : 
+        1 - ((pos * pulses * 2) - Math.floor(pos * pulses * 2))
+      );
   },
   none: function(pos) {
     return 0;
