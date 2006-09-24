@@ -98,6 +98,11 @@ var Builder = {
   _isStringOrNumber: function(param) {
     return(typeof param=='string' || typeof param=='number');
   },
+  build: function(html) {
+    var element = this.node('div');
+    $(element).update(html.strip());
+    return element.childNodes[0];
+  },
   dump: function(scope) { 
     if(typeof scope != 'object' && typeof scope != 'function') scope = window; //global scope 
   
