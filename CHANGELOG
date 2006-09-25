@@ -1,3 +1,9 @@
+* Add new special core effect Effect.Event for one-shot events that follow timelines defined by effect queues
+
+    new Effect.Event({ afterFinish:function(){
+      // do some code here
+    }, position: 'end' });
+
 * Do some refactoring to make use of Prototype 1.5 functionalities and save LOC
 
 * Fix an possible crash of IE on Effect.SlideUp, fixes #3192 [thx nel]

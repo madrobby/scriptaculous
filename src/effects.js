@@ -352,6 +352,17 @@ Object.extend(Object.extend(Effect.Parallel.prototype, Effect.Base.prototype), {
   }
 });
 
+Effect.Event = Class.create();
+Object.extend(Object.extend(Effect.Event.prototype, Effect.Base.prototype), {
+  initialize: function() {
+    var options = Object.extend({
+      duration: 0
+    }, arguments[0] || {});
+    this.start(options);
+  },
+  update: Prototype.emptyFunction
+});
+
 Effect.Opacity = Class.create();
 Object.extend(Object.extend(Effect.Opacity.prototype, Effect.Base.prototype), {
   initialize: function(element) {

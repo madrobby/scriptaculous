@@ -82,6 +82,14 @@
       });
     }},
     
+    testEvent: function() { with(this) {
+      tmp = 0;
+      new Effect.Event({ afterFinish:function(){ tmp++ }, position:'end'});
+      wait(100, function() {
+        assertEqual(1, tmp);
+      });
+    }},
+    
     testInspect: function() { with(this) {
       var e1 = new Effect.Opacity('sandbox',{from:1.0,to:0.5,duration:0.5});
       assertEqual(0, e1.inspect().indexOf('#<Effect:'));
