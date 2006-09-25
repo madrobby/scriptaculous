@@ -231,6 +231,7 @@
     // test if all combined effects correctly initialize themselves
     testCombinedEffectsInitialize: function() { with(this) {
       COMBINED_EFFECTS.each(function(fx){
+        info('Effect.'+fx);
         $('sandbox').innerHTML = "";
         $('sandbox').appendChild(
           Builder.node('div',{id:'test_element'},

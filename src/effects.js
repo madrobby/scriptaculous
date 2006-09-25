@@ -749,11 +749,11 @@ Effect.SlideUp = function(element) {
       effect.element.makePositioned();
       effect.element.down().makePositioned();
       if(window.opera) effect.element.setStyle({top: ''});
-      effect.element.makeClipping().show(); 
+      effect.element.makeClipping().show();
     },  
     afterUpdateInternal: function(effect) {
       effect.element.down().setStyle({bottom:
-        (effect.dims[0] - effect.element.clientHeight) + 'px' }); 
+        (effect.dims[0] - effect.element.clientHeight) + 'px' });
     },
     afterFinishInternal: function(effect) {
       effect.element.hide().undoClipping().undoPositioned().setStyle({bottom: oldInnerBottom});
