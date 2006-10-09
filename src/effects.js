@@ -4,7 +4,8 @@
 //  Mark Pilgrim (http://diveintomark.org/)
 //  Martin Bialasinki
 // 
-// See scriptaculous.js for full license.  
+// script.aculo.us is freely distributable under the terms of an MIT-style license.
+// For details, see the script.aculo.us web site: http://script.aculo.us/ 
 
 // converts rgb() and #xxx to #xxxxxx format,  
 // returns self (or first argument) if not convertable  

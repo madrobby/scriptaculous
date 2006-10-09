@@ -1,3 +1,5 @@
+* Add rails-trunk update task, clean up references to MIT license
+
 * Add new 'with-last' queue position option to queue effects to occur in parallel with the last effect to start in the queue
 
 * Add new special core effect Effect.Event for one-shot events that follow timelines defined by effect queues

@@ -6,7 +6,8 @@
 //  Rahul Bhargava
 //  Rob Wills
 // 
-// See scriptaculous.js for full license.
+// script.aculo.us is freely distributable under the terms of an MIT-style license.
+// For details, see the script.aculo.us web site: http://script.aculo.us/
 
 // Autocompleter.Base handles all the autocompletion functionality 
 // that's independent of the data source for autocompletion. This

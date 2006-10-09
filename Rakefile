@@ -7,7 +7,10 @@ PKG_BUILD       = ENV['PKG_BUILD'] ? '.' + ENV['PKG_BUILD'] : ''
 PKG_TIMESTAMP   = Time.new.to_s
 PKG_VERSION     = '1.6.4' + PKG_BUILD
 PKG_FILE_NAME   = "#{PKG_NAME}-#{PKG_VERSION}"
-PKG_DESTINATION = ENV["RAILS_PKG_DESTINATION"] || "dist"
+PKG_DESTINATION = ENV["PKG_DESTINATION"] || "dist"
+
+RAILS_RAILTIES   = ENV["RAILS_RAILTIES"] || '../rails-trunk/railties/html/javascripts'
+RAILS_ACTIONVIEW = ENV["RAILS_ACTIONVIEW"] || '../rails-trunk/actionpack/lib/action_view/helpers/javascripts'
 
 desc "Default Task"
 task :default => [ :clean, :fresh_scriptaculous, :package ]
@@ -37,6 +40,12 @@ SRC_FILES = FileList[
   'src/unittest.js',
 ]
 
+RAILS_FILES = FileList[
+  'src/effects.js',
+  'src/dragdrop.js',
+  'src/controls.js'
+]
+
 DIRS = %w( src lib test test/functional test/unit  )
 
 desc "Make a ready-for-packaging distribution dir"
@@ -58,6 +67,14 @@ task :package do
   system %{cd #{PKG_DESTINATION}; tar -czvf #{PKG_FILE_NAME}.tar.gz #{PKG_FILE_NAME}}
   system %{cd #{PKG_DESTINATION}; zip -r #{PKG_FILE_NAME}.zip #{PKG_FILE_NAME}}
   system %{cd #{PKG_DESTINATION}; tar -c #{PKG_FILE_NAME} | bzip2 --best  > #{PKG_FILE_NAME}.tar.bz2 }
+end
+
+desc "Update rails trunk to latest script.aculo.us"
+task :update_rails do
+  RAILS_FILES.each do |file|
+    cp file, File.join(RAILS_RAILTIES, File.basename(file))
+    cp file, File.join(RAILS_ACTIONVIEW, File.basename(file))
+  end
 end
 
 require 'src/javascripttest'
