@@ -85,6 +85,7 @@ Test.Unit.Logger.prototype = {
     this.lastLogLine = document.createElement('tr');
     this.statusCell = document.createElement('td');
     this.nameCell = document.createElement('td');
+    this.nameCell.className = "nameCell";
     this.nameCell.appendChild(document.createTextNode(testName));
     this.messageCell = document.createElement('td');
     this.lastLogLine.appendChild(this.statusCell);
@@ -97,6 +98,7 @@ Test.Unit.Logger.prototype = {
     this.lastLogLine.className = status;
     this.statusCell.innerHTML = status;
     this.messageCell.innerHTML = this._toHTML(summary);
+    this.addLinksToResults();
   },
   message: function(message) {
     if (!this.log) return;
@@ -118,6 +120,16 @@ Test.Unit.Logger.prototype = {
   },
   _toHTML: function(txt) {
     return txt.escapeHTML().replace(/\n/g,"<br/>");
+  },
+  addLinksToResults: function(){ 
+    $$("tr.failed .nameCell").each( function(td){ // todo: limit to children of this.log
+      td.title = "Run only this test"
+      Event.observe(td, 'click', function(){ window.location.search = "?tests=" + td.innerHTML;});
+    });
+    $$("tr.passed .nameCell").each( function(td){ // todo: limit to children of this.log
+      td.title = "Run all tests"
+      Event.observe(td, 'click', function(){ window.location.search = "";});
+    });
   }
 }
 
@@ -128,6 +140,7 @@ Test.Unit.Runner.prototype = {
       testLog: 'testlog'
     }, arguments[1] || {});
     this.options.resultsURL = this.parseResultsURLQueryParameter();
+    this.options.tests      = this.parseTestsQueryParameter();
     if (this.options.testLog) {
       this.options.testLog = $(this.options.testLog) || null;
     }
@@ -160,6 +173,11 @@ Test.Unit.Runner.prototype = {
   },
   parseResultsURLQueryParameter: function() {
     return window.location.search.parseQuery()["resultsURL"];
+  },
+  parseTestsQueryParameter: function(){
+    if (window.location.search.parseQuery()["tests"]){
+        return window.location.search.parseQuery()["tests"].split(',');
+    };
   },
   // Returns:
   //  "ERROR" if there was an error,

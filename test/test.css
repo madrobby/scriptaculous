@@ -38,3 +38,7 @@ body {
 #logtable .failed, #logtable .error {
   background-color: #fcc;
 }
+
+#logtable .nameCell {
+  cursor: pointer;
+}

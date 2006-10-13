@@ -1,3 +1,7 @@
+*SVN*
+
+* Add support to run a specific failing unit test by clicking on the corresponding test result, fixes #6290 [leeo]
+
 * Add modifier key support to Event.simulateMouse, fixes #6391 [savetheclocktower]
 
 * Add rails-trunk update task, clean up references to MIT license
