@@ -1,3 +1,5 @@
+* Add modifier key support to Event.simulateMouse, fixes #6391 [savetheclocktower]
+
 * Add rails-trunk update task, clean up references to MIT license
 
 * Add new 'with-last' queue position option to queue effects to occur in parallel with the last effect to start in the queue

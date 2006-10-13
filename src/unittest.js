@@ -10,12 +10,16 @@ Event.simulateMouse = function(element, eventName) {
   var options = Object.extend({
     pointerX: 0,
     pointerY: 0,
-    buttons: 0
+    buttons:  0,
+    ctrlKey:  false,
+    altKey:   false,
+    shiftKey: false,
+    metaKey:  false
   }, arguments[2] || {});
   var oEvent = document.createEvent("MouseEvents");
   oEvent.initMouseEvent(eventName, true, true, document.defaultView, 
     options.buttons, options.pointerX, options.pointerY, options.pointerX, options.pointerY, 
-    false, false, false, false, 0, $(element));
+    options.ctrlKey, options.altKey, options.shiftKey, options.metaKey, 0, $(element));
   
   if(this.mark) Element.remove(this.mark);
   this.mark = document.createElement('div');
