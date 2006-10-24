@@ -80,6 +80,13 @@
       assertEqual(10, element.childNodes.length);
             
     }},
+
+    testBuilderClassAndFor: function() { with(this) {
+      var elt = Builder.node('div', { className: 'demoClass' });
+      assertEqual('demoClass', elt.className);
+      var elt = Builder.node('label', { htmlFor: 'mydiv' });
+      assertEqual('mydiv', elt.htmlFor);
+    }},
     
     testBuilderAllXHTMLTags: function() { with(this) {
       var XHTML_TAGS = [

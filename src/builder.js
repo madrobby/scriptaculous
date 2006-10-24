@@ -76,10 +76,16 @@ var Builder = {
   _text: function(text) {
      return document.createTextNode(text);
   },
+
+  ATTR_MAP: {
+    'className': 'class',
+    'htmlFor': 'for'
+  },
+
   _attributes: function(attributes) {
     var attrs = [];
     for(attribute in attributes)
-      attrs.push((attribute=='className' ? 'class' : attribute) +
+      attrs.push((attribute in this.ATTR_MAP ? this.ATTR_MAP[attribute] : attribute) +
           '="' + attributes[attribute].toString().escapeHTML() + '"');
     return attrs.join(" ");
   },

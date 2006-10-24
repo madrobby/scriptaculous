@@ -1,5 +1,9 @@
 *SVN*
 
+* Support the HTML 'for' attribute in Builder by using 'htmlFor', fixes #6472 [gjones, tdd]
+
+    var node = Builder.node('label', { htmlFor: 'myinput' });
+
 * Add support to run a specific failing unit test by clicking on the corresponding test result, fixes #6290 [leeo]
 
 * Add modifier key support to Event.simulateMouse, fixes #6391 [savetheclocktower]
