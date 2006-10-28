@@ -23,38 +23,6 @@
 // <![CDATA[
 
   new Test.Unit.Runner({
-
-    testStringCamelize: function() { with(this) {
-      assertEqual('className','class-name'.camelize());
-      assertEqual('className','class-name'.camelize());
-      assertEqual('classNameTest','class-name-test'.camelize());
-      assertEqual('classNameTest','className-test'.camelize());
-      assertEqual('classNameTest','class-nameTest'.camelize());
-      assertEqual('class','class'.camelize());
-    }},
-
-    testStringStripTags: function() { with(this) {
-      assertEqual('ablubbcdef!!!!g','a<a href="blah">blub</a>b<span><div></div></span>cdef<strong>!!!!</strong>g'.stripTags());
-    }},
-    
-    testStringEscapeHTML: function() { with(this) {
-      assertEqual('a&lt;a href="blah"&gt;blub&lt;/a&gt;b&lt;span&gt;&lt;div&gt;&lt;/div&gt;&lt;/span&gt;cdef&lt;strong&gt;!!!!&lt;/strong&gt;g',
-                  'a<a href="blah">blub</a>b<span><div></div></span>cdef<strong>!!!!</strong>g'.escapeHTML());
-    }},
-    
-    testStringUnescapeHTML: function() { with(this) {
-      assertEqual('a<a href="blah">blub</a>b<span><div></div></span>cdef<strong>!!!!</strong>g',
-        'a&lt;a href="blah"&gt;blub&lt;/a&gt;b&lt;span&gt;&lt;div&gt;&lt;/div&gt;&lt;/span&gt;cdef&lt;strong&gt;!!!!&lt;/strong&gt;g'.unescapeHTML());
-    }},
-    
-    testParseQueryString: function() { with(this) {
-      assertEqual(null, "".parseQuery()['a']);
-      assertEqual(null, "?".parseQuery()['a']);
-      assertEqual('b', "?a=b".parseQuery()['a']);
-      assertEqual('b', "a=b".parseQuery()['a']);
-      assertEqual('b', "?a=b&c=d".parseQuery()['a']);
-      assertEqual('d', "?a=b&c=d".parseQuery()['c']);
-    }},
     
     testStringParseColor: function() { with(this) {
       assertEqual('#000000', "#000000".parseColor());
