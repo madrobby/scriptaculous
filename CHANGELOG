@@ -1,4 +1,6 @@
-*SVN*
+*V1.6.5* (November 8, 2006)
+
+* Update to Prototype 1.5.0_rc1 revision [5462]
 
 * Support the HTML 'for' attribute in Builder by using 'htmlFor', fixes #6472 [gjones, tdd]
 
