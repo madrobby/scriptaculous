@@ -83,7 +83,17 @@
       // color parsing galore
       ['#fff','#ffffff','rgb(255,255,255)','rgb(255, 255, 255)'].each(function(color){
         assertEqual('#ffffff', ('color:'+color).parseStyle().color.value);
+        assertEqual('color', ('color:'+color).parseStyle().color.unit);
       });
+      
+      assertEqual('#80d980',
+        'color: #80d980; background: #208020'.parseStyle().color.value)
+      
+      // colors with whitespace
+      assertEqual('#123456', 
+        'color: #123456; background: #abcdef'.parseStyle().color.value);
+      assertEqual('#abcdef', 
+        'color: #123456; background: #abcdef'.parseStyle()['background-color'].value);
       
       expected = "#<Hash:{'value': 22, 'unit': 'pt'}>";
       assertInspect(expected, "border:22pt".parseStyle()['border-bottom-width']);

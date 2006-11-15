@@ -92,6 +92,18 @@ new Test.Unit.Runner({
     assertEqual(3, generatedEffect.effects.length);
     
     wait(700, function(){
+      // have a look at the generated color transforms for the 3rd found element
+      // which is the "blah" div
+      assertEqual('blah', generatedEffect.effects[2].element.id);
+      assertEnumEqual([255,255,255], 
+        generatedEffect.effects[2].transforms.detect( function(transform){
+          return (transform.style == 'background-color')
+        }).originalValue);
+      assertEnumEqual([153,85,68], 
+        generatedEffect.effects[2].transforms.detect( function(transform){
+          return (transform.style == 'background-color')
+      }).targetValue);
+      
       assertEqual('20px', $$('div.morphing').first().getStyle('font-size'));
       assertEqual('20px', $$('div.morphing').last().getStyle('font-size'));
       assertEqual('30px', $('blah').getStyle('font-size'));
@@ -122,8 +134,8 @@ new Test.Unit.Runner({
           
           new Effect.Transform([
             { 'blah': 'color: #80d980; background: #208020' }
-          ],{ duration: 2.0 }).play();
-          wait(2100, function(){
+          ],{ duration: 1.1 }).play();
+          wait(1500, function(){
             assertEqual('#80d980', $('blah').getStyle('color').parseColor());
             assertEqual('#208020', $('blah').getStyle('background-color').parseColor());
           });

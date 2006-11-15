@@ -10,7 +10,7 @@
 // converts rgb() and #xxx to #xxxxxx format,  
 // returns self (or first argument) if not convertable  
 String.prototype.parseColor = function() {  
-  var color = '#';  
+  var color = '#';
   if(this.slice(0,4) == 'rgb(') {  
     var cols = this.slice(4,this.length-1).split(',');  
     var i=0; do { color += parseInt(cols[i]).toColorPart() } while (++i<3);  
@@ -951,24 +951,31 @@ Object.extend(Object.extend(Effect.Morph.prototype, Effect.Base.prototype), {
   },
   setup: function(){
     function parseColor(color){
+      if(!color || ['rgba(0, 0, 0, 0)','transparent'].include(color)) color = '#ffffff';
+      color = color.parseColor();
       return $R(0,2).map(function(i){
-        return parseInt( ((!color || ['rgba(0, 0, 0, 0)','transparent'].include(color)) ? 
-          '#ffffff' : color).parseColor().slice(i*2+1,i*2+3), 16 ) 
+        return parseInt( color.slice(i*2+1,i*2+3), 16 ) 
       });
     }
-    this.transforms = this.options.style.split(';').map(function(style){      
-      return style.parseStyle().map(function(property){
-        var originalValue = this.element.getStyle(property[0]);
-        return $H({ 
-          style: property[0], 
-          originalValue: property[1].unit=='color' ? 
-            parseColor(originalValue) : parseFloat(originalValue || 0), 
-          targetValue: property[1].unit=='color' ? 
-            parseColor(property[1].value) : property[1].value,
-          unit: property[1].unit
-        });
-      }.bind(this));
-    }.bind(this)).flatten();
+    this.transforms = this.options.style.parseStyle().map(function(property){
+      var originalValue = this.element.getStyle(property[0]);
+      return $H({ 
+        style: property[0], 
+        originalValue: property[1].unit=='color' ? 
+          parseColor(originalValue) : parseFloat(originalValue || 0), 
+        targetValue: property[1].unit=='color' ? 
+          parseColor(property[1].value) : property[1].value,
+        unit: property[1].unit
+      });
+    }.bind(this)).reject(function(transform){
+      return (
+        (transform.originalValue == transform.targetValue) ||
+        (
+          transform.unit != 'color' &&
+          (isNaN(transform.originalValue) || isNaN(transform.targetValue))
+        )
+      )
+    });
   },
   update: function(position) {
     var style = $H(), value = null;
@@ -977,8 +984,8 @@ Object.extend(Object.extend(Effect.Morph.prototype, Effect.Base.prototype), {
         $R(0,2).inject('#',function(m,v,i){
           return m+(Math.round(transform.originalValue[i]+
             (transform.targetValue[i] - transform.originalValue[i])*position)).toColorPart() }) : 
-        value = transform.originalValue + Math.round(
-            ((transform.targetValue - transform.originalValue) * position) * 1000)/1000 + transform.unit;
+        transform.originalValue + Math.round(
+          ((transform.targetValue - transform.originalValue) * position) * 1000)/1000 + transform.unit;
       style[transform.style] = value;
     });
     this.element.setStyle(style);
@@ -1014,7 +1021,7 @@ Object.extend(Effect.Transform.prototype, {
   }
 });
 
-String.CSS_PROPERTIES = ['azimuth', 'backgroundAttachment', 'backgroundColor', 'backgroundImage', 
+Element.CSS_PROPERTIES = ['azimuth', 'backgroundAttachment', 'backgroundColor', 'backgroundImage', 
   'backgroundPosition', 'backgroundRepeat', 'borderBottomColor', 'borderBottomStyle', 
   'borderBottomWidth', 'borderCollapse', 'borderLeftColor', 'borderLeftStyle', 'borderLeftWidth',
   'borderRightColor', 'borderRightStyle', 'borderRightWidth', 'borderSpacing', 'borderTopColor',
@@ -1031,30 +1038,29 @@ String.CSS_PROPERTIES = ['azimuth', 'backgroundAttachment', 'backgroundColor', '
   'tableLayout', 'textAlign', 'textDecoration', 'textIndent', 'textShadow', 'textTransform', 'top',
   'unicodeBidi', 'verticalAlign', 'visibility', 'voiceFamily', 'volume', 'whiteSpace', 'widows',
   'width', 'wordSpacing', 'zIndex'];
+  
+Element.CSS_LENGTH = /^(([\+\-]?[0-9\.]+)(em|ex|px|in|cm|mm|pt|pc|\%))|0$/;
 
 String.prototype.parseStyle = function(){
   var element = Element.extend(document.createElement('div'));
   element.innerHTML = '<div style="' + this + '"></div>';
   var style = element.down().style, styleRules = $H();
   
-  String.CSS_PROPERTIES.each(function(property){
+  Element.CSS_PROPERTIES.each(function(property){
    if(style[property]) styleRules[property] = style[property]; 
   });
   
-  var CSS_LENGTH = /^(([\+\-]?[0-9\.]+)(em|ex|px|in|cm|mm|pt|pc|\%))|0$/;
   var result = $H();
   
   styleRules.each(function(pair){
     var property = pair[0], value = pair[1], unit = null;
     
-    if(CSS_LENGTH.test(value)) 
-      var components = value.match(/([\+\-]?[0-9\.]+)(.*)/),
+    if(value.parseColor('#zzzzzz') != '#zzzzzz') {
+      value = value.parseColor();
+      unit  = 'color';
+    } else if(Element.CSS_LENGTH.test(value)) 
+      var components = value.match(/^([\+\-]?[0-9\.]+)(.*)$/),
           value = parseFloat(components[1]), unit = (components.length == 3) ? components[2] : null;
-    else
-      if(value.parseColor('#zzzzzz') != '#zzzzzz') {
-        value = value.parseColor();
-        unit  = 'color';
-      }
     
     result[property.underscore().dasherize()] = $H({ value:value, unit:unit });
   }.bind(this));
