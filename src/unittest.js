@@ -293,6 +293,13 @@ Test.Unit.Assertions.prototype = {
         '", actual "' + Test.Unit.inspect(actual) + '"'); }
     catch(e) { this.error(e); }
   },
+  assertInspect: function(expected, actual) {
+    var message = arguments[2] || "assertInspect";
+    try { (expected == actual.inspect()) ? this.pass() :
+      this.fail(message + ': expected "' + Test.Unit.inspect(expected) + 
+        '", actual "' + Test.Unit.inspect(actual) + '"'); }
+    catch(e) { this.error(e); }
+  },
   assertEnumEqual: function(expected, actual) {
     var message = arguments[2] || "assertEnumEqual";
     try { $A(expected).length == $A(actual).length && 
@@ -403,7 +410,7 @@ Test.Unit.Assertions.prototype = {
       method();
       this.fail(message + ": exception expected but none was raised"); }
     catch(e) {
-      (e.name==exceptionName) ? this.pass() : this.error(e); 
+      ((exceptionName == null) || (e.name==exceptionName)) ? this.pass() : this.error(e); 
     }
   },
   assertElementsMatch: function() {

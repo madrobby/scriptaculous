@@ -1,4 +1,21 @@
-* Update to Prototype 1.5.0_rc2
+* Add Effect.Transform that generates parallel executing Effect.Morph sets
+    Example:
+      // set up transformation
+      var transformation = new Effect.Transform([
+        { 'div.morphing': 'font-size:20px;padding-left:40em' },
+        { 'blah'        : 'width:480px;border-width:10px;border-right-width:20px;margin:200px;margin-bottom:-20px;font-size:30px' }
+      ],{ duration: 0.5 });
+      // play transformation (can be called more than once)
+      transformation.play();
+
+* Add Effect.Morph core effect that morphs to a given CSS style rule. Effect.Morph does take orginal styles given by CSS style rules or the style attribute into consideration when calculating the transforms. It works with all length and color based CSS properties, including margins, paddings, borders, opacity and text/background colors.
+    Example:
+      new Effect.Morph('mydiv',{
+        style: 'font:3em/4em Verdana;color:#f00;border-width:2em',
+        duration: 2.0
+      });
+
+* Update to Prototype 1.5.0_rc2 revision [5527]
 
 *V1.6.5* (November 8, 2006)
 
