@@ -952,7 +952,8 @@ Object.extend(Object.extend(Effect.Morph.prototype, Effect.Base.prototype), {
   setup: function(){
     function parseColor(color){
       return $R(0,2).map(function(i){
-        return parseInt( ((!color || color=='transparent') ? '#ffffff' : color).parseColor().slice(i*2+1,i*2+3), 16 ) 
+        return parseInt( ((!color || ['rgba(0, 0, 0, 0)','transparent'].include(color)) ? 
+          '#ffffff' : color).parseColor().slice(i*2+1,i*2+3), 16 ) 
       });
     }
     this.transforms = this.options.style.split(';').map(function(style){      
@@ -1041,7 +1042,6 @@ String.prototype.parseStyle = function(){
   });
   
   var CSS_LENGTH = /^(([\+\-]?[0-9\.]+)(em|ex|px|in|cm|mm|pt|pc|\%))|0$/;
-  var CSS_COLOR = /^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6}|rgb(\d,\d,\d))$/; 
   var result = $H();
   
   styleRules.each(function(pair){
