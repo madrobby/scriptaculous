@@ -11,7 +11,7 @@
 * Add Effect.Morph core effect that morphs to a given CSS style rule. Effect.Morph does take orginal styles given by CSS style rules or the style attribute into consideration when calculating the transforms. It works with all length and color based CSS properties, including margins, paddings, borders, opacity and text/background colors.
     Example:
       new Effect.Morph('mydiv',{
-        style: 'font:3em/4em Verdana;color:#f00;border-width:2em',
+        style: 'font-size:3em;color:#f00;border-width:2em',
         duration: 2.0
       });
 
