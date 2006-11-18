@@ -33,10 +33,11 @@ new Ajax.InPlaceEditor($('tobeeditedblur'), '_ajax_inplaceeditor_result.html', {
 </script>
 
 
-<span id="tobeedited2">With external edit control</span> &nbsp; <a id="tobeedited2EditControl" href="#">edit</a>
+<span id="tobeedited2">With external edit control and custom parameter name</span> &nbsp; <a id="tobeedited2EditControl" href="#">edit</a>
 <script>
 new Ajax.InPlaceEditor($('tobeedited2'), '_ajax_inplaceeditor_result.html', {
     externalControl: 'tobeedited2EditControl',
+    paramName: 'foobar',
     ajaxOptions: {method: 'get'} //override so we can use a static for the result
     });
 </script>

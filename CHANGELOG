@@ -1,3 +1,5 @@
+* Add a paramName option to the inplace editor for overriding the default parameter name of "value"
+
 * Add Effect.Transform that generates parallel executing Effect.Morph sets
     Example:
       // set up transformation
