@@ -1,3 +1,7 @@
+*SVN*
+
+* Update to Prototype 1.5.0_rc2 revision [5580]
+
 * Add a paramName option to the inplace editor for overriding the default parameter name of "value"
 
 * Add Effect.Transform that generates parallel executing Effect.Morph sets
@@ -16,8 +20,6 @@
         style: 'font-size:3em;color:#f00;border-width:2em',
         duration: 2.0
       });
-
-* Update to Prototype 1.5.0_rc2 revision [5527]
 
 *V1.6.5* (November 8, 2006)
 

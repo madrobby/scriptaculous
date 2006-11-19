@@ -22,7 +22,7 @@
 // For details, see the script.aculo.us web site: http://script.aculo.us/
 
 var Scriptaculous = {
-  Version: '1.6.5',
+  Version: '1.7.0_beta1',
   require: function(libraryName) {
     // inserting via DOM fails in Safari 2.0, so brute force approach
     document.write('<script type="text/javascript" src="'+libraryName+'"></script>');
