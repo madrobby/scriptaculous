@@ -9,8 +9,8 @@ PKG_VERSION     = '1.6.5' + PKG_BUILD
 PKG_FILE_NAME   = "#{PKG_NAME}-#{PKG_VERSION}"
 PKG_DESTINATION = ENV["PKG_DESTINATION"] || "dist"
 
-RAILS_RAILTIES   = ENV["RAILS_RAILTIES"] || '../rails-trunk/railties/html/javascripts'
-RAILS_ACTIONVIEW = ENV["RAILS_ACTIONVIEW"] || '../rails-trunk/actionpack/lib/action_view/helpers/javascripts'
+RAILS_RAILTIES   = (ENV["RAILS_ROOT"] || '../rails-trunk') + '/railties/html/javascripts'
+RAILS_ACTIONVIEW = (ENV["RAILS_ROOT"] || '../rails-trunk') + '/actionpack/lib/action_view/helpers/javascripts'
 
 desc "Default Task"
 task :default => [ :clean, :fresh_scriptaculous, :package ]
