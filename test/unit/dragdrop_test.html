@@ -62,22 +62,22 @@
     }},
     
     testAutoPositioning: function() { with(this) {
-      assert('static', Element.getStyle('div_test','position'));
+      assertEqual('static', Element.getStyle('div_test','position'));
       new Draggable('div_test');
       new Draggable('div_absolute_test');
       new Draggable('div_absolute_inline_test');
-      assert('relative', Element.getStyle('div_test','position'));
-      assert('absolute', Element.getStyle('div_absolute_test','position'));
-      assert('absolute', Element.getStyle('div_absolute_inline_test','position'));
+      assertEqual('relative', Element.getStyle('div_test','position'));
+      assertEqual('absolute', Element.getStyle('div_absolute_test','position'));
+      assertEqual('absolute', Element.getStyle('div_absolute_inline_test','position'));
     }},
     
     testDroppbalesBasics: function() { with(this) {
       assertEqual(0, Droppables.drops.length);
-      assert('static', Element.getStyle('droppable_test','position'));
+      assertEqual('static', Element.getStyle('droppable_test','position'));
       
       Droppables.add('droppable_test');
       assertEqual(1, Droppables.drops.length);
-      assert('relative', Element.getStyle('droppable_test','position'));
+      assertEqual('relative', Element.getStyle('droppable_test','position'));
       
       Droppables.remove('droppable_test');
       assertEqual(0, Droppables.drops.length);
@@ -96,7 +96,7 @@
       // Droppable containers should be cached
       Droppables.add('droppable_test', {
         containment:'droppable_container' });
-      assertEqual(1,  Droppables.drops[0]._containers.length);
+      assertEqual(1, Droppables.drops[0]._containers.length);
       assertEqual($('droppable_container'), Droppables.drops[0]._containers[0]);
       assert(Droppables.isContained($('d1'), Droppables.drops[0]));
       assert(Droppables.isContained($('d2'), Droppables.drops[0]));
