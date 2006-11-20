@@ -1,5 +1,12 @@
 *SVN*
 
+* Add Element.morph() and Element.Methods.morph() as a shortcut to Effect.Morph
+    Example:
+      // basic Effect.Morph
+      $('error_message').morph('color:#f00;font-size:17px');
+      // fade out after a while
+      $('error_message').display().morph('font-size:17px').morph('opacity:0',{delay:4});
+
 * Update to Prototype 1.5.0_rc2 revision [5580]
 
 * Add a paramName option to the inplace editor for overriding the default parameter name of "value"

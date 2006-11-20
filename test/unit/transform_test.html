@@ -32,6 +32,8 @@
 <div class="morphing">You know</div>
 <div id="blah" style="border:1px solid black;width:100px">Whoo-hoo!</div>
 
+<div id="error_message">ERROR MESSAGE</div>
+
 <ul class="error-list" id="error_test_ul">
   <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit,</li>
   <li>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
@@ -46,6 +48,20 @@
 <script type="text/javascript" language="javascript" charset="utf-8">
 
 new Test.Unit.Runner({
+  
+  testElementMorph: function() { with(this) {
+    $('error_test_ul').morph('font-size:40px',{duration:0.5}).setStyle({marginRight:'17px'});
+    wait(600,function(){
+      assertEqual('17px', $('error_test_ul').getStyle('margin-right'));
+      assertEqual('40px', $('error_test_ul').getStyle('font-size'));
+      
+      // chaining morphs
+      $('error_message').morph('font-size:17px').morph('opacity:0',{delay:3});
+      wait(4100,function(){ // 3000ms delay + 1000ms default duration
+        assertEqual(0, $('error_message').getOpacity());
+      });
+    });
+  }},
   
   testTransformBySelector: function() { with(this) {
     new Effect.Transform([
