@@ -5,7 +5,7 @@
       // basic Effect.Morph
       $('error_message').morph('color:#f00;font-size:17px');
       // fade out after a while
-      $('error_message').display().morph('font-size:17px').morph('opacity:0',{delay:4});
+      $('error_message').show().morph('font-size:17px').morph('opacity:0',{delay:4});
 
 * Update to Prototype 1.5.0_rc2 revision [5580]
 
