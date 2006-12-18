@@ -17,6 +17,13 @@
       background: #fed;
       padding: 1em;
       width: 400px;
+    } 
+    .final {
+      color: #fff;
+      font-style: italic;
+      font-size: 20px;
+      background: #000;
+      opacity: 0.5;
     }
   </style>
 </head>
@@ -33,6 +40,8 @@
 <div id="blah" style="border:1px solid black;width:100px">Whoo-hoo!</div>
 
 <div id="error_message">ERROR MESSAGE</div>
+<div id="error_message_2">SECOND ERROR MESSAGE</div>
+<div id="error_message_3" style="border:1px solid red; width:100px; color: #f00">THIRD ERROR MESSAGE</div>
 
 <ul class="error-list" id="error_test_ul">
   <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit,</li>
@@ -50,11 +59,25 @@
 new Test.Unit.Runner({
   
   testElementMorph: function() { with(this) {
-    $('error_test_ul').morph('font-size:40px',{duration:0.5}).setStyle({marginRight:'17px'});
+    $('error_test_ul').morph('font-size:40px', {duration: 0.5}).setStyle({marginRight:'17px'});
+    $('error_message_2').morph({
+      fontSize:         '20px',
+      color:            '#f00',
+      backgroundColor:  '#ffffff'
+    },
+    {
+      duration:0.5
+    });
+    $('error_message_3').morph('final', {duration:0.5});
     wait(600,function(){
       assertEqual('17px', $('error_test_ul').getStyle('margin-right'));
       assertEqual('40px', $('error_test_ul').getStyle('font-size'));
-      
+      assertEqual('#ffffff', $('error_message_2').getStyle('background-color').parseColor());
+      assertEqual('20px', $('error_message_2').getStyle('font-size'));
+      assertEqual('italic', $('error_message_3').getStyle('font-style'));
+      assertEqual('20px', $('error_message_3').getStyle('font-size'));
+      assertEqual(.5, $('error_message_3').getStyle('opacity'));
+      assertEqual('', $('error_message_3').style.fontSize);
       // chaining morphs
       $('error_message').morph('font-size:17px').morph('opacity:0',{delay:3});
       wait(4100,function(){ // 3000ms delay + 1000ms default duration

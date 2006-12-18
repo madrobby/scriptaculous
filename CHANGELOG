@@ -1,5 +1,15 @@
 *SVN*
 
+* Add hash and CSS className support to Effect.Morph, fixes #6674 [Tobie]
+    Examples:
+      $(element).morph('myClass')
+      // will morph to all the properties specified
+      // in .className (in your external stylesheet).
+      // All properties which cannot be morphed (such as font-style)
+      // will be applied AfterFinish
+      $(element).morph('font-size: 10px')  // or
+      $(element).morph({fontSize: '10px'}) // will morph the font-size to 10px
+
 * Add Element.morph() and Element.Methods.morph() as a shortcut to Effect.Morph
     Example:
       // basic Effect.Morph
