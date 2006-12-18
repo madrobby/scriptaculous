@@ -268,13 +268,17 @@
     }},
     
     testEffectPosition: function() { with(this) {
-      var testeffect = new Effect.Opacity('sandbox',{ 
-        afterUpdate: function(effect) { $('sandbox').innerHTML = effect.position; },
+      var testeffect = new Effect.Opacity('sandbox',{
+        afterSetup:  function(effect) { effect.frames = 0; },
+        afterUpdate: function(effect) { effect.frames++; $('sandbox').update(effect.position); },
         duration: 0.5, from: 1.0, to: 0.5
       });
       assertNull(testeffect.position);
       assertEqual('idle', testeffect.state);
       wait(1000, function() {
+        info('Rendered ' + testeffect.frames + ' frames in .5 seconds ' +
+          '(~' + (testeffect.frames/0.5) + 'fps of a possible 60fps, ' +
+          'note that this can exceed 60fps because of additional last frame rendering)');
         assertEqual('0.5', $('sandbox').innerHTML);
         assertEqual(0.5, testeffect.position);
         assertEqual('finished', testeffect.state);

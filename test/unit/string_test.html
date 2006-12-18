@@ -51,62 +51,12 @@
     }},
     
     testStringParseStyle: function() { with(this) {
-      var expected = "#<Hash:{'font-size': #<Hash:{'value': 11, 'unit': 'px'}>}>";
+      var expected = "#<Hash:{'fontSize': '11px'}>";
 
-      // basics
       assertInspect(expected, "font-size:11px".parseStyle());
       assertInspect(expected, "font-SIZE:  11px".parseStyle());
       assertInspect(expected, "font-size:11px  ".parseStyle());
       assertInspect(expected, " Font-size: 11px  ".parseStyle());
-
-      // values
-      assertEqual(-1, "margin: -1px".parseStyle().values().first().value);
-      assertEqual( 0, "margin: 0px".parseStyle().values().first().value);
-      assertEqual( 0, "margin: 0".parseStyle().values().first().value);
-      assertEqual( 1, "margin: 1px".parseStyle().values().first().value);
-
-      // need units on non-zero lengths
-      assertRaise(null, "margin: -1".parseStyle());
-      assertRaise(null, "margin: 1".parseStyle());
-      
-      // CSS units should work
-      ['em','ex','px','in','cm','mm','pt','pc','%'].each(function(unit){
-        assertEqual( unit, ("font-size: 1"+unit).parseStyle().values().first().unit);
-        assertEqual( unit, ("display:none;font-size: 1"+unit).parseStyle().values().last().unit);
-      });
-      
-      // non-CSS units should raise
-      ['apples','pears','monkeys','mx','yz'].each(function(unit){
-        assertRaise(null, ("font-size: 1"+unit).parseStyle());
-      });
-     
-      // color parsing galore
-      ['#fff','#ffffff','rgb(255,255,255)','rgb(255, 255, 255)'].each(function(color){
-        assertEqual('#ffffff', ('color:'+color).parseStyle().color.value);
-        assertEqual('color', ('color:'+color).parseStyle().color.unit);
-      });
-      
-      assertEqual('#80d980',
-        'color: #80d980; background: #208020'.parseStyle().color.value)
-      
-      // colors with whitespace
-      assertEqual('#123456', 
-        'color: #123456; background: #abcdef'.parseStyle().color.value);
-      assertEqual('#abcdef', 
-        'color: #123456; background: #abcdef'.parseStyle()['background-color'].value);
-      
-      expected = "#<Hash:{'value': 22, 'unit': 'pt'}>";
-      assertInspect(expected, "border:22pt".parseStyle()['border-bottom-width']);
-      assertInspect(expected, "border-width:22pt".parseStyle()['border-bottom-width']);
-
-      expected = "#<Hash:{'value': 4.5, 'unit': 'em'}>";
-      assertInspect(expected, "border-bottom-width: 4.5em".parseStyle()['border-bottom-width']);
-      assertInspect(expected, "border-bottom: 4.5em".parseStyle()['border-bottom-width']);
-      assertInspect(expected, " border-bottom-width:4.5em ".parseStyle()['border-bottom-width']);
-      assertInspect(expected, "border:99px solid red;border-width:22pt;border-bottom-width:4.5em".parseStyle()['border-bottom-width']);
-      // test with ; at end
-      assertInspect(expected, "border:99px solid red;border-width:22pt;border-bottom-width:4.5em;".parseStyle()['border-bottom-width']);
-
     }}
 
   });

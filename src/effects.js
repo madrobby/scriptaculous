@@ -48,32 +48,11 @@ Element.setContentZoom = function(element, percent) {
 }
 
 Element.getOpacity = function(element){
-  element = $(element);
-  var opacity;
-  if (opacity = element.getStyle('opacity'))  
-    return parseFloat(opacity);  
-  if (opacity = (element.getStyle('filter') || '').match(/alpha\(opacity=(.*)\)/))  
-    if(opacity[1]) return parseFloat(opacity[1]) / 100;  
-  return 1.0;  
+  return $(element).getStyle('opacity');
 }
 
-Element.setOpacity = function(element, value){  
-  element= $(element);  
-  if (value == 1){
-    element.setStyle({ opacity: 
-      (/Gecko/.test(navigator.userAgent) && !/Konqueror|Safari|KHTML/.test(navigator.userAgent)) ? 
-      0.999999 : 1.0 });
-    if(/MSIE/.test(navigator.userAgent) && !window.opera)  
-      element.setStyle({filter: Element.getStyle(element,'filter').replace(/alpha\([^\)]*\)/gi,'')});  
-  } else {  
-    if(value < 0.00001) value = 0;  
-    element.setStyle({opacity: value});
-    if(/MSIE/.test(navigator.userAgent) && !window.opera)  
-      element.setStyle(
-        { filter: element.getStyle('filter').replace(/alpha\([^\)]*\)/gi,'') +
-            'alpha(opacity='+value*100+')' });  
-  }
-  return element;
+Element.setOpacity = function(element, value){
+  return $(element).setStyle({opacity:value});
 }  
  
 Element.getInlineOpacity = function(element){  
@@ -233,7 +212,7 @@ Object.extend(Object.extend(Effect.ScopedQueue.prototype, Enumerable), {
       this.effects.push(effect);
     
     if(!this.interval) 
-      this.interval = setInterval(this.loop.bind(this), 40);
+      this.interval = setInterval(this.loop.bind(this), 15);
   },
   remove: function(effect) {
     this.effects = this.effects.reject(function(e) { return e==effect });
@@ -264,7 +243,7 @@ Effect.Queue = Effect.Queues.get('global');
 Effect.DefaultOptions = {
   transition: Effect.Transitions.sinoidal,
   duration:   1.0,   // seconds
-  fps:        25.0,  // max. 25fps due to Effect.Queue implementation
+  fps:        60.0,  // max. 60fps due to Effect.Queue implementation
   sync:       false, // true for combining
   from:       0.0,
   to:         1.0,

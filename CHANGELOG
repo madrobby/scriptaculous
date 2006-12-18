@@ -1,4 +1,12 @@
-*SVN*
+*V1.7.0 beta 2* (December 18, 2006)
+
+* Change the default setting for effects to support up to 60fps, if renderable by the browser. Add performance info to effects unit test.
+
+* Change get/setOpacity to use Prototype's new support for cross-browser opacity.
+
+* Update to Prototype 1.5.0_rc2 revision [5741], which fixes some of the reported issues with beta 1 (see Prototype's CHANGELOG for more):
+    * Opera 9, while not officially supported, should work now with Prototype and script.aculo.us
+    * Fixes issue with Safari when using Prototype's Ajax helpers with HTTP authorization
 
 * Add hash and CSS className support to Effect.Morph, fixes #6674 [Tobie]
     Examples:
@@ -9,6 +17,8 @@
       // will be applied AfterFinish
       $(element).morph('font-size: 10px')  // or
       $(element).morph({fontSize: '10px'}) // will morph the font-size to 10px
+      
+*V1.7.0 beta 1* (November 21, 2006)
 
 * Add Element.morph() and Element.Methods.morph() as a shortcut to Effect.Morph
     Example:
