@@ -53,11 +53,11 @@ Element.getOpacity = function(element){
 
 Element.setOpacity = function(element, value){
   return $(element).setStyle({opacity:value});
-}  
- 
-Element.getInlineOpacity = function(element){  
+}
+
+Element.getInlineOpacity = function(element){
   return $(element).style.opacity || '';
-}  
+}
 
 Element.forceRerendering = function(element) {
   try {
@@ -223,7 +223,8 @@ Object.extend(Object.extend(Effect.ScopedQueue.prototype, Enumerable), {
   },
   loop: function() {
     var timePos = new Date().getTime();
-    this.effects.invoke('loop', timePos);
+    for(var i=0, len=this.effects.length;i<len;i++) 
+      if(this.effects[i]) this.effects[i].loop(timePos);
   }
 });
 

@@ -1,3 +1,5 @@
+* Update to Prototype 1.5.0_rc2 revision [5844] (as of Rails 1.2 RC 2)
+
 *V1.7.0 beta 2* (December 18, 2006)
 
 * Change the default setting for effects to support up to 60fps, if renderable by the browser. Add performance info to effects unit test.
