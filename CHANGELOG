@@ -1,5 +1,7 @@
 *SVN*
 
+* Minor tweaks for issues with application/xhtml+xml documents on Firefox, fixes #6836 [sjinks]
+
 * Fix a possible exception with Sortables, fixes #6828 [craiggwilson]
 
 * Update to Prototype 1.5.0_rc2 revision [5844] (as of Rails 1.2 RC 2)

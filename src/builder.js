@@ -34,7 +34,7 @@ var Builder = {
     var element = parentElement.firstChild || null;
       
     // see if browser added wrapping tags
-    if(element && (element.tagName != elementName))
+    if(element && (element.tagName.toUpperCase() != elementName))
       element = element.getElementsByTagName(elementName)[0];
     
     // fallback to createElement approach
@@ -62,7 +62,7 @@ var Builder = {
               for(attr in arguments[1]) 
                 element[attr == 'class' ? 'className' : attr] = arguments[1][attr];
             }
-            if(element.tagName != elementName)
+            if(element.tagName.toUpperCase() != elementName)
               element = parentElement.getElementsByTagName(elementName)[0];
             }
         } 
