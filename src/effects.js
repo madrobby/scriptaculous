@@ -493,9 +493,11 @@ Object.extend(Object.extend(Effect.Highlight.prototype, Effect.Base.prototype), 
     // Prevent executing on elements not in the layout flow
     if(this.element.getStyle('display')=='none') { this.cancel(); return; }
     // Disable background image during the effect
-    this.oldStyle = {
-      backgroundImage: this.element.getStyle('background-image') };
-    this.element.setStyle({backgroundImage: 'none'});
+    this.oldStyle = {};
+    if (!this.options.keepBackgroundImage) {
+      this.oldStyle.backgroundImage = this.element.getStyle('background-image');
+      this.element.setStyle({backgroundImage: 'none'});
+    }
     if(!this.options.endcolor)
       this.options.endcolor = this.element.getStyle('background-color').parseColor('#ffffff');
     if(!this.options.restorecolor)
