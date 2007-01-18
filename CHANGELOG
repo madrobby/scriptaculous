@@ -1,5 +1,7 @@
 *SVN*
 
+* Update to Prototype 1.5.0 final
+
 * New option keepBackgroundImage: true for Effect.Highlight, fixes #5037 [docwhat, tomg]
 
 * Minor tweaks for issues with application/xhtml+xml documents on Firefox, fixes #6836 [sjinks]
