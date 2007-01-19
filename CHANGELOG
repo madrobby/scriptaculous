@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix Effect.inspect() for Prototype 1.5.0 final hash changes
+
 * Update to Prototype 1.5.0 final
 
 * New option keepBackgroundImage: true for Effect.Highlight, fixes #5037 [docwhat, tomg]

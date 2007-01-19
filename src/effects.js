@@ -312,7 +312,10 @@ Effect.Base.prototype = {
     if(this.options[eventName]) this.options[eventName](this);
   },
   inspect: function() {
-    return '#<Effect:' + $H(this).inspect() + ',options:' + $H(this.options).inspect() + '>';
+    var data = $H();
+    for(property in this)
+      if(typeof this[property] != 'function') data[property] = this[property];
+    return '#<Effect:' + data.inspect() + ',options:' + $H(this.options).inspect() + '>';
   }
 }
 
