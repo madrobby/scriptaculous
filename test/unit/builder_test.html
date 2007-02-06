@@ -78,7 +78,16 @@
       var element = Builder.node('div',{id:'mydiv'},[1,'2',['3'],[[[4],'5'],6],7,'8',[[[['9']]],0]]);
       assertEqual('1234567890',element.innerHTML);
       assertEqual(10, element.childNodes.length);
-            
+      
+      var element = Builder.node('div', Builder.node('span'));
+      console.log(element);
+      assertEqual(1, element.childNodes.length);
+      assertEqual('SPAN', element.childNodes[0].tagName);
+      
+      var element = Builder.node('div', {id:'mydiv'}, Builder.node('span'));
+      assertEqual(1, element.childNodes.length);
+      assertEqual('mydiv', element.id);
+      assertEqual('SPAN', element.childNodes[0].tagName);
     }},
 
     testBuilderClassAndFor: function() { with(this) {
@@ -181,6 +190,12 @@
     
     testBuilderShortcuts: function() { with(this) {
       Builder.dump();
+      
+      var element = DIV(SPAN());
+      assertEqual('SPAN', element.childNodes[0].tagName);
+      
+      var element = DIV({id:'test'},SPAN());
+      assertEqual('SPAN', element.childNodes[0].tagName);
       
       var element = DIV({id:'ghosttrain'},[
          DIV({style:'font-size: 11px; font-weight: bold;'},[

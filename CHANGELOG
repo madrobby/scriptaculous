@@ -1,3 +1,12 @@
+*SVN*
+
+* Add ability to nest single nodes in Builder.node in addition to arrays of nodes.
+    Examples:
+      var element = Builder.node('div', Builder.node('span','blah'));
+      
+      Builder.dump();
+      var element = DIV(SPAN('blah'));
+
 *V1.7.0* (January 19, 2007)
 
 * Cleanups for Effect.Morph

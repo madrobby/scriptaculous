@@ -46,7 +46,8 @@ var Builder = {
     // attributes (or text)
     if(arguments[1])
       if(this._isStringOrNumber(arguments[1]) ||
-        (arguments[1] instanceof Array)) {
+        (arguments[1] instanceof Array) ||
+        arguments[1].tagName) {
           this._children(element, arguments[1]);
         } else {
           var attrs = this._attributes(arguments[1]);
@@ -64,7 +65,7 @@ var Builder = {
             }
             if(element.tagName.toUpperCase() != elementName)
               element = parentElement.getElementsByTagName(elementName)[0];
-            }
+          }
         } 
 
     // text, or array of children
@@ -90,6 +91,10 @@ var Builder = {
     return attrs.join(" ");
   },
   _children: function(element, children) {
+    if(children.tagName) {
+      element.appendChild(children);
+      return;
+    }
     if(typeof children=='object') { // array can hold nodes and text
       children.flatten().each( function(e) {
         if(typeof e=='object')
@@ -99,8 +104,8 @@ var Builder = {
             element.appendChild(Builder._text(e));
       });
     } else
-      if(Builder._isStringOrNumber(children)) 
-         element.appendChild(Builder._text(children));
+      if(Builder._isStringOrNumber(children))
+        element.appendChild(Builder._text(children));
   },
   _isStringOrNumber: function(param) {
     return(typeof param=='string' || typeof param=='number');
