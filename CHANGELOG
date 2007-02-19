@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix a memory leak with Effect.Morph in Firefox, fixes #7558 [Malard]
+
 * Add ability to nest single nodes in Builder.node in addition to arrays of nodes.
     Examples:
       var element = Builder.node('div', Builder.node('span','blah'));

@@ -976,9 +976,11 @@ Object.extend(Object.extend(Effect.Morph.prototype, Effect.Base.prototype), {
         value = parseFloat(value);
         if(/MSIE/.test(navigator.userAgent) && !window.opera && (!this.element.currentStyle.hasLayout))
           this.element.setStyle({zoom: 1});
-      } else if(Element.CSS_LENGTH.test(value)) 
-        var components = value.match(/^([\+\-]?[0-9\.]+)(.*)$/),
-          value = parseFloat(components[1]), unit = (components.length == 3) ? components[2] : null;
+      } else if(Element.CSS_LENGTH.test(value)) {
+          var components = value.match(/^([\+\-]?[0-9\.]+)(.*)$/);
+          value = parseFloat(components[1]);
+          unit = (components.length == 3) ? components[2] : null;
+      }
 
       var originalValue = this.element.getStyle(property);
       return $H({ 
