@@ -97,7 +97,7 @@
       assertEqual(0.3, Element.getOpacity('op2'));
       assertEqual(0.3, Element.getOpacity('op3'));
       
-      if(navigator.appVersion.match(/MSIE/)) {
+      if(Prototype.Browser.IE) {
         assertEqual('alpha(opacity=30)', Element.getStyle('op1','filter'));
         assertEqual('progid:DXImageTransform.Microsoft.Blur(strength=10)alpha(opacity=30)', Element.getStyle('op2','filter'));
         assertEqual('alpha(opacity=30)', Element.getStyle('op3','filter'));
