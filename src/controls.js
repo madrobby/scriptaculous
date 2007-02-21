@@ -88,8 +88,7 @@ Autocompleter.Base.prototype = {
   show: function() {
     if(Element.getStyle(this.update, 'display')=='none') this.options.onShow(this.element, this.update);
     if(!this.iefix && 
-      (navigator.appVersion.indexOf('MSIE')>0) &&
-      (navigator.userAgent.indexOf('Opera')<0) &&
+      (Prototype.Browser.IE) &&
       (Element.getStyle(this.update, 'position')=='absolute')) {
       new Insertion.After(this.update, 
        '<iframe id="' + this.update.id + '_iefix" '+
@@ -139,17 +138,17 @@ Autocompleter.Base.prototype = {
        case Event.KEY_UP:
          this.markPrevious();
          this.render();
-         if(navigator.appVersion.indexOf('AppleWebKit')>0) Event.stop(event);
+         if(Prototype.Browser.WebKit) Event.stop(event);
          return;
        case Event.KEY_DOWN:
          this.markNext();
          this.render();
-         if(navigator.appVersion.indexOf('AppleWebKit')>0) Event.stop(event);
+         if(Prototype.Browser.WebKit) Event.stop(event);
          return;
       }
      else 
        if(event.keyCode==Event.KEY_TAB || event.keyCode==Event.KEY_RETURN || 
-         (navigator.appVersion.indexOf('AppleWebKit') > 0 && event.keyCode == 0)) return;
+         (Prototype.Browser.WebKit > 0 && event.keyCode == 0)) return;
 
     this.changed = true;
     this.hasFocus = true;

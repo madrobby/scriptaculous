@@ -240,8 +240,7 @@ Control.Slider.prototype = {
    if(this.active) {
       if(!this.dragging) this.dragging = true;
       this.draw(event);
-      // fix AppleWebKit rendering
-      if(navigator.appVersion.indexOf('AppleWebKit')>0) window.scrollBy(0,0);
+      if(Prototype.Browser.WebKit) window.scrollBy(0,0);
       Event.stop(event);
    }
   },

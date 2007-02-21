@@ -380,7 +380,7 @@ Draggable.prototype = {
     }
     
     // fix AppleWebKit rendering
-    if(navigator.appVersion.indexOf('AppleWebKit')>0) window.scrollBy(0,0);
+    if(Prototype.Browser.WebKit) window.scrollBy(0,0);
     
     Event.stop(event);
   },

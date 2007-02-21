@@ -43,7 +43,7 @@ Element.collectTextNodesIgnoreClass = function(element, className) {
 Element.setContentZoom = function(element, percent) {
   element = $(element);  
   element.setStyle({fontSize: (percent/100) + 'em'});   
-  if(navigator.appVersion.indexOf('AppleWebKit')>0) window.scrollBy(0,0);
+  if(Prototype.Browser.WebKit) window.scrollBy(0,0);
   return element;
 }
 
@@ -87,7 +87,7 @@ var Effect = {
       throw("Effect.tagifyText requires including script.aculo.us' builder.js library");
       
     var tagifyStyle = 'position:relative';
-    if(/MSIE/.test(navigator.userAgent) && !window.opera) tagifyStyle += ';zoom:1';
+    if(Prototype.Browser.IE) tagifyStyle += ';zoom:1';
     
     element = $(element);
     $A(element.childNodes).each( function(child) {
@@ -356,7 +356,7 @@ Object.extend(Object.extend(Effect.Opacity.prototype, Effect.Base.prototype), {
     this.element = $(element);
     if(!this.element) throw(Effect._elementDoesNotExistError);
     // make this work on IE on elements without 'layout'
-    if(/MSIE/.test(navigator.userAgent) && !window.opera && (!this.element.currentStyle.hasLayout))
+    if(Prototype.Browser.IE && (!this.element.currentStyle.hasLayout))
       this.element.setStyle({zoom: 1});
     var options = Object.extend({
       from: this.element.getOpacity() || 0.0,
@@ -974,7 +974,7 @@ Object.extend(Object.extend(Effect.Morph.prototype, Effect.Base.prototype), {
         unit  = 'color';
       } else if(property == 'opacity') {
         value = parseFloat(value);
-        if(/MSIE/.test(navigator.userAgent) && !window.opera && (!this.element.currentStyle.hasLayout))
+        if(Prototype.Browser.IE && (!this.element.currentStyle.hasLayout))
           this.element.setStyle({zoom: 1});
       } else if(Element.CSS_LENGTH.test(value)) {
           var components = value.match(/^([\+\-]?[0-9\.]+)(.*)$/);
@@ -1064,7 +1064,7 @@ String.prototype.parseStyle = function(){
   Element.CSS_PROPERTIES.each(function(property){
     if(style[property]) styleRules[property] = style[property]; 
   });
-  if(/MSIE/.test(navigator.userAgent) && !window.opera && this.indexOf('opacity') > -1) {
+  if(Prototype.Browser.IE && this.indexOf('opacity') > -1) {
     styleRules.opacity = this.match(/opacity:\s*((?:0|1)?(?:\.\d*)?)/)[1];
   }
   return styleRules;
