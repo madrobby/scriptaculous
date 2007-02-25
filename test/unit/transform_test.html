@@ -69,7 +69,7 @@ new Test.Unit.Runner({
       duration:0.5
     });
     $('error_message_3').morph('final', {duration:0.5});
-    wait(600,function(){
+    wait(1000,function(){
       assertEqual('17px', $('error_test_ul').getStyle('margin-right'));
       assertEqual('40px', $('error_test_ul').getStyle('font-size'));
       assertEqual('#ffffff', $('error_message_2').getStyle('background-color').parseColor());
@@ -78,11 +78,13 @@ new Test.Unit.Runner({
       assertEqual('20px', $('error_message_3').getStyle('font-size'));
       assertEqual(.5, $('error_message_3').getStyle('opacity'));
       assertEqual('', $('error_message_3').style.fontSize);
-      // chaining morphs
-      $('error_message').morph('font-size:17px').morph('opacity:0',{delay:3});
-      wait(4100,function(){ // 3000ms delay + 1000ms default duration
-        assertEqual(0, $('error_message').getOpacity());
-      });
+    });
+  }},
+  
+  testElementMorphChaining: function() { with(this) {
+    $('error_message').morph('font-size:17px').morph('opacity:0',{delay:3});
+    wait(4100,function(){ // 3000ms delay + 1000ms default duration
+      assertEqual(0, $('error_message').getOpacity());
     });
   }},
   
@@ -136,11 +138,11 @@ new Test.Unit.Runner({
       assertEqual('blah', generatedEffect.effects[2].element.id);
       assertEnumEqual([255,255,255], 
         generatedEffect.effects[2].transforms.detect( function(transform){
-          return (transform.style == 'background-color')
+          return (transform.style == 'backgroundColor')
         }).originalValue);
       assertEnumEqual([153,85,68], 
         generatedEffect.effects[2].transforms.detect( function(transform){
-          return (transform.style == 'background-color')
+          return (transform.style == 'backgroundColor')
       }).targetValue);
       
       assertEqual('20px', $$('div.morphing').first().getStyle('font-size'));

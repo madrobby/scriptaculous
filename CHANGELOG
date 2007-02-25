@@ -1,5 +1,7 @@
 *SVN*
 
+* Various effects engine optimizations [Tobie Langel, Thomas Fuchs]
+
 * Update to new Prototype Browser detection
 
 * Fix a memory leak with Effect.Morph in Firefox, fixes #7558 [Malard]

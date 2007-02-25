@@ -48,11 +48,7 @@ Element.setContentZoom = function(element, percent) {
 }
 
 Element.getOpacity = function(element){
-  return $(element).getStyle('opacity');
-}
-
-Element.setOpacity = function(element, value){
-  return $(element).setStyle({opacity:value});
+  return Element.getStyle(element,'opacity');
 }
 
 Element.getInlineOpacity = function(element){
@@ -150,7 +146,8 @@ Effect.Transitions = {
     return 1-pos;
   },
   flicker: function(pos) {
-    return ((-Math.cos(pos*Math.PI)/4) + 0.75) + Math.random()/4;
+    var pos = ((-Math.cos(pos*Math.PI)/4) + 0.75) + Math.random()/4;
+    return (pos > 1 ? 1 : pos);
   },
   wobble: function(pos) {
     return (-Math.cos(pos*Math.PI*(9*pos))/2) + 0.5;
@@ -256,11 +253,35 @@ Effect.Base = function() {};
 Effect.Base.prototype = {
   position: null,
   start: function(options) {
+    function codeForEvent(options,eventName){
+      return (
+        (options[eventName+'Internal'] ? 'this.options.'+eventName+'Internal(this);' : '') +
+        (options[eventName] ? 'this.options.'+eventName+'(this);' : '')
+      );
+    }
+    if(options.transition === false) options.transition = Effect.Transitions.linear;
     this.options      = Object.extend(Object.extend({},Effect.DefaultOptions), options || {});
     this.currentFrame = 0;
     this.state        = 'idle';
     this.startOn      = this.options.delay*1000;
-    this.finishOn     = this.startOn + (this.options.duration*1000);
+    this.finishOn     = this.startOn+(this.options.duration*1000);
+    this.fromToDelta  = this.options.to-this.options.from;
+    this.totalTime    = this.finishOn-this.startOn;
+    this.totalFrames  = this.options.fps*this.options.duration;
+    
+    eval('this.render = function(pos){ '+
+      'if(this.state=="idle"){this.state="running";'+
+      codeForEvent(options,'beforeSetup')+
+      (this.setup ? 'this.setup();':'')+ 
+      codeForEvent(options,'afterSetup')+
+      '};if(this.state=="running"){'+
+      'pos=this.options.transition(pos)*'+this.fromToDelta+'+'+this.options.from+';'+
+      'this.position=pos;'+
+      codeForEvent(options,'beforeUpdate')+
+      (this.update ? 'this.update(pos);':'')+
+      codeForEvent(options,'afterUpdate')+
+      '}}');
+    
     this.event('beforeStart');
     if(!this.options.sync)
       Effect.Queues.get(typeof this.options.queue == 'string' ? 
@@ -276,29 +297,12 @@ Effect.Base.prototype = {
         this.event('afterFinish');
         return;  
       }
-      var pos   = (timePos - this.startOn) / (this.finishOn - this.startOn);
-      var frame = Math.round(pos * this.options.fps * this.options.duration);
+      var pos   = (timePos - this.startOn) / this.totalTime,
+          frame = Math.round(pos * this.totalFrames);
       if(frame > this.currentFrame) {
         this.render(pos);
         this.currentFrame = frame;
       }
-    }
-  },
-  render: function(pos) {
-    if(this.state == 'idle') {
-      this.state = 'running';
-      this.event('beforeSetup');
-      if(this.setup) this.setup();
-      this.event('afterSetup');
-    }
-    if(this.state == 'running') {
-      if(this.options.transition) pos = this.options.transition(pos);
-      pos *= (this.options.to-this.options.from);
-      pos += this.options.from;
-      this.position = pos;
-      this.event('beforeUpdate');
-      if(this.update) this.update(pos);
-      this.event('afterUpdate');
     }
   },
   cancel: function() {
@@ -951,7 +955,7 @@ Object.extend(Object.extend(Effect.Morph.prototype, Effect.Base.prototype), {
           effect.element.addClassName(effect.options.style);
           effect.transforms.each(function(transform) {
             if(transform.style != 'opacity')
-              effect.element.style[transform.style.camelize()] = '';
+              effect.element.style[transform.style] = '';
           });
         }
       } else this.style = options.style.parseStyle();
@@ -967,7 +971,7 @@ Object.extend(Object.extend(Effect.Morph.prototype, Effect.Base.prototype), {
       });
     }
     this.transforms = this.style.map(function(pair){
-      var property = pair[0].underscore().dasherize(), value = pair[1], unit = null;
+      var property = pair[0], value = pair[1], unit = null;
 
       if(value.parseColor('#zzzzzz') != '#zzzzzz') {
         value = value.parseColor();
@@ -983,12 +987,12 @@ Object.extend(Object.extend(Effect.Morph.prototype, Effect.Base.prototype), {
       }
 
       var originalValue = this.element.getStyle(property);
-      return $H({ 
+      return { 
         style: property, 
         originalValue: unit=='color' ? parseColor(originalValue) : parseFloat(originalValue || 0), 
         targetValue: unit=='color' ? parseColor(value) : value,
         unit: unit
-      });
+      };
     }.bind(this)).reject(function(transform){
       return (
         (transform.originalValue == transform.targetValue) ||
@@ -1000,7 +1004,7 @@ Object.extend(Object.extend(Effect.Morph.prototype, Effect.Base.prototype), {
     });
   },
   update: function(position) {
-    var style = $H(), value = null;
+    var style = {}, value = null;
     this.transforms.each(function(transform){
       value = transform.unit=='color' ?
         $R(0,2).inject('#',function(m,v,i){
@@ -1057,9 +1061,9 @@ Element.CSS_PROPERTIES = $w(
 Element.CSS_LENGTH = /^(([\+\-]?[0-9\.]+)(em|ex|px|in|cm|mm|pt|pc|\%))|0$/;
 
 String.prototype.parseStyle = function(){
-  var element = Element.extend(document.createElement('div'));
+  var element = document.createElement('div');
   element.innerHTML = '<div style="' + this + '"></div>';
-  var style = element.down().style, styleRules = $H();
+  var style = element.childNodes[0].style, styleRules = $H();
   
   Element.CSS_PROPERTIES.each(function(property){
     if(style[property]) styleRules[property] = style[property]; 
@@ -1075,13 +1079,13 @@ Element.morph = function(element, style) {
   return element;
 };
 
-['setOpacity','getOpacity','getInlineOpacity','forceRerendering','setContentZoom',
+['getOpacity', 'getInlineOpacity','forceRerendering','setContentZoom',
  'collectTextNodes','collectTextNodesIgnoreClass','morph'].each( 
   function(f) { Element.Methods[f] = Element[f]; }
 );
 
 Element.Methods.visualEffect = function(element, effect, options) {
-  s = effect.gsub(/_/, '-').camelize();
+  s = effect.dasherize().camelize();
   effect_class = s.charAt(0).toUpperCase() + s.substring(1);
   new Effect[effect_class](element, options);
   return $(element);

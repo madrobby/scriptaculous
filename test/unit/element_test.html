@@ -103,6 +103,19 @@
         assertEqual('alpha(opacity=30)', Element.getStyle('op3','filter'));
         assertEqual(0.3, Element.getOpacity('op4-ie'));
       }
+    }},
+    
+    testVisualEffect: function() { with(this) {
+      assert($('style_test_3') == $('style_test_3').visualEffect('fade'));
+      wait(1500,function(){
+        assert(!$('style_test_3').visible())
+      });
+    }},
+    
+    testParseStylePerformance: function() { with(this) {
+      benchmark(function(){
+        "font:12px/15pt Verdana;opacity:0.4;border:4px dotted red".parseStyle();
+      },100);
     }}
 
   }, "testlog");

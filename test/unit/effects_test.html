@@ -31,6 +31,11 @@
   var COMBINED_EFFECTS =
     ['Fade','Appear','BlindUp','BlindDown','Puff','SwitchOff','DropOut','Shake',
      'SlideUp','SlideDown','Pulsate','Squish','Fold','Grow','Shrink'];
+  
+  var COMBINED_RJS_EFFECTS = $w(''+
+    'fade appear blind_up blind_down puff switch_off drop_out shake '+
+    'slide_up slide_down pulsate squish fold grow shrink'
+  );
      
   var tmp, tmp2;
 
@@ -87,6 +92,40 @@
       new Effect.Event({ afterFinish:function(){ tmp++ }, position:'end'});
       wait(100, function() {
         assertEqual(1, tmp);
+      });
+    }},
+    
+    testTransition: function() { with(this) {
+      // false implies linear
+      var e = new Effect.Opacity('sandbox',{transition:false,from:0.0,to:0.25,duration:0.5});
+      assert(e.options.transition == Effect.Transitions.linear);
+      
+      wait(1000, function() {
+        assertEqual(0.25, $('sandbox').getStyle('opacity'));
+        // default to sinoidal
+        var e = new Effect.Opacity('sandbox',{from:0.0,to:0.25,duration:0.5});
+        assert(e.options.transition == Effect.Transitions.sinoidal);
+        wait(1000, function() {
+          assertEqual(0.25, $('sandbox').getStyle('opacity'));
+          
+          var transitions = [
+            { transition: Effect.Transitions.linear,   expected: 1 },
+            { transition: Effect.Transitions.sinoidal, expected: 1 },
+            { transition: Effect.Transitions.reverse,  expected: 0 },
+            { transition: Effect.Transitions.flicker,  expected: 1 },
+            { transition: Effect.Transitions.wobble,   expected: 1 },
+            { transition: Effect.Transitions.pulse,    expected: 1 },
+            { transition: Effect.Transitions.none,     expected: 0 }
+          ];
+          
+          transitions.each(function(t){
+            var e = new Effect.Opacity('sandbox',{sync:true, from:0, to: 1, transition:t.transition});
+            assert(e.options.transition == t.transition);
+            e.render(1.0);
+            assertEqual(t.expected, e.position, t.transition);
+          });
+          
+        });
       });
     }},
     
@@ -230,7 +269,7 @@
 
     // test if all combined effects correctly initialize themselves
     testCombinedEffectsInitialize: function() { with(this) {
-      COMBINED_EFFECTS.each(function(fx){
+      COMBINED_EFFECTS.each(function(fx,idx){
         info('Effect.'+fx);
         $('sandbox').innerHTML = "";
         $('sandbox').appendChild(
@@ -244,6 +283,9 @@
         // and without the 'new'
         var effect = Effect[fx]('test_element');
         assertEqual(0, effect.currentFrame);
+        
+        // and, for visualEffect
+        assert($('test_element') == $('test_element').visualEffect(COMBINED_RJS_EFFECTS[idx]));
         
         // options parsing (shake, squish and grow are special here)
         if(!['Shake','Squish','Grow'].include(fx)) {
@@ -283,6 +325,18 @@
         assertEqual(0.5, testeffect.position);
         assertEqual('finished', testeffect.state);
       });
+    }},
+    
+    testRenderPerformance: function() { with(this) {
+      info('The render() method is generated on a per-effect basis')
+      var e = new Effect.Opacity('sandbox',{sync:true});
+      benchmark(function(){
+        e.render(0.5);
+      },1000, 'Without events');
+      var e = new Effect.Opacity('sandbox',{sync:true,afterUpdate:function(){return}});
+      benchmark(function(){
+        e.render(0.5);
+      },1000, 'With afterUpdate event');      
     }}
 
   });
