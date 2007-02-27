@@ -110,8 +110,10 @@ var Droppables = {
     Position.prepare();
 
     if (this.isAffected([Event.pointerX(event), Event.pointerY(event)], element, this.last_active))
-      if (this.last_active.onDrop) 
-        this.last_active.onDrop(element, this.last_active.element, event);
+      if (this.last_active.onDrop) {
+        this.last_active.onDrop(element, this.last_active.element, event); 
+        return true; 
+      }
   },
 
   reset: function() {
@@ -394,7 +396,11 @@ Draggable.prototype = {
       this._clone = null;
     }
 
-    if(success) Droppables.fire(event, this.element);
+    var dropped = false; 
+    if(success) { 
+      dropped = Droppables.fire(event, this.element); 
+      if (!dropped) dropped = false; 
+    }
     Draggables.notify('onEnd', this, event);
 
     var revert = this.options.revert;
@@ -402,8 +408,9 @@ Draggable.prototype = {
     
     var d = this.currentDelta();
     if(revert && this.options.reverteffect) {
-      this.options.reverteffect(this.element, 
-        d[1]-this.delta[1], d[0]-this.delta[0]);
+      if (dropped == 0 || revert != 'failure')
+        this.options.reverteffect(this.element,
+          d[1]-this.delta[1], d[0]-this.delta[0]);
     } else {
       this.delta = d;
     }

@@ -1,5 +1,7 @@
 *SVN*
 
+* Add revert: 'failure' option to Draggables to only revert if not dropped on a valid drop target, fixes #6909 [davidw]
+
 * Various effects engine optimizations [Tobie Langel, Thomas Fuchs]
 
 * Update to new Prototype Browser detection
