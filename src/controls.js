@@ -572,6 +572,16 @@ Ajax.InPlaceEditor.prototype = {
       okButton.className = 'editor_ok_button';
       this.form.appendChild(okButton);
     }
+    
+    if (this.options.okLink) {
+      okLink = document.createElement("a");
+      okLink.href = "#";
+      okLink.appendChild(document.createTextNode(this.options.okText));
+      okLink.onclick = this.onSubmit.bind(this);
+      okLink.className = 'editor_ok_link';      
+      this.form.appendChild(okLink);
+      this.form.appendChild(document.createTextNode(' '));
+    }
 
     if (this.options.cancelLink) {
       cancelLink = document.createElement("a");

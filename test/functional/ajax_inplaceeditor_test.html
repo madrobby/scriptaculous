@@ -32,6 +32,15 @@ new Ajax.InPlaceEditor($('tobeeditedblur'), '_ajax_inplaceeditor_result.html', {
         });
 </script>
 
+<h1 id="tobeeditedoklink">To be edited w/ okLink</h1>
+<script>
+new Ajax.InPlaceEditor($('tobeeditedoklink'), 
+  '_ajax_inplaceeditor_result.html', {
+  okButton: false, okLink: true,
+  ajaxOptions: {method: 'get'} //override so we can use a static for the result
+});
+</script>
+
 
 <span id="tobeedited2">With external edit control and custom parameter name</span> &nbsp; <a id="tobeedited2EditControl" href="#">edit</a>
 <script>
