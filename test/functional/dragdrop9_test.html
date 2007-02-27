@@ -12,7 +12,7 @@
     </div> 
     <script type="text/javascript">
     //<![CDATA[
-    new Draggable("source", {revert:"failure"})
+    new Draggable("source", {revert:"failure", onDropped: function(element){ $(element).update('I WAS DROPPED!') } });
     //]]>
     </script>
     
@@ -26,7 +26,7 @@
      //<![CDATA[
      Droppables.add("target", {onDrop:function(element){
        Effect.Puff($('source'));
-     }})
+     }});
      //]]>
      </script>
     

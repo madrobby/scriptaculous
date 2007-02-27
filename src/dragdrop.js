@@ -401,6 +401,7 @@ Draggable.prototype = {
       dropped = Droppables.fire(event, this.element); 
       if (!dropped) dropped = false; 
     }
+    if(dropped && this.options.onDropped) this.options.onDropped(this.element);
     Draggables.notify('onEnd', this, event);
 
     var revert = this.options.revert;
