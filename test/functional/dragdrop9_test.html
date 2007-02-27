@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+    <script src="../../lib/prototype.js" type="text/javascript"></script>
+    <script src="../../src/scriptaculous.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="source" style="height: 100px; width: 100px; background-color: gray;">
+      Draggable
+    </div> 
+    <script type="text/javascript">
+    //<![CDATA[
+    new Draggable("source", {revert:"failure"})
+    //]]>
+    </script>
+    
+    <br/>
+    
+    <div id="target" style="height: 100px; width: 100px; background-color: green;">
+      Good Target
+    </div>
+    
+     <script type="text/javascript">
+     //<![CDATA[
+     Droppables.add("target", {onDrop:function(element){
+       Effect.Puff($('source'));
+     }})
+     //]]>
+     </script>
+    
+     <br/>
+    
+  </body>
+</html>
