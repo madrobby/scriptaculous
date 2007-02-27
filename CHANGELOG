@@ -1,6 +1,10 @@
 *SVN*
 
-* Add an okLink option to Ajax.InPlaceEditor so you can have a link instead of a button. Uses the 'editor_ok_link' CSS class for styling, fixes #6455
+* Make Ajax.InPlaceEditor more customizable: [thx godlie]
+  - Add an okLink option to Ajax.InPlaceEditor so you can have a link instead of a button. Uses the 'editor_ok_link' CSS class for styling, fixes #6455
+  - Add an cancelButton option to Ajax.InPlaceEditor, uses the 'editor_cancel_button' CSS class
+  - Add textBefore-, textBetween- and textAfterControls (which default to empty strings)
+  - For consistency, cancel link now also gets 'editor_cancel_link' CSS class
 
 * Add an onDropped callback to Draggables, that fires at the end of a drag when the Draggable was dropped on a Droppable
 

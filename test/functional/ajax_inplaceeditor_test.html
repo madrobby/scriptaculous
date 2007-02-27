@@ -32,11 +32,32 @@ new Ajax.InPlaceEditor($('tobeeditedblur'), '_ajax_inplaceeditor_result.html', {
         });
 </script>
 
-<h1 id="tobeeditedoklink">To be edited w/ okLink</h1>
+<h1 id="tobeeditedoklink">To be edited w/ okLink and cancelButton</h1>
 <script>
 new Ajax.InPlaceEditor($('tobeeditedoklink'), 
   '_ajax_inplaceeditor_result.html', {
-  okButton: false, okLink: true,
+  okButton: false, 
+  okLink: true,
+  cancelButton: true,
+  cancelLink: false,
+  textBeforeControls: ' ---> ',
+  textBetweenControls: ' | ',
+  textAfterControls: ' <--- ',
+  ajaxOptions: {method: 'get'} //override so we can use a static for the result
+});
+</script>
+
+<h1 id="tobeeditedoklinkonly">To be edited w/ okLink only </h1>
+<script>
+new Ajax.InPlaceEditor($('tobeeditedoklinkonly'), 
+  '_ajax_inplaceeditor_result.html', {
+  okButton: false, 
+  okLink: true,
+  cancelButton: false,
+  cancelLink: false,
+  textBeforeControls: ' ---> ',
+  textBetweenControls: ' | ',  // will not be used, as one control only
+  textAfterControls: ' <--- ',
   ajaxOptions: {method: 'get'} //override so we can use a static for the result
 });
 </script>

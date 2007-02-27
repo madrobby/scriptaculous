@@ -474,9 +474,14 @@ Ajax.InPlaceEditor.prototype = {
     this.options = Object.extend({
       paramName: "value",
       okButton: true,
+      okLink: false,
       okText: "ok",
+      cancelButton: false,
       cancelLink: true,
       cancelText: "cancel",
+      textBeforeControls: '',
+      textBetweenControls: '',
+      textAfterControls: '',
       savingText: "Saving...",
       clickToEditText: "Click to edit",
       okText: "ok",
@@ -564,9 +569,12 @@ Ajax.InPlaceEditor.prototype = {
       var br = document.createElement("br");
       this.form.appendChild(br);
     }
+    
+    if (this.options.textBeforeControls)
+      this.form.appendChild(document.createTextNode(this.options.textBeforeControls));
 
     if (this.options.okButton) {
-      okButton = document.createElement("input");
+      var okButton = document.createElement("input");
       okButton.type = "submit";
       okButton.value = this.options.okText;
       okButton.className = 'editor_ok_button';
@@ -574,23 +582,39 @@ Ajax.InPlaceEditor.prototype = {
     }
     
     if (this.options.okLink) {
-      okLink = document.createElement("a");
+      var okLink = document.createElement("a");
       okLink.href = "#";
       okLink.appendChild(document.createTextNode(this.options.okText));
       okLink.onclick = this.onSubmit.bind(this);
-      okLink.className = 'editor_ok_link';      
+      okLink.className = 'editor_ok_link';
       this.form.appendChild(okLink);
-      this.form.appendChild(document.createTextNode(' '));
+    }
+    
+    if (this.options.textBetweenControls && 
+      (this.options.okLink || this.options.okButton) && 
+      (this.options.cancelLink || this.options.cancelButton))
+      this.form.appendChild(document.createTextNode(this.options.textBetweenControls));
+      
+    if (this.options.cancelButton) {
+      var cancelButton = document.createElement("input");
+      cancelButton.type = "submit";
+      cancelButton.value = this.options.cancelText;
+      cancelButton.onclick = this.onclickCancel.bind(this);
+      cancelButton.className = 'editor_cancel_button';
+      this.form.appendChild(cancelButton);
     }
 
     if (this.options.cancelLink) {
-      cancelLink = document.createElement("a");
+      var cancelLink = document.createElement("a");
       cancelLink.href = "#";
       cancelLink.appendChild(document.createTextNode(this.options.cancelText));
       cancelLink.onclick = this.onclickCancel.bind(this);
-      cancelLink.className = 'editor_cancel';      
+      cancelLink.className = 'editor_cancel editor_cancel_link';      
       this.form.appendChild(cancelLink);
     }
+    
+    if (this.options.textAfterControls)
+      this.form.appendChild(document.createTextNode(this.options.textAfterControls));
   },
   hasHTMLLineBreaks: function(string) {
     if (!this.options.handleLineBreaks) return false;
