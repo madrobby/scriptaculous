@@ -84,34 +84,13 @@
       assertEqual('134',  Element.collectTextNodesIgnoreClass('collect', 'someclass'));
     }},
     
-    testElementOpacity: function() { with(this) {
-      assertEqual(0.5, Element.getOpacity('op1'));
-      assertEqual(0.5, $('op2').getOpacity());
-      assertEqual(1.0, Element.getOpacity('op3'));
-      
-      Element.setOpacity('op1','0.3');
-      $('op2').setOpacity('0.3');
-      Element.setOpacity('op3','0.3');
-      
-      assertEqual(0.3, $('op1').getOpacity());
-      assertEqual(0.3, Element.getOpacity('op2'));
-      assertEqual(0.3, Element.getOpacity('op3'));
-      
-      if(Prototype.Browser.IE) {
-        assertEqual('alpha(opacity=30)', Element.getStyle('op1','filter'));
-        assertEqual('progid:DXImageTransform.Microsoft.Blur(strength=10)alpha(opacity=30)', Element.getStyle('op2','filter'));
-        assertEqual('alpha(opacity=30)', Element.getStyle('op3','filter'));
-        assertEqual(0.3, Element.getOpacity('op4-ie'));
-      }
-    }},
-    
     testVisualEffect: function() { with(this) {
       assert($('style_test_3') == $('style_test_3').visualEffect('fade'));
       wait(1500,function(){
         assert(!$('style_test_3').visible())
       });
     }},
-    
+        
     testParseStylePerformance: function() { with(this) {
       benchmark(function(){
         "font:12px/15pt Verdana;opacity:0.4;border:4px dotted red".parseStyle();

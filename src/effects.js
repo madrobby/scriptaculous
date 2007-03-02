@@ -47,10 +47,6 @@ Element.setContentZoom = function(element, percent) {
   return element;
 }
 
-Element.getOpacity = function(element){
-  return Element.getStyle(element,'opacity');
-}
-
 Element.getInlineOpacity = function(element){
   return $(element).style.opacity || '';
 }
@@ -174,7 +170,7 @@ Effect.ScopedQueue = Class.create();
 Object.extend(Object.extend(Effect.ScopedQueue.prototype, Enumerable), {
   initialize: function() {
     this.effects  = [];
-    this.interval = null;
+    this.interval = null;    
   },
   _each: function(iterator) {
     this.effects._each(iterator);
@@ -208,7 +204,7 @@ Object.extend(Object.extend(Effect.ScopedQueue.prototype, Enumerable), {
     if(!effect.options.queue.limit || (this.effects.length < effect.options.queue.limit))
       this.effects.push(effect);
     
-    if(!this.interval) 
+    if(!this.interval)
       this.interval = setInterval(this.loop.bind(this), 15);
   },
   remove: function(effect) {
@@ -221,7 +217,7 @@ Object.extend(Object.extend(Effect.ScopedQueue.prototype, Enumerable), {
   loop: function() {
     var timePos = new Date().getTime();
     for(var i=0, len=this.effects.length;i<len;i++) 
-      if(this.effects[i]) this.effects[i].loop(timePos);
+      this.effects[i] && this.effects[i].loop(timePos);
   }
 });
 
@@ -241,7 +237,7 @@ Effect.Queue = Effect.Queues.get('global');
 Effect.DefaultOptions = {
   transition: Effect.Transitions.sinoidal,
   duration:   1.0,   // seconds
-  fps:        60.0,  // max. 60fps due to Effect.Queue implementation
+  fps:        100,   // 100= assume 66fps max.
   sync:       false, // true for combining
   from:       0.0,
   to:         1.0,
@@ -988,7 +984,7 @@ Object.extend(Object.extend(Effect.Morph.prototype, Effect.Base.prototype), {
 
       var originalValue = this.element.getStyle(property);
       return { 
-        style: property, 
+        style: property.camelize(), 
         originalValue: unit=='color' ? parseColor(originalValue) : parseFloat(originalValue || 0), 
         targetValue: unit=='color' ? parseColor(value) : value,
         unit: unit
@@ -1004,17 +1000,19 @@ Object.extend(Object.extend(Effect.Morph.prototype, Effect.Base.prototype), {
     });
   },
   update: function(position) {
-    var style = {}, value = null;
-    this.transforms.each(function(transform){
-      value = transform.unit=='color' ?
-        $R(0,2).inject('#',function(m,v,i){
-          return m+(Math.round(transform.originalValue[i]+
-            (transform.targetValue[i] - transform.originalValue[i])*position)).toColorPart() }) : 
+    var style = {}, transform, i = this.transforms.length;
+    while(i--)
+      style[(transform = this.transforms[i]).style] = 
+        transform.unit=='color' ? '#'+
+          (Math.round(transform.originalValue[0]+
+            (transform.targetValue[0]-transform.originalValue[0])*position)).toColorPart() +
+          (Math.round(transform.originalValue[1]+
+            (transform.targetValue[1]-transform.originalValue[1])*position)).toColorPart() +
+          (Math.round(transform.originalValue[2]+
+            (transform.targetValue[2]-transform.originalValue[2])*position)).toColorPart() :
         transform.originalValue + Math.round(
           ((transform.targetValue - transform.originalValue) * position) * 1000)/1000 + transform.unit;
-      style[transform.style] = value;
-    });
-    this.element.setStyle(style);
+    this.element.setStyle(style, true);
   }
 });
 
@@ -1079,7 +1077,7 @@ Element.morph = function(element, style) {
   return element;
 };
 
-['getOpacity', 'getInlineOpacity','forceRerendering','setContentZoom',
+['getInlineOpacity','forceRerendering','setContentZoom',
  'collectTextNodes','collectTextNodesIgnoreClass','morph'].each( 
   function(f) { Element.Methods[f] = Element[f]; }
 );

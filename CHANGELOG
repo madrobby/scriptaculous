@@ -1,5 +1,7 @@
 *SVN*
 
+* Various effects engine optimizations [Tobie Langel, Thomas Fuchs]
+
 * Make Ajax.InPlaceEditor more customizable: [thx godlie]
   - Add an okLink option to Ajax.InPlaceEditor so you can have a link instead of a button. Uses the 'editor_ok_link' CSS class for styling, fixes #6455
   - Add an cancelButton option to Ajax.InPlaceEditor, uses the 'editor_cancel_button' CSS class
@@ -9,8 +11,6 @@
 * Add an onDropped callback to Draggables, that fires at the end of a drag when the Draggable was dropped on a Droppable
 
 * Add revert: 'failure' option to Draggables to only revert if not dropped on a valid drop target, fixes #6909 [davidw]
-
-* Various effects engine optimizations [Tobie Langel, Thomas Fuchs]
 
 * Update to new Prototype Browser detection
 
