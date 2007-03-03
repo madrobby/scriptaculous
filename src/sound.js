@@ -7,8 +7,8 @@
 
 Sound = {
   tracks: {},
-  template: 
-    new Template('<embed id="sound_#{track}_#{id}" src="#{url}" loop="false" autostart="true" hidden="true"/>'),
+  template:
+    new Template('<embed style="height:0" id="sound_#{track}_#{id}" src="#{url}" loop="false" autostart="true" hidden="true"/>'),
   play: function(url){    
     var options = Object.extend({
       track: 'global', url: url, replace: false
@@ -43,10 +43,10 @@ Sound = {
 };
 
 (function(){
-  if(Prototype.Browser.Gecko && (navigator.platform.indexOf("Win") > 0) && navigator.plugins) { 
-    var hasQuicktime = false;
-    for (i=0; i<navigator.plugins.length; i++ )
-	    if(navigator.plugins[i].name.indexOf("QuickTime") >= 0) hasQuicktime = true;
-	  if(!hasQuicktime) Sound.play = function(){};
-	}
+  if(Prototype.Browser.Gecko && navigator.userAgent.indexOf("Win") > 0){
+    if(navigator.plugins && $A(navigator.plugins).detect(function(p){ return p.name.indexOf('QuickTime') != -1 }))
+      Sound.template = new Template('<object id="#{id}" width="0" height="0" type="audio/mpeg" data="#{url}"/>')
+    else
+      Sound.play = function(){}
+  }
 })();
