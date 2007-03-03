@@ -7,9 +7,17 @@
 
 Sound = {
   tracks: {},
+  _enabled: true,
   template:
     new Template('<embed style="height:0" id="sound_#{track}_#{id}" src="#{url}" loop="false" autostart="true" hidden="true"/>'),
-  play: function(url){    
+  enable: function(){
+    Sound._enabled = true;
+  },
+  disable: function(){
+    Sound._enabled = false;
+  },
+  play: function(url){
+    if(!Sound._enabled) return;
     var options = Object.extend({
       track: 'global', url: url, replace: false
     }, arguments[1] || {});

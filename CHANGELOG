@@ -1,5 +1,7 @@
 *SVN*
 
+* Add Sound.enable() and Sound.disable() to globally turn off Sound.play()
+
 * Added Sound.play(url,options) in new sound.js file. scriptaculous.js automatically includes this file.
   Based on code by Jules Gravinese, used with permission.
   
