@@ -37,7 +37,8 @@ SRC_FILES = FileList[
   'src/unittest.js',
   'src/builder.js',
   'src/slider.js',
-  'src/unittest.js',
+  'src/sound.js',
+  'src/unittest.js'
 ]
 
 RAILS_FILES = FileList[

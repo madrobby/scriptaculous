@@ -1,5 +1,23 @@
 *SVN*
 
+* Added Sound.play(url,options) in new sound.js file. scriptaculous.js automatically includes this file.
+  Based on code by Jules Gravinese, used with permission.
+  
+  The sound player uses native sound support on IE, and falls back to using <embed> on other browsers,
+  which means it uses QuickTime for most cases. The recommended format to use is MP3.
+  
+    Examples:
+      Sound.play('blah.mp3');   
+      // --> plays sound immediately in 'global' track
+      Sound.play('blah.mp3',{replace:true});  
+      // --> stop playing all sounds in 'global' track, and play new sound
+      Sound.play('blah.mp3',{track:'mytrack'});
+      // --> places the sound in the 'mytrack' track
+      Sound.play('blah.mp3',{track:'mytrack',replace:true});
+      // --> stop playing all sounds in 'mytrack' track, and play new sound
+      
+  The sound effect used in the functional test is "Sword being drawn" by James Greever, released as freeware.
+
 * Various effects engine optimizations [Tobie Langel, Thomas Fuchs]
 
 * Make Ajax.InPlaceEditor more customizable: [thx godlie]
