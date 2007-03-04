@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix id assignment for sounds on Firefox/Windows, fixes #7709 [Robert Wallis]
+
 * Add Sound.enable() and Sound.disable() to globally turn off Sound.play()
 
 * Added Sound.play(url,options) in new sound.js file. scriptaculous.js automatically includes this file.
