@@ -50,11 +50,9 @@ Sound = {
   }
 };
 
-(function(){
-  if(Prototype.Browser.Gecko && navigator.userAgent.indexOf("Win") > 0){
-    if(navigator.plugins && $A(navigator.plugins).detect(function(p){ return p.name.indexOf('QuickTime') != -1 }))
-      Sound.template = new Template('<object id="sound_#{track}_#{id}" width="0" height="0" type="audio/mpeg" data="#{url}"/>')
-    else
-      Sound.play = function(){}
-  }
-})();
+if(Prototype.Browser.Gecko && navigator.userAgent.indexOf("Win") > 0){
+  if(navigator.plugins && $A(navigator.plugins).detect(function(p){ return p.name.indexOf('QuickTime') != -1 }))
+    Sound.template = new Template('<object id="sound_#{track}_#{id}" width="0" height="0" type="audio/mpeg" data="#{url}"/>')
+  else
+    Sound.play = function(){}
+}
