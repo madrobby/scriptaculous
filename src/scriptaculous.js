@@ -27,13 +27,20 @@ var Scriptaculous = {
     // inserting via DOM fails in Safari 2.0, so brute force approach
     document.write('<script type="text/javascript" src="'+libraryName+'"></script>');
   },
+  REQUIRED_PROTOTYPE: '1.5.1',
   load: function() {
+    function convertVersionString(versionString){
+      var r = versionString.split('.');
+      return parseInt(r[0])*100000 + parseInt(r[1])*1000 + parseInt(r[2]);
+    }
+ 
     if((typeof Prototype=='undefined') || 
        (typeof Element == 'undefined') || 
        (typeof Element.Methods=='undefined') ||
-       parseFloat(Prototype.Version.split(".")[0] + "." +
-                  Prototype.Version.split(".")[1]) < 1.5)
-       throw("script.aculo.us requires the Prototype JavaScript framework >= 1.5.0");
+       (convertVersionString(Prototype.Version) < 
+        convertVersionString(Scriptaculous.REQUIRED_PROTOTYPE)))
+       throw("script.aculo.us requires the Prototype JavaScript framework >= " +
+        Scriptaculous.REQUIRED_PROTOTYPE);
     
     $A(document.getElementsByTagName("script")).findAll( function(s) {
       return (s.src && s.src.match(/scriptaculous\.js(\?.*)?$/))
