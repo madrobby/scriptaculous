@@ -10,9 +10,9 @@
   <link rel="stylesheet" href="../test.css" type="text/css" />
 </head>
 <body>
-<h1>script.aculo.us Builder unit test file</h1>
+<h1>script.aculo.us Unit test file</h1>
 <p>
-  Tests for Builder.
+  Tests for builder.js
 </p>
 
 <!-- Log output -->
@@ -23,6 +23,26 @@
 <!-- Tests follow -->
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
+
+  // Serializes a node and it's contents to plain old HTML
+  // IMPORTANT: style attributes can't be correctly serialized cross-browser wise,
+  // so the contents of style attributes must match what IE thinks is correct
+  function serializeNode(node){
+    if(node.nodeType == 3) return node.nodeValue;
+    node = $(node);
+    var tag = node.tagName.toLowerCase();
+    return '<' + ([tag].concat($A(node.attributes).map(function(attr){
+      // Filter out stuff that we don't need
+      if(attr.nodeName == '_extended' || attr.nodeName == '_counted' || 
+        typeof attr.nodeValue == 'function' ||!Element.hasAttribute(node, attr.nodeName)) return;
+      // remove trailing ; in style attributes on Firefox
+      var value = node.readAttribute(attr.nodeName);
+      if(attr.nodeName == 'style' && value.endsWith(';'))
+        value = value.substr(0, value.length-1); 
+      return attr.nodeName + '="' + value + '"'
+    }).compact().sort())).join(' ') + '>' + $A(node.childNodes).map(serializeNode).join('') + 
+    '</' + tag + '>';
+  }
 
   new Test.Unit.Runner({
 
@@ -80,7 +100,6 @@
       assertEqual(10, element.childNodes.length);
       
       var element = Builder.node('div', Builder.node('span'));
-      console.log(element);
       assertEqual(1, element.childNodes.length);
       assertEqual('SPAN', element.childNodes[0].tagName);
       
@@ -172,7 +191,7 @@
   
     testBuilderComplexExample: function() { with(this) {      
       var element = Builder.node('div',{id:'ghosttrain'},[
-        Builder.node('div',{style:'font-size: 11px; font-weight: bold;'},[
+        Builder.node('div',{style:'font-weight: bold; font-size: 11px'},[
           Builder.node('h1','Ghost Train'),
           "testtext", 2, 3, 4,
           Builder.node('ul',[
@@ -185,7 +204,10 @@
       $('result').appendChild(element);
       
       // browsers aren't sure about upper and lower case on elements
-      assertEqual('<div id="ghosttrain"><div style="font-size: 11px; font-weight: bold;"><h1>ghost train</h1>testtext234<ul><li onclick="alert(\'test\')">click me</li></ul></div></div>', $('result').innerHTML.toLowerCase());
+      assertEqual(
+        '<div id="ghosttrain"><div style="font-weight: bold; font-size: 11px">' + 
+        '<h1>Ghost Train</h1>testtext234<ul><li onclick="alert(\'test\')">click me</li></ul></div></div>',
+        serializeNode($('result').childNodes[0]));
     }},
     
     testBuilderShortcuts: function() { with(this) {
@@ -198,7 +220,7 @@
       assertEqual('SPAN', element.childNodes[0].tagName);
       
       var element = DIV({id:'ghosttrain'},[
-         DIV({style:'font-size: 11px; font-weight: bold;'},[
+         DIV({style:'font-weight: bold; font-size: 11px'},[
            H1('Ghost Train'),
            "testtext", 2, 3, 4,
            UL([
@@ -209,16 +231,18 @@
       assertEqual('DIV', element.nodeName);
       
       $('result').appendChild(element);
-      assertEqual('<div id="ghosttrain"><div style="font-size: 11px; font-weight: bold;"><h1>ghost train</h1>testtext234<ul><li onclick="alert(\'test\')">click me</li></ul></div></div>', $('result').innerHTML.toLowerCase()); 
+      
+      assertEqual(
+        '<div id="ghosttrain"><div style="font-weight: bold; font-size: 11px">' +
+        '<h1>Ghost Train</h1>testtext234<ul><li onclick="alert(\'test\')">click me</li></ul></div></div>',
+        serializeNode($('result').childNodes[0]));
     }},
     
     testBuilderBuild: function() { with(this) {
       ['<span>this is <b>neat!</b></span>',' \n<span>this is <b>neat!</b></span>\n '].each(
         function(html){
           var node = Builder.build(html);
-          assertEqual('SPAN', node.tagName.toUpperCase());
-          assertEqual('this is <b>neat!</b>',
-            node.innerHTML.toLowerCase());
+          assertEqual('<span>this is <b>neat!</b></span>', serializeNode(node));
         });
     }}
 

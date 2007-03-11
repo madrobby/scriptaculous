@@ -6,6 +6,51 @@ body {
   font-size:0.8em;
 }
 
+.navigation {
+  background: #9DC569;
+  color: #fff;
+}
+
+.navigation h1 {
+  font-size: 20px;
+}
+
+.navigation h2 {
+  font-size: 16px;
+  font-weight: normal;
+  margin: 0;
+  border: 1px solid #e8a400;
+  border-bottom: 0;
+  background: #ffc;
+  color: #E8A400;
+  padding: 8px;
+  padding-bottom: 0;
+}
+
+.navigation ul {
+  margin-top: 0;
+  border: 1px solid #E8A400;
+  border-top: none;
+  background: #ffc;
+  padding: 8px;
+  margin-left: 0;
+}
+
+.navigation ul li {
+  font-size: 12px;
+  list-style-type: none;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.navigation a {
+  color: #ffc;
+}
+
+.navigation ul li a {
+  color: #000;
+}
+
 #log {
   padding-bottom: 1em;
   border-bottom: 2px solid #000;

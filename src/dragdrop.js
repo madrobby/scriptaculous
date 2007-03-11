@@ -1,5 +1,5 @@
-// Copyright (c) 2005, 2006 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
-//           (c) 2005, 2006 Sammi Williams (http://www.oriontransfer.co.nz, sammi@oriontransfer.co.nz)
+// Copyright (c) 2005-2007 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+//           (c) 2005-2007 Sammi Williams (http://www.oriontransfer.co.nz, sammi@oriontransfer.co.nz)
 // 
 // script.aculo.us is freely distributable under the terms of an MIT-style license.
 // For details, see the script.aculo.us web site: http://script.aculo.us/
@@ -245,6 +245,7 @@ Draggable.prototype = {
       },
       zindex: 1000,
       revert: false,
+      quiet: false,
       scroll: false,
       scrollSensitivity: 20,
       scrollSpeed: 15,
@@ -353,8 +354,12 @@ Draggable.prototype = {
   
   updateDrag: function(event, pointer) {
     if(!this.dragging) this.startDrag(event);
-    Position.prepare();
-    Droppables.show(pointer, this.element);
+    
+    if(!this.options.quiet){
+      Position.prepare();
+      Droppables.show(pointer, this.element);
+    }
+    
     Draggables.notify('onDrag', this, event);
     
     this.draw(pointer);
@@ -389,6 +394,12 @@ Draggable.prototype = {
   
   finishDrag: function(event, success) {
     this.dragging = false;
+    
+    if(this.options.quiet){
+      Position.prepare();
+      var pointer = [Event.pointerX(event), Event.pointerY(event)];
+      Droppables.show(pointer, this.element);
+    }
 
     if(this.options.ghosting) {
       Position.relativize(this.element);
@@ -620,6 +631,7 @@ var Sortable = {
       delay:       0,
       hoverclass:  null,
       ghosting:    false,
+      quiet:       false, 
       scroll:      false,
       scrollSensitivity: 20,
       scrollSpeed: 15,
@@ -634,6 +646,7 @@ var Sortable = {
     // build options for the draggables
     var options_for_draggable = {
       revert:      true,
+      quiet:       options.quiet,
       scroll:      options.scroll,
       scrollSpeed: options.scrollSpeed,
       scrollSensitivity: options.scrollSensitivity,

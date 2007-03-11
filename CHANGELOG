@@ -1,7 +1,12 @@
-*SVN*
+*V1.7.1 beta 1* (March 12, 2007)
 
-* Update to Prototype 1.5.1_rc0
-    See http://dev.rubyonrails.org/browser/spinoffs/prototype/trunk/CHANGELOG?rev=6369 for more information
+* Update to Prototype 1.5.1 r6386
+  - Fixes SlideUp/SlideDown on IE
+  - Fixes an opacity problem with IE
+  - Performance optimizations
+  - See http://dev.rubyonrails.org/browser/spinoffs/prototype/trunk/CHANGELOG?rev=6381 for more information
+    
+* Make builder unit tests work on IE
 
 * Fix id assignment for sounds on Firefox/Windows, fixes #7709 [Robert Wallis]
 

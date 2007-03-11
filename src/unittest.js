@@ -1,6 +1,6 @@
-// Copyright (c) 2005, 2006 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
-//           (c) 2005, 2006 Jon Tirsen (http://www.tirsen.com)
-//           (c) 2005, 2006 Michael Schuerig (http://www.schuerig.de/michael/)
+// Copyright (c) 2005-2007 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+//           (c) 2005-2007 Jon Tirsen (http://www.tirsen.com)
+//           (c) 2005-2007 Michael Schuerig (http://www.schuerig.de/michael/)
 //
 // script.aculo.us is freely distributable under the terms of an MIT-style license.
 // For details, see the script.aculo.us web site: http://script.aculo.us/
