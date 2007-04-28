@@ -41,7 +41,8 @@ var Autocompleter = {}
 Autocompleter.Base = function() {};
 Autocompleter.Base.prototype = {
   baseInitialize: function(element, update, options) {
-    this.element     = $(element); 
+    element          = $(element)
+    this.element     = element; 
     this.update      = $(update);  
     this.hasFocus    = false; 
     this.changed     = false; 
@@ -81,8 +82,14 @@ Autocompleter.Base.prototype = {
 
     Element.hide(this.update);
 
-    Event.observe(this.element, "blur", this.onBlur.bindAsEventListener(this));
-    Event.observe(this.element, "keypress", this.onKeyPress.bindAsEventListener(this));
+    Event.observe(this.element, 'blur', this.onBlur.bindAsEventListener(this));
+    Event.observe(this.element, 'keypress', this.onKeyPress.bindAsEventListener(this));
+
+    // Turn autocomplete back on when the user leaves the page, so that the
+    // field's value will be remembered on Mozilla-based browsers.
+    Event.observe(window, 'beforeunload', function(){ 
+      element.setAttribute('autocomplete', 'on'); 
+    });
   },
 
   show: function() {
