@@ -16,13 +16,17 @@
 
 
 
-This is an incremental Ajax autocompleter. Type something, then type a comma, than type more.<br/>
+This is an incremental Ajax autocompleter. Type something, then type a comma, than type more. This autocompleter features an indicator.<br/>
+<div id="ac1_indicator" style="display:none">NOW FETCHING RESULTS</div>
 Autocompleter ac1: <input type="text" id="ac1" autocomplete="off"/>
 <div id="ac1update" style="display:none;border:1px solid black;background-color:white;position:relative;"></div>
 
+
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-  new Ajax.Autocompleter('ac1','ac1update','_autocomplete_result.html', { tokens: ','} );
+  new Ajax.Autocompleter('ac1','ac1update','_autocomplete_result.html', { 
+    tokens: ',', indicator: 'ac1_indicator'
+  } );
 // ]]>
 </script>
 

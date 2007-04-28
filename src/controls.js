@@ -303,7 +303,6 @@ Autocompleter.Base.prototype = {
   onObserverEvent: function() {
     this.changed = false;   
     if(this.getToken().length>=this.options.minChars) {
-      this.startIndicator();
       this.getUpdatedChoices();
     } else {
       this.active = false;
@@ -344,6 +343,8 @@ Object.extend(Object.extend(Ajax.Autocompleter.prototype, Autocompleter.Base.pro
   },
 
   getUpdatedChoices: function() {
+    this.startIndicator();
+    
     entry = encodeURIComponent(this.options.paramName) + '=' + 
       encodeURIComponent(this.getToken());
 

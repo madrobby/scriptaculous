@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix autocompleter indicator not appearing when calling activate() directly. Don't show indicator for local autocompleting. Fixes #7770. [pyro8019]
+
 * Don't clear out autocompleting fields in Mozilla-based browsers when navigating back to a page with the Back button, fixes #7752. [seanc]
 
 *V1.7.1 beta 1* (March 12, 2007)
