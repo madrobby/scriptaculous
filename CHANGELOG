@@ -1,4 +1,8 @@
-*SVN*
+*V1.7.1 beta 2* (April 28, 2007)
+
+* Update to Prototype 1.5.1_rc4
+  - Various optimizations and fixes
+  - http://dev.rubyonrails.org/browser/spinoffs/prototype/trunk/CHANGELOG?rev=6604
 
 * Fix autocompleter indicator not appearing when calling activate() directly. Don't show indicator for local autocompleting. Fixes #7770. [pyro8019]
 

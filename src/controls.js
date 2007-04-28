@@ -201,7 +201,6 @@ Autocompleter.Base.prototype = {
         this.index==i ? 
           Element.addClassName(this.getEntry(i),"selected") : 
           Element.removeClassName(this.getEntry(i),"selected");
-        
       if(this.hasFocus) { 
         this.show();
         this.active = true;
@@ -345,7 +344,7 @@ Object.extend(Object.extend(Ajax.Autocompleter.prototype, Autocompleter.Base.pro
   getUpdatedChoices: function() {
     this.startIndicator();
     
-    entry = encodeURIComponent(this.options.paramName) + '=' + 
+    var entry = encodeURIComponent(this.options.paramName) + '=' + 
       encodeURIComponent(this.getToken());
 
     this.options.parameters = this.options.callback ?
@@ -353,7 +352,7 @@ Object.extend(Object.extend(Ajax.Autocompleter.prototype, Autocompleter.Base.pro
 
     if(this.options.defaultParams) 
       this.options.parameters += '&' + this.options.defaultParams;
-
+    
     new Ajax.Request(this.url, this.options);
   },
 
