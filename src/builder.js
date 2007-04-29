@@ -87,7 +87,7 @@ var Builder = {
     var attrs = [];
     for(attribute in attributes)
       attrs.push((attribute in this.ATTR_MAP ? this.ATTR_MAP[attribute] : attribute) +
-          '="' + attributes[attribute].toString().escapeHTML() + '"');
+          '="' + attributes[attribute].toString().escapeHTML().gsub(/"/,'&quot;') + '"');
     return attrs.join(" ");
   },
   _children: function(element, children) {

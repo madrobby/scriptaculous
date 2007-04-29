@@ -1,3 +1,7 @@
+*SVN*
+
+* Fix Builder.node double quote escaping in attributes, fixes #8125. [Aa!]
+
 *V1.7.1 beta 2* (April 28, 2007)
 
 * Update to Prototype 1.5.1_rc4

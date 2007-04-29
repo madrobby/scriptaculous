@@ -244,6 +244,11 @@
           var node = Builder.build(html);
           assertEqual('<span>this is <b>neat!</b></span>', serializeNode(node));
         });
+    }},
+    
+    testBuilderAttributeEscaping: function() { with(this) {
+      var element = Builder.node('div',{blah:"<foo'bar&baz\"bat>"});
+      assertEqual("<foo'bar&baz\"bat>", $(element).readAttribute('blah'));
     }}
 
   });
