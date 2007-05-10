@@ -101,5 +101,41 @@
 
 <p id="debug">no calls to onUpdate</p>
 
+<ul id="sortable_elements_handles">
+  <li id="s_1">s1 <span class="handle" id="h_1">handle</span></li>
+  <li id="s_2">s2 <span class="handle" id="h_2">handle</span></li>
+  <li id="s_3">s3 <span class="handle" id="h_3">handle</span></li>
+  <li id="s_4">s4 <span class="handle" id="h_4">handle</span></li>
+  <li id="s_5">s5 <span class="handle" id="h_5">handle</span></li>
+  <li id="s_6">s6 <span class="handle" id="h_6">handle</span></li>
+  <li id="s_7">s7 <span class="handle" id="h_7">handle</span></li>
+  <li id="s_8">s8 <span class="handle" id="h_8">handle</span></li>
+  <li id="s_9">s9 <span class="handle" id="h_9">handle</span></li>
+  <li id="s_10">s10 <span class="handle" id="h_10">handle</span></li>
+</ul>
+
+<script type="text/javascript" charset="utf-8">
+  function initializePreselected(){
+    Sortable.create('sortable_elements_handles',{
+      handle: 'handle',
+      handles: ['h_1','h_2','h_3','h_4','h_5','h_6','h_7','h_8','h_9','h_10'],
+      elements: ['s_1','s_2','s_3','s_4','s_5','s_6','s_7','s_8','s_9','s_10']
+    });
+  }
+  function initializeNormal(){
+    Sortable.create('sortable_elements_handles',{
+      handle: 'handle'
+    });
+  }
+  function benchmark(method,times){
+    var now = new Date();
+    times.times(method);
+    $('benchmark').update((new Date()-now)+'ms');
+  }
+</script>
+
+20 times: <a href="#" onclick="benchmark(function(){initializePreselected()},20);return false">Init with Preselection</a> |
+<a href="#" onclick="benchmark(function(){initializeNormal()},20);return false">Init normally</a> <span id="benchmark"></span>
+
 </body>
 </html>

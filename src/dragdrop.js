@@ -636,6 +636,12 @@ var Sortable = {
       scrollSensitivity: 20,
       scrollSpeed: 15,
       format:      this.SERIALIZE_RULE,
+      
+      // these take arrays of elements or ids and can be 
+      // used for better initialization performance
+      elements:    false,
+      handles:     false,
+      
       onChange:    Prototype.emptyFunction,
       onUpdate:    Prototype.emptyFunction
     }, arguments[1] || {});
@@ -700,10 +706,9 @@ var Sortable = {
       options.droppables.push(element);
     }
 
-    (this.findElements(element, options) || []).each( function(e) {
-      // handles are per-draggable
-      var handle = options.handle ? 
-        $(e).down('.'+options.handle,0) : e;    
+    (options.elements || this.findElements(element, options) || []).each( function(e,i) {
+      var handle = options.handles ? $(options.handles[i]) :
+        (options.handle ? $(e).getElementsByClassName(options.handle)[0] : e); 
       options.draggables.push(
         new Draggable(e, Object.extend(options_for_draggable, { handle: handle })));
       Droppables.add(e, options_for_droppable);
@@ -940,7 +945,7 @@ Element.isParent = function(child, element) {
   return Element.isParent(child.parentNode, element);
 }
 
-Element.findChildren = function(element, only, recursive, tagName) {    
+Element.findChildren = function(element, only, recursive, tagName) {   
   if(!element.hasChildNodes()) return null;
   tagName = tagName.toUpperCase();
   if(only) only = [only].flatten();
