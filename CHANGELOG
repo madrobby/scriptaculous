@@ -1,5 +1,7 @@
 *SVN*
 
+* Update to Prototype 1.5.1 final
+
 * New elements and handles options for Sortable.create which take arrays of elements or element ids. These overrule the normal handle and elements finding options on initialization of the sortable, and can yield huge performance increases in situations where these elements or ids are known at call time. [Thomas Fuchs]
 
 * Major performance improvement of Sortable.create when using the handle option. [Tobie Langel]
