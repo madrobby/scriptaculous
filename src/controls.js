@@ -87,9 +87,10 @@ Autocompleter.Base.prototype = {
 
     // Turn autocomplete back on when the user leaves the page, so that the
     // field's value will be remembered on Mozilla-based browsers.
-    Event.observe(window, 'beforeunload', function(){ 
-      element.setAttribute('autocomplete', 'on'); 
-    });
+    if(Prototype.Browser.Gecko)
+      Event.observe(window, 'beforeunload', function(){
+        element.setAttribute('autocomplete', 'on');
+      });
   },
 
   show: function() {

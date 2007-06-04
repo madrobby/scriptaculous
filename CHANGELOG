@@ -1,3 +1,7 @@
+*SVN*
+
+* Fix that non-Mozilla browsers would display messages with the autocompleter back-button fix introduced in 1.7.1 beta 2. Fixes #7752, #8411. [josh, stetz] 
+
 *V1.7.1 beta 3* (May 19, 2007)
 
 * Update to Prototype 1.5.1 final
