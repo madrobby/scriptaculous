@@ -1,5 +1,9 @@
 *SVN*
 
+* Update to Prototype 1.5.2_rc0 r6955 (required for #8581)
+
+* Fix incorrect placement on drop for absolute ghosting elements.  Closes #8581.  [tdd]
+
 * Make sure the autocompletion happens on the token where the cursor is, not the last token when using tokenized autocompleting text fields.  Closes #8588.  [tdd]
 
 * Fix that non-Mozilla browsers would display messages with the autocompleter back-button fix introduced in 1.7.1 beta 2. Fixes #7752, #8411. [josh, stetz] 

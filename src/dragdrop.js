@@ -332,7 +332,9 @@ Draggable.prototype = {
     
     if(this.options.ghosting) {
       this._clone = this.element.cloneNode(true);
-      Position.absolutize(this.element);
+      this.element._originallyAbsolute = (this.element.getStyle('position') == 'absolute');
+      if (!this.element._originallyAbsolute)
+        Position.absolutize(this.element);
       this.element.parentNode.insertBefore(this._clone, this.element);
     }
     
@@ -402,7 +404,9 @@ Draggable.prototype = {
     }
 
     if(this.options.ghosting) {
-      Position.relativize(this.element);
+      if (!this.element._originallyAbsolute)
+        Position.relativize(this.element);
+      delete this.element._originallyAbsolute;
       Element.remove(this._clone);
       this._clone = null;
     }
