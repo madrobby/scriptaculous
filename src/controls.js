@@ -49,6 +49,7 @@ Autocompleter.Base.prototype = {
     this.active      = false; 
     this.index       = 0;     
     this.entryCount  = 0;
+    this.oldElementValue = this.element.value;
 
     if(this.setOptions)
       this.setOptions(options);
@@ -75,6 +76,9 @@ Autocompleter.Base.prototype = {
 
     if(typeof(this.options.tokens) == 'string') 
       this.options.tokens = new Array(this.options.tokens);
+    // Force carriage returns as token delimiters anyway
+    if (!this.options.tokens.include('\n'))
+      this.options.tokens.push('\n');
 
     this.observer = null;
     
@@ -249,16 +253,17 @@ Autocompleter.Base.prototype = {
     } else
       value = Element.collectTextNodesIgnoreClass(selectedElement, 'informal');
     
-    var lastTokenPos = this.findLastToken();
-    if (lastTokenPos != -1) {
-      var newValue = this.element.value.substr(0, lastTokenPos + 1);
-      var whitespace = this.element.value.substr(lastTokenPos + 1).match(/^\s+/);
+    var bounds = this.getTokenBounds();
+    if (bounds[0] != -1) {
+      var newValue = this.element.value.substr(0, bounds[0]);
+      var whitespace = this.element.value.substr(bounds[0]).match(/^\s+/);
       if (whitespace)
         newValue += whitespace[0];
-      this.element.value = newValue + value;
+      this.element.value = newValue + value + this.element.value.substr(bounds[1]);
     } else {
       this.element.value = value;
     }
+    this.oldElementValue = this.element.value;
     this.element.focus();
     
     if (this.options.afterUpdateElement)
@@ -302,35 +307,46 @@ Autocompleter.Base.prototype = {
 
   onObserverEvent: function() {
     this.changed = false;   
+    this.tokenBounds = null;
     if(this.getToken().length>=this.options.minChars) {
       this.getUpdatedChoices();
     } else {
       this.active = false;
       this.hide();
     }
+    this.oldElementValue = this.element.value;
   },
 
   getToken: function() {
-    var tokenPos = this.findLastToken();
-    if (tokenPos != -1)
-      var ret = this.element.value.substr(tokenPos + 1).replace(/^\s+/,'').replace(/\s+$/,'');
-    else
-      var ret = this.element.value;
-
-    return /\n/.test(ret) ? '' : ret;
+    var bounds = this.getTokenBounds();
+    return this.element.value.substring(bounds[0], bounds[1]).strip();
   },
 
-  findLastToken: function() {
-    var lastTokenPos = -1;
-
-    for (var i=0; i<this.options.tokens.length; i++) {
-      var thisTokenPos = this.element.value.lastIndexOf(this.options.tokens[i]);
-      if (thisTokenPos > lastTokenPos)
-        lastTokenPos = thisTokenPos;
+  getTokenBounds: function() {
+    if (null != this.tokenBounds) return this.tokenBounds;
+    var value = this.element.value;
+    if (value.strip().empty()) return [-1, 0];
+    var diff = arguments.callee.getFirstDifferencePos(value, this.oldElementValue);
+    var offset = (diff == this.oldElementValue.length ? 1 : 0);
+    var prevTokenPos = -1, nextTokenPos = value.length;
+    var tp;
+    for (var index = 0, l = this.options.tokens.length; index < l; ++index) {
+      tp = value.lastIndexOf(this.options.tokens[index], diff + offset - 1);
+      if (tp > prevTokenPos) prevTokenPos = tp;
+      tp = value.indexOf(this.options.tokens[index], diff + offset);
+      if (-1 != tp && tp < nextTokenPos) nextTokenPos = tp;
     }
-    return lastTokenPos;
+    return (this.tokenBounds = [prevTokenPos + 1, nextTokenPos]);
   }
 }
+
+Autocompleter.Base.prototype.getTokenBounds.getFirstDifferencePos = function(newS, oldS) {
+  var boundary = Math.min(newS.length, oldS.length);
+  for (var index = 0; index < boundary; ++index)
+    if (newS[index] != oldS[index])
+      return index;
+  return boundary;
+};
 
 Ajax.Autocompleter = Class.create();
 Object.extend(Object.extend(Ajax.Autocompleter.prototype, Autocompleter.Base.prototype), {

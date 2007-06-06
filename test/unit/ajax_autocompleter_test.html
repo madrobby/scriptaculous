@@ -1,5 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- vim:expandtab=on
+  -->
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <title>script.aculo.us Unit test file</title>
@@ -149,6 +151,15 @@
           Event.simulateKey('actoken_input','keypress',{keyCode:Event.KEY_DOWN});
           Event.simulateKey('actoken_input','keypress',{keyCode:Event.KEY_TAB});
           assertEqual('test1,test2',$('actoken_input').value);
+          // Simulating KEY_LEFT's prior to a 'b' doesn't work!  So slightly ugly here...
+          $('actoken_input').value = 'test1b,test2';
+          actoken.onObserverEvent(); 
+          wait(1000, function() { with(this) {
+            for (var index = 0; index < 2; ++index)
+              Event.simulateKey('actoken_input', 'keypress', {keyCode: Event.KEY_DOWN});
+            Event.simulateKey('actoken_input', 'keypress', {keyCode: Event.KEY_TAB});
+            assertEqual('test3,test2', $('actoken_input').value);
+          }});
         }});
       }});
     }},
