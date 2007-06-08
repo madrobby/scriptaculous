@@ -156,6 +156,9 @@ Effect.Transitions = {
         1 - ((pos * pulses * 2) - Math.floor(pos * pulses * 2))
       );
   },
+  spring: function(pos) { 
+    return 1 - (Math.cos(pos * 4.5 * Math.PI) * Math.exp(-pos * 6)); 
+  },
   none: function(pos) {
     return 0;
   },
@@ -255,7 +258,7 @@ Effect.Base.prototype = {
         (options[eventName] ? 'this.options.'+eventName+'(this);' : '')
       );
     }
-    if(options && options.transition === false) options.transition = Effect.Transitions.linear;
+    //if(options && options.transition === false) options.transition = Effect.Transitions.linear;
     this.options      = Object.extend(Object.extend({},Effect.DefaultOptions), options || {});
     this.currentFrame = 0;
     this.state        = 'idle';

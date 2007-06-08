@@ -12,7 +12,18 @@
     </div> 
     <script type="text/javascript">
     //<![CDATA[
-    new Draggable("source", {revert:"failure", onDropped: function(element){ $(element).update('I WAS DROPPED!') } });
+    new Draggable("source", {
+      revert:"failure", 
+      onDropped: function(element){ $(element).update('I WAS DROPPED!') },
+      reverteffect: function(element, top_offset, left_offset) {
+        var dur = Math.sqrt(Math.abs(top_offset^2)+Math.abs(left_offset^2))*0.02;
+        new Effect.Move(element, { 
+          x: -left_offset, y: -top_offset, duration: dur,
+          transition: Effect.Transitions.spring,
+          queue: {scope:'_draggable', position:'end'}
+        });
+      }
+    });
     //]]>
     </script>
     
@@ -24,9 +35,9 @@
     
      <script type="text/javascript">
      //<![CDATA[
-     Droppables.add("target", {onDrop:function(element){
-       Effect.Puff($('source'));
-     }});
+     Droppables.add("target", {
+       onDrop:function(element){ Effect.Puff($('source')); }
+     });
      //]]>
      </script>
     

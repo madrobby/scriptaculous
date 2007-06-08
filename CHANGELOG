@@ -1,5 +1,7 @@
 *SVN*
 
+* Add Effect.Transitions.spring, which simulates a spring which oscillates while coming to rest. This transition is specifically targeted towards use with Effect.Move, for example as a reverteffect when using Draggables, as it will have return values >1 and cause temporay "overshooting" of the effect.  Closes #8474.  [edg2s]
+
 * Fix effects initialization if no options are given.  Fixes #7809.  [thx Kroc Camen]
 
 * Update to Prototype 1.5.2_rc0 r6955 (required for #8581)
