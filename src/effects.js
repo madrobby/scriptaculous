@@ -255,7 +255,7 @@ Effect.Base.prototype = {
         (options[eventName] ? 'this.options.'+eventName+'(this);' : '')
       );
     }
-    if(options.transition === false) options.transition = Effect.Transitions.linear;
+    if(options && options.transition === false) options.transition = Effect.Transitions.linear;
     this.options      = Object.extend(Object.extend({},Effect.DefaultOptions), options || {});
     this.currentFrame = 0;
     this.state        = 'idle';
@@ -267,15 +267,15 @@ Effect.Base.prototype = {
     
     eval('this.render = function(pos){ '+
       'if(this.state=="idle"){this.state="running";'+
-      codeForEvent(options,'beforeSetup')+
+      codeForEvent(this.options,'beforeSetup')+
       (this.setup ? 'this.setup();':'')+ 
-      codeForEvent(options,'afterSetup')+
+      codeForEvent(this.options,'afterSetup')+
       '};if(this.state=="running"){'+
       'pos=this.options.transition(pos)*'+this.fromToDelta+'+'+this.options.from+';'+
       'this.position=pos;'+
-      codeForEvent(options,'beforeUpdate')+
+      codeForEvent(this.options,'beforeUpdate')+
       (this.update ? 'this.update(pos);':'')+
-      codeForEvent(options,'afterUpdate')+
+      codeForEvent(this.options,'afterUpdate')+
       '}}');
     
     this.event('beforeStart');

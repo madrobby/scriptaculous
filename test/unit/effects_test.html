@@ -301,6 +301,15 @@
       Effect.multiple('sandbox', Effect.Fade);
       assertEqual(10, Effect.Queue.effects.length);
     }},
+    
+    testEffectParallel: function() { with(this) {
+      assert( new Effect.Parallel() );
+      assert( new Effect.Parallel([]) );
+      assert( new Effect.Parallel([],{}) );
+      assert( new Effect.Parallel([
+        new Effect.Event({sync:true})
+      ],{ duration: 2}) );
+    }},
 
     // test if all combined effects correctly initialize themselves
     testCombinedEffectsInitialize: function() { with(this) {

@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix effects initialization if no options are given.  Fixes #7809.  [thx Kroc Camen]
+
 * Update to Prototype 1.5.2_rc0 r6955 (required for #8581)
 
 * Fix incorrect placement on drop for absolute ghosting elements.  Closes #8581.  [tdd]
