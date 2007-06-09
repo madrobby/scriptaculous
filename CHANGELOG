@@ -1,5 +1,9 @@
 *SVN*
 
+* Add highlight element method as a shortcut to Effect.Highlight.
+    Example:
+      $('message').highlight({startcolor:'#ff0000'}).update('KTHXBYE');
+
 * Improve performance of String.prototype.parseStyle by caching the dummy element used.
 
 * Add combined effects as element methods.
