@@ -1,6 +1,11 @@
 *SVN*
 
-* Add Effect.Transitions.spring, which simulates a spring which oscillates while coming to rest. This transition is specifically targeted towards use with Effect.Move, for example as a reverteffect when using Draggables, as it will have return values >1 and cause temporay "overshooting" of the effect.  Closes #8474.  [edg2s]
+* Add combined effects as element methods.
+    Examples:
+      $('message').appear().update('Oh noes!');
+      $('login').shake({ duration: 2 });
+
+* Add Effect.Transitions.spring, which simulates a spring which oscillates while coming to rest. This transition is specifically targeted towards use with Effect.Move, for example as a reverteffect when using Draggables, as it will have return values >1 and cause temporary "overshooting" of the effect.  Closes #8474.  [edg2s]
 
 * Fix effects initialization if no options are given.  Fixes #7809.  [thx Kroc Camen]
 

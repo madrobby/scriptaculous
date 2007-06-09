@@ -328,8 +328,12 @@
         var effect = Effect[fx]('test_element');
         assertEqual(0, effect.currentFrame);
         
-        // and, for visualEffect
+        // visualEffect
         assert($('test_element') == $('test_element').visualEffect(COMBINED_RJS_EFFECTS[idx]));
+        
+        // direct element extension
+        var method = COMBINED_EFFECTS[idx].charAt(0).toLowerCase() + COMBINED_EFFECTS[idx].substring(1)
+        assert($('test_element') == $('test_element')[method]());
         
         // options parsing (shake, squish and grow are special here)
         if(!['Shake','Squish','Grow'].include(fx)) {

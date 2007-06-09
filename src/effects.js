@@ -258,7 +258,7 @@ Effect.Base.prototype = {
         (options[eventName] ? 'this.options.'+eventName+'(this);' : '')
       );
     }
-    //if(options && options.transition === false) options.transition = Effect.Transitions.linear;
+    if(options && options.transition === false) options.transition = Effect.Transitions.linear;
     this.options      = Object.extend(Object.extend({},Effect.DefaultOptions), options || {});
     this.currentFrame = 0;
     this.state        = 'idle';
@@ -1075,21 +1075,33 @@ String.prototype.parseStyle = function(){
   return styleRules;
 };
 
-Element.morph = function(element, style) {
-  new Effect.Morph(element, Object.extend({ style: style }, arguments[2] || {}));
-  return element;
+Effect.Methods = {
+  morph: function(element, style) {
+    element = $(element);
+    new Effect.Morph(element, Object.extend({ style: style }, arguments[2] || {}));
+    return element;
+  },
+  visualEffect: function(element, effect, options) {
+    element = $(element)
+    var s = effect.dasherize().camelize(), klass = s.charAt(0).toUpperCase() + s.substring(1);
+    new Effect[klass](element, options);
+    return element;
+  }
 };
 
-['getInlineOpacity','forceRerendering','setContentZoom',
- 'collectTextNodes','collectTextNodesIgnoreClass','morph'].each( 
-  function(f) { Element.Methods[f] = Element[f]; }
+$w('fade appear grow shrink fold blindUp blindDown slideUp slideDown '+
+  'pulsate shake puff highlight squish switchOff dropOut').each(
+  function(effect) { 
+    Effect.Methods[effect] = function(element, options){
+      element = $(element);
+      new Effect[effect.charAt(0).toUpperCase() + effect.substring(1)](element, options);
+      return element;
+    }
+  }
 );
 
-Element.Methods.visualEffect = function(element, effect, options) {
-  s = effect.dasherize().camelize();
-  effect_class = s.charAt(0).toUpperCase() + s.substring(1);
-  new Effect[effect_class](element, options);
-  return $(element);
-};
+$w('getInlineOpacity forceRerendering setContentZoom collectTextNodes collectTextNodesIgnoreClass').each( 
+  function(f) { Effect.Methods[f] = Element[f]; }
+);
 
-Element.addMethods();
+Element.addMethods(Effect.Methods);
