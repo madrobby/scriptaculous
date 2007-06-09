@@ -1,5 +1,7 @@
 *SVN*
 
+* Improve performance of String.prototype.parseStyle by caching the dummy element used.
+
 * Add combined effects as element methods.
     Examples:
       $('message').appear().update('Oh noes!');

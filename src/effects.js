@@ -1061,17 +1061,18 @@ Element.CSS_PROPERTIES = $w(
   
 Element.CSS_LENGTH = /^(([\+\-]?[0-9\.]+)(em|ex|px|in|cm|mm|pt|pc|\%))|0$/;
 
+String.__parseStyleElement = document.createElement('div');
 String.prototype.parseStyle = function(){
-  var element = document.createElement('div');
-  element.innerHTML = '<div style="' + this + '"></div>';
-  var style = element.childNodes[0].style, styleRules = $H();
+  String.__parseStyleElement.innerHTML = '<div style="' + this + '"></div>';
+  var style = String.__parseStyleElement.childNodes[0].style, styleRules = $H();
   
   Element.CSS_PROPERTIES.each(function(property){
     if(style[property]) styleRules[property] = style[property]; 
   });
-  if(Prototype.Browser.IE && this.indexOf('opacity') > -1) {
+  
+  if(Prototype.Browser.IE && this.indexOf('opacity') > -1)
     styleRules.opacity = this.match(/opacity:\s*((?:0|1)?(?:\.\d*)?)/)[1];
-  }
+
   return styleRules;
 };
 
