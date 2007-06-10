@@ -37,13 +37,11 @@ Sound = {
       this.tracks[options.track].id++;
       
     options.id = this.tracks[options.track].id;
-    if (Prototype.Browser.IE)
-      $$('body')[0].insert(new Element('bgsound',{
+    $$('body')[0].insert( 
+      Prototype.Browser.IE ? new Element('bgsound',{
         id: 'sound_'+options.track+'_'+options.id,
         src: options.url, loop: 1, autostart: true
-      }));  
-    else
-      $$('body')[0].insert(Sound.template.evaluate(options));
+      }) : Sound.template.evaluate(options));
   }
 };
 
