@@ -1,5 +1,7 @@
 *SVN*
 
+* Mild refactoring of sound.js to take advantage of new Prototype features.
+
 * Add highlight element method as a shortcut to Effect.Highlight.
     Example:
       $('message').highlight({startcolor:'#ff0000'}).update('KTHXBYE');

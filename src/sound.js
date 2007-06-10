@@ -37,16 +37,13 @@ Sound = {
       this.tracks[options.track].id++;
       
     options.id = this.tracks[options.track].id;
-    if (Prototype.Browser.IE) {
-      var sound = document.createElement('bgsound');
-      sound.setAttribute('id','sound_'+options.track+'_'+options.id);
-      sound.setAttribute('src',options.url);
-      sound.setAttribute('loop','1');
-      sound.setAttribute('autostart','true');
-      $$('body')[0].appendChild(sound);
-    }  
+    if (Prototype.Browser.IE)
+      $$('body')[0].insert(new Element('bgsound',{
+        id: 'sound_'+options.track+'_'+options.id,
+        src: options.url, loop: 1, autostart: true
+      }));  
     else
-      new Insertion.Bottom($$('body')[0], Sound.template.evaluate(options));
+      $$('body')[0].insert(Sound.template.evaluate(options));
   }
 };
 
