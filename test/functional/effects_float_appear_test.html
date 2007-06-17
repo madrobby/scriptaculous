@@ -15,7 +15,11 @@
 </p>
 
 <a href="#" onclick="Effect.Appear('float_div_left'); return false;">float:left</a> |
-<a href="#" onclick="Effect.Appear('float_div_right'); return false;">float:right</a>
+<a href="#" onclick="Effect.Appear('float_div_right'); return false;">float:right</a> |
+<a href="#" onclick="$('float_div_right').setOpacity(1)">float:right (setOpacity 1)</a> |
+<a href="#" onclick="Effect.Appear('icon'); return false;">image (non-floating)</a> |
+<a href="#" onclick="Effect.Appear('float_icon'); return false;">image (floating)</a> |
+<a href="#" onclick="$('float_icon').setOpacity(1);">image (setOpacity 1)</a>
 
 <hr/>
 
@@ -26,12 +30,16 @@
   ut labore et dolore magna aliqua.
 </div>
 
-<div id="float_div_right" style="float:right;display:none">
+<div id="float_div_right" style="float:right;opacity:0.4">
   Lorem ipsum dolor sit amet,<br/>
   consectetur adipisicing elit,<br/>
   sed do eiusmod tempor incididunt<br/>
   ut labore et dolore magna aliqua.
 </div>
+
+<img id="icon" src="icon.png" style="display:none" alt="" />
+
+<img id="float_icon" src="icon.png" style="float:left;opacity:0.4" alt="" />
 
 
 </body>
