@@ -1,6 +1,8 @@
 *SVN*
 
-* Update to Prototype 1.5.2_rc0 r7048. Fixes a rendering issue with opacity-based effects and floating elements on Safari.
+* Update to Prototype 1.5.2_rc0 r7076:
+  - Works around bugs in Safari 1 and Safari 2 Regexp engines that could cause crashes
+  - Fixes a rendering issue with opacity-based effects and floating elements on Safari
 
 * Mild refactoring of sound.js to take advantage of new Prototype features.
 
@@ -19,9 +21,7 @@
 
 * Fix effects initialization if no options are given.  Fixes #7809.  [thx Kroc Camen]
 
-* Update to Prototype 1.5.2_rc0 r6955 (required for #8581)
-
-* Fix incorrect placement on drop for absolute ghosting elements.  Closes #8581.  [tdd]
+* Fix incorrect placement on drop for absolute ghosting elements. Update to Prototype 1.5.2_rc0 r6955 (required for #8581). Closes #8581.  [tdd]
 
 * Make sure the autocompletion happens on the token where the cursor is, not the last token when using tokenized autocompleting text fields.  Closes #8588.  [tdd]
 
