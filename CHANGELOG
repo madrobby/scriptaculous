@@ -1,5 +1,11 @@
 *SVN*
 
+* Complete rewrite of Ajax.InPlaceEditor and Ajax.InPlaceCollectionEditor.  [tdd]
+  THIS UPDATE MIGHT AFFECT BACKWARDS COMPATIBILITY.
+  Be sure to properly test, especially if you're using multi-line editing and/or monkeypatching.
+  Read more about all the added goodness in this article:
+  http://mir.aculo.us/2007/7/17/in-place-editing-the-summer-2007-rewrite
+
 * Update to Prototype 1.5.2_rc0 r7076:
   - Works around bugs in Safari 1 and Safari 2 Regexp engines that could cause crashes
   - Fixes a rendering issue with opacity-based effects and floating elements on Safari
