@@ -22,6 +22,7 @@
 <a id="tobeeditedEditControl" href="#">edit</a>
 
 <p id="newtbe">New to be edited</p>
+<p id="newtbe_external">External control for it</p>
 
 <div id="tobeeditedMultiLine">First line<br/>
 Second line<br/>
@@ -315,6 +316,26 @@ Third line</div>
       var nodes = $('newtbe-inplaceeditor').childNodes;
       assertEqual(2, nodes.length, 'The form should have only two nodes (edit+cancel)');
       assertEnumEqual(['input', 'a'], $A(nodes).pluck('tagName').invoke('toLowerCase'), 'Incorrect nodes');
+      ipe.dispose();
+    }},
+
+    testExternalControlOnly: function() {with(this) {
+      var ipe = new Ajax.InPlaceEditor('newtbe', '_ajax_inplaceeditor_result2.html', {
+        externalControl: 'newtbe_external'
+      });
+      Event.simulateMouse('newtbe', 'click');
+      assert(ipe._editing, 'Clicking on the element should turn editable.');
+      ipe.leaveEditMode();
+      Event.simulateMouse('newtbe_external', 'click');
+      assert(ipe._editing, 'Clicking on the external control should turn editable.');
+      ipe.dispose();
+      ipe = new Ajax.InPlaceEditor('newtbe', '_ajax_inplaceeditor_result2.html', {
+        externalControl: 'newtbe_external', externalControlOnly: true
+      });
+      Event.simulateMouse('newtbe', 'click');
+      assert(!ipe._editing, 'Clicking on the element should not turn editable.');
+      Event.simulateMouse('newtbe_external', 'click');
+      assert(ipe._editing, 'Clicking on the external control should turn editable.');
       ipe.dispose();
     }},
 

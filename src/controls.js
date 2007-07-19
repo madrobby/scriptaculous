@@ -498,6 +498,7 @@ Object.extend(Ajax.InPlaceEditor, {
     cancelText: 'cancel',
     clickToEditText: 'Click to edit',
     externalControl: null,                      // id|elt
+    externalControlOnly: false,
     fieldPostCreation: 'activate',              // 'activate'|'focus'|false
     formClassName: 'inplaceeditor-form',
     formId: null,                               // id|elt
@@ -570,6 +571,8 @@ Ajax.InPlaceEditor.prototype = {
     }
     if (this.options.externalControl)
       this.options.externalControl = $(this.options.externalControl);
+    if (!this.options.externalControl)
+      this.options.externalControlOnly = false;
     this._originalBackground = this.element.getStyle('background-color') || 'transparent';
     this.element.title = this.options.clickToEditText;
     this._boundCancelHandler = this.handleFormCancellation.bind(this);
@@ -785,7 +788,8 @@ Ajax.InPlaceEditor.prototype = {
     $H(Ajax.InPlaceEditor.Listeners).each(function(pair) {
       listener = this[pair.value].bind(this);
       this._listeners[pair.key] = listener;
-      this.element.observe(pair.key, listener);
+      if (!this.options.externalControlOnly)
+        this.element.observe(pair.key, listener);
       if (this.options.externalControl)
         this.options.externalControl.observe(pair.key, listener);
     }.bind(this));
@@ -810,7 +814,8 @@ Ajax.InPlaceEditor.prototype = {
   },
   unregisterListeners: function() {
     $H(this._listeners).each(function(pair) {
-      this.element.stopObserving(pair.key, pair.value);
+      if (!this.options.externalControlOnly)
+        this.element.stopObserving(pair.key, pair.value);
       if (this.options.externalControl)
         this.options.externalControl.stopObserving(pair.key, pair.value);
     }.bind(this));

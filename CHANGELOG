@@ -1,5 +1,7 @@
 *SVN*
 
+* Add the externalControlOnly option to the in-place editors to allow for external controls to exclusively trigger the in-place editing.  Closes #9024.  [tdd]
+
 * Complete rewrite of Ajax.InPlaceEditor and Ajax.InPlaceCollectionEditor.  [tdd]
   THIS UPDATE MIGHT AFFECT BACKWARDS COMPATIBILITY.
   Be sure to properly test, especially if you're using multi-line editing and/or monkeypatching.
