@@ -1,5 +1,9 @@
 *SVN*
 
+* Add support for full CSS inheritance in Effect.Morph.  Closes #9054.  [Tobie]
+  IMPORTANT: Note that this could potentially change the outcome of classname-based morphs, so be sure to check your morph effects if you use this feature. 
+  For this feature, the new method Element#getStyles is introduced, which returns an objects which properties correspond to the CSS properties found in Element.CSS_PROPERTIES. Note that this method doesn't work seemlessly across browsers for certain non-measurable CSS properties, such as float.  
+
 * Add the externalControlOnly option to the in-place editors to allow for external controls to exclusively trigger the in-place editing.  Closes #9024.  [tdd]
 
 * Complete rewrite of Ajax.InPlaceEditor and Ajax.InPlaceCollectionEditor.  [tdd]

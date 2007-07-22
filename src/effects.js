@@ -935,32 +935,30 @@ Object.extend(Object.extend(Effect.Morph.prototype, Effect.Base.prototype), {
     var options = Object.extend({
       style: {}
     }, arguments[1] || {});
-    if (typeof options.style == 'string') {
-      if(options.style.indexOf(':') == -1) {
-        var cssText = '', selector = '.' + options.style;
-        $A(document.styleSheets).reverse().each(function(styleSheet) {
-          if (styleSheet.cssRules) cssRules = styleSheet.cssRules;
-          else if (styleSheet.rules) cssRules = styleSheet.rules;
-          $A(cssRules).reverse().each(function(rule) {
-            if (selector == rule.selectorText) {
-              cssText = rule.style.cssText;
-              throw $break;
-            }
-          });
-          if (cssText) throw $break;
+    
+    if (typeof options.style != 'string') this.style = $H(options.style);
+    else {
+      if (options.style.include(':'))
+        this.style = options.style.parseStyle();
+      else {
+        this.element.addClassName(options.style);
+        this.style = $H(this.element.getStyles());
+        this.element.removeClassName(options.style);
+        var css = this.element.getStyles();
+        this.style = this.style.reject(function(style) {
+          return style.value == css[style.key];
         });
-        this.style = cssText.parseStyle();
-        options.afterFinishInternal = function(effect){
+        options.afterFinishInternal = function(effect) {
           effect.element.addClassName(effect.options.style);
           effect.transforms.each(function(transform) {
-            if(transform.style != 'opacity')
-              effect.element.style[transform.style] = '';
+            effect.element.style[transform.style] = '';
           });
         }
-      } else this.style = options.style.parseStyle();
-    } else this.style = $H(options.style)
+      }
+    }
     this.start(options);
   },
+  
   setup: function(){
     function parseColor(color){
       if(!color || ['rgba(0, 0, 0, 0)','transparent'].include(color)) color = '#ffffff';
@@ -1070,11 +1068,32 @@ String.prototype.parseStyle = function(){
     if(style[property]) styleRules[property] = style[property]; 
   });
   
-  if(Prototype.Browser.IE && this.indexOf('opacity') > -1)
+  if(Prototype.Browser.IE && this.include('opacity'))
     styleRules.opacity = this.match(/opacity:\s*((?:0|1)?(?:\.\d*)?)/)[1];
 
   return styleRules;
 };
+
+if (document.defaultView && document.defaultView.getComputedStyle) {
+  Element.getStyles = function(element) {
+    var css = document.defaultView.getComputedStyle($(element), null);
+    return Element.CSS_PROPERTIES.inject({}, function(styles, property) {
+      styles[property] = css[property];
+      return styles;
+    });
+  };
+} else {
+  Element.getStyles = function(element) {
+    element = $(element);
+    var css = element.currentStyle, styles;
+    styles = Element.CSS_PROPERTIES.inject({}, function(hash, property) {
+      hash[property] = css[property];
+      return hash;
+    });
+    if (!styles.opacity) styles.opacity = element.getOpacity();
+    return styles;
+  };
+}
 
 Effect.Methods = {
   morph: function(element, style) {
@@ -1106,7 +1125,7 @@ $w('fade appear grow shrink fold blindUp blindDown slideUp slideDown '+
   }
 );
 
-$w('getInlineOpacity forceRerendering setContentZoom collectTextNodes collectTextNodesIgnoreClass').each( 
+$w('getInlineOpacity forceRerendering setContentZoom collectTextNodes collectTextNodesIgnoreClass getStyles').each( 
   function(f) { Effect.Methods[f] = Element[f]; }
 );
 
