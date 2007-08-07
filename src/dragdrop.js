@@ -279,7 +279,6 @@ Draggable.prototype = {
 
     Element.makePositioned(this.element); // fix IE    
 
-    this.delta    = this.currentDelta();
     this.options  = options;
     this.dragging = false;   
 
@@ -324,6 +323,8 @@ Draggable.prototype = {
   
   startDrag: function(event) {
     this.dragging = true;
+    if(!this.delta)
+      this.delta = this.currentDelta();
     
     if(this.options.zindex) {
       this.originalZ = parseInt(Element.getStyle(this.element,'z-index') || 0);

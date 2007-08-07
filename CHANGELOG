@@ -1,5 +1,7 @@
 *SVN*
 
+* Make draggable initialization faster.  Closes #8697.  [ssinghi]
+
 * Make BDD-style testing compatible with IE6 and IE7.  Closes #8972.  [steveluscher]
 
 * Add BDD methods to booleans.  Closes #9147.  [steveluscher]
