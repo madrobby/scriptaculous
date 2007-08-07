@@ -530,7 +530,7 @@ Test.setupBDDExtensionMethods = function(){
       'var scope = args.shift();'+
       'scope.'+METHODMAP[m]+'.apply(scope,(args || []).concat([this])); }');
   }
-  [Array.prototype, String.prototype, Number.prototype].each(
+  [Array.prototype, String.prototype, Number.prototype, Boolean.prototype].each(
     function(p){ Object.extend(p, Test.BDDMethods) }
   );
 }

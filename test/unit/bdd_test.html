@@ -93,6 +93,18 @@ Test.context("BDD-style testing",{
     [1,2,3].shouldEqualEnum([1,2,3]);
   },
   
+  'should automatically add extensions to booleans': function(){ 
+    var theTruth = true; 
+    var lies = false; 
+     
+    theTruth.shouldNotBeA(String); 
+    lies.shouldBeA(Boolean); 
+    'false'.shouldNotBeA(Boolean); 
+     
+    theTruth.shouldEqual(true); 
+    lies.shouldNotEqual(true); 
+  },
+  
   'should support the eval() method': function(){
     eval('2*2').shouldEqual(4);
   },
