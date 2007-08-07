@@ -522,14 +522,18 @@ Test.setupBDDExtensionMethods = function(){
     shouldNotBe:     'assertReturnsFalse',
     shouldRespondTo: 'assertRespondsTo'
   };
-  Test.BDDMethods = {};
-  for(m in METHODMAP) {
-    Test.BDDMethods[m] = eval(
-      'function(){'+
-      'var args = $A(arguments);'+
-      'var scope = args.shift();'+
-      'scope.'+METHODMAP[m]+'.apply(scope,(args || []).concat([this])); }');
+  var makeAssertion = function(assertion, args, object) { 
+   	this[assertion].apply(this,(args || []).concat([object]));
   }
+  
+  Test.BDDMethods = {};   
+  $H(METHODMAP).each(function(pair) { 
+    Test.BDDMethods[pair.key] = function() { 
+       var args = $A(arguments); 
+       var scope = args.shift(); 
+       makeAssertion.apply(scope, [pair.value, args, this]); }; 
+  });
+  
   [Array.prototype, String.prototype, Number.prototype, Boolean.prototype].each(
     function(p){ Object.extend(p, Test.BDDMethods) }
   );

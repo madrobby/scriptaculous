@@ -1,5 +1,7 @@
 *SVN*
 
+* Make BDD-style testing compatible with IE6 and IE7.  Closes #8972.  [steveluscher]
+
 * Add BDD methods to booleans.  Closes #9147.  [steveluscher]
 
 * Add support for full CSS inheritance in Effect.Morph.  Closes #9054.  [Tobie]
