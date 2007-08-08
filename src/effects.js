@@ -1011,8 +1011,8 @@ Object.extend(Object.extend(Effect.Morph.prototype, Effect.Base.prototype), {
             (transform.targetValue[1]-transform.originalValue[1])*position)).toColorPart() +
           (Math.round(transform.originalValue[2]+
             (transform.targetValue[2]-transform.originalValue[2])*position)).toColorPart() :
-        transform.originalValue + Math.round(
-          ((transform.targetValue - transform.originalValue) * position) * 1000)/1000 + transform.unit;
+        transform.originalValue +
+          ((transform.targetValue - transform.originalValue) * position).toFixed(3) + transform.unit;
     this.element.setStyle(style, true);
   }
 });
