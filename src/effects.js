@@ -248,7 +248,7 @@ Effect.DefaultOptions = {
   queue:      'parallel'
 }
 
-Effect.Base = function() {};
+Effect.Base = Class.create();
 Effect.Base.prototype = {
   position: null,
   start: function(options) {
@@ -339,6 +339,21 @@ Object.extend(Object.extend(Effect.Parallel.prototype, Effect.Base.prototype), {
       if(effect.finish) effect.finish(position);
       effect.event('afterFinish');
     });
+  }
+});
+
+Effect.Tween = Class.create(Effect.Base, {
+  initialize: function(object, from, to) {
+    object = typeof object == 'string' ? $(object) : object;
+    var args = $A(arguments), method = args.last(), 
+      options = args.length == 5 ? args[3] : null;
+    this.method = typeof method == 'function' ? method.bind(object) :
+      typeof object[method] == 'function' ? object[method].bind(object) : 
+      function(value) { object[method] = value };
+    this.start(Object.extend({ from: from, to: to }, options || {}));
+  },
+  update: function(position) {
+    this.method(position);
   }
 });
 

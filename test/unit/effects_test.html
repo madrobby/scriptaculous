@@ -59,6 +59,8 @@
 
 <div id="rotfl">ROTFL</div>
 
+<div id="tween">foo!</div>
+
 <!-- Tests follow -->
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
@@ -311,6 +313,31 @@
       assert( new Effect.Parallel([
         new Effect.Event({sync:true})
       ],{ duration: 2}) );
+    }},
+    
+    testEffectTween: function() { with(this) {
+      // basic initialization
+      assert(new Effect.Tween(null,0,0,function(){}));
+      assert(new Effect.Tween(null,0,0,{duration:0.1},function(){}));
+
+      // fun with objects
+      var object = { 
+        blech: 2, 
+        foo: function(p){
+          this.bar = p;
+        }
+      };
+      assert(new Effect.Tween(object,0,1,{transition:Effect.Transitions.reverse},'blech'));
+      assert(new Effect.Tween(object,0,1,'foo'));
+      
+      // fun with elements
+      assert(new Effect.Tween('tween',50,1,'update'));
+      
+      wait(1500, function(){  
+        assertEqual(0, object.blech);
+        assertEqual(1, object.bar);
+        assertEqual('1', $('tween').innerHTML);
+      });
     }},
 
     // test if all combined effects correctly initialize themselves
