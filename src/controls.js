@@ -90,13 +90,6 @@ Autocompleter.Base.prototype = {
 
     Event.observe(this.element, 'blur', this.onBlur.bindAsEventListener(this));
     Event.observe(this.element, 'keypress', this.onKeyPress.bindAsEventListener(this));
-
-    // Turn autocomplete back on when the user leaves the page, so that the
-    // field's value will be remembered on Mozilla-based browsers.
-    if(Prototype.Browser.Gecko)
-      Event.observe(window, 'beforeunload', function(){
-        element.setAttribute('autocomplete', 'on');
-      });
   },
 
   show: function() {
@@ -581,9 +574,6 @@ Ajax.InPlaceEditor.prototype = {
     this._boundSubmitHandler = this.handleFormSubmission.bind(this);
     this._boundWrapperHandler = this.wrapUp.bind(this);
     this.registerListeners();
-    Event.observe(window, 'beforeunload', function() {  
-      element.setAttribute('autocomplete', 'on');  
-    });
   },
   checkForEscapeOrReturn: function(e) {
     if (!this._editing || e.ctrlKey || e.altKey || e.shiftKey) return;

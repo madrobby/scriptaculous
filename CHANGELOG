@@ -1,5 +1,7 @@
 *SVN*
 
+* Revert the workaround for the Firefox issue that makes autocompleter input field values be remembered correctly when the back button is hit to return to a page that contains autocompleted values, as this can cause "Are you sure you want to navigate away?" popups.  Closes #8411.  [okada]
+
 * Improve the way deactivating the active droppable is handled.  Closes #9072.  [Karsten Sperling]
 
 * Next version will be 1.8.0. Update to Prototype 1.6.0_pre1.
