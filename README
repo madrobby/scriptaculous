@@ -17,7 +17,7 @@ See the CHANGELOG file for information on what's new.
 == Installation/Usage
 
 script.aculo.us includes the Prototype JavaScript Framework 
-V1.5.2. You can use later versions, as they become available 
+V1.6.0. You can use later versions, as they become available 
 (see http://prototypejs.org/).
 
 Put prototype.js, and the six files scriptaculous.js, 

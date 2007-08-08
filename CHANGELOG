@@ -1,5 +1,7 @@
 *SVN*
 
+* Next version will be 1.8.0. Update to Prototype 1.6.0_pre1.
+
 * Make draggable initialization faster.  Closes #8697.  [ssinghi]
 
 * Make BDD-style testing compatible with IE6 and IE7.  Closes #8972.  [steveluscher]
