@@ -1,5 +1,7 @@
 *SVN*
 
+* Improve the way deactivating the active droppable is handled.  Closes #9072.  [Karsten Sperling]
+
 * Next version will be 1.8.0. Update to Prototype 1.6.0_pre1.
 
 * Make draggable initialization faster.  Closes #8697.  [ssinghi]

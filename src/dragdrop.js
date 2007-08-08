@@ -87,21 +87,23 @@ var Droppables = {
 
   show: function(point, element) {
     if(!this.drops.length) return;
-    var affected = [];
+    var drop, affected = [];
     
-    if(this.last_active) this.deactivate(this.last_active);
     this.drops.each( function(drop) {
       if(Droppables.isAffected(point, element, drop))
         affected.push(drop);
     });
         
-    if(affected.length>0) {
+    if(affected.length>0)
       drop = Droppables.findDeepestChild(affected);
+
+    if(this.last_active && this.last_active != drop) this.deactivate(this.last_active);
+    if (drop) {
       Position.within(drop.element, point[0], point[1]);
       if(drop.onHover)
         drop.onHover(element, drop.element, Position.overlap(drop.overlap, drop.element));
       
-      Droppables.activate(drop);
+      if (drop != this.last_active) Droppables.activate(drop);
     }
   },
 
