@@ -442,7 +442,7 @@
     testElementMorphChaining: function() { with(this) {
       $('error_message').morph('font-size:17px').morph('opacity:0',{delay:3});
       wait(4100,function(){ // 3000ms delay + 1000ms default duration
-        assertEqual(0, $('error_message').getOpacity());
+        assertEqual(0, $('error_message').getStyle('opacity'));
       });
     }},
 

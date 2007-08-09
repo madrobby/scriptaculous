@@ -1,5 +1,9 @@
 *SVN*
 
+* Some effect code refactoring to take advantage of new Prototype 1.6 features.
+
+* Effect.ScrollTo is now no longer a core effect (returns a Effect.Tween instance now).
+
 * Add Effect.Tween, a new core effect. This effect tweens between two values and sets a property or calls a method on an object (including DOM elements); or allows for a callback method, which will be automatically bound to the object.
   Examples:
     var whatever = { blech: 0 };
