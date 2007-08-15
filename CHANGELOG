@@ -1,5 +1,7 @@
 *SVN*
 
+* Update to Prototype 1.6.0_rc0.
+
 * Some effect code refactoring to take advantage of new Prototype 1.6 features.
 
 * Effect.ScrollTo is now no longer a core effect (returns a Effect.Tween instance now).

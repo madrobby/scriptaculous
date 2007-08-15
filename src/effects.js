@@ -534,27 +534,6 @@ Effect.ScrollTo = function(element) {
     function(p){ scrollTo(scrollOffsets.left, p.round()) }
   );
 };
-/*    this.element = $(element);
-    this.start(arguments[1] || {});
-  },
-  setup: function() {
-    Position.prepare();
-    var offsets = Position.cumulativeOffset(this.element);
-    if(this.options.offset) offsets[1] += this.options.offset;
-    var max = window.innerHeight ? 
-      window.height - window.innerHeight :
-      document.body.scrollHeight - 
-        (document.documentElement.clientHeight ? 
-          document.documentElement.clientHeight : document.body.clientHeight);
-    this.scrollStart = Position.deltaY;
-    this.delta = (offsets[1] > max ? max : offsets[1]) - this.scrollStart;
-  },
-  update: function(position) {
-    Position.prepare();
-    window.scrollTo(Position.deltaX, 
-      this.scrollStart + (position*this.delta));
-  }
-});*/
 
 /* ------------- combination effects ------------- */
 
