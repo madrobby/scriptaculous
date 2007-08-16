@@ -1,5 +1,9 @@
 *SVN*
 
+* Refactoring to use Prototype 1.6. Remove dependency of Effect.tagifyText from builder. Use Prototype code style rules more consistently.
+
+* Remove the deprecated Effect2 namespace.
+
 * Update to Prototype 1.6.0_rc0.
 
 * Some effect code refactoring to take advantage of new Prototype 1.6 features.

@@ -4,7 +4,7 @@
 // script.aculo.us is freely distributable under the terms of an MIT-style license.
 // For details, see the script.aculo.us web site: http://script.aculo.us/
 
-if(typeof Effect == 'undefined')
+if(Object.isUndefined(Effect))
   throw("dragdrop.js requires including script.aculo.us' effects.js library");
 
 var Droppables = {
@@ -20,14 +20,13 @@ var Droppables = {
       greedy:     true,
       hoverclass: null,
       tree:       false
-    }, arguments[1] || {});
+    }, arguments[1] || { });
 
     // cache containers
     if(options.containment) {
       options._containers = [];
       var containment = options.containment;
-      if((typeof containment == 'object') && 
-        (containment.constructor == Array)) {
+      if(Object.isArray(containment)) {
         containment.each( function(c) { options._containers.push($(c)) });
       } else {
         options._containers.push($(containment));
@@ -224,7 +223,7 @@ var Draggables = {
 /*--------------------------------------------------------------------------*/
 
 var Draggable = Class.create();
-Draggable._dragging    = {};
+Draggable._dragging    = { };
 
 Draggable.prototype = {
   initialize: function(element) {
@@ -237,7 +236,7 @@ Draggable.prototype = {
         });
       },
       endeffect: function(element) {
-        var toOpacity = typeof element._opacity == 'number' ? element._opacity : 1.0;
+        var toOpacity = Object.isNumber(element._opacity) ? element._opacity : 1.0;
         new Effect.Opacity(element, {duration:0.2, from:0.7, to:toOpacity, 
           queue: {scope:'_draggable', position:'end'},
           afterFinish: function(){ 
@@ -255,7 +254,7 @@ Draggable.prototype = {
       delay: 0
     };
     
-    if(!arguments[1] || typeof arguments[1].endeffect == 'undefined')
+    if(!arguments[1] || Object.isUndefined(arguments[1].endeffect))
       Object.extend(defaults, {
         starteffect: function(element) {
           element._opacity = Element.getOpacity(element);
@@ -264,11 +263,11 @@ Draggable.prototype = {
         }
       });
     
-    var options = Object.extend(defaults, arguments[1] || {});
+    var options = Object.extend(defaults, arguments[1] || { });
 
     this.element = $(element);
     
-    if(options.handle && (typeof options.handle == 'string'))
+    if(options.handle && Object.isString(options.handle))
       this.handle = this.element.down('.'+options.handle, 0);
     
     if(!this.handle) this.handle = $(options.handle);
@@ -302,7 +301,7 @@ Draggable.prototype = {
   },
   
   initDrag: function(event) {
-    if(typeof Draggable._dragging[this.element] != 'undefined' &&
+    if(!Object.isUndefined(Draggable._dragging[this.element]) &&
       Draggable._dragging[this.element]) return;
     if(Event.isLeftClick(event)) {    
       // abort on form elements, fixes a Firefox issue
@@ -423,7 +422,7 @@ Draggable.prototype = {
     Draggables.notify('onEnd', this, event);
 
     var revert = this.options.revert;
-    if(revert && typeof revert == 'function') revert = revert(this.element);
+    if(revert && Object.isFunction(revert)) revert = revert(this.element);
     
     var d = this.currentDelta();
     if(revert && this.options.reverteffect) {
@@ -477,15 +476,15 @@ Draggable.prototype = {
     }.bind(this));
     
     if(this.options.snap) {
-      if(typeof this.options.snap == 'function') {
+      if(Object.isFunction(this.options.snap)) {
         p = this.options.snap(p[0],p[1],this);
       } else {
-      if(this.options.snap instanceof Array) {
+      if(Object.isArray(this.options.snap)) {
         p = p.map( function(v, i) {
-          return Math.round(v/this.options.snap[i])*this.options.snap[i] }.bind(this))
+          return (v/this.options.snap[i]).round()*this.options.snap[i] }.bind(this))
       } else {
         p = p.map( function(v) {
-          return Math.round(v/this.options.snap)*this.options.snap }.bind(this))
+          return (v/this.options.snap).round()*this.options.snap }.bind(this))
       }
     }}
     
@@ -595,7 +594,7 @@ SortableObserver.prototype = {
 var Sortable = {
   SERIALIZE_RULE: /^[^_\-](?:[A-Za-z0-9\-\_]*)[_](.*)$/,
   
-  sortables: {},
+  sortables: { },
   
   _findRootElement: function(element) {
     while (element.tagName.toUpperCase() != "BODY") {  
@@ -651,7 +650,7 @@ var Sortable = {
       
       onChange:    Prototype.emptyFunction,
       onUpdate:    Prototype.emptyFunction
-    }, arguments[1] || {});
+    }, arguments[1] || { });
 
     // clear any old sortable with same element
     this.destroy(element);
@@ -875,7 +874,7 @@ var Sortable = {
       only: sortableOptions.only,
       name: element.id,
       format: sortableOptions.format
-    }, arguments[1] || {});
+    }, arguments[1] || { });
     
     var root = {
       id: null,
@@ -899,7 +898,7 @@ var Sortable = {
 
   sequence: function(element) {
     element = $(element);
-    var options = Object.extend(this.options(element), arguments[1] || {});
+    var options = Object.extend(this.options(element), arguments[1] || { });
     
     return $(this.findElements(element, options) || []).map( function(item) {
       return item.id.match(options.format) ? item.id.match(options.format)[1] : '';
@@ -908,9 +907,9 @@ var Sortable = {
 
   setSequence: function(element, new_sequence) {
     element = $(element);
-    var options = Object.extend(this.options(element), arguments[2] || {});
+    var options = Object.extend(this.options(element), arguments[2] || { });
     
-    var nodeMap = {};
+    var nodeMap = { };
     this.findElements(element, options).each( function(n) {
         if (n.id.match(options.format))
             nodeMap[n.id.match(options.format)[1]] = [n, n.parentNode];
@@ -928,7 +927,7 @@ var Sortable = {
   
   serialize: function(element) {
     element = $(element);
-    var options = Object.extend(Sortable.options(element), arguments[1] || {});
+    var options = Object.extend(Sortable.options(element), arguments[1] || { });
     var name = encodeURIComponent(
       (arguments[1] && arguments[1].name) ? arguments[1].name : element.id);
     

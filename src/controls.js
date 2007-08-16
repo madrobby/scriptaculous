@@ -39,8 +39,8 @@
 if(typeof Effect == 'undefined')
   throw("controls.js requires including script.aculo.us' effects.js library");
 
-var Autocompleter = {}
-Autocompleter.Base = function() {};
+var Autocompleter = { }
+Autocompleter.Base = function() { };
 Autocompleter.Base.prototype = {
   baseInitialize: function(element, update, options) {
     element          = $(element)
@@ -56,7 +56,7 @@ Autocompleter.Base.prototype = {
     if(this.setOptions)
       this.setOptions(options);
     else
-      this.options = options || {};
+      this.options = options || { };
 
     this.options.paramName    = this.options.paramName || this.element.name;
     this.options.tokens       = this.options.tokens || [];
@@ -466,7 +466,7 @@ Autocompleter.Local.prototype = Object.extend(new Autocompleter.Base(), {
           ret = ret.concat(partial.slice(0, instance.options.choices - ret.length))
         return "<ul>" + ret.join('') + "</ul>";
       }
-    }, options || {});
+    }, options || { });
   }
 });
 
@@ -485,7 +485,7 @@ Field.scrollFreeActivate = function(field) {
 Ajax.InPlaceEditor = Class.create();
 Object.extend(Ajax.InPlaceEditor, {
   DefaultOptions: {
-    ajaxOptions: {},
+    ajaxOptions: { },
     autoRows: 3,                                // Use when multi-line w/ rows == 1
     cancelControl: 'link',                      // 'link'|'button'|false
     cancelText: 'cancel',
@@ -554,9 +554,9 @@ Ajax.InPlaceEditor.prototype = {
     this.url = url;
     this.element = element = $(element);
     this.prepareOptions();
-    this._controls = {};
+    this._controls = { };
     arguments.callee.dealWithDeprecatedOptions(options); // DEPRECATION LAYER!!!
-    Object.extend(this.options, options || {});
+    Object.extend(this.options, options || { });
     if (!this.options.formId && this.element.id) {
       this.options.formId = this.element.id + '-inplaceeditor';
       if ($(this.options.formId))
@@ -773,7 +773,7 @@ Ajax.InPlaceEditor.prototype = {
     this.showSaving();
   },
   registerListeners: function() {
-    this._listeners = {};
+    this._listeners = { };
     var listener;
     $H(Ajax.InPlaceEditor.Listeners).each(function(pair) {
       listener = this[pair.value].bind(this);
@@ -788,7 +788,7 @@ Ajax.InPlaceEditor.prototype = {
     if (!this._form) return;
     this._form.remove();
     this._form = null;
-    this._controls = {};
+    this._controls = { };
   },
   showSaving: function() {
     this._oldInnerHTML = this.element.innerHTML;

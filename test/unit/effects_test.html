@@ -88,10 +88,6 @@
       Effect.Queue.each(function(e) { e.cancel() });
     }},
     
-    testBackwardsCompat: function() { with(this) {
-      assertInstanceOf(Effect.Opacity, new Effect2.Fade('sandbox'));
-    }},
-    
     testExceptionOnNonExistingElement: function() { with(this) {
       assertRaise('ElementDoesNotExistError', 
         function(){new Effect.Opacity('nothing-to-see-here')});
