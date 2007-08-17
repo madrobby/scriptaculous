@@ -436,8 +436,8 @@
     }},
 
     testElementMorphChaining: function() { with(this) {
-      $('error_message').morph('font-size:17px').morph('opacity:0',{delay:3});
-      wait(4100,function(){ // 3000ms delay + 1000ms default duration
+      $('error_message').morph('font-size:17px').morph('opacity:0',{delay:2});
+      wait(3100,function(){ // 2000ms delay + 1000ms default duration
         assertEqual(0, $('error_message').getStyle('opacity'));
       });
     }},
@@ -521,7 +521,7 @@
           assertEqual('20px', $$('div.morphing').last().getStyle('font-size'));
           assertEqual('30px', $('blah').getStyle('font-size'));
 
-          $('blah').setStyle({'font-size':'100px'});
+          $('blah').setStyle({fontSize:'100px'});
           assertEqual('100px', $('blah').getStyle('font-size'));        
           transformation.play();
           wait(700, function(){
