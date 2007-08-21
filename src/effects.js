@@ -1038,7 +1038,13 @@ Element.CSS_LENGTH = /^(([\+\-]?[0-9\.]+)(em|ex|px|in|cm|mm|pt|pc|\%))|0$/;
 
 String.__parseStyleElement = document.createElement('div');
 String.prototype.parseStyle = function(){
-  String.__parseStyleElement.innerHTML = '<div style="' + this + '"></div>';
+  if (Prototype.Browser.WebKit) {
+    String.__parseStyleElement.innerHTML = '';
+    String.__parseStyleElement.appendChild(new Element('div',{style:this}));
+  }
+  else
+    String.__parseStyleElement.innerHTML = '<div style="' + this + '"></div>';
+  
   var style = String.__parseStyleElement.childNodes[0].style, styleRules = $H();
   
   Element.CSS_PROPERTIES.each(function(property){

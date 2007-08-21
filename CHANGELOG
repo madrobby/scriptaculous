@@ -1,5 +1,7 @@
 *SVN*
 
+* Fix an issue with String#parseStyle that could sometimes cause errors on Safari 2.
+
 * Refactoring to use Prototype 1.6. Remove dependency of Effect.tagifyText from builder. Use Prototype code style rules more consistently.
 
 * Remove the deprecated Effect2 namespace.

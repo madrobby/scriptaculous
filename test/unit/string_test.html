@@ -52,11 +52,15 @@
     
     testStringParseStyle: function() { with(this) {
       var expected = "#<Hash:{'fontSize': '11px'}>";
+      var expectedMultiple = "#<Hash:{'fontSize': '11px', 'width': '780px'}>";
 
       assertInspect(expected, "font-size:11px".parseStyle());
       assertInspect(expected, "font-SIZE:  11px".parseStyle());
       assertInspect(expected, "font-size:11px  ".parseStyle());
       assertInspect(expected, " Font-size: 11px  ".parseStyle());
+      
+      assertInspect(expectedMultiple, " font-size:  11px;width:780px".parseStyle());
+      
     }}
 
   });
