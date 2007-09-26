@@ -706,13 +706,15 @@ Effect.SlideDown = function(element) {
 Effect.SlideUp = function(element) {
   element = $(element).cleanWhitespace();
   var oldInnerBottom = element.down().getStyle('bottom');
+  var elementDimensions = element.getDimensions();
   return new Effect.Scale(element, window.opera ? 0 : 1,
    Object.extend({ scaleContent: false, 
     scaleX: false, 
     scaleMode: 'box',
     scaleFrom: 100,
+    scaleMode: {originalHeight: elementDimensions.height, originalWidth: elementDimensions.width},
     restoreAfterFinish: true,
-    beforeStartInternal: function(effect) {
+    afterSetup: function(effect) {
       effect.element.makePositioned();
       effect.element.down().makePositioned();
       if (window.opera) effect.element.setStyle({top: ''});
@@ -723,8 +725,8 @@ Effect.SlideUp = function(element) {
         (effect.dims[0] - effect.element.clientHeight) + 'px' });
     },
     afterFinishInternal: function(effect) {
-      effect.element.hide().undoClipping().undoPositioned().setStyle({bottom: oldInnerBottom});
-      effect.element.down().undoPositioned();
+      effect.element.hide().undoClipping().undoPositioned();
+      effect.element.down().undoPositioned().setStyle({bottom: oldInnerBottom});
     }
    }, arguments[1] || { })
   );
