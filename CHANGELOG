@@ -1,5 +1,7 @@
 *SVN*
 
+* Update to new Class.create syntax in Prototype 1.6; update to latest Prototype 1.6 trunk.
+
 * Fix bottom CSS property reassignment and initialization in queues for Effect#SlideUp.  Closes #7412, #7761.
 
 * Fix an issue with String#parseStyle that could sometimes cause errors on Safari 2.

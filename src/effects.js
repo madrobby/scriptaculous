@@ -217,8 +217,7 @@ Effect.ScopedQueue = Class.create({
     for(var i=0, len=this.effects.length;i<len;i++) 
       this.effects[i] && this.effects[i].loop(timePos);
   }
-});
-Class.mixin(Effect.ScopedQueue, Enumerable);
+}, Effect.ScopedQueue, Enumerable);
 
 Effect.Queues = {
   instances: $H(),

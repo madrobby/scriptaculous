@@ -85,7 +85,6 @@
     testSliderBasics: function() { with(this) {
       var slider = new Control.Slider('handle1', 'track1');
       assertInstanceOf(Control.Slider, slider);
-      assertEqual(Prototype.Browser.IE ? 5 : 4, Event.observers.length);
       
       assertEqual('horizontal', slider.axis);
       assertEqual(false, slider.disabled);
