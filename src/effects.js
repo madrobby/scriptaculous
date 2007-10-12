@@ -165,7 +165,7 @@ Effect.DefaultOptions.transition = Effect.Transitions.sinoidal;
 
 /* ------------- core effects ------------- */
 
-Effect.ScopedQueue = Class.create({
+Effect.ScopedQueue = Class.create(Enumerable, {
   initialize: function() {
     this.effects  = [];
     this.interval = null;    
@@ -217,7 +217,7 @@ Effect.ScopedQueue = Class.create({
     for(var i=0, len=this.effects.length;i<len;i++) 
       this.effects[i] && this.effects[i].loop(timePos);
   }
-}, Effect.ScopedQueue, Enumerable);
+});
 
 Effect.Queues = {
   instances: $H(),
