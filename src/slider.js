@@ -4,7 +4,6 @@
 // For details, see the script.aculo.us web site: http://script.aculo.us/
 
 if (!Control) var Control = { };
-Control.Slider = Class.create();
 
 // options:
 //  axis: 'vertical', or 'horizontal' (default)
@@ -12,7 +11,7 @@ Control.Slider = Class.create();
 // callbacks:
 //  onChange(value)
 //  onSlide(value)
-Control.Slider.prototype = {
+Control.Slider = Class.create({
   initialize: function(handle, track, options) {
     var slider = this;
     
@@ -170,7 +169,7 @@ Control.Slider.prototype = {
       (this.track.offsetHeight != 0 ? this.track.offsetHeight :
         this.track.style.height.replace(/px$/,"")) - this.alignY : 
       (this.track.offsetWidth != 0 ? this.track.offsetWidth : 
-        this.track.style.width.replace(/px$/,"")) - this.alignY);
+        this.track.style.width.replace(/px$/,"")) - this.alignX);
   },  
   isVertical:  function(){
     return (this.axis == 'vertical');
@@ -271,4 +270,4 @@ Control.Slider.prototype = {
       this.options.onChange(this.values.length>1 ? this.values : this.value, this);
     this.event = null;
   }
-}
+});

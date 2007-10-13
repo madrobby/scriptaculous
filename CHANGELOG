@@ -1,3 +1,5 @@
+* Update code to use new Hash implemention in Prototype 1.6. Update InPlaceEditor to use new Class.create syntax.  [tdd]
+
 *V1.8.0 preview 0* (October 12, 2007)
 
 * Update to new Class.create syntax in Prototype 1.6; update to latest Prototype 1.6 trunk.
