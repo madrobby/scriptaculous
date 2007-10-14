@@ -652,21 +652,27 @@ Effect.DropOut = function(element) {
 
 Effect.Shake = function(element) {
   element = $(element);
+  var options = Object.extend({
+    distance: 20,
+    duration: 0.5
+  }, arguments[1] || {});
+  var distance = parseFloat(options.distance);
+  var split = parseFloat(options.duration) / 10.0;
   var oldStyle = {
     top: element.getStyle('top'),
     left: element.getStyle('left') };
-    return new Effect.Move(element, 
-      { x:  20, y: 0, duration: 0.05, afterFinishInternal: function(effect) {
+    return new Effect.Move(element,
+      { x:  distance, y: 0, duration: split, afterFinishInternal: function(effect) {
     new Effect.Move(effect.element,
-      { x: -40, y: 0, duration: 0.1,  afterFinishInternal: function(effect) {
+      { x: -distance*2, y: 0, duration: split*2,  afterFinishInternal: function(effect) {
     new Effect.Move(effect.element,
-      { x:  40, y: 0, duration: 0.1,  afterFinishInternal: function(effect) {
+      { x:  distance*2, y: 0, duration: split*2,  afterFinishInternal: function(effect) {
     new Effect.Move(effect.element,
-      { x: -40, y: 0, duration: 0.1,  afterFinishInternal: function(effect) {
+      { x: -distance*2, y: 0, duration: split*2,  afterFinishInternal: function(effect) {
     new Effect.Move(effect.element,
-      { x:  40, y: 0, duration: 0.1,  afterFinishInternal: function(effect) {
+      { x:  distance*2, y: 0, duration: split*2,  afterFinishInternal: function(effect) {
     new Effect.Move(effect.element,
-      { x: -20, y: 0, duration: 0.05, afterFinishInternal: function(effect) {
+      { x: -distance, y: 0, duration: split, afterFinishInternal: function(effect) {
         effect.element.undoPositioned().setStyle(oldStyle);
   }}) }}) }}) }}) }}) }});
 };

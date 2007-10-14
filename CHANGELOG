@@ -1,3 +1,5 @@
+* Add duration and distance options to Effect.Shake.  Closes #8637.  [amiel, rmm5t]
+
 * Update code to use new Hash implemention in Prototype 1.6. Update InPlaceEditor to use new Class.create syntax.  [tdd]
 
 *V1.8.0 preview 0* (October 12, 2007)
