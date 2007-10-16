@@ -33,8 +33,6 @@
 // enables autocompletion on multiple tokens. This is most 
 // useful when one of the tokens is \n (a newline), as it 
 // allows smart autocompletion after linebreaks.
-//
-// vim:expandtab ts=8 sw=2
 
 if(typeof Effect == 'undefined')
   throw("controls.js requires including script.aculo.us' effects.js library");
