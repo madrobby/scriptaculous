@@ -1,3 +1,5 @@
+* Fix a potential problem with the loader and Firefox 2.0 on the Mac.  Closes #9951.  [awaters]
+
 * Update to Prototype trunk revision [8057].
 
 * Add duration and distance options to Effect.Shake.  Closes #8637.  [amiel, rmm5t]
