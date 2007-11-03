@@ -169,7 +169,7 @@ Third line</div>
     }},
 
     testCallbackFunctionGetsCalled: function() { with(this) {
-      called = false;
+      var called = false;
       inPlaceEditor.options.callback = function(form) {
         called = true;
       }
@@ -369,6 +369,39 @@ Third line</div>
         // Failure
         called.clear();
         // Any ideas?  Requesting file:// URLs on non-existent stuff doesn't trigger A.U's onFailure...
+      });
+    }},
+
+    testCallbackFunctionReturnTypes: function() { with(this) {
+      var params = [];
+      var responder = {
+        onCreate: function(req) {
+          params.push(req.options.parameters);
+        }
+      };
+      Ajax.Responders.register(responder);
+      var ipe = new Ajax.InPlaceEditor('newtbe', '_ajax_inplaceeditor_result2.html', {
+        callback: function(form) {
+          return 'foo=bar';
+        }
+      });
+      Event.simulateMouse('newtbe', 'click');
+      Event.simulateKey('newtbe', 'keydown', { keyCode: Event.KEY_RETURN });
+      wait(200, function() {
+        assert(params[0] && params[0].foo == 'bar');
+        ipe.dispose();
+        ipe = new Ajax.InPlaceEditor('newtbe', '_ajax_inplaceeditor_result2.html', {
+          callback: function(form) {
+            return { bar: '?', 'r&d': 42 };
+          }
+        });
+        Event.simulateMouse('newtbe', 'click');
+        Event.simulateKey('newtbe', 'keydown', { keyCode: Event.KEY_RETURN });
+        wait(200, function() {
+          assert(params[1] && params[1].bar == '?' && params[1]['r&d'] == 42);
+          ipe.dispose();
+          Ajax.Responders.unregister(responder);
+        })
       });
     }},
 
