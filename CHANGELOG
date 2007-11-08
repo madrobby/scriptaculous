@@ -1,3 +1,5 @@
+* Fix a regression with autocompleters not responding correctly to cursor keys on both Safari and IE.  Closes #10107.  [thx Zman771]
+
 *V1.8.0* (November 6, 2007)
 
 * Update to Prototype 1.6.0 final
