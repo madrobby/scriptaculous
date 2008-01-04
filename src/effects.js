@@ -1074,11 +1074,11 @@ if (document.defaultView && document.defaultView.getComputedStyle) {
   Element.getStyles = function(element) {
     element = $(element);
     var css = element.currentStyle, styles;
-    styles = Element.CSS_PROPERTIES.inject({ }, function(hash, property) {
-      hash.set(property, css[property]);
-      return hash;
+    styles = Element.CSS_PROPERTIES.inject({ }, function(results, property) {
+      results[property] = css[property];
+      return results;
     });
-    if (!styles.opacity) styles.set('opacity', element.getOpacity());
+    if (!styles.opacity) styles.opacity = element.getOpacity();
     return styles;
   };
 };
