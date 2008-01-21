@@ -1,3 +1,5 @@
+* Fixes an issue with IE ghosting on non-absolute elements. Closes #10423.  [Tanrikut, tdd]
+
 *V1.8.1* (January 3, 2008)
 
 * Fix Element#getStyles in IE. Closes #10563. [Tobie Langel]

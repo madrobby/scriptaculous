@@ -331,8 +331,8 @@ var Draggable = Class.create({
     
     if(this.options.ghosting) {
       this._clone = this.element.cloneNode(true);
-      this.element._originallyAbsolute = (this.element.getStyle('position') == 'absolute');
-      if (!this.element._originallyAbsolute)
+      this._originallyAbsolute = (this.element.getStyle('position') == 'absolute');
+      if (!this._originallyAbsolute)
         Position.absolutize(this.element);
       this.element.parentNode.insertBefore(this._clone, this.element);
     }
@@ -403,9 +403,9 @@ var Draggable = Class.create({
     }
 
     if(this.options.ghosting) {
-      if (!this.element._originallyAbsolute)
+      if (!this._originallyAbsolute)
         Position.relativize(this.element);
-      delete this.element._originallyAbsolute;
+      delete this._originallyAbsolute;
       Element.remove(this._clone);
       this._clone = null;
     }
