@@ -509,7 +509,7 @@ Effect.ScrollTo = function(element) {
   var options = arguments[1] || { },
     scrollOffsets = document.viewport.getScrollOffsets(),
     elementOffsets = $(element).cumulativeOffset(),
-    max = (window.height || document.body.scrollHeight) - document.viewport.getHeight();  
+    max = document.viewport.getScrollOffsets[0] - document.viewport.getHeight(); 
 
   if (options.offset) elementOffsets[1] += options.offset;
 

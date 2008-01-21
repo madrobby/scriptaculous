@@ -1,3 +1,5 @@
+* Fix an issue with Effect.ScrollTo that caused Firefox to scroll to the wrong offset in some situations. Closes #10245.  [nik.wakelin]
+
 * Fixes an issue with IE ghosting on non-absolute elements. Closes #10423.  [Tanrikut, tdd]
 
 *V1.8.1* (January 3, 2008)
