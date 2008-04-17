@@ -30,8 +30,8 @@ Event.simulateMouse = function(element, eventName) {
   this.mark.style.left = options.pointerX + "px";
   this.mark.style.width = "5px";
   this.mark.style.height = "5px;";
-  this.mark.style.borderTop = "1px solid red;"
-  this.mark.style.borderLeft = "1px solid red;"
+  this.mark.style.borderTop = "1px solid red;";
+  this.mark.style.borderLeft = "1px solid red;";
   
   if(this.step)
     alert('['+new Date().getTime().toString()+'] '+eventName+'/'+Test.Unit.inspect(options));
@@ -65,7 +65,7 @@ Event.simulateKeys = function(element, command) {
   }
 };
 
-var Test = {}
+var Test = {};
 Test.Unit = {};
 
 // security exception workaround
@@ -115,7 +115,7 @@ Test.Unit.Logger.prototype = {
     '<thead><tr><th>Status</th><th>Test</th><th>Message</th></tr></thead>' +
     '<tbody id="loglines"></tbody>' +
     '</table>';
-    this.logsummary = $('logsummary')
+    this.logsummary = $('logsummary');
     this.loglines = $('loglines');
   },
   _toHTML: function(txt) {
@@ -123,15 +123,15 @@ Test.Unit.Logger.prototype = {
   },
   addLinksToResults: function(){ 
     $$("tr.failed .nameCell").each( function(td){ // todo: limit to children of this.log
-      td.title = "Run only this test"
+      td.title = "Run only this test";
       Event.observe(td, 'click', function(){ window.location.search = "?tests=" + td.innerHTML;});
     });
     $$("tr.passed .nameCell").each( function(td){ // todo: limit to children of this.log
-      td.title = "Run all tests"
+      td.title = "Run all tests";
       Event.observe(td, 'click', function(){ window.location.search = "";});
     });
   }
-}
+};
 
 Test.Unit.Runner = Class.create();
 Test.Unit.Runner.prototype = {
@@ -244,7 +244,7 @@ Test.Unit.Runner.prototype = {
       failures   + " failures, " +
       errors     + " errors");
   }
-}
+};
 
 Test.Unit.Assertions = Class.create();
 Test.Unit.Assertions.prototype = {
@@ -329,7 +329,7 @@ Test.Unit.Assertions.prototype = {
     catch(e) { this.error(e); } 
   },
   assertNull: function(obj) {
-    var message = arguments[1] || 'assertNull'
+    var message = arguments[1] || 'assertNull';
     try { (obj==null) ? this.pass() : 
       this.fail(message + ': got "' + Test.Unit.inspect(obj) + '"'); }
     catch(e) { this.error(e); }
@@ -459,7 +459,7 @@ Test.Unit.Assertions.prototype = {
        iterations + ' iterations in ' + (timeTaken/1000)+'s' );
     return timeTaken;
   }
-}
+};
 
 Test.Unit.Testcase = Class.create();
 Object.extend(Object.extend(Test.Unit.Testcase.prototype, Test.Unit.Assertions.prototype), {
@@ -524,7 +524,7 @@ Test.setupBDDExtensionMethods = function(){
   };
   var makeAssertion = function(assertion, args, object) { 
    	this[assertion].apply(this,(args || []).concat([object]));
-  }
+  };
   
   Test.BDDMethods = {};   
   $H(METHODMAP).each(function(pair) { 
@@ -537,7 +537,7 @@ Test.setupBDDExtensionMethods = function(){
   [Array.prototype, String.prototype, Number.prototype, Boolean.prototype].each(
     function(p){ Object.extend(p, Test.BDDMethods) }
   );
-}
+};
 
 Test.context = function(name, spec, log){
   Test.setupBDDExtensionMethods();

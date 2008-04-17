@@ -37,10 +37,10 @@
 if(typeof Effect == 'undefined')
   throw("controls.js requires including script.aculo.us' effects.js library");
 
-var Autocompleter = { }
+var Autocompleter = { };
 Autocompleter.Base = Class.create({
   baseInitialize: function(element, update, options) {
-    element          = $(element)
+    element          = $(element);
     this.element     = element; 
     this.update      = $(update);  
     this.hasFocus    = false; 
@@ -209,13 +209,13 @@ Autocompleter.Base = Class.create({
   },
   
   markPrevious: function() {
-    if(this.index > 0) this.index--
+    if(this.index > 0) this.index--;
       else this.index = this.entryCount-1;
     this.getEntry(this.index).scrollIntoView(true);
   },
   
   markNext: function() {
-    if(this.index < this.entryCount-1) this.index++
+    if(this.index < this.entryCount-1) this.index++;
       else this.index = 0;
     this.getEntry(this.index).scrollIntoView(false);
   },
@@ -457,7 +457,7 @@ Autocompleter.Local = Class.create(Autocompleter.Base, {
           }
         }
         if (partial.length)
-          ret = ret.concat(partial.slice(0, instance.options.choices - ret.length))
+          ret = ret.concat(partial.slice(0, instance.options.choices - ret.length));
         return "<ul>" + ret.join('') + "</ul>";
       }
     }, options || { });
@@ -474,7 +474,7 @@ Field.scrollFreeActivate = function(field) {
   setTimeout(function() {
     Field.activate(field);
   }, 1);
-}
+};
 
 Ajax.InPlaceEditor = Class.create({
   initialize: function(element, url, options) {
@@ -780,7 +780,7 @@ Ajax.InPlaceCollectionEditor = Class.create(Ajax.InPlaceEditor, {
       onSuccess: function(transport) {
         var js = transport.responseText.strip();
         if (!/^\[.*\]$/.test(js)) // TODO: improve sanity check
-          throw 'Server returned an invalid collection representation.';
+          throw('Server returned an invalid collection representation.');
         this._collection = eval(js);
         this.checkForExternalText();
       }.bind(this),

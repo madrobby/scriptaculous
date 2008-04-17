@@ -98,7 +98,7 @@ var Builder = {
     if(typeof children=='object') { // array can hold nodes and text
       children.flatten().each( function(e) {
         if(typeof e=='object')
-          element.appendChild(e)
+          element.appendChild(e);
         else
           if(Builder._isStringOrNumber(e))
             element.appendChild(Builder._text(e));
@@ -128,7 +128,7 @@ var Builder = {
     tags.each( function(tag){ 
       scope[tag] = function() { 
         return Builder.node.apply(Builder, [tag].concat($A(arguments)));  
-      } 
+      };
     });
   }
-}
+};
