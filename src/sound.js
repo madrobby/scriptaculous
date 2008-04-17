@@ -27,12 +27,12 @@ Sound = {
         var sound = $('sound_'+options.track+'_'+id);
         sound.Stop && sound.Stop();
         sound.remove();
-      })
+      });
       this.tracks[options.track] = null;
     }
       
     if(!this.tracks[options.track])
-      this.tracks[options.track] = { id: 0 }
+      this.tracks[options.track] = { id: 0 };
     else
       this.tracks[options.track].id++;
       
@@ -47,7 +47,7 @@ Sound = {
 
 if(Prototype.Browser.Gecko && navigator.userAgent.indexOf("Win") > 0){
   if(navigator.plugins && $A(navigator.plugins).detect(function(p){ return p.name.indexOf('QuickTime') != -1 }))
-    Sound.template = new Template('<object id="sound_#{track}_#{id}" width="0" height="0" type="audio/mpeg" data="#{url}"/>')
+    Sound.template = new Template('<object id="sound_#{track}_#{id}" width="0" height="0" type="audio/mpeg" data="#{url}"/>');
   else
-    Sound.play = function(){}
+    Sound.play = function(){};
 }

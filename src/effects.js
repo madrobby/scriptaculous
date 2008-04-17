@@ -934,7 +934,7 @@ Effect.Morph = Class.create(Effect.Base, {
           effect.transforms.each(function(transform) {
             effect.element.style[transform.style] = '';
           });
-        }
+        };
       }
     }
     this.start(options);
@@ -1081,7 +1081,7 @@ if (document.defaultView && document.defaultView.getComputedStyle) {
     if (!styles.opacity) styles.opacity = element.getOpacity();
     return styles;
   };
-};
+}
 
 Effect.Methods = {
   morph: function(element, style) {
@@ -1090,7 +1090,7 @@ Effect.Methods = {
     return element;
   },
   visualEffect: function(element, effect, options) {
-    element = $(element)
+    element = $(element);
     var s = effect.dasherize().camelize(), klass = s.charAt(0).toUpperCase() + s.substring(1);
     new Effect[klass](element, options);
     return element;
