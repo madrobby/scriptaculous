@@ -1,3 +1,7 @@
+* Update version check so all Prototype versions can be required, not just x.x.x.  Closes #10966.  [Nick Stakenburg]
+
+* Using $$ in the loader instead of getElementsByTagName to prevent limitations.  Closes #9032.  [Nick Stakenburg]
+
 * Fix some missing semicolons.  [jdalton]
 
 * Update to Prototype 1.6.0.2 final
