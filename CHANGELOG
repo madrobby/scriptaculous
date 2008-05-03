@@ -1,3 +1,9 @@
+* Fixed Effect.ScrollTo. Changeset 8686 had a typo, document.viewport.getScrollOffsets[0] is always undefined. Removed the max check as it is not a cross-browser way to get scroll height and breaks the effect. Depending on scrollTo to do the right thing.  Closes #11306.  [Nick Stakenburg]
+
+* Update version check so all Prototype versions can be required, not just x.x.x.  Closes #10966.  [Nick Stakenburg]
+
+* Using $$ in the loader instead of getElementsByTagName to prevent limitations.  Closes #9032.  [Nick Stakenburg]
+
 * Fix some missing semicolons.  [jdalton]
 
 * Update to Prototype 1.6.0.2 final
