@@ -70,28 +70,23 @@ var Effect = {
   Transitions: {
     linear: Prototype.K,
     sinoidal: function(pos) {
-      return (-Math.cos(pos*Math.PI)/2) + 0.5;
+      return (-Math.cos(pos*Math.PI)/2) + .5;
     },
     reverse: function(pos) {
       return 1-pos;
     },
     flicker: function(pos) {
-      var pos = ((-Math.cos(pos*Math.PI)/4) + 0.75) + Math.random()/4;
+      var pos = ((-Math.cos(pos*Math.PI)/4) + .75) + Math.random()/4;
       return pos > 1 ? 1 : pos;
     },
     wobble: function(pos) {
-      return (-Math.cos(pos*Math.PI*(9*pos))/2) + 0.5;
+      return (-Math.cos(pos*Math.PI*(9*pos))/2) + .5;
     },
     pulse: function(pos, pulses) { 
-      pulses = pulses || 5; 
-      return (
-        ((pos % (1/pulses)) * pulses).round() == 0 ? 
-              ((pos * pulses * 2) - (pos * pulses * 2).floor()) : 
-          1 - ((pos * pulses * 2) - (pos * pulses * 2).floor())
-        );
+      return (-Math.cos((pos*((pulses||5)-.5)*2)*Math.PI)/2) + .5;
     },
     spring: function(pos) { 
-      return 1 - (Math.cos(pos * 4.5 * Math.PI) * Math.exp(-pos * 6)); 
+      return 1 - (Math.cos(pos * 4.5 * Math.PI) * Math.exp(-pos * 6));
     },
     none: function(pos) {
       return 0;
@@ -876,11 +871,13 @@ Effect.Shrink = function(element) {
 
 Effect.Pulsate = function(element) {
   element = $(element);
-  var options    = arguments[1] || { };
-  var oldOpacity = element.getInlineOpacity();
-  var transition = options.transition || Effect.Transitions.sinoidal;
-  var reverser   = function(pos){ return transition(1-Effect.Transitions.pulse(pos, options.pulses)) };
-  reverser.bind(transition);
+  var options    = arguments[1] || { },
+    oldOpacity = element.getInlineOpacity(),
+    transition = options.transition || Effect.Transitions.linear,
+    reverser   = function(pos){ 
+      return 1 - transition((-Math.cos((pos*(options.pulses||5)*2)*Math.PI)/2) + .5);
+    };
+    
   return new Effect.Opacity(element, 
     Object.extend(Object.extend({  duration: 2.0, from: 0,
       afterFinishInternal: function(effect) { effect.element.setStyle({opacity: oldOpacity}); }

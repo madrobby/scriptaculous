@@ -1,3 +1,5 @@
+* Fixed a calculation error in Effect.Transitions.pulse that could lead to flickering, add easing and change it to be a normal 0 to 1 transition that can be used with any effects; Effect.Pulsate now uses its own implementation.  [Thomas Fuchs]
+
 * Fixed Effect.ScrollTo. Changeset 8686 had a typo, document.viewport.getScrollOffsets[0] is always undefined. Removed the max check as it is not a cross-browser way to get scroll height and breaks the effect. Depending on scrollTo to do the right thing.  Closes #11306.  [Nick Stakenburg]
 
 * Update version check so all Prototype versions can be required, not just x.x.x.  Closes #10966.  [Nick Stakenburg]
