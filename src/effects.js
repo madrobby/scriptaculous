@@ -244,18 +244,30 @@ Effect.Base = Class.create({
     this.totalTime    = this.finishOn-this.startOn;
     this.totalFrames  = this.options.fps*this.options.duration;
     
-    eval('this.render = function(pos){ '+
-      'if (this.state=="idle"){this.state="running";'+
-      codeForEvent(this.options,'beforeSetup')+
-      (this.setup ? 'this.setup();':'')+ 
-      codeForEvent(this.options,'afterSetup')+
-      '};if (this.state=="running"){'+
-      'pos=this.options.transition(pos)*'+this.fromToDelta+'+'+this.options.from+';'+
-      'this.position=pos;'+
-      codeForEvent(this.options,'beforeUpdate')+
-      (this.update ? 'this.update(pos);':'')+
-      codeForEvent(this.options,'afterUpdate')+
-      '}}');
+    this.render = (function() {
+      function dispatch(effect, eventName) {
+        if (effect.options[eventName + 'Internal'])
+          effect.options[eventName + 'Internal'](effect);
+        if (effect.options[eventName])
+          effect.options[eventName](effect);
+      }
+
+      return function(pos) {
+        if (this.state === "idle") {
+          this.state = "running";
+          dispatch(this, 'beforeSetup');
+          if (this.setup) this.setup();
+          dispatch(this, 'afterSetup');
+        }
+        if (this.state === "running") {
+          pos = (this.options.transition(pos) * this.fromToDelta) + this.options.from;
+          this.position = pos;
+          dispatch(this, 'beforeUpdate');
+          if (this.update) this.update(pos);
+          dispatch(this, 'afterUpdate');
+        }
+      }
+    })();
     
     this.event('beforeStart');
     if (!this.options.sync)
