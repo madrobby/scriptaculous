@@ -1,0 +1,57 @@
+<html>
+<head>
+  <title>Nested Sortable element bug</title>
+  <script src="../../lib/prototype.js" type="text/javascript"></script>
+  <script src="../../src/scriptaculous.js" type="text/javascript"></script>
+</head>
+<body>
+
+<ul id ="route">
+
+  <li id="39" class="segment">
+  <h2 id="39_title"> <span id="39_note" class="segment_title">COLLEGE AVE</span></h2>
+  <ul id="39_entries">
+    <li id="39:3" class="entry">625</li>
+    <li id="39:4" class="entry">617</li>
+    <li id="39:5" class="entry">601</li>
+  </ul>
+  </li>
+
+  <li id="40" class="segment">
+  <h2 id="40_title">Right <span id="40_note" class="segment_title">COLLEGE CT</span></h2>
+  <ul id="40_entries">
+    <li id="40:7" class="entry">14</li>
+    <li id="40:8" class="entry">27</li>
+    <li id="40:9" class="entry">30</li>
+  </ul>
+  </li>
+</ul>
+
+<script type="text/javascript">
+Sortable.create(
+  "route",
+  {
+    handle:'segment_title',
+    format: /([0-9]+)/
+  }
+);
+
+
+
+Sortable.create("39_entries", {
+    dropOnEmpty:true,
+    constraint:false,
+    format: /[0-9]+:([0-9]+)/
+  }
+);
+
+Sortable.create("40_entries", {
+    dropOnEmpty:true,
+    constraint:false,
+    format: /[0-9]+:([0-9]+)/
+  }
+);
+
+</script>
+</body>
+</html>

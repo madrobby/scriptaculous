@@ -1,3 +1,5 @@
+* Fix a bug in Sortable.destroy to make sure it's called on the referenced Sortable only, which allows for the correct intialization of nested Sortables. Closes Trac #8615.  [Leon Chevalier]
+
 * Change Effect.Base#render not to use eval(), so certain JavaScript runtime environments (like Adobe AIR) that do not support eval() work.  [King Maxemilian, John-David Dalton]
 
 * Fixed a calculation error in Effect.Transitions.pulse that could lead to flickering, add easing and change it to be a normal 0 to 1 transition that can be used with any effects; Effect.Pulsate now uses its own implementation.  [Thomas Fuchs]

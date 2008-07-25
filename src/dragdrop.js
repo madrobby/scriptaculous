@@ -608,7 +608,8 @@ var Sortable = {
   },
   
   destroy: function(element){
-    var s = Sortable.options(element);
+    element = $(element);
+    var s = Sortable.sortables[element.id];
     
     if(s) {
       Draggables.removeObserver(s.element);
