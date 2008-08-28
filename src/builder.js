@@ -72,7 +72,7 @@ var Builder = {
     if(arguments[2])
       this._children(element, arguments[2]);
 
-     return element;
+     return $(element);
   },
   _text: function(text) {
      return document.createTextNode(text);

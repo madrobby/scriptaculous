@@ -116,6 +116,10 @@
       assertEqual('mydiv', elt.htmlFor);
     }},
     
+    testBuilderExtendsElement: function() { with(this) {
+      assertRespondsTo('hide', Builder.node('div'));
+    }},
+    
     testBuilderAllXHTMLTags: function() { with(this) {
       var XHTML_TAGS = [
         'a','abbr','acronym','address','applet','area',
