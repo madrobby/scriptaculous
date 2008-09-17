@@ -1,3 +1,5 @@
+* Add missing semicolons in effects.js.  [Elia Schito]
+
 * Fix that Builder.node did not return extended elements on IE.  Closes #71 and #77. 
 
 * Fix a bug in Sortable.destroy to make sure it's called on the referenced Sortable only, which allows for the correct intialization of nested Sortables. Closes Trac #8615.  [Leon Chevalier]
