@@ -266,7 +266,7 @@ Effect.Base = Class.create({
           if (this.update) this.update(pos);
           dispatch(this, 'afterUpdate');
         }
-      }
+      };
     })();
     
     this.event('beforeStart');
@@ -574,7 +574,7 @@ Effect.Puff = function(element) {
      new Effect.Opacity(element, { sync: true, to: 0.0 } ) ], 
      Object.extend({ duration: 1.0, 
       beforeSetupInternal: function(effect) {
-        Position.absolutize(effect.effects[0].element)
+        Position.absolutize(effect.effects[0].element);
       },
       afterFinishInternal: function(effect) {
          effect.effects[0].element.hide().setStyle(oldStyle); }
@@ -631,7 +631,7 @@ Effect.SwitchOff = function(element) {
         afterFinishInternal: function(effect) {
           effect.element.hide().undoClipping().undoPositioned().setStyle({opacity: oldOpacity});
         }
-      })
+      });
     }
   }, arguments[1] || { }));
 };
@@ -680,7 +680,7 @@ Effect.Shake = function(element) {
     new Effect.Move(effect.element,
       { x: -distance, y: 0, duration: split, afterFinishInternal: function(effect) {
         effect.element.undoPositioned().setStyle(oldStyle);
-  }}) }}) }}) }}) }}) }});
+  }}); }}); }}); }}); }}); }});
 };
 
 Effect.SlideDown = function(element) {
@@ -822,7 +822,7 @@ Effect.Grow = function(element) {
                effect.effects[0].element.undoClipping().undoPositioned().setStyle(oldStyle); 
              }
            }, options)
-      )
+      );
     }
   });
 };
@@ -953,7 +953,7 @@ Effect.Morph = Class.create(Effect.Base, {
       if (!color || ['rgba(0, 0, 0, 0)','transparent'].include(color)) color = '#ffffff';
       color = color.parseColor();
       return $R(0,2).map(function(i){
-        return parseInt( color.slice(i*2+1,i*2+3), 16 ) 
+        return parseInt( color.slice(i*2+1,i*2+3), 16 );
       });
     }
     this.transforms = this.style.map(function(pair){
@@ -986,7 +986,7 @@ Effect.Morph = Class.create(Effect.Base, {
           transform.unit != 'color' &&
           (isNaN(transform.originalValue) || isNaN(transform.targetValue))
         )
-      )
+      );
     });
   },
   update: function(position) {
@@ -1117,7 +1117,7 @@ $w('fade appear grow shrink fold blindUp blindDown slideUp slideDown '+
       element = $(element);
       Effect[effect.charAt(0).toUpperCase() + effect.substring(1)](element, options);
       return element;
-    }
+    };
   }
 );
 
