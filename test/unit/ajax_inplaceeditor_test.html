@@ -24,6 +24,8 @@
 <p id="newtbe">New to be edited</p>
 <p id="newtbe_external">External control for it</p>
 
+<p id="contains_ampersand">Me & Myself</p>
+
 <div id="tobeeditedMultiLine">First line<br/>
 Second line<br/>
 Third line</div>
@@ -874,6 +876,14 @@ Third line</div>
       });
       assertEqual('#ff0000', ipe.options.highlightColor, 'Highlight color was not migrated');
       assertEqual('#00ff00', ipe.options.highlightEndColor, 'Highlight end color was not migrated');
+      ipe.dispose();
+    }},
+
+
+    testShouldShowAmpersandsProperly: function() {with(this) {
+      var ipe = new Ajax.InPlaceEditor('contains_ampersand', '', {});
+      Event.simulateMouse('contains_ampersand', 'click');
+      assertEqual("Me & Myself", $$('form#contains_ampersand-inplaceeditor input.editor_field')[0].value);
       ipe.dispose();
     }}
     // FIXME: add AC w/o key conflicts?

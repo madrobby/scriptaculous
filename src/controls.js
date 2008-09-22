@@ -604,7 +604,7 @@ Ajax.InPlaceEditor = Class.create({
     this.triggerCallback('onEnterHover');
   },
   getText: function() {
-    return this.element.innerHTML;
+    return this.element.innerHTML.unescapeHTML();
   },
   handleAJAXFailure: function(transport) {
     this.triggerCallback('onFailure', transport);
