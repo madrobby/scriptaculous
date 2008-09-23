@@ -1,3 +1,5 @@
+* Make sure InPlaceEditor converts HTML entities to text.  [Sean Kirby]
+
 * Add missing semicolons in effects.js.  [Elia Schito]
 
 * Fix that Builder.node did not return extended elements on IE.  Closes #71 and #77. 
