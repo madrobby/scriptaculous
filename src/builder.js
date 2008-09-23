@@ -24,7 +24,7 @@ var Builder = {
   //       due to a Firefox bug
   node: function(elementName) {
     elementName = elementName.toUpperCase();
-    
+
     // try innerHTML approach
     var parentTag = this.NODEMAP[elementName] || 'div';
     var parentElement = document.createElement(parentTag);
@@ -32,14 +32,14 @@ var Builder = {
       parentElement.innerHTML = "<" + elementName + "></" + elementName + ">";
     } catch(e) {}
     var element = parentElement.firstChild || null;
-      
+
     // see if browser added wrapping tags
     if(element && (element.tagName.toUpperCase() != elementName))
       element = element.getElementsByTagName(elementName)[0];
-    
+
     // fallback to createElement approach
     if(!element) element = document.createElement(elementName);
-    
+
     // abort if nothing could be created
     if(!element) return;
 
@@ -60,13 +60,13 @@ var Builder = {
             // workaround firefox 1.0.X bug
             if(!element) {
               element = document.createElement(elementName);
-              for(attr in arguments[1]) 
+              for(attr in arguments[1])
                 element[attr == 'class' ? 'className' : attr] = arguments[1][attr];
             }
             if(element.tagName.toUpperCase() != elementName)
               element = parentElement.getElementsByTagName(elementName)[0];
           }
-        } 
+        }
 
     // text, or array of children
     if(arguments[2])
@@ -115,19 +115,19 @@ var Builder = {
     $(element).update(html.strip());
     return element.down();
   },
-  dump: function(scope) { 
-    if(typeof scope != 'object' && typeof scope != 'function') scope = window; //global scope 
-  
+  dump: function(scope) {
+    if(typeof scope != 'object' && typeof scope != 'function') scope = window; //global scope
+
     var tags = ("A ABBR ACRONYM ADDRESS APPLET AREA B BASE BASEFONT BDO BIG BLOCKQUOTE BODY " +
       "BR BUTTON CAPTION CENTER CITE CODE COL COLGROUP DD DEL DFN DIR DIV DL DT EM FIELDSET " +
       "FONT FORM FRAME FRAMESET H1 H2 H3 H4 H5 H6 HEAD HR HTML I IFRAME IMG INPUT INS ISINDEX "+
       "KBD LABEL LEGEND LI LINK MAP MENU META NOFRAMES NOSCRIPT OBJECT OL OPTGROUP OPTION P "+
       "PARAM PRE Q S SAMP SCRIPT SELECT SMALL SPAN STRIKE STRONG STYLE SUB SUP TABLE TBODY TD "+
       "TEXTAREA TFOOT TH THEAD TITLE TR TT U UL VAR").split(/\s+/);
-  
-    tags.each( function(tag){ 
-      scope[tag] = function() { 
-        return Builder.node.apply(Builder, [tag].concat($A(arguments)));  
+
+    tags.each( function(tag){
+      scope[tag] = function() {
+        return Builder.node.apply(Builder, [tag].concat($A(arguments)));
       };
     });
   }
