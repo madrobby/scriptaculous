@@ -1,3 +1,7 @@
+*V1.8.2* (November 18, 2008)
+
+* Update to Prototype 1.6.0.3
+
 * Make sure InPlaceEditor converts HTML entities to text.  [Sean Kirby]
 
 * Fix that Builder.node did not return extended elements on IE.  Closes #71 and #77. 
@@ -15,8 +19,6 @@
 * Using $$ in the loader instead of getElementsByTagName to prevent limitations.  Closes #9032.  [Nick Stakenburg]
 
 * Fix some missing semicolons.  [jdalton]
-
-* Update to Prototype 1.6.0.2 final
 
 * Fix an issue with Effect.ScrollTo that caused Firefox to scroll to the wrong offset in some situations. Closes #10245.  [nik.wakelin]
 
