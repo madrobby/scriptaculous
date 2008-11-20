@@ -1,3 +1,5 @@
+* Remove dead code in effects.js.  Closes #125.  [Confusioner]
+
 *V1.8.2* (November 18, 2008)
 
 * Update to Prototype 1.6.0.3
