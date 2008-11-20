@@ -1,3 +1,5 @@
+* Check for Windows Media plugin and RealPlayer plugin in Firefox on Windows to allow sound playback.  Closes #36, #86.  [Alexander Gavazov et al.]
+
 * Remove dead code in effects.js.  Closes #125.  [Confusioner]
 
 *V1.8.2* (November 18, 2008)
