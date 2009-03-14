@@ -207,12 +207,12 @@ Control.Slider = Class.create({
         var pointer  = [Event.pointerX(event), Event.pointerY(event)];
         var track = handle;
         if (track==this.track) {
-          var offsets  = Position.cumulativeOffset(this.track);
+          var offsets  = this.track.cumulativeOffset();
           this.event = event;
           this.setValue(this.translateToValue(
            (this.isVertical() ? pointer[1]-offsets[1] : pointer[0]-offsets[0])-(this.handleLength/2)
           ));
-          var offsets  = Position.cumulativeOffset(this.activeHandle);
+          var offsets  = this.activeHandle.cumulativeOffset();
           this.offsetX = (pointer[0] - offsets[0]);
           this.offsetY = (pointer[1] - offsets[1]);
         } else {
@@ -225,7 +225,7 @@ Control.Slider = Class.create({
             this.activeHandleIdx = this.handles.indexOf(this.activeHandle);
             this.updateStyles();
 
-            var offsets  = Position.cumulativeOffset(this.activeHandle);
+            var offsets  = this.activeHandle.cumulativeOffset();
             this.offsetX = (pointer[0] - offsets[0]);
             this.offsetY = (pointer[1] - offsets[1]);
           }
@@ -244,7 +244,7 @@ Control.Slider = Class.create({
   },
   draw: function(event) {
     var pointer = [Event.pointerX(event), Event.pointerY(event)];
-    var offsets = Position.cumulativeOffset(this.track);
+    var offsets = this.track.cumulativeOffset();
     pointer[0] -= this.offsetX + offsets[0];
     pointer[1] -= this.offsetY + offsets[1];
     this.event = event;
