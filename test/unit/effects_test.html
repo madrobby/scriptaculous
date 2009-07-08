@@ -48,6 +48,7 @@
 <div id="error_message">ERROR MESSAGE</div>
 <div id="error_message_2">SECOND ERROR MESSAGE</div>
 <div id="error_message_3" style="border:1px solid red; width:100px; color: #f00">THIRD ERROR MESSAGE</div>
+<div id="error_message_4" class="final">FOURTH ERROR MESSAGE</div>
 
 <ul class="error-list" id="error_test_ul">
   <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit,</li>
@@ -423,6 +424,7 @@
         duration:0.5
       });
       $('error_message_3').morph('final', {duration:0.5});
+      $('error_message_4').morph('!final', {duration:0.5});
       wait(1000,function(){
         assertEqual('17px', $('error_test_ul').getStyle('margin-right'));
         assertEqual('40px', $('error_test_ul').getStyle('font-size'));
@@ -432,6 +434,8 @@
         assertEqual('20px', $('error_message_3').getStyle('font-size'));
         assertEqual(.5, $('error_message_3').getStyle('opacity'));
         assertEqual('', $('error_message_3').style.fontSize);
+        assert($('error_message_3').hasClassName('final'));
+        assert(!$('error_message_4').hasClassName('final'));
       });
     }},
 

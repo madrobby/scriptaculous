@@ -923,19 +923,30 @@ Effect.Morph = Class.create(Effect.Base, {
       if (options.style.include(':'))
         this.style = options.style.parseStyle();
       else {
-        this.element.addClassName(options.style);
+        if (options.style.indexOf('!') == 0) {
+          var className = options.style.substring(1);
+          var applyClassChange = "removeClassName";
+          var undoClassChange = "addClassName";
+        }
+        else {
+          var className = options.style;
+          var applyClassChange = "addClassName";
+          var undoClassChange = "removeClassName";
+        }
+        
+        this.element[applyClassChange](className);
         this.style = $H(this.element.getStyles());
-        this.element.removeClassName(options.style);
+        this.element[undoClassChange](className);
         var css = this.element.getStyles();
         this.style = this.style.reject(function(style) {
           return style.value == css[style.key];
         });
         options.afterFinishInternal = function(effect) {
-          effect.element.addClassName(effect.options.style);
+          effect.element[applyClassChange](className);
           effect.transforms.each(function(transform) {
             effect.element.style[transform.style] = '';
           });
-        };
+        }
       }
     }
     this.start(options);
