@@ -145,14 +145,13 @@ var Effect = {
     'blind':  ['BlindDown','BlindUp'],
     'appear': ['Appear','Fade']
   },
-  toggle: function(element, effect) {
+  toggle: function(element, effect, options) {
     element = $(element);
-    effect = (effect || 'appear').toLowerCase();
-    var options = Object.extend({
+    effect  = (effect || 'appear').toLowerCase();
+    
+    return Effect[ Effect.PAIRS[ effect ][ element.visible() ? 1 : 0 ] ](element, Object.extend({
       queue: { position:'end', scope:(element.id || 'global'), limit: 1 }
-    }, arguments[2] || { });
-    Effect[element.visible() ?
-      Effect.PAIRS[effect][1] : Effect.PAIRS[effect][0]](element, options);
+    }, options || {}));
   }
 };
 
