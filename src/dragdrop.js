@@ -729,7 +729,7 @@ var Sortable = {
     }
 
     // keep reference
-    this.sortables[element.id] = options;
+    this.sortables[element.identify()] = options;
 
     // for onupdate
     Draggables.addObserver(new SortableObserver(element, options.onUpdate));
