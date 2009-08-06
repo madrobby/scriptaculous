@@ -761,6 +761,8 @@ Ajax.InPlaceCollectionEditor = Class.create(Ajax.InPlaceEditor, {
     var list = document.createElement('select');
     list.name = this.options.paramName;
     list.size = 1;
+    if (this.options.submitOnBlur)
+      list.onblur = this._boundSubmitHandler;
     this._controls.editor = list;
     this._collection = this.options.collection || [];
     if (this.options.loadCollectionURL)
