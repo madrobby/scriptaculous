@@ -129,7 +129,11 @@ Autocompleter.Base = Class.create({
       switch(event.keyCode) {
        case Event.KEY_TAB:
        case Event.KEY_RETURN:
-         this.selectEntry();
+         if (this.options.afterUpdateElement) {
+           this.options.afterUpdateElement(this.element, this.element);
+         } else {
+           this.selectEntry();
+         }
          Event.stop(event);
        case Event.KEY_ESC:
          this.hide();
