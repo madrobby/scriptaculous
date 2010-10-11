@@ -77,21 +77,29 @@ Control.Slider = Class.create({
           slider.options.sliderValue[i] : slider.options.sliderValue) ||
          slider.range.start), i);
       h.makePositioned().observe("mousedown", slider.eventMouseDown);
+      h.observe("touchstart", slider.eventMouseDown);
     });
 
     this.track.observe("mousedown", this.eventMouseDown);
+    this.track.observe("touchstart", this.eventMouseDown);
     document.observe("mouseup", this.eventMouseUp);
+    document.observe("touchend", this.eventMouseUp);
     document.observe("mousemove", this.eventMouseMove);
+    document.observe("touchmove", this.eventMouseMove);
 
     this.initialized = true;
   },
   dispose: function() {
     var slider = this;
     Event.stopObserving(this.track, "mousedown", this.eventMouseDown);
+    Event.stopObserving(this.track, "touchstart", this.eventMouseDown);
     Event.stopObserving(document, "mouseup", this.eventMouseUp);
+    Event.stopObserving(document, "touchend", this.eventMouseUp);
     Event.stopObserving(document, "mousemove", this.eventMouseMove);
+    Event.stopObserving(document, "touchmove", this.eventMouseMove);
     this.handles.each( function(h) {
       Event.stopObserving(h, "mousedown", slider.eventMouseDown);
+      Event.stopObserving(h, "touchstart", slider.eventMouseDown);
     });
   },
   setDisabled: function(){
@@ -199,12 +207,12 @@ Control.Slider = Class.create({
     Element.addClassName(this.activeHandle, 'selected');
   },
   startDrag: function(event) {
-    if (Event.isLeftClick(event)) {
+    if (Event.isLeftClick(event) || event.touches) {
       if (!this.disabled){
         this.active = true;
 
         var handle = Event.element(event);
-        var pointer  = [Event.pointerX(event), Event.pointerY(event)];
+        var pointer = (event.touches ? [event.touches[0].clientX, event.touches[0].clientY] : [Event.pointerX(event), Event.pointerY(event)]);
         var track = handle;
         if (track==this.track) {
           var offsets  = this.track.cumulativeOffset();
@@ -238,12 +246,12 @@ Control.Slider = Class.create({
    if (this.active) {
       if (!this.dragging) this.dragging = true;
       this.draw(event);
-      if (Prototype.Browser.WebKit) window.scrollBy(0,0);
+      if (Prototype.Browser.WebKit && !event.touches) window.scrollBy(0,0);
       Event.stop(event);
    }
   },
   draw: function(event) {
-    var pointer = [Event.pointerX(event), Event.pointerY(event)];
+    var pointer = (event.touches ? [event.touches[0].clientX, event.touches[0].clientY] : [Event.pointerX(event), Event.pointerY(event)]);
     var offsets = this.track.cumulativeOffset();
     pointer[0] -= this.offsetX + offsets[0];
     pointer[1] -= this.offsetY + offsets[1];
