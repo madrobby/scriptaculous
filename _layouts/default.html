@@ -3,28 +3,45 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>{{ page.title }} &mdash; Scriptaculous Wiki</title>
+  <title>{{ page.title }} &mdash; Scriptaculous Documentation</title>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  
+  <link rel="stylesheet" href="/scriptaculous/css/docs.css" media="screen" />
   
   <link href="http://github.com/madrobby/scriptaculous/commits/master.atom" rel="alternate" title="Recent Commits to scriptaculous:master" type="application/atom+xml" />
   <meta name="description" content="script.aculo.us is an open-source JavaScript framework for visual effects and interface behaviours." />
 </head>
   
 <body>
-<div id="wiki-entry">
+
+<div id="header">
+  <h2 id="logo">script.aculo.us</h2>
+  <ul id="navbar">
+    <li><a href="/scriptaculous/">Docs Home</a></li>
+    <li><a href="/scriptaculous/">Contribute</a></li>
+  </ul>
+</div>
+<div id="content">
   <h1>{{ page.title }}</h1>
-  <div id="content">
+  <div id="wiki">
     {{ content }}
   </div>
 
-  <!--
   <div class="sidebar">
     <h3>Pages</h3>
-      <ul>
-       
       </ul>
-  </div> 
-  -->     
+      {% for post in site.posts reversed %}
+        {% if page.title == post.title %}
+          <li>{{ page.title }}</li>
+        {% else %}
+          <li><a href="{{ post.url }}" class="{{ cat }}">{{ post.title }}</a></li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+  </div>  
+</div>
+<div id="footer">
+  script.aculo.us is released under the MIT license.
 </div>
 
 </body>
