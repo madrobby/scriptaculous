@@ -4,4 +4,4 @@ This is an automated port of a snapshot of the wiki (10/14/2010) to the Jekyll/P
 
 h4. Style is minimal
 
-There isn't any style information in the default layout, and the default layout does not currently have the wiki-like sidebar in place. This is easy to do by editing @_layouts/default.html@
+There isn't any style information in the default layout, and the default layout does not currently have the wiki-like sidebar in place. This is easy to do by editing @_layouts/default.html@.
