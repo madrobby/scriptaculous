@@ -1,4 +1,4 @@
-h3. Porting Scriptaculous Wiki to Github Page Architecture
+h3. Porting Scriptaculous Wiki to GitHub Page Architecture
 
 This is an automated port of a snapshot of the wiki (10/14/2010) to the Jekyll/Pages architecture GitHub uses. Everything was left as HTML instead of Textile.
 
