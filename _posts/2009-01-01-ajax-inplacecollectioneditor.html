@@ -1,0 +1,136 @@
+---
+layout: default
+title: Ajax.InPlaceCollectionEditor
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><script type="text/javascript" src="http://script.aculo.us/controls.js"></script><style>.demo { font-weight: strong; border: 2px solid #FFFF99; padding: 0.5em; }</style>
+<p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/controls">Controls</a> &gt; <strong>Ajax.InPlaceCollectionEditor</strong></p>
+<h2>Introduction</h2>
+<p>This constructor generates a Flickr-style <span class="caps">AJAX</span>-based &#8220;on-the-fly&#8221; fields with a select box instead of <a href="http://madrobby.github.com/scriptaculous/ajax-inplaceeditor">Ajax.InPlaceEditor</a> text fields.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">new Ajax.InPlaceCollectionEditor( element, url, { collection: [array], [moreOptions] } );</code></pre>
+<p>The constructor takes three parameters. The first is the element that should support in-place editing. The second is the url to submit the changed value to. The server should respond with the updated value (the server might have post-processed it or validation might have prevented it from changing). The third is a hash of options. Within that hash of options should be a field called collection that is an array of values to place inside your select box.</p>
+<p>The server side component gets the new value as the parameter ‘value’ (<span class="caps">POST</span> method), and should send the new value as the body of the response.</p>
+<p>If the <code>collection</code> parameter (or the result of the <code>loadCollectionURL</code>) is a one-dimensional array, the <code>option</code> tag&#8217;s <code>value</code> attribute will be the same as the label.  For explicit value attributes, use a two dimensional array for the <code>collection</code> where the second dimension is a key value pair such as <code>[['key', 'value'], ['key', 'value']]</code>.</p>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script><h2>Options</h2>
+<p>The <a href="http://madrobby.github.com/scriptaculous/ajax-inplacecollectioneditor">Ajax.InplaceCollectionEditor</a> takes all the options as <a href="http://madrobby.github.com/scriptaculous/ajax-inplaceeditor">Ajax.InPlaceEditor</a> plus:</p>
+<table>
+<tr>
+<td><em>Name</em></td>
+<td><em>since</em></td>
+<td><em>default</em></td>
+<td><em>Description</em></td>
+</tr>
+<tr>
+<td><code>collection</code></td>
+<td> V?? </td>
+<td> none</td>
+<td> Array of static elements to be displayed as options (in <span class="caps">JSON</span> format) </td>
+</tr>
+<tr>
+<td><code>loadCollectionURL</code></td>
+<td> V1.5 </td>
+<td> null </td>
+<td> Loads values and tag texts for the <code>&lt;option&gt;</code> tags </td>
+</tr>
+<tr>
+<td><code>loadingCollectionText</code></td>
+<td> V?? </td>
+<td> null </td>
+<td> Text to be displayed while the collection is loading </td>
+</tr>
+<tr>
+<td><code>loadingClassName</code></td>
+<td> V?? </td>
+<td> null </td>
+<td> Class applied to form while the collection is loading </td>
+</tr>
+</table>
+<h3>Static Collection</h3>
+<p>The values for the collection of options are specified as an array when you invoke the Ajax.InPlaceCollectionEditor.  Each element in the array will be rendered as an <code>&lt;option&gt;</code> in a <code>&lt;select&gt;</code> element for the user to choose from.</p>
+<pre>
+<code class="javascript">
+new Ajax.InPlaceCollectionEditor( element_1, '/url_to_validate_and_save_selection/', { 
+  collection: ['value one', 'value two', 'value three'] 
+});
+
+new Ajax.InPlaceCollectionEditor( element_2, '/url_to_validate_and_save_selection/', { 
+  collection: [['key_1', 'value one'], ['key_2', 'value two'], ['key_3', 'value three']] 
+});
+</code>
+</pre>
+<h3>Dynamic Collection</h3>
+<p>The collection is loaded in the same format but is loaded as the response from a <span class="caps">URL</span> in the <code>loadCollectionURL</code> parameter.  The response from that <span class="caps">URL</span> should be an array in <span class="caps">JSON</span> format.</p>
+<p>In Rails, it can be done like this:<br />
+<pre><br />
+<code class="ruby"></code></pre></p>
+<ol>
+<li>/url_to_load_collection /<br />
+def my_collection<br />
+  @collection = SomeModel.all<br />
+  respond_to do |format|<br />
+    format.json { render :json =&gt; @collection.map{ |c| [c.id, c.title] } }<br />
+  end<br />
+end<br />
+<br />
+</li>
+</ol>
+<pre>
+<code class="javascript">
+new Ajax.InPlaceCollectionEditor( element_3, '/url_to_validate_and_save_selection/', { 
+  loadCollectionURL: '/url_to_load_collection/' 
+});
+</code>
+</pre>
+<h2>Demo</h2>
+<pre>
+<code class="javascript">
+&lt;p id="editme"&gt;Click me, click me!&lt;/p&gt;
+&lt;script type="text/javascript"&gt;
+ new Ajax.InPlaceCollectionEditor(
+   'editme', 
+   '/demoajaxreturn.html', 
+   { collection: ['one','two','three'],
+     ajaxOptions: {method: 'get'} }
+  );
+&lt;/script&gt;
+</code>
+</pre>
+<div class="demo">
+<p id="editme">three</p>
+<p>(should autoselect &#8220;three&#8221;)</p>
+<script>
+// Lifted from http://www.java2s.com/Code/JavaScript/Ajax-Layer/DemooftheAjaxInPlaceCollectionEditor.htm
+new Ajax.InPlaceCollectionEditor(
+  'editme', '/demoajaxreturn.html', {
+  collection: ['one','two','three'],
+  ajaxOptions: {method: 'get'}
+});
+</script>
+</div>
+<h2>Examples</h2>
+<p>You may want to send the Ajax request directly to <code>update</code> method in Rails to be RESTful. You can do it like this, using the <code>callback</code> option:</p>
+<pre>
+<code class="javascript">
+&lt;script&gt;
+new Ajax.InPlaceCollectionEditor(
+  '&lt;%= dom_id(person) %&gt;_role_title',
+  '&lt;%= person_path(person, :authenticity_token =&gt; form_authenticity_token) %&gt;',
+  { loadCollectionURL: '&lt;%= formatted_roles_people_path(:json,  
+                            :authenticity_token =&gt; form_authenticity_token) %&gt;',
+    callback: function(form, value) {
+      return 'value=' + encodeURIComponent(value) +
+             '&amp;person[role_id]=' + encodeURIComponent(value) +
+             '&amp;_method=PUT' // Fix the HTTP METHOD for the update action!!!
+    },
+    ajaxOptions: { method: 'post' } 
+  }
+);
+&lt;/script&gt;
+</code>
+</pre>
+</div>

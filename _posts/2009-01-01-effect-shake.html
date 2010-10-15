@@ -1,0 +1,46 @@
+---
+layout: default
+title: Effect.Shake
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/combination-effects">Combination Effects</a> &gt; <strong>Effect.Shake</strong></p>
+<p>Moves the element slightly to the left, then to the right, repeatedly.</p>
+<h2>Examples</h2>
+<pre><code class="javascript">
+Effect.Shake('id_of_element');
+</code></pre>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Option </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> duration </td>
+<td> float value, in seconds, defaults to <code>0.5</code> </td>
+</tr>
+<tr>
+<td> distance </td>
+<td> integer value, defaults to 20, the number of pixels to move horizontally </td>
+</tr>
+</table>
+<h2>Notes</h2>
+<p>Works safely with most Block Elements, except tables.</p>
+<h2>Demo</h2>
+<div class="demo">
+<div id="shake_demo" style="width:150px; height:40px; background:#ccc; text-align:center;">
+<a href="#" onclick="Effect.Shake('shake_demo'); return false;" style="line-height:40px;">Click me to shake!</a>
+</div>
+</div>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;div id="shake_demo" style="width:150px; height:40px; background:#ccc; text-align:center;&gt;
+  &lt;a href="#" onclick="new Effect.Shake('shake_demo'); return false;" style="line-height:40px;"&gt;Click me to shake!&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

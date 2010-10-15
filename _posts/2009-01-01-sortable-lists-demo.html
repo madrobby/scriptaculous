@@ -1,0 +1,37 @@
+---
+layout: default
+title: Sortable Lists Demo
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script> <p>Basic unordered list, drag any list item to reorder</p>
+<ul id="list">
+<li>works</li>
+<li>this</li>
+<li>Yay</li>
+<li>now</li>
+</ul>
+<pre><code class="javascript">Sortable.create("list");</code></pre>
+<p>Unordered list with draggable handles, drag the link to reorder</p>
+<ul id="list-2">
+<li>It <a href="#" onclick="return false">move</a></li>
+<li>Works <a href="#" onclick="return false">move</a></li>
+<li>doesn&#8217;t <a href="#" onclick="return false">move</a></li>
+<li>it? <a href="#" onclick="return false">move</a></li>
+</ul>
+<pre><code class="javascript">Sortable.create("list-2", {handles:$$('#list-2 a')});</code></pre>
+<p>A collection of paragraphs that are reorderable with draggable handles, drag the link to reorder</p>
+<div id="list-3">
+<p style="margin:0">This is a reorderable paragraph. <a href="#" onclick="return false">move</a></p>
+<p style="margin:0">This is another reorderable paragraph. <a href="#" onclick="return false">move</a></p>
+<p style="margin:0">This is yet another reorderable paragraph. <a href="#" onclick="return false">move</a></p>
+<p style="margin:0">And can you believe it? Another reorderable paragraph. <a href="#" onclick="return false">move</a></p>
+</div>
+<pre><code class="javascript">Sortable.create("list-3", {elements:$$('#list-3 p'), handles:$$('#list-3 a')});</code></pre>
+<script type="text/javascript">
+    Sortable.create("list");
+    Sortable.create("list-2", {handles:$$('#list-2 a')});
+    Sortable.create("list-3", {elements:$$('#list-3 p'), handles:$$('#list-3 a')});
+  </script>
+</div>

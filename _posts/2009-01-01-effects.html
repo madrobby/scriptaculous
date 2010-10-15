@@ -1,0 +1,30 @@
+---
+layout: default
+title: Effects
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p>The Visual Effects library (<code>effects.js</code>) includes all you need to add advanced JavaScript animation to your web site or application.<br />
+All animation is time-based, not frame based. So, if you tell an effect to last exactly one second, it will do so, regardless of the rendering speed of the browser. And it’s compatible, meaning all this stuff works on Firefox, Internet Explorer, Safari, the iPhone and many other browsers.</p>
+<p>The library&#8217;s <a href="http://madrobby.github.com/scriptaculous/core-effects">Core Effects</a>, <a href="http://madrobby.github.com/scriptaculous/combination-effects">Combination Effects</a> (a combination of core effects) and <a href="http://madrobby.github.com/scriptaculous/effect-queues">Effect queues</a> (a representation of timelines to create series of effects) are powerful tools to create appealing animations.</p>
+<h2>Quick Demo</h2>
+<div class="demo">
+<div id="morph_demo" style="background:#cccccc; width:100px; height:100px;"></div>
+<ul>
+<li><a href="#" onclick="$('morph_demo').morph('background:#00ff00; width:300px;'); return false;">Click me for a demo!</a></li>
+<li><a href="#" onclick="$('morph_demo').morph('background:#cccccc; width:100px;'); return false;">Reset the demo!</a></li>
+</ul>
+</div>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;div id="morph_demo" style="background:#cccccc; width:100px; height:100px;"&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="#" onclick="$('morph_demo').morph('background:#00ff00; width:300px;'); return false;"&gt;Click me for a demo!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" onclick="$('morph_demo').morph('background:#cccccc; width:100px;'); return false;" &gt;Reset the demo!&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

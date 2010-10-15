@@ -1,0 +1,155 @@
+---
+layout: default
+title: Autocompleter.Local
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/controls">Controls</a> &gt; <strong>Autocompleter.Local</strong></p>
+<h2>Introduction</h2>
+<p>The local array autocompleter. Used when you’d prefer to inject an array of autocompletion options into the page, rather than sending out Ajax queries.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">new Autocompleter.Local(id_of_text_field, id_of_div_to_populate, array_of_strings, options);
+</code></pre>
+<p>The constructor takes four parameters. The first two are, as usual, the id of the monitored textbox, and id of the autocompletion menu. The third is an array of strings that you want to autocomplete from, and the fourth is the options block.</p>
+<h3>Extra local autocompletion options</h3>
+<table>
+<tr>
+<td><em>Option</em></td>
+<td><em>Default Value</em></td>
+<td><em>Description</em></td>
+</tr>
+<tr>
+<td><code>choices</code></td>
+<td>10</td>
+<td>How many autocompletion choices to offer</td>
+</tr>
+<tr>
+<td><code>partialSearch</code></td>
+<td>true</td>
+<td>If false, the autocompleter will match entered text only at the beginning of strings in the autocomplete array. Defaults to true, which will match text at the beginning of any word in the strings in the autocomplete array. If you want to search anywhere in the string, additionally set the option fullSearch to true</td>
+</tr>
+<tr>
+<td><code>fullSearch</code></td>
+<td>false</td>
+<td>Search anywhere in autocomplete array strings.</td>
+</tr>
+<tr>
+<td><code>partialChars</code></td>
+<td>2</td>
+<td>How many characters to enter before triggering a partial match (unlike minChars, which defines how many characters are required to do any match at all).</td>
+</tr>
+<tr>
+<td><code>ignoreCase</code></td>
+<td>true</td>
+<td>Whether to ignore case when autocompleting</td>
+</tr>
+</table>
+<p>It’s possible to pass in a custom function as the ‘selector’ option, if you prefer to write your own autocompletion logic. In that case, the other options above will not apply unless you support them.</p>
+<h2>Example</h2>
+<h3><span class="caps">HTML</span></h3>
+<pre><code class="html">
+&lt;p&gt;
+  &lt;label for="bands_from_the_70s"&gt;Your favorite rock  band from the 70's:&lt;/label&gt;
+  &lt;br /&gt;
+  &lt;input id="bands_from_the_70s" autocomplete="off" size="40" type="text" value="" /&gt;
+&lt;/p&gt;
+
+&lt;div class="autocomplete" id="band_list" style="display:none"&gt;&lt;/div&gt;
+</code></pre>
+<h3>Javascript</h3>
+<pre style="overflow: auto; height:300px;"><code class="javascript">
+var bandsList = [
+  'ABBA',
+  'AC/DC',
+  'Aerosmith',
+  'America',
+  'Bay City Rollers',
+  'Black Sabbath',
+  'Boston',
+  'David Bowie',
+  'Can',
+  'The Carpenters',
+  'Chicago',
+  'The Commodores',
+  'Crass',
+  'Deep Purple',
+  'The Doobie Brothers',
+  'Eagles',
+  'Fleetwood Mac',
+  'Haciendo Punto en Otro Son',
+  'Heart',
+  'Iggy Pop and the Stooges',
+  'Journey',
+  'Judas Priest',
+  'KC and the Sunshine Band',
+  'Kiss',
+  'Kraftwerk',
+  'Led Zeppelin',
+  'Lindisfarne (band)',
+  'Lipps, Inc',
+  'Lynyrd Skynyrd',
+  'Pink Floyd',
+  'Queen',
+  'Ramones',
+  'REO Speedwagon',
+  'Rhythm Heritage',
+  'Rush',
+  'Sex Pistols',
+  'Slade',
+  'Steely Dan',
+  'Stillwater',
+  'Styx',
+  'Supertramp',
+  'Sweet',
+  'Three Dog Night',
+  'The Village People',
+  'Wings (fronted by former Beatle Paul McCartney)',
+  'Yes'
+];
+
+new Autocompleter.Local('bands_from_the_70s', 'band_list', bandsList, { });
+</code></pre>
+<h3><span class="caps">CSS</span></h3>
+<p>Styling the <code>div</code> and the returned <code>ul</code> is very important:<br />
+Applying a visual cue that an item is selected allows the user to take advantage of the keyboard navigation of the dropdown and adding background colors, borders, positioning, etc to the <code>div</code> (as the demo does) allows the user interface elements to stand out. The <span class="caps">CSS</span> from the demo applied to the examples would be:</p>
+<pre><code class="css">
+div.autocomplete {
+  margin:0px;  
+  padding:0px;  
+  width:250px;
+  background:#fff;
+  border:1px solid #888;
+  position:absolute;
+}
+
+div.autocomplete ul {
+  margin:0px;
+  padding:0px;
+  list-style-type:none;
+}
+
+div.autocomplete ul li.selected { 
+  background-color:#ffb;
+}
+
+div.autocomplete ul li {
+  margin:0;
+  padding:2px;
+  height:32px;
+  display:block;
+  list-style-type:none;
+  cursor:pointer;
+}
+</code></pre>
+<h2>Notes</h2>
+<p>You can also have your options provided via Ajax callbacks.  For more information regarding this implementation, see <a href="http://madrobby.github.com/scriptaculous/ajax-autocompleter">Ajax.Autocompleter</a>.</p>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script><h3>Advance extended version that mimics Facebook to: field.</h3>
+<ul>
+<li><a href="http://devblog.rorcraft.com/2008/8/13/the-facebook-autocomplete-address-to-field">Tutorial</a></li>
+<li><a href="http://github.com/rorcraft/autocomplete.localadvanced/tree/master">Git repository</a></li>
+<li><a href="http://www.rorcraft.com/autocomplete_advanced_local/">Live demo</a></li>
+</ul>
+</div>

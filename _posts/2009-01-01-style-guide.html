@@ -1,0 +1,80 @@
+---
+layout: default
+title: Style Guide
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<p>When porting documents from the old wiki over to the new one or if you&#8217;re generally writing new content for the script.aculo.us wiki,<br />
+this style guide might be helpful for structuring your document.</p>
+<h2>Document includes</h2>
+<h3>Syntax Highlighting</h3>
+<p>In order to make syntax highlighting work for documents which contain code examples, be sure to put this line to the very beginning of your document:<br />
+<pre><code class="html">
+&lt;link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css"/&gt;
+</code></pre></p>
+<p>and the following code-block to the very end of the document:<br />
+<pre><code class="html">
+&lt;script type="text/javascript" src="http://script.aculo.us/github/highlight.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+&lt;/script&gt;
+</code></pre></p>
+<h3>Javascript Includes</h3>
+<p>In documents where you show demos of script.aculo.us&#8217; features, include the following code at the beginning of<br />
+your document:<br />
+<pre><code class="html">
+&lt;script type="text/javascript" src="http://script.aculo.us/prototype.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"&gt;&lt;/script&gt;
+</code></pre></p>
+<p style="color:red;">Mind that these files are the latest versions from the <strong><a href="http://github.com/madrobby/scriptaculous/tree/master">master branch</a></strong>, and may contain bugfixes that make them work slightly different from the latest official release.</p>
+<h2>Document Structure</h2>
+<p>Documents which show the usage of an effect, a control or other related topics should be structured as following:</p>
+<ul>
+<li><code>h2.</code> Introduction — A short paragraph describing what the document is about.</li>
+<li><code>h2.</code> Syntax — A description of the usage of the topic (e.g. how to instantiate an effect, the order of parameters, etc.).</li>
+<li><code>h2.</code> Options — A table which shows all available options and a corresponding description.</li>
+<li><code>h2.</code> Examples — Practical usage examples of the topic.</li>
+<li><code>h2.</code> Demo — A playable demo of the topic.
+	<ul>
+<li><code>h3.</code> Source Code of the Demo — All the code which is needed to rebuild the demo, an optional description.</li>
+</ul></li>
+</ul>
+<h3>Including a Path</h3>
+<p>When a document belongs to a specific category, include a path in the beginning of your document.<br />
+An example:<br />
+<a href="http://madrobby.github.com/scriptaculous/effect-morph">Effect.Morph</a> belongs to the <a href="http://madrobby.github.com/scriptaculous/core-effects">Core Effects</a> category. The path for the Effect.Morph document will look like:</p>
+<p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/core-effects">Core Effects</a> &gt; <strong>Effect.Morph</strong></p>
+<p>The <em>textile snippet</em> for the above example looks like this:<br />
+<pre><code>
+p{background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;}. &#91;&#91;Core Effects&#93;&#93; > *Effect.Morph*
+</code></pre>
+</p>
+<h3>Document Linking</h3>
+<p>The syntax for linking to other documents looks like: <br />
+<pre><code>
+&#91;&#91;Title of another document&#93;&#93;
+</code></pre></p>
+<p>Be sure to not use the camelcased style (<code>CoreEffects</code>) as often seen in other wikis, but instead the real, space-seperated title of the document you want to link to (<code>Core Effects</code>).</p>
+<p>Here an example on how to link from your document to other documents of the wiki:<br />
+<pre><code>
+&#91;&#91;Core Effects&#93;&#93; => links to the document with the title "Core Effects"
+&#91;&#91;Combination Effects&#93;&#93; => links to the document with the title "Combination Effects"
+</code></pre></p>
+<h2>Code Examples</h2>
+<p>When giving examples, wrap your example code into <code>code</code> tag with the programming language the example is written in as its <code>class</code>-attribute which is again wrapped in a <code>pre</code>-tag. An example of this would look like this:</p>
+<pre><code class="html">
+&lt;pre&gt;&lt;code class="javascript"&gt;
+  Example code here
+  …
+</code></pre>
+<p></p>
+<h2>Demos</h2>
+<p>1. Include all the necessary JS files as described in <em>Javascript Includes</em> in your document.</p>
+<p>2. Wrap all your demo code in a <code>notextile</code>-tag.</p>
+<p>3. Wrap all your <span class="caps">HTML</span> demo code into a <code>div[class="demo"]</code>.</p>
+<p>4. In order to prevent an overriding of Githubs own Javascript code, be sure to add a prefix (e.g. <code>scriptyGetValue()</code>) when defining custom functions for your demo.</p>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

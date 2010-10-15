@@ -1,0 +1,136 @@
+---
+layout: default
+title: Sortables
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/behaviours">Behaviours</a> &gt; <strong>Sortable</strong></p>
+<p>A Sortable consists of item elements in a container element. When you create a new Sortable, it takes care of the creation of the corresponding Draggables and Droppables.</p>
+<h2>Creating Sortables</h2>
+<h3>Syntax</h3>
+<pre><code class="javascript">
+Sortable.create('id_of_container',[options]);
+</code></pre>
+<h3>Options</h3>
+<table>
+<tr>
+<th>Option </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> tag </td>
+<td> string, represents a tagname, defaults to <code>'li'</code>, sets the kind of tag (of the child elements of the container) that will be made sortable. For <code>UL</code> and <code>OL</code> containers, this is <code>‘li’</code>, you have to provide the tag kind for other sorts of child tags. </td>
+</tr>
+<tr>
+<td> only </td>
+<td> Further restricts the selection of child elements to only encompass elements with the given <span class="caps">CSS</span> class (or, if you provide an array of strings, on any of the classes). </td>
+</tr>
+<tr>
+<td> overlap </td>
+<td> string, defaults to <code>'vertical'</code>, can also be <code>‘horizontal’</code>. For floating sortables or horizontal lists, choose <code>‘horizontal’</code>. Vertical lists should use <code>‘vertical’</code>. </td>
+</tr>
+<tr>
+<td> constraint </td>
+<td> string, defaults to <code>'vertical'</code>, restricts the movement of Draggables, see the constraint option of <a href="http://madrobby.github.com/scriptaculous/draggable">Draggable</a>. </td>
+</tr>
+<tr>
+<td> containment </td>
+<td> Enables dragging and dropping between Sortables. Takes an array of elements or element-ids (of the containers). Important note: To ensure that two way dragging between containers is possible, place all Sortable.create calls after the container elements. </td>
+</tr>
+<tr>
+<td> handle </td>
+<td> Makes the created Draggables use handles, see the handle option on <a href="http://madrobby.github.com/scriptaculous/draggable">Draggable</a>. </td>
+</tr>
+<tr>
+<td> hoverclass </td>
+<td> Gives the created Droppables a hoverclass (see <a href="http://madrobby.github.com/scriptaculous/droppables">Droppables</a>). </td>
+</tr>
+<tr>
+<td> ghosting </td>
+<td> boolean, defaults to <code>false</code>, if set to true, dragged elements of the Sortable will be cloned and appear as “ghost”, i.e. a representation of their original element, instead of directly dragging the original element. </td>
+</tr>
+<tr>
+<td> dropOnEmpty </td>
+<td> boolean, defaults to <code>false</code>, if set to true, the Sortable container will be made into a Droppable, that can receive a Draggable (as according to the containment rules) as a child element when there are no more elements inside. </td>
+</tr>
+<tr>
+<td> scroll </td>
+<td> When the sortable is contained in an element with style <code>overflow:scroll</code>, this value can be set to the ID of that container (or the container’s <span class="caps">DOM</span> object). The scroll position of the container will now move along when the sortable is dragged out of the viewable area. The container must have <code>overflow:scroll</code> set to include scroll bars. </td>
+</tr>
+<tr>
+<td> scrollSensitivity </td>
+<td> Will start scrolling when element is x pixels from the bottom, where x is the scrollSensitivity. </td>
+</tr>
+<tr>
+<td> scrollSpeed </td>
+<td> Will scroll the element in increments of scrollSpeed pixels. </td>
+</tr>
+<tr>
+<td> tree </td>
+<td> boolean, defaults to <code>false</code>, if <code>true</code>, sets sortable functionality to elements listed in <code>treeTag</code> </td>
+</tr>
+<tr>
+<td> treeTag </td>
+<td> string, defaults to <code>'ul'</code>, the element type tree nodes are contained in. </td>
+</tr>
+</table>
+<h3>Callbacks</h3>
+<table>
+<tr>
+<th>Callback </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> onChange </td>
+<td> Called whenever the sort order changes while dragging. When dragging from one Sortable to another, the callback is called once on each Sortable. Gets the affected element as its parameter. </td>
+</tr>
+<tr>
+<td> onUpdate </td>
+<td> Called when the drag ends and the Sortable’s order is changed in any way. When dragging from one Sortable to another, the callback is called once on each Sortable. Gets the container as its parameter. Note that the id attributes of the elements contained in the Sortable must be named as described in <code>Sortable.serialize</code> </td>
+</tr>
+</table>
+<h3>Notes</h3>
+<p>You can use <code>Sortable.create</code> on any container element that contains Block Elements, with the exception of <code>TABLE</code>, <code>THEAD</code>, <code>TBODY</code> and <code>TR</code>. This is a technical restriction with current browsers.<br />
+A sortable nested somewhere inside a table won’t work well under <em>IE</em> unless the table has a <code>position:relative</code> style. If you use the <span class="caps">CSS</span> <code>display: table</code> property, sortable lists will work a little, but doesn’t allow true drag and drop of the elements.</p>
+<p>If you want your sortable list to be scrollable, wrap the list in a <code>div</code> and set the <code>div</code> to scrollable as apposed to making the <code>ul</code> element scrollable. Also, in <em>IE</em> you must set <code>position:relative</code> on the scrollable <code>div</code>.</p>
+<h2>Serializing Sortables</h2>
+<p>The Sortable object also provides a function to serialize the Sortable in a format suitable for <span class="caps">HTTP</span> <code>GET</code> or <code>POST</code> requests. This can be used to submit the order of the Sortable via an Ajax call.</p>
+<h3>Syntax</h3>
+<pre><code class="javascript">
+var poststring = Sortable.serialize('id_of_container',[options]);
+// poststring now contains key[]=value pairs separated by &amp;
+</code></pre>
+<p><em>Important:</em> For this to work, the elements contained in your <em>Sortable</em> must have <code>id</code> attributes in the following form:<br />
+<pre><code>
+id="string_identifier" 
+// example: id="image_1"
+</code></pre></p>
+<p>Only the <em>identifier</em> part of the <code>id</code> attribute will be serialized. If you want to use an other form of id attributes, you need to implement your own serialization.</p>
+<h3>Options</h3>
+<table>
+<tr>
+<th>Option </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> tag </td>
+<td> string, defaults to the <code>tag</code> originally used when calling <code>Sortable.create</code>, Sets the kind of tag (of the child elements of the container) that will be serialized. </td>
+</tr>
+<tr>
+<td> name </td>
+<td> string, defaults to <code>id</code> of the container, sets the name of the key that will be used to create the <em>key/value pairs</em> for serializing in <span class="caps">HTTP</span> <span class="caps">GET</span>/<span class="caps">POST</span> format (that is, <code>key[]=value&amp;key[]=value</code> …) </td>
+</tr>
+</table>
+<h2>Disabling Sortables</h2>
+<p>Use <code>Sortable.destroy</code> to completely remove all event handlers and references to a <em>Sortable</em> created by <code>Sortable.create</code>. It does not remove or alter the referenced element in any other way.</p>
+<h3>Syntax</h3>
+<pre><code class="javascript">
+Sortable.destroy(element);
+</code></pre>
+<h3>Notes</h3>
+<p>A call to <code>Sortable.create</code> implicitly calls on <code>Sortable.destroy</code> if the referenced element was already a <em>Sortable</em>.</p>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

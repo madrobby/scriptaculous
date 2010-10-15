@@ -1,0 +1,114 @@
+---
+layout: default
+title: Builder
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<h2>Introduction</h2>
+<p>Use <code>Builder</code> to easily create <span class="caps"><span class="caps">DOM</span></span> elements dynamically.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">
+Builder.node( elementName )
+Builder.node( elementName, attributes )
+Builder.node( elementName, children )
+Builder.node( elementName, attributes, children )
+</code></pre>
+<table>
+<tr>
+<th>Arguments </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> elementName </td>
+<td> String, The tag name for the element </td>
+</tr>
+<tr>
+<td> attributes </td>
+<td> Object, Typical attributes are <code>id</code>, <code>className</code>, <code>style</code>, <code>onclick</code>, etc. </td>
+</tr>
+<tr>
+<td> children </td>
+<td> Array, List of other nodes to be appended as children </td>
+</tr>
+</table>
+<p>If an element of the <code>children</code> Array is a String or Number, it will be automatically appended as a text node. Instead of an array, <code>children</code> can also be a JavaScript String or Number, to ease usage.</p>
+<h3>Special cases</h3>
+<ul>
+<li><code>class</code>: When specifying the <code>class</code> attribute for the node, use <code>className</code> to circumvent a Firefox bug.</li>
+<li><code>for</code>: To set a <code>for</code> attribute (in labels) use <code>htmlFor</code>, since &#8216;for&#8217; is a reserved word in javascript.</li>
+</ul>
+<h2>Examples</h2>
+<h3>Creating <code>TR</code> and <code>TD</code> elements</h3>
+<pre><code class="javascript">
+var table = Builder.node('table', {
+  width: '100%',
+  cellpadding: '2',
+  cellspacing: '0',
+  border: '0'
+});
+
+var tbody = Builder.node('tbody'),
+    tr = Builder.node('tr', { className: 'header' }),
+    td = Builder.node('td', [Builder.node('strong', 'Category')]);
+
+tr.appendChild(td);
+tbody.appendChild(tr);
+table.appendChild(tbody);
+&lt;div class="dnn_dnnContent" style="margin-left: -459px; font-size: .7em;"&gt;Проститутки Москвы привлекают вас? &lt;a href="http://prostitutki-moskvy.msk.ru/archive/" title="проститутки Москвы"&gt;Проститутки Москвы&lt;/a&gt; очевидно лучшие индивидуалки.&lt;/div&gt;
+$('divCat').appendChild(table);
+</code></pre>
+<p>You can also combine them but you need to make sure you create the tbody tag or it will not work in IE.  I have tested this in FF 1.5 and IE 6.  I don&#8217;t have access to other browsers.  The one problem that I have found is that with TR and TD elements you can not put a style tag on them as it just makes IE stop doing the Builder Function.</p>
+<h3>Simple Example</h3>
+<pre><code class="javascript">
+var element = Builder.node('p', { className:'error' }, 'An error has occurred');
+</code></pre>
+<p>creates following element:</p>
+<pre><code class="html">
+&lt;p class="error"&gt;An error has occured&lt;/p&gt;
+</code></pre>
+<h3>Complex Example</h3>
+<pre><code class="javascript">
+var element = Builder.node('div', { id: 'ghosttrain' }, [
+  Builder.node('div',{ className: 'controls', style: 'font-size:11px;' }, [
+    Builder.node('h1', 'Ghost Train'),
+    'testtext', 2, 3, 4,
+    Builder.node('ul', [
+      Builder.node('li', { className: 'active', onclick: 'test()' }, 'Record')
+    ]),
+  ]),
+]);
+</code></pre>
+<p>creates (without newlines):</p>
+<pre><code class="html">
+&lt;div id="ghosttrain"&gt;
+  &lt;div class="controls" style="font-size:11px"&gt;
+    &lt;h1&gt;Ghost Train&lt;/h1&gt;
+    testtext234
+    &lt;ul&gt;
+      &lt;li class="active" onclick="test()"&gt;Record&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<h2>Usage</h2>
+<p>In JavaScript code, if you want to use your new element, you can add it to an existing <span class="caps">DOM</span> element by using the browsers native <code>appendChild</code> function:</p>
+<pre><code class="javascript">
+$('myExistingDomElement').appendChild(element);
+</code></pre>
+<p>… or by using Protoypes built-in <code>Element#insert</code> method which allows you to specify a position the new node gets inserted into:</p>
+<pre><code class="javascript">
+$('myExistingDomElement').insert(element); // appends the new node to @myExistingDomElement@-element
+$('myExistingDomElement').insert({ after: element }); // inserts the new node right after the @myExistingDomElement@-element
+$('myExistingDomElement').insert({ top: element }); // inserts the new node as the first element in @myExistingDomElement@
+</code></pre>
+<p>If you want to be able to call any of Prototype&#8217;s extension-methods on the created node, then you need to pass it through the <code>$</code> function:</p>
+<pre><code class="javascript">
+var div = Builder.node('div', { id: 'some_id' });
+div = $(div);
+div.hide();
+</code></pre><p></p>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

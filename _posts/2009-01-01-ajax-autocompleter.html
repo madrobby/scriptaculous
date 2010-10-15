@@ -1,0 +1,165 @@
+---
+layout: default
+title: Ajax.Autocompleter
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/controls">Controls</a> &gt; <strong>Ajax.Autocompleter</strong></p>
+<h2>Introduction</h2>
+<p>Ajax.Autocompleter allows for server-powered autocompleting text fields.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">new Ajax.Autocompleter(id_of_text_field, id_of_div_to_populate, url, options);
+</code></pre>
+<h3>Options (Inherited from <a href="http://madrobby.github.com/scriptaculous/autocompleterbase">Autocompleter.Base</a>, as well as all options for <a href="http://prototypejs.org/api/ajax/options">Prototype&#8217;s Ajax.Request</a> )</h3>
+<table>
+<tr>
+<td><em>Option</em></td>
+<td><em>Default Value</em></td>
+<td><em>Description</em></td>
+</tr>
+<tr>
+<td><code>paramName</code></td>
+<td>the &#8216;name&#8217; of the element</td>
+<td>Name of the parameter for the string typed by the user on the autocompletion field</td>
+</tr>
+<tr>
+<td><code>tokens</code></td>
+<td>[]</td>
+<td> Tokenized incremental autocompletion is enabled automatically when an autocompleter is instantiated with the &#8216;tokens&#8217; option in the options parameter: See Also <a href="http://madrobby.github.com/scriptaculous/autocompleterbase">Autocompleter.Base</a> </td>
+</tr>
+<tr>
+<td><code>frequency</code></td>
+<td>0.4</td>
+<td>How frequently (in seconds) the input field should be polled for changes before firing an Ajax request.</td>
+</tr>
+<tr>
+<td><code>minChars</code></td>
+<td>1</td>
+<td>The minimum number of characters that must be entered in the input field before an Ajax request is made.</td>
+</tr>
+<tr>
+<td><code>select</code></td>
+<td>null</td>
+<td>The class name of the element that contains the text to be placed into the input box. By default all text will be used.</td>
+</tr>
+<tr>
+<td><code>indicator</code></td>
+<td>null</td>
+<td>The <span class="caps">HTML</span> <code>id</code> of an element to display (using Element.show) while the Ajax request is in progress.  This element will be hidden with Element.hide when the request is completed. This is useful for displaying an animated spinner during processing.  See <a href="http://www.ajaxload.info/">Ajaxload</a> for some image examples.</td>
+</tr>
+<tr>
+<td><code>updateElement</code></td>
+<td>null</td>
+<td>Hook for a custom function to replace the built-in function that adds the list item text to the input field. The custom function is called after the element has been updated (i.e. when the user has selected an entry). The function receives one parameter only: the selected item (the <code>&lt;li&gt;</code> item selected)</td>
+</tr>
+<tr>
+<td><code>afterUpdateElement</code></td>
+<td>null</td>
+<td>Hook for a custom function that&#8217;s called following the execution of the built-in function that adds the list item text to the input field, which happens after a user has selected an entry. (The difference between updateElement and afterUpdateElement is that updateElement replaces the built-in Autocompleter function; afterUpdateElement supplements that built-in function.) The function receives two parameters, the input field specified for autocompletion, and the selected item (the <code>&lt;li&gt;</code> item selected)</td>
+</tr>
+<tr>
+<td><code>callback</code></td>
+<td>null</td>
+<td>This function is called just before the Request is actually made, allowing you to modify the querystring that is sent to the server. The function receives the completer’s input field and the default querystring (‘value=XXX’) as parameters. You should return the querystring you want used, including the default part.</td>
+</tr>
+<tr>
+<td><code>parameters</code></td>
+<td>null</td>
+<td>To send additional parameters to the server, add them here in the format: <code>'field=value&amp;another=value'</code>. Errata/bug: The hash format <code>{field: 'value',another: 'value'}</code> was noted in this wiki to work, but it does not, as the Ruby on Rails project has separately documented and fixed in their codebase.</td>
+</tr>
+</table>
+<h2>Example</h2>
+<p><span class="caps">HTML</span><br />
+<pre><code class="html">&lt;input type="text" id="autocomplete" name="autocomplete_parameter"/&gt;
+&lt;div id="autocomplete_choices" class="autocomplete"&gt;&lt;/div&gt;
+</code></pre></p>
+<p>Javascript<br />
+<pre><code class="javascript">new Ajax.Autocompleter("autocomplete", "autocomplete_choices", "/url/on/server", {});
+</code></pre></p>
+<p><span class="caps">HTML</span> with indicator<br />
+<pre><code class="html">&lt;input type="text" id="autocomplete" name="autocomplete_parameter"/&gt;
+&lt;span id="indicator1" style="display: none"&gt;
+  &lt;img src="/images/spinner.gif" alt="Working..." /&gt;
+&lt;/span&gt;
+&lt;div id="autocomplete_choices" class="autocomplete"&gt;&lt;/div&gt;
+</code></pre></p>
+<p>(As with any element destined to work with Prototype’s Element.toggle/show/hide, your indicator element should use an inline style attribute with a display property, here initially set to none. If you need to assign it <span class="caps">CSS</span> rules, put the class attribute before the style attribute to avoid override.)</p>
+<p>Javascript with options<br />
+<pre><code class="javascript">new Ajax.Autocompleter("autocomplete", "autocomplete_choices", "/url/on/server", {
+  paramName: "value", 
+  minChars: 2, 
+  indicator: 'indicator1'
+});
+</code></pre></p>
+<p><span class="caps">CSS</span><br />
+The styling of the div and the returned UL are important.<br />
+Applying a visual cue that an item is selected allows the user to take advantage of the keyboard navigation of the dropdown and adding background colors, borders, positioning, etc to the div (as the demo does) allows the UI element to stand out. The <span class="caps">CSS</span> from the demo applied to the examples would be:</p>
+<pre><code class="css">div.autocomplete {
+  position:absolute;
+  width:250px;
+  background-color:white;
+  border:1px solid #888;
+  margin:0;
+  padding:0;
+}
+div.autocomplete ul {
+  list-style-type:none;
+  margin:0;
+  padding:0;
+}
+div.autocomplete ul li.selected { background-color: #ffb;}
+div.autocomplete ul li {
+  list-style-type:none;
+  display:block;
+  margin:0;
+  padding:2px;
+  height:32px;
+  cursor:pointer;
+}
+</code></pre>
+<h2>Tokenized autocompletion</h2>
+<p>Tokenized incremental autocompletion is enabled automatically when an autocompleter is instantiated with the &#8216;tokens&#8217; option in the options parameter:</p>
+<pre><code class="javascript">new Ajax.Autocompleter('id','upd', 'url', { tokens: ',' });</code></pre>
+<p>will incrementally autocomplete with a comma as the token.</p>
+<p>Additionally, <code>’,’</code> in the above example can be replaced with a token array, e.g. tokens: <code>[',', '\n']</code>  which enables autocompletion on multiple tokens. This is most useful when one of the tokens is \n (a newline), as it allows smart autocompletion after linebreaks.</p>
+<h2>Server Return</h2>
+<p>Look through your <span class="caps">POST</span> environment variable for the current entry in the text-box.</p>
+<p>The server-side will receive the typed string as a parameter with the same name as the name of the text field element of the autocompletion (its <code>name</code> attribute). You can override it by setting the option paramName.</p>
+<p>The server must return an unordered list.<br />
+For instance, this list might be returned after the user typed the letter “y”</p>
+<pre><code class="html">&lt;ul&gt;
+    &lt;li&gt;your mom&lt;/li&gt;
+    &lt;li&gt;yodel&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<p>If your search returns no results, it is critical that your server immediately return an empty list, rather than nothing. You will only notice this need if you use an indicator to show server activity &#8212; the indicator will never go away if your server doesn&#8217;t return an empty list.</p>
+<p>If you wish to display additional information in the autocomplete dropdown that you don’t want inserted into the field when you choose an item, surround it in a &lt;span&gt; (could work with others but not tested) with the class of “informal”.</p>
+<p>For instance, the following shows a list of companies and their addresses, but only the company name will get inserted:</p>
+<pre><code class="html">&lt;ul&gt;
+    &lt;li&gt;ACME Inc &lt;span class="informal"&gt; 5012 East 5th Street&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;Scriptaculous &lt;span class="informal"&gt; 1066 West Redlands Parkway&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<p>Another way to get additional information is to encode an ID into each list item, and redefine the afterUpdate Element to handle that ID:</p>
+<pre><code class="html">&lt;ul&gt;
+    &lt;li id="1"&gt;your mom&lt;/li&gt;
+    &lt;li id="2"&gt;yodel&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<pre><code class="javascript">new Ajax.Autocompleter("autocomplete", "autocomplete_choices", "/url/on/server", {
+  afterUpdateElement : getSelectionId
+});
+
+function getSelectionId(text, li) {
+    alert (li.id);
+}
+</code></pre>
+<h2>Notes</h2>
+<p>When a choice is highlighted, the Autocompleter applies a class of “selected” to the li element. This allows the use of <span class="caps">CSS</span> to style the selected element.</p>
+<h2>Tutorials</h2>
+<p>A <a href="http://www.jhl.it/Courses/LUGPC7.html">short tutorial</a> on using Autocompleter, together with Ruby and WEBrick, prepared for the Linux Users Group, Villafranca, Verona, Italy.</p>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

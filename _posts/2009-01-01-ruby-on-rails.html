@@ -1,0 +1,22 @@
+---
+layout: default
+title: Ruby on Rails
+---
+
+<div class="wikistyle">
+<p><a href="http://www.rubyonrails.org/">Ruby On Rails</a> features complete Prototype, and script.aculo.us integration.</p>
+<h2>Demo site and example code</h2>
+<p>Visit the <a href="http://demo.script.aculo.us/">Rails/script.aculo.us demo site</a> for live demos and example code.</p>
+<h2>Usage</h2>
+<p>First, you need to include the libraries in your app, which is easy, as Prototype and script.aculo.us come prepackaged with Rails.</p>
+<p>In your layout or view add this to the <code>&lt;head&gt;</code> section of your layout:</p>
+<pre><code class="ruby">
+&lt;%= javascript_include_tag :defaults %&gt;
+</code></pre>
+<p>You can now use the <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/JavaScriptHelper.html">Rails JavaScript helpers</a> or use do-it-yourself <code>&lt;script&gt;</code> tags and inline events as documented in this Wiki.</p>
+<p>As of Rails 2.0, for certain functionality, like autocompleting text fields and in place editing, you&#8217;ll need to install the correspoding plugins.</p>
+<h2>Related Articles</h2>
+<ul>
+<li>Using the <a href="http://www.slash7.com/articles/2005/08/13/ajaxariffic-autocomplete-with-scriptaculous">Scriptaculous autocomplete with Rails</a></li>
+</ul>
+</div>

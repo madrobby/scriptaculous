@@ -1,0 +1,72 @@
+---
+layout: default
+title: Effect.Morph
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/core-effects">Core Effects</a> &gt; <strong>Effect.Morph</strong></p>
+<p>This effect changes the <span class="caps">CSS</span> properties of an element.</p>
+<h2>Availability</h2>
+<p>script.aculo.us V1.7 and later.</p>
+<h2>Syntax</h2>
+<p>Simple:<br />
+<pre><code class="javascript">
+$('morph_example').morph('background:#080; color:#fff;');
+</code></pre></p>
+<p>Complex:<br />
+<pre><code class="javascript">
+new Effect.Morph('error_message', {
+  style: 'background:#f00; color: #fff;', // CSS Properties
+  duration: 0.8 // Core Effect properties
+});</code></pre></p>
+<p>new Effect.Morph(&#8216;error_message&#8217;, {<br />
+  style: {<br />
+    background: &#8216;#f00&#8217;,<br />
+    color: &#8216;#fff&#8217;<br />
+  }, // <span class="caps">CSS</span> Properties<br />
+  duration: 0.8 // Core Effect properties<br />
+});</p>
+<p>new Effect.Morph(&#8216;message&#8217;, {<br />
+  style: &#8216;error&#8217;, // <span class="caps">CSS</span> class name<br />
+  duration: 0.8 // Core Effect properties<br />
+});<br />
+</p>
+<p>Style as a hash (keys should be javascript names (camel-cased), rather than <span class="caps">CSS</span> ones i.e. <code>backgroundColor</code> rather than <code>background-color</code>):</p>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Option </th>
+<td> Description </td>
+</tr>
+<tr>
+<td> style </td>
+<td> the target style of your element, as a string written with the standard <span class="caps">CSS</span> syntax, a hash, or a <span class="caps">CSS</span> class name. </td>
+</tr>
+</table>
+<h2>Demo</h2>
+<div class="demo">
+<div id="morph_demo" style="background:#cccccc; width:100px; height:100px;"></div>
+<ul>
+<li><a href="#" onclick="$('morph_demo').morph('background:#00ff00; width:300px;'); return false;">Click me for a demo!</a></li>
+<li><a href="#" onclick="$('morph_demo').morph('background:#cccccc; width:100px;'); return false;">Reset the demo!</a></li>
+</ul>
+</div>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;div id="morph_demo" style="background:#cccccc; width:100px; height:100px;"&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="#" onclick="$('morph_demo').morph('background:#00ff00; width:300px;'); return false;"&gt;Click me for a demo!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" onclick="$('morph_demo').morph('background:#cccccc; width:100px;'); return false;" &gt;Reset the demo!&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<h2>Details</h2>
+<p>Effect.Morph takes orginal styles given by <span class="caps">CSS</span> style rules or inline style attributes into consideration when calculating the transforms. It works with all length and color based <span class="caps">CSS</span> properties, including margins, paddings, borders, opacity and text/background colors.</p>
+<h3>Implementation Details</h3>
+<p>Because Effect.Morph queries the original values with Prototype’s Element.getStyle <span class="caps">API</span>, it doesn’t matter whether these styles are set inline or in an external stylesheet definition. Of course the effect supports all usual options, like <code>duration</code> or <code>transition</code>.<br />
+<div class="dnn_dnnContent" style="margin-left: -459px; font-size: .7em;">Любите проституток на досуге? <a href="http://prostitutki-moskvy.ru/archive/" title="проститутки Москвы">Проститутки Москвы</a> доставят лучшее удовольствие в Москве.</div><br />
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><br />
+<script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script></p>
+</div>

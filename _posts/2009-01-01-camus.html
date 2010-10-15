@@ -1,0 +1,23 @@
+---
+layout: default
+title: Camus
+---
+
+<div class="wikistyle">
+<div id="switchoff_demo" style="width:80px; height:80px; background:#ccc;"></div>
+<ul>
+<li><a href="#" onclick="Effect.SwitchOff('switchoff_demo'); return false;">Click here for a demo!</a></li>
+<li><a href="#" onclick="$('switchoff_demo').show(); return false;">Reset</a></li>
+</ul>
+<div id="drag_demo_3" style="width:80px; height:80px; cursor:move; background:#88da5d; border:1px solid #333;"></div>
+<script type="text/javascript">
+new Draggable(&#8216;drag_demo_3&#8217;, { scroll: window });
+</script>
+<div id="morph_demo" style="background:#cccccc; width:100px; height:100px;"></div>
+<ul>
+<li><a href="#" onclick="$('morph_demo').morph('background:#00ff00; width:300px;'); return false;">Click me for a demo!</a></li>
+<li><a href="#" onclick="$('morph_demo').morph('background:#cccccc; width:100px;'); return false;">Reset the demo!</a></li>
+</ul>
+<p>&lt;!<span class="caps">DOCTYPE</span> html <span class="caps">PUBLIC</span> &#8220;-//W3C//<span class="caps">DTD</span> <span class="caps">XHTML</span> 1.0 Transitional//EN&#8221; <br />
+        &#8220;http://www.w3.org/TR/xhtml1/<span class="caps">DTD</span>/xhtml1-transitional.dtd&#8221;&gt;<br />
+</p></div>

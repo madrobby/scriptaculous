@@ -1,0 +1,56 @@
+---
+layout: default
+title: Effect.Scale
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/core-effects">Core Effects</a> &gt; <strong>Effect.Scale</strong></p>
+<p>This effect changes an elements <em>width</em> and <em>height</em> dimensions and the base for em units. This allows for smooth, automatic relative scaling of elements contained within the scaled element.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">
+new Effect.Scale('id_of_element', percent, [options]);
+new Effect.Scale(element, percent, [options]);
+</code></pre>
+<h2>Effect Options</h2>
+<table>
+<tr>
+<th>Option </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> scaleX </td>
+<td> Sets whether the element should be scaled <em>horizontally</em>, defaults to <code>true</code>. </td>
+</tr>
+<tr>
+<td> scaleY </td>
+<td>	Sets whether the element should be scaled <em>vertically</em>, defaults to <code>true</code>. </td>
+</tr>
+<tr>
+<td> scaleContent </td>
+<td> Sets whether content scaling should be enabled, defaults to <code>true</code>. </td>
+</tr>
+<tr>
+<td> scaleFromCenter </td>
+<td> If <code>true</code>, scale the element in a way that the center of the element stays on the same position on the screen, defaults to <code>false</code>. </td>
+</tr>
+<tr>
+<td> scaleMode </td>
+<td> Either <code>‘box’</code> (default, scales the visible area of the element) or <code>‘contents’</code> (scales the complete element, that is parts normally only visible byscrolling are taken into account). You can also precisely control the size the element will become by assigning the <code>originalHeight</code> and <code>originalWidth</code> variables to <code>scaleMode</code>. Example: <code>scaleMode: { originalHeight: 900, originalWidth: 900 }</code> </td>
+</tr>
+<tr>
+<td> scaleFrom </td>
+<td> Sets the starting percentage for scaling, defaults to <code>100.0</code>. </td>
+</tr>
+</table>
+<h2>Demo</h2>
+<p><a href="#" onclick="new Effect.Scale(this.parentNode, 200); return false;">Click me for Demo!</a></p>
+<h2>Source code of this demo</h2>
+<pre><code class="html">
+&lt;a href='#' onclick="new Effect.Scale(this.parentNode, 200); return false;"&gt;Click me for 
+Demo!&lt;/a&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

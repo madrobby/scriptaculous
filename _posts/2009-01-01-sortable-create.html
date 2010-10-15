@@ -1,0 +1,158 @@
+---
+layout: default
+title: Sortable.create
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/behaviours">Behaviours</a> &gt; <a href="http://madrobby.github.com/scriptaculous/sortable">Sortable</a> &gt; <strong>create</strong></p>
+<p>Use <code>Sortable.create</code> to initialize a sortable element.</p>
+<h2>Syntax</h2>
+<p>Use <code>Sortable.create('id_of_container',[options]);</code> to create new Sortables.</p>
+<h2>Options</h2>
+<table>
+<tr>
+<td>Option</td>
+<td>Since</td>
+<td>Description</td>
+</tr>
+<tr>
+<td>tag</td>
+<td>v1.0</td>
+<td><strong>Default:</strong> &#8216;li&#8217;<br />
+The kind of tag (of the child elements of the container) that will be made sortable. For UL and OL containers, this is ‘LI’, you have to provide the tag kind for other sorts of child tags.</td>
+</tr>
+<tr>
+<td>only</td>
+<td>v1.0</td>
+<td><strong>Default:</strong> (none)<br />
+Further restricts the selection of child elements to only encompass elements with the given <span class="caps">CSS</span> class (or, if you provide an array of strings, on any of the classes).</td>
+</tr>
+<tr>
+<td>overlap</td>
+<td>v1.0</td>
+<td><strong>Default:</strong> &#8216;vertical&#8217;<br />
+Either ‘vertical’ or ‘horizontal’. For floating sortables or horizontal lists, choose ‘horizontal’. Vertical lists should use ‘vertical’.</td>
+</tr>
+<tr>
+<td>constraint</td>
+<td>v1.0</td>
+<td><strong>Default:</strong> &#8216;vertical&#8217;<br />
+Restricts the movement of <a href="http://madrobby.github.com/scriptaculous/draggable">Draggables</a>, see the constraint option of <a href="http://madrobby.github.com/scriptaculous/draggable">Draggables</a>.</td>
+</tr>
+<tr>
+<td>containment</td>
+<td>v1.0</td>
+<td><strong>Default:</strong> (only within container)<br />
+Enables dragging and dropping between Sortables. Takes an array of elements or element-ids (of the containers). Important note: To ensure that two way dragging between containers is possible, place all Sortable.create calls after the container elements.</td>
+</tr>
+<tr>
+<td>format</td>
+<td>v?</td>
+<td><strong>Default:</strong> <pre><code class="javascript">/^[^_\-](?:[A-Za-z0-9\-\_]*)[_](.*)$/</code></pre><br />The format that the id is computed from each item-id</td>
+</tr>
+<tr>
+<td>handle</td>
+<td>v1.0</td>
+<td><strong>Default:</strong> (none)<br />
+Makes the created <a href="http://madrobby.github.com/scriptaculous/draggable">Draggables</a> use handles, see the handle option on <a href="http://madrobby.github.com/scriptaculous/draggable">Draggables</a>.</td>
+</tr>
+<tr>
+<td>hoverclass</td>
+<td>v1.1b1</td>
+<td><strong>Default:</strong> (none)<br />
+Gives the created Droppables a hoverclass (see there).</td>
+</tr>
+<tr>
+<td>ghosting</td>
+<td>v1.5</td>
+<td><strong>Default:</strong> false<br />
+If set to true, dragged elements of the Sortable will be cloned and appear as “ghost”, i.e. a representation of their original element, instead of directly dragging the original element. See below for more details.</td>
+</tr>
+<tr>
+<td>dropOnEmpty</td>
+<td>v1.5</td>
+<td><strong>Default:</strong> false<br />
+If set to true, the Sortable container will be made into a <a href="http://madrobby.github.com/scriptaculous/droppables">Droppable</a>, that can receive a <a href="http://madrobby.github.com/scriptaculous/draggable">Draggable</a> (as according to the containment rules) as a child element when there are no more elements inside.</td>
+</tr>
+<tr>
+<td>scroll</td>
+<td>v1.5.2</td>
+<td><strong>Default:</strong> none<br />
+When the sortable is contained in an element with style overflow:scroll, this value can be set to the ID of that container (or the container’s <span class="caps">DOM</span> object). The scroll position of the container will now move along when the sortable is dragged out of the viewable area. The container must have overflow:scroll set to include scroll bars. Does not yet work for scrolling the entire document. To get this to work correctly, include this line in your code before creating the sortable: Position.includeScrollOffsets = true; Update: Scrolling the whole document does work (at least on Safari 3.2 (Mac), IE7 and Firefox). Use scroll: window</td>
+</tr>
+<tr>
+<td>scrollSensitivity</td>
+<td>v?</td>
+<td><strong>Default:</strong> 20<br />
+Will start scrolling when element is x pixels from the bottom, where x is the scrollSensitivity.</td>
+</tr>
+<tr>
+<td>scrollSpeed</td>
+<td>v?</td>
+<td><strong>Default:</strong> 15<br />
+Will scroll the element in increments of scrollSpeed pixels.</td>
+</tr>
+<tr>
+<td>tree</td>
+<td>v1.6.1</td>
+<td><strong>Default:</strong> false<br />
+If true, sets sortable functionality to elements listed in treeTag</td>
+</tr>
+<tr>
+<td>treeTag</td>
+<td>v1.6.1</td>
+<td><strong>Default:</strong> ul<br />
+The element type tree nodes are contained in.</td>
+</tr>
+</table>
+<h2>Callbacks</h2>
+<table>
+<tr>
+<td>Callback</td>
+<td>Since</td>
+<td>Description</td>
+</tr>
+<tr>
+<td>onChange</td>
+<td>v1.0</td>
+<td>Called whenever the sort order changes while dragging. When dragging from one Sortable to another, the callback is called once on each Sortable. Gets the affected element as its parameter.</td>
+</tr>
+<tr>
+<td>onUpdate</td>
+<td>v1.0</td>
+<td>Called when the drag ends and the Sortable’s order is changed in any way. When dragging from one Sortable to another, the callback is called once on each Sortable. Gets the container as its parameter. Note that the id attributes of the elements contained in the Sortable must be named as described in <a href="http://madrobby.github.com/scriptaculous/sortable-serialize">Sortable.serialize</a></td>
+</tr>
+</table>
+<p>On FF3.+ for onUpdate to work each child element in container must have id with format &#8220;string_identifier&#8221;, otherwise onUpdate will fail to init and wont run. Although you can have different format rule set using <em>format</em> option.<br /></p>
+<p>Update: This issue occurs in onHover as well (using 1.6 RC3, tried only on FF3). Unique ids are essential for both the container ul as well as the lis it contains. Otherwise Sortable.options(dropon) in onHover barfs with a null pointer.</p>
+<p>Example that will work with default settings:<br />
+<pre><code class="html">
+&lt;ul id="elements"&gt;
+    &lt;li id="element_1"&gt;some kind of text&lt;/li&gt;
+    &lt;li id="element_2"&gt;some kind of text&lt;/li&gt;
+    &lt;li id="element_3"&gt;some kind of text&lt;/li&gt;</code></pre></p>
+
+<p><br /> <br />
+Example that will <span class="caps">NOT</span> work with default settings:<br />
+<pre><code class="html">
+&lt;ul id="elements"&gt;
+    &lt;li id="element1"&gt;some kind of text&lt;/li&gt;
+    &lt;li id="element2"&gt;some kind of text&lt;/li&gt;
+    &lt;li id="element3"&gt;some kind of text&lt;/li&gt;</code></pre></p>
+
+<p></p>
+<h2>Notes</h2>
+<p style="color:red;">Important: You can use Sortable.create on any container element that contains Block Elements, with the exception of <span class="caps">TABLE</span>, <span class="caps">THEAD</span>, <span class="caps">TBODY</span> and TR. This is a technical restriction with current browsers.<br />
+A sortable nested somewhere inside a table won’t work well under IE unless the table has a “position:relative” style. If you use the css display: table property, sortable lists will work a little, but doesn’t allow true drag and drop of the elements.</p>
+<p>If you want your sortable list to be scrollable, wrap the list in a div and set the div to scrollable as opposed to making the ul element scrollable. Also, in IE you must set “position:relative” on the scrollable div.</p>
+<p>Got it working using tbody as container and TR as the sortables (IE6 (pc) and Firefox (mac/pc).</p>
+<p>A call to Sortable.create implicitly calls on Sortable.destroy if the referenced element was already a Sortable.</p>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script><h2>Patches</h2>
+<h3>Marking the Drop Zone : Having a marker in the empty place where you will drop<br />
+(for versions: 1.6.x, 1.7.0, 1.8.0 and 1.8.1)</h3>
+<p>Have a look at this <a href="http://tanrikut.blogspot.com/search/label/Scriptaculous">page</a> for the patch and how to modify scriptaculous to have a drop zone marker.</p>
+<p>Tankut Koray</p>
+</div>

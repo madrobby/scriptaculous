@@ -1,0 +1,121 @@
+---
+layout: default
+title: Sound
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><h2>Introduction</h2>
+<p>Use <code>Sound</code> to play audio directly from the browser.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">Sound.play( url, [ options ])
+Sound.enable() 
+Sound.disable()
+</code></pre>
+<h2>Play Options</h2>
+<table>
+<tr>
+<th>Option </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> replace</td>
+<td> replace the current active track, defauts to <code>false</code> </td>
+</tr>
+</table>
+<h2>Notes</h2>
+<ul>
+<li>Sound.disable does not disable the playback immediately, it just prevents the next tracks from being played.<br />
+Watch the demo to see how to stop the sound immediately.</li>
+<li>Sound.enable does not resume the playback, just allows the next track to be played.</li>
+<li>In Firefox 3, Sound does not work from local files, but works if served (even from localhost).  As an alternative, you can change the template within sound.js from &#8220;object&#8221; to &#8220;embed&#8221; and from &#8220;data&#8221; to &#8220;src&#8221;.</li>
+</ul>
+<h2>Demo</h2>
+<div class="demo">
+    URL: <input type="text" id="sound_demo_track_url" style="width:400px;" value="http://www.joshwoodward.com/mp3/TheSimpleLife/JoshWoodward-TheSimpleLife-101-HeritagePlace.mp3" />
+<br />
+    Sound: <span id="sound_status">On</span>
+<ul class="sound_controls">
+<li><a href="javascript:void(0)" id="sound_demo_play">Play</a></li>
+<li><a href="javascript:void(0)" id="sound_demo_disable">Disable sound</a></li>
+<li><a href="javascript:void(0)" id="sound_demo_disable_now">Disable now</a></li>
+<li><a href="javascript:void(0)" id="sound_demo_enable">Enable sound</a></li>
+</ul>
+</div>
+<script type="text/javascript">
+  $('sound_demo_play').observe('click', function(event) {
+       event.stop();
+       Sound.play($('sound_demo_track_url').value,{replace:true});
+   });
+  
+  $('sound_demo_enable').observe('click', function(event) {
+       event.stop();
+       Sound.enable();
+     $('sound_status').innerHTML = 'On';
+   });
+
+  $('sound_demo_disable').observe('click', function(event) {
+       event.stop();
+       Sound.disable();
+     $('sound_status').innerHTML = 'Pending Off';
+   });
+
+  $('sound_demo_disable_now').observe('click', function(event) {
+       event.stop();
+       Sound.enable();
+       Sound.play('',{replace:true});
+       Sound.disable();
+     $('sound_status').innerHTML = 'Off';
+   });
+
+</script>
+<h3>Source code of the demo</h3>
+<pre><code class="html">
+&lt;div&gt;
+    URL: &lt;input type = "text" id = "sound_demo_track_url" style = "width:400px;" 
+    value = "http://www.joshwoodward.com/mp3/TheSimpleLife/JoshWoodward-TheSimpleLife-101-HeritagePlace.mp3"/&gt;
+    &lt;br/&gt;
+    Sound: &lt;span id = "sound_status"&gt;On&lt;/span&gt;
+    &lt;ul class = "sound_controls"&gt;
+      &lt;li&gt;&lt;a href="javascript:void(0)" id="sound_demo_play"&gt;Play&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="javascript:void(0)" id="sound_demo_disable"&gt;Disable sound&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="javascript:void(0)" id="sound_demo_disable_now"&gt;Disable now&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="javascript:void(0)" id="sound_demo_enable"&gt;Enable sound&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="javascript">
+
+&lt;script type="text/javascript"&gt;
+  $('sound_demo_play').observe('click', function(event) {
+       event.stop();
+       Sound.play($('sound_demo_track_url').value,{replace:true});
+   });
+  
+  $('sound_demo_enable').observe('click', function(event) {
+       event.stop();
+       Sound.enable();
+     $('sound_status').innerHTML = 'On';
+   });
+
+  $('sound_demo_disable').observe('click', function(event) {
+       event.stop();
+       Sound.disable();
+     $('sound_status').innerHTML = 'Pending Off';
+   });
+
+  $('sound_demo_disable_now').observe('click', function(event) {
+       event.stop();
+       Sound.enable();
+       Sound.play('',{replace:true});
+       Sound.disable();
+     $('sound_status').innerHTML = 'Off';
+   });
+
+&lt;/script&gt;
+
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

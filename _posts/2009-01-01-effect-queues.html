@@ -1,0 +1,97 @@
+---
+layout: default
+title: Effect Queues
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><h2>What is a Queue</h2>
+<p>Let’s examine how events in a queue occur: For a programmer a queue is an Array with events that are stacked on each other to be handled one by one. For example, a user hovers over a button with his cursor and then after half a second leaves the button area again. Two events have taken place, the mouseover and the mouseout. If you would handle the mouseover and the mouseout event takes place, it could disturb your current process. However you can’t just ignore the event, because then you will be stuck in the status that is established by the actions you have performed for mouseover. In this situation you could add the event to a queue and every time you’re done with processing an event, just check the queue for unprocessed events (and act accordingly).</p>
+<h2>How do Effects work and why do you need a Queue</h2>
+<p>The same happens when you are dealing with Effects and you face the situation where two effects can be called, both of which manipulate the same <span class="caps">DOM</span> object(s). script.aculo.us comes to the rescue with several techniques to manage your effects. To explain this further, we will show you how things work by example.</p>
+<p>Let’s start creating two effects</p>
+<p>I created a page, with a <code>div[id=”test1”]</code> and some content, on the following page called Example 1 . This page has an <code>onload</code> handler that executes two effects:<br />
+<pre><code class="javascript">
+new Effect.SlideDown('test1');
+new Effect.SlideUp('test1');
+</code></pre></p>
+<div class="demo">
+<div><a href="#" onclick="Effect.SlideUp('queue_demo1',{queue:'end'}); Effect.BlindUp('queue_demo2',{queue:'front'}); return  false;">Click To Start the queue</a></div>
+<div>
+<div id="queue_demo1" style="border:1px solid #ccc;padding:5px;"><span class="caps">LAST</span></div>
+<div id="queue_demo2" style="border:1px solid #ccc;padding:5px;"><span class="caps">FIRST</span></div>
+</div>
+</div>
+<p>These effects are executed in parallel and thus one effects tries to slide the div down and the other to slide it up. It doesn’t work and you only see some flickering. However a similar thing occurs when you call <code>new Effect.Slide Down(‘test1’);</code> with an <code>onclick</code> and then <code>new Effect.SlideUp(‘test1’);</code> with an <code>onclick</code> to during the first effect. When you do this several times (quickly), you will see that the effects don’t work anymore. The same problem also occurs in many other situations. That’s why we need <code>Effect.Queue</code>.</p>
+<h2>Effect.Queue</h2>
+<p>The previous examples gave you an idea of the situations you could be facing without Queues. This must give you some motivation to find how Effect.Queue could improve your live and help you to manage your Effects.</p>
+<p>Effect.Queue is an improved array of Effects (called Enumerable) that is global for the entire page. It gets created by extracting the global queue from Effect.Queues (we will discuss this later). So all effects you want to queue will be added to the <em>global</em> queue. You might be wondering how to add an effect to the queue? Well it’s quite easy.</p>
+<p>When you are creating an effect, you can pass several arguments. Let’s look at How effects are created. The first argument is the <span class="caps">DOM</span> element you wish to manipulate, but you already know that. The second argument is actually an array of options that you can pass along, let’s examine that for Effect.Queue. We will use <a href="http://madrobby.github.com/scriptaculous/effect-slidedown">Effect.SlideDown</a> and <a href="http://madrobby.github.com/scriptaculous/effect-slideup">Effect.SlideUp</a> like in the previous examples.<br />
+<pre><code class="javascript">
+new Effect.SlideDown('test1');
+new Effect.SlideUp('test1', { queue: 'end' });
+</code></pre><br />
+So you see I have added an array containing an entry <code>queue:</code> with the value <code>end</code>. This means that the Effect will be inserted at the end of the “global” Queue. All effects are always added to the queue, however without a position like ‘end’ they are always executed parallel to the other effects.</p>
+<p>Let’s take a look at the improved example 1. You see that first the element slides down and then it slides back up again. There is also an option to insert the Effect at the front of the queue. You would use <code>front</code> instead of <code>end</code> in that case.<br />
+<pre><code class="javascript">
+new Effect.SlideUp('test1', { queue: 'end' });
+new Effect.SlideDown('test1', { queue: 'front' });
+</code></pre><br />
+This would place the SlideDown before the SlideUp effect (same as the previous examples). The argument you pass as <code>queue:</code> is called a position and it can be used with a different syntax, but we will go into that later.</p>
+<p>Remember that JavaScript is not multi-threaded, so blocks of code are executed together when they get parsed. This causes the effects to start in parallel if no queue is defined.</p>
+<p>This works nicely, doesn’t it? But what happens when you queue all kinds of effects in different places? You could have lots of effects that you would like to queue but they don’t all relate to each other. This is where <span style="color:#aaa">Effect.ScopedQueue</span><a href="http://github.com/madrobby/scriptaculous/wikis/new?title=Effect.ScopedQueue">?</a> comes in.</p>
+<h2>Basic Effect.ScopedQueue</h2>
+<p>As explained before, the default Queue is ‘global’. All effects are placed in the ‘global’ Queue unless you define a different scope. A scope is nothing more than grouping a set of Effects together in their own Queue. To do this, you need to pass an array instead of a string to the “queue:” option (so you have an array inside the outer array). This can only be done by using a different syntax to define the Queue position.<br />
+Small and easy syntax:<br />
+<pre><code class="javascript">
+new Effect.SlideUp('test1', { queue: 'end' });
+</code></pre></p>
+<p>Syntax that allows for more tuning:<br />
+<pre><code class="javascript">
+new Effect.SlideUp('test1', { queue: { position: 'end' } });
+</code></pre></p>
+<p>The two examples are identical produce identical behaviour. However, the second syntax allows you to define a scope (a different queue) with the following syntax:<br />
+<pre><code class="javascript">
+new Effect.SlideUp('menu', { queue: { position: 'end', scope: 'menuxscope' } });
+new Effect.SlideUp('bannerbig', { queue: { position: 'end', scope: 'bannerscope' } });
+new Effect.SlideDown('menu', { queue: { position: 'end', scope: 'menuxscope' } });
+</code></pre><br />
+The <code>scope:</code> argument has defined a separate queue named ‘menuxscope’. This queue could for example contain all menu-related effects. A second scope named “bannerscope” is defined, it could contain all banner-related effects. In what order are these separate queues executed? First both 1 and 2 get executed, and when 1 is done 3 is executed. Check example 3 for a preview</p>
+<p>Just remember, if you don’t define a scope, the effect is added to the default “global” scope, which can be accessed from Effect.Queue.</p>
+<h3>Limit</h3>
+<p>Sometimes too many effects get queued, for example when a user presses a button twice, or repeatedly enters and leaves a button hover area (and each time two effects are queued). This can cause a lot of distracting activity. To prevent this, we can add a “limit: n” option to the queue so no more than n effects are added to that ScopedQueue.<br />
+<pre><code class="javascript">
+new Effect.SlideDown('menu', { queue: { position: 'end', scope: 'menuxscope',
+limit: 2 } }); // #1</code></pre></p>
+<p>new Effect.Highlight(&#8216;menu&#8217;, { queue: { position: &#8216;end&#8217;, scope: &#8216;menuxscope&#8217;,<br />
+limit: 2 } }); // #2</p>
+<p>new Effect.SlideUp(&#8216;menu&#8217;, { queue: { position: &#8216;end&#8217;, scope: &#8216;menuxscope&#8217;,<br />
+limit: 2 } });  // #3<br />
+</p>
+<ol>
+<li>and #2 will be added to the queue but #3 will not.</li>
+</ol>
+<p>This covers the queue for Effects, so let&#8217;s move on to Effect.Queues.</p>
+<h2>Effect.Queues</h2>
+<p>So what is Effect.Queues and why do we need it? Well, for each scope an instance of Effect.Scoped Queue is created. That instance is stored in Effect.Queues. You can access it by using Effect.Queues.get(‘global’) which is the same as Effect.Queue because the default ‘global’ queue is saved into Effect.Queue by script.aculo.us. However when you need to access a scope other than ‘global, you need to fetch it using Effect.Queues.get(‘myscope’) before you can manipulate it.<br />
+<pre><code class="javascript">
+var queue = Effect.Queues.get('myscope');
+</code></pre></p>
+<p>ScopedQueue manages the ‘effects’, this is an internal system accessed by the Effect object. However you can, if you wish, add effects to the queue and remove them by yourself. Note that this requires some knowledge about the internal workings of the system.</p>
+<p>ScopedQueue is just an Enumerable object. You can retrieve the effects one by one and manipulate them. Let’s look at how we can ‘empty a queue’.<br />
+<pre><code class="javascript">
+var queue = Effect.Queues.get('myscope');
+queue.each(function(effect) { effect.cancel(); });
+</code></pre><br />
+which can also be written as:<br />
+<pre><code class="javascript">
+Effect.Queues.get('myscope').invoke('cancel');
+</code></pre><br />
+Or maybe you want to change the interval between the effects in a queue:<br />
+<pre><code class="javascript">
+Effect.Queues.get('myscope').interval = 100;
+</code></pre></p>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

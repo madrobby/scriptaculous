@@ -1,0 +1,59 @@
+---
+layout: default
+title: Effect.Move
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/core-effects">Core Effects</a> &gt; <strong>Effect.Move</strong></p>
+<p>This effect moves an element by modifying its position attributes.</p>
+<h2>Syntax</h2>
+<p>This will move the object to the top left corner of the window (x=0; y=0):<br />
+<pre><code class="javascript">
+new Effect.Move('object', { x: 0, y: 0, mode: 'absolute' });
+</code></pre></p>
+<p>This will move the object 30px up and 20px to the right relative to its current position:<br />
+<pre><code class="javascript">
+new Effect.Move('object', { x: 20, y: -30, mode: 'relative' });
+</code></pre></p>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Options </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> x </td>
+<td> integer value, either the new absolute target of the effect elements left value or the modifier of its current left value, depending on the <code>mode</code> option </td>
+</tr>
+<tr>
+<td> y </td>
+<td> integer value, either the new absolute target of the effect elements top value or the modifier of its current top value, depending on the <code>mode</code> option </td>
+</tr>
+<tr>
+<td> mode </td>
+<td> string, defaults to <code>'relative'</code>, can also be <code>'absolute'</code>, specifies if the element is moved absolutely or relative to its own position. </td>
+</tr>
+</table>
+<h2>Demo</h2>
+<style type="text/css">
+a#move_demo { background:#fa0000; color:#fff; padding:5px; border:1px solid #000; }
+</style>
+<div class="demo">
+<a href="#" id="move_demo" onclick="new Effect.Move(this, { x: 60, y: -30 }); return false;">Click me for a demo!</a>
+</div>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;style type="text/css"&gt;
+  a#move_demo { background:#fa0000; color:#fff; padding:5px; border:1px solid #000; }
+&lt;/style&gt;
+
+&lt;div class="demo"&gt;
+  &lt;a href="#" id="move_demo" onclick="new Effect.Move(this, { x: 60, y: -30 }); return
+false;"&gt;Click me for a demo!&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

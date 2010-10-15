@@ -1,0 +1,312 @@
+---
+layout: default
+title: Slider
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/controls">Controls</a> &gt; <strong>Slider</strong></p>
+<h2>Introduction</h2>
+<p>A slider control which can be used to select a single or multiple values from a given range, or even set of values.</p>
+<h2>Syntax</h2>
+<p>To make a slider element, you create a new instance of class Control.Slider.</p>
+<pre><code class="javascript">
+new Control.Slider('handles','track', [options]);
+</code></pre>
+<p><code>handles</code> can either be a single id (or element) or, if you want more than one handle, an array of ids (or elements). <code>track</code> is either id or element.</p>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Option </th>
+<th>Since </th>
+<th>Default </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> axis</td>
+<td>V1.5 </td>
+<td> horizontal </td>
+<td> Sets the direction that the slider will move in. It should either be horizontal or vertical. </td>
+</tr>
+<tr>
+<td> increment </td>
+<td> V1.5 </td>
+<td> 1 </td>
+<td> Defines the relationship of value to pixels. Setting this to 1 will mean each movement of 1 pixel equates to 1 value. </td>
+</tr>
+<tr>
+<td> maximum </td>
+<td> V1.5 </td>
+<td> (none) </td>
+<td> Length of track in pixels adjusted by increment. The maximum value that the slider will move to. For horizontal this is to the right while vertical it is down. </td>
+</tr>
+<tr>
+<td> minimum </td>
+<td> V1.5 </td>
+<td> 0 </td>
+<td> The minimum value that the slider can move to. For horizontal this is to the left while vertical it is up. Note: this also sets the beginning of the slider (zeroes it out). </td>
+</tr>
+<tr>
+<td> range </td>
+<td> 0 </td>
+<td> (none) </td>
+<td> Use the $R(min,max) </td>
+</tr>
+<tr>
+<td> alignX </td>
+<td> V1.5 </td>
+<td> 0 </td>
+<td> This will move the starting point on the x-axis for the handle in relation to the track. It is often used to move the ‘point’ of the handle to where 0 should be. It can also be used to set a different starting point on the track. </td>
+</tr>
+<tr>
+<td> alignY </td>
+<td> V1.5 </td>
+<td> 0 </td>
+<td> This will move the starting point on the y-axis for the handle in relation to the track. It is often used to move the ‘point’ of the handle to where 0 should be. It can also be used to set a different starting point on the track. </td>
+</tr>
+<tr>
+<td> sliderValue </td>
+<td> V1.5 </td>
+<td> 0 </td>
+<td> Will set the initial slider value. The handle will be set to this value, assuming it is within the minimum and maxium values. </td>
+</tr>
+<tr>
+<td> disabled </td>
+<td> V1.5 </td>
+<td> (none) </td>
+<td> This will lock the slider so that it will not move and thus is disabled. </td>
+</tr>
+<tr>
+<td> handleImage </td>
+<td> V1.5 </td>
+<td> (none) </td>
+<td> The id of the image that represents the handle. This is used to swap out the image src with disabled image src when the slider is enabled. </td>
+</tr>
+<tr>
+<td> handleDisabled </td>
+<td> V1.5 </td>
+<td> (none) </td>
+<td> The id of the image that represents the disabled handle. This is used to change the image src when the slider is disabled. </td>
+</tr>
+<tr>
+<td> values </td>
+<td> V1.5 </td>
+<td> (none) </td>
+<td> Accepts an array of integers. If set these will be the only legal values for the slider to be at. Thus you can set specific slider values that the user can move the slider to. </td>
+</tr>
+<tr>
+<td> spans </td>
+<td> ?? </td>
+<td> (none) </td>
+<td> An array of ids or elements which are positioned between handles. This is used only when slider has more than one handle. </td>
+</tr>
+<tr>
+<td> restricted </td>
+<td> ?? </td>
+<td> false </td>
+<td> Used only for multiple handles, when restricted is true, handle(s) with greater indexes are not allowed to have values less than handles with smaller indexes. When restricted is false, handles can be moved independently from others. </td>
+</tr>
+</table>
+<p>The slider control offers some functions to let javascript update its state:</p>
+<table>
+<tr>
+<th>Function </th>
+<th>Parameters </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> setValue </td>
+<td><code>value</code>, <code>handleIndex</code> </td>
+<td> Will update the slider’s value and thus move the slider handle to the appropriate position. <code>handleIndex</code> is optional, when it is not passed then &#8216;active&#8217; (last-dragged/used) handle is used. <strong><span class="caps">NOTE</span>:</strong> when using setValue, the onChange callback function is called. </td>
+</tr>
+<tr>
+<td> setDisabled </td>
+<td> (none) </td>
+<td> Will set the slider to the disabled state (disabled = true). </td>
+</tr>
+<tr>
+<td> setEnabled </td>
+<td> (none) </td>
+<td> Will set the slider to the enabled state (disabled = false). </td>
+</tr>
+</table>
+<p>Additionally, the options parameter can take the following callback function:</p>
+<table>
+<tr>
+<th>Callback </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> onSlide </td>
+<td> Called whenever the Slider is moved by dragging. The called function gets the slider value (or array if slider has multiple handles) as its parameter. </td>
+</tr>
+<tr>
+<td> onChange </td>
+<td> Called whenever the Slider has finished moving or has had its value changed via the setSlider Value function. The called function gets the slider value (or array if slider has multiple handles) as its parameter. </td>
+</tr>
+</table>
+<p>With both of the above, using multiple handles causes an array of their respective values to be passed to the callback. Both receive the Slider object as a second paramater.</p>
+<h2>Examples</h2>
+<h3>Single handle</h3>
+<pre><code class="javascript">
+// from the author's first demo of a vertical slider.  It begins disabled.
+var s2 = new Control.Slider('slider_2', 'track_2', {
+  axis:'vertical',
+  minimum: 60,
+  maximum: 288,
+  alignX: -28,
+  alignY: -5,
+  disabled: true, 
+  handleImage: 'slider_2handle',
+  handleDisabled: 'images/vsliderhandle_gray.gif'
+});
+
+// example of a horizontal slider that allows only 4 possible values
+var sliderLimited = new Control.Slider('slider_Limited', 'track_Limited', {
+  minimum: 2,
+  maximum: 30,
+  increment: 9,
+  alignX: -5,
+  alignY: -5,
+  values: [2, 10, 15, 30]
+});
+
+// Setting the callbacks later on
+s2.options.onChange = function(value) {
+  // ...
+  $('height_value').update(value);
+};
+
+s2.options.onSlide = function(value) {
+  // ...
+  $('height_value').update(value);
+};
+</code></pre>
+<h3>Multiple handles</h3>
+<pre><code class="html">
+&lt;div id="square_slider" class="slider"&gt;
+  &lt;div id="square_slider_handle_min" class="handle left"&gt;&lt;/div&gt;
+  &lt;div id="square_slider_handle_max" class="handle right"&gt;&lt;/div&gt;
+
+  &lt;div id="square_slider_span" class="span"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="javascript">
+var handles = ['square_slider_handle_min', 'square_slider_handle_max'];
+var square_slider = new Control.Slider(handles, 'square_slider', {
+    range: $R(0, 100),
+    values: $R(0, 100),
+    sliderValue: [20, 80],
+    spans: ["square_slider_span"],
+    restricted: true
+});
+</code></pre>
+<h2>Demo</h2>
+<style type="text/css">
+  div.slider { width:256px; margin:10px 0; background-color:#ccc; height:10px; position: relative; }
+  div.slider div.handle { width:10px; height:15px; background-color:#f00; cursor:move; position: absolute; }
+
+  div#zoom_element { width:50px; height:50px; background:#2d86bd; position:relative; }
+</style>
+<div class="demo">
+<p>Use the slider to resize the box</p>
+<div id="zoom_slider" class="slider">
+<div class="handle"></div>
+</div>
+<p>And this to change its color</p>
+<div id="rgb_slider" class="slider">
+<div class="handle" style="background-color: #f00;"></div>
+<div class="handle" style="background-color: #0f0;"></div>
+<div class="handle" style="background-color: #00f;"></div>
+</div>
+<div id="zoom_element"></div>
+</div>
+<script type="text/javascript">
+  (function() {
+    var zoom_slider = $('zoom_slider'),
+        rgb_slider = $('rgb_slider'),
+        box = $('zoom_element');
+
+    new Control.Slider(zoom_slider.down('.handle'), zoom_slider, {
+      range: $R(40, 160),
+      sliderValue: 50,
+      onSlide: function(value) {
+        box.setStyle({ width: value + 'px', height: value + 'px' });
+      },
+      onChange: function(value) { 
+        box.setStyle({ width: value + 'px', height: value + 'px' });
+      }
+    });
+
+    new Control.Slider(rgb_slider.select('.handle'), rgb_slider, {
+      range: $R(0, 255),
+      sliderValue: [45, 134, 189],
+      onSlide: function(values) {
+        box.setStyle({ backgroundColor: "rgb("+ values.map(Math.round).join(',') +")" });
+      },
+      onChange: function(values) { 
+        box.setStyle({ backgroundColor: "rgb("+ values.map(Math.round).join(',') +")" });
+      }
+    });
+  })();
+</script>
+<h3>Source Code of the Demo</h3>
+<pre><code class="html">
+
+&lt;style type="text/css"&gt;
+  div.slider { width:256px; margin:10px 0; background-color:#ccc; height:10px; position: relative; }
+  div.slider div.handle { width:10px; height:15px; background-color:#f00; cursor:move; position: absolute; }
+
+  div#zoom_element { width:50px; height:50px; background:#2d86bd; position:relative; }
+&lt;/style&gt;
+
+&lt;div class="demo"&gt;
+  &lt;p&gt;Use the slider to resize the box&lt;/p&gt;
+  &lt;div id="zoom_slider" class="slider"&gt;
+    &lt;div class="handle"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;p&gt;And this to change its color&lt;/p&gt;
+  &lt;div id="rgb_slider" class="slider"&gt;
+    &lt;div class="handle" style="background-color: #f00;"&gt;&lt;/div&gt;
+    &lt;div class="handle" style="background-color: #0f0;"&gt;&lt;/div&gt;
+    &lt;div class="handle" style="background-color: #00f;"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div id="zoom_element"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+  (function() {
+    var zoom_slider = $('zoom_slider'),
+        rgb_slider = $('rgb_slider'),
+        box = $('zoom_element');
+
+    new Control.Slider(zoom_slider.down('.handle'), zoom_slider, {
+      range: $R(40, 160),
+      sliderValue: 50,
+      onSlide: function(value) {
+        box.setStyle({ width: value + 'px', height: value + 'px' });
+      },
+      onChange: function(value) { 
+        box.setStyle({ width: value + 'px', height: value + 'px' });
+      }
+    });
+
+    new Control.Slider(rgb_slider.select('.handle'), rgb_slider, {
+      range: $R(0, 255),
+      sliderValue: [45, 134, 189],
+      onSlide: function(values) {
+        box.setStyle({ backgroundColor: "rgb("+ values.map(Math.round).join(',') +")" });
+      },
+      onChange: function(values) { 
+        box.setStyle({ backgroundColor: "rgb("+ values.map(Math.round).join(',') +")" });
+      }
+    });
+  })();
+&lt;/script&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

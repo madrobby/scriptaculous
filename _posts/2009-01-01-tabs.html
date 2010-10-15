@@ -1,0 +1,248 @@
+---
+layout: default
+title: Tabs
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p>Updated incorrect tags entry. Here is the right example to set multiple tabs and to make a tab active.</p>
+<h2>About</h2>
+<p>This script will allow you to create interactive tabs for use in an application.</p>
+<h2>The <span class="caps"><span class="caps">CSS</span></span> and <span class="caps"><span class="caps">HTML</span></span>:</h2>
+<pre><code class="javascript">
+&lt;style&gt;
+    #tabs{
+        margin-left: 4px;
+        padding: 0;
+        background: transparent;
+        voice-family: "\"}\"";
+        voice-family: inherit;
+        padding-left: 5px;
+    }
+    #tabs ul{
+        font: bold 11px Arial, Verdana, sans-serif;
+        margin:0;
+        padding:0;
+        list-style:none;
+    }
+    #tabs li{
+        display:inline;
+        margin:0 2px 0 0;
+        padding:0;
+        text-transform:uppercase;
+    }
+    #tabs a{
+        float:left;
+        background:#A3BBE6 url(images/tabs_left.gif) no-repeat left top;
+        margin:0 2px 0 0;
+        padding:0 0 1px 3px;
+        text-decoration:none;
+    }
+    #tabs a span{
+        float:left;
+        display:block;
+        background: transparent url(images/tabs_right.gif) no-repeat right top;
+        padding:4px 9px 2px 6px;
+    }
+    #tabs a span{float:none;}
+    #tabs a:hover{background-color: #7E94B9;color: white;}
+    #tabs a:hover span{background-color: #7E94B9;}
+    #tabHeaderActive span, #tabHeaderActive a { background-color: #42577B; color:#fff;}
+    .tabContent {
+        clear:both;
+        border:2px solid #42577B;
+        padding-top:2px;
+        background-color:#FFF;
+    }
+&lt;/style&gt;
+
+&lt;div id="tabs"&gt;
+    &lt;ul&gt;
+        &lt;li style="margin-left: 1px" id="tabHeaderActive"&gt;&lt;a href="javascript:void(0)" onClick="toggleTab(1,6)"&gt;&lt;span&gt;Tab 1&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;li id="tabHeader2"&gt;&lt;a href="javascript:void(0)" onClick="toggleTab(2,6)" &gt;&lt;span&gt;Tab 2&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;li id="tabHeader3"&gt;&lt;a href="javascript:void(0)" onclick="toggleTab(3,6)"&gt;&lt;span&gt;Tab 3&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;li id="tabHeader4"&gt;&lt;a href="javascript:void(0)" onClick="toggleTab(4,6)"&gt;&lt;span&gt;Tab 4&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;li id="tabHeader5"&gt;&lt;a href="javascript:void(0)" onclick="toggleTab(5,6);"&gt;&lt;span&gt;Tab 5&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;li id="tabHeader6"&gt;&lt;a href="javascript:void(0)" onclick="toggleTab(6,6);"&gt;&lt;span&gt;Tab 6&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div id="tabscontent"&gt;
+        &lt;div id="tabContent1" class="tabContent" style="display:yes;"&gt;
+            &lt;br /&gt;&lt;div&gt;First Tab Content goes here&lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div id="tabContent2" class="tabContent" style="display:none;"&gt;
+            &lt;br /&gt;&lt;div&gt;Second Tab Content goes here&lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div id="tabContent3" class="tabContent" style="display:none;"&gt;
+            &lt;br /&gt;&lt;div&gt;Third Tab Content goes here&lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div id="tabContent4" class="tabContent" style="display:none;"&gt;
+            &lt;br /&gt;&lt;div&gt;Fourth Tab Content goes here&lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div id="tabContent5" class="tabContent" style="display:none;"&gt;
+            &lt;br /&gt;&lt;div&gt;Fifth Tab Content goes here&lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div id="tabContent6" class="tabContent" style="display:none;"&gt;
+            &lt;br /&gt;&lt;div&gt;Sixth Tab Content goes here&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;&lt;!--End of tabscontent--&gt;
+&lt;/div&gt;&lt;!--End of tabs--&gt;
+</code></pre>
+<h2>The Javascript:</h2>
+<pre><code class="javascript">
+/*-----------------------------------------------------------
+    Toggles element's display value
+    Input: any number of element id's
+    Output: none 
+    ---------------------------------------------------------*/
+function toggleDisp() {
+    for (var i=0;i&lt;arguments.length;i++){
+        var d = $(arguments[i]);
+        if (d.style.display == 'none')
+            d.style.display = 'block';
+        else
+            d.style.display = 'none';
+    }
+}
+/*-----------------------------------------------------------
+    Toggles tabs - Closes any open tabs, and then opens current tab
+    Input:     1.The number of the current tab
+                    2.The number of tabs
+                    3.(optional)The number of the tab to leave open
+                    4.(optional)Pass in true or false whether or not to animate the open/close of the tabs
+    Output: none 
+    ---------------------------------------------------------*/
+function toggleTab(num,numelems,opennum,animate) {
+    if ($('tabContent'+num).style.display == 'none'){
+        for (var i=1;i&lt;=numelems;i++){
+            if ((opennum == null) || (opennum != i)){
+                var temph = 'tabHeader'+i;
+                var h = $(temph);
+                if (!h){
+                    var h = $('tabHeaderActive');
+                    h.id = temph;
+                }
+                var tempc = 'tabContent'+i;
+                var c = $(tempc);
+                if(c.style.display != 'none'){
+                    if (animate || typeof animate == 'undefined')
+                        Effect.toggle(tempc,'blind',{duration:0.5, queue:{scope:'menus', limit: 3}});
+                    else
+                        toggleDisp(tempc);
+                }
+            }
+        }
+        var h = $('tabHeader'+num);
+        if (h)
+            h.id = 'tabHeaderActive';
+        h.blur();
+        var c = $('tabContent'+num);
+        c.style.marginTop = '2px';
+        if (animate || typeof animate == 'undefined'){
+            Effect.toggle('tabContent'+num,'blind',{duration:0.5, queue:{scope:'menus', position:'end', limit: 3}});
+        }else{
+            toggleDisp('tabContent'+num);
+        }
+    }
+}
+</code></pre>
+<h2>Example:</h2>
+<div class="demo">
+<script type="text/javascript" src="http://brianflove.com/public/js/tabs.js"></script>
+<style>
+    #tabs{
+        margin-left: 4px;
+        padding: 0;
+        background: transparent;
+        voice-family: "\"}\"";
+        voice-family: inherit;
+        padding-left: 5px;
+    }
+    #tabs ul{
+        font: bold 11px Arial, Verdana, sans-serif;
+        margin:0;
+        padding:0;
+        list-style:none;
+    }
+    #tabs li{
+        display:inline;
+        margin:0 2px 0 0;
+        padding:0;
+        text-transform:uppercase;
+    }
+    #tabs a{
+        float:left;
+        background:#A3BBE6 url(img/tabs_left.gif) no-repeat left top;
+        margin:0 2px 0 0;
+        padding:0 0 1px 3px;
+        text-decoration:none;
+    }
+    #tabs a span{
+        float:left;
+        display:block;
+        background: transparent url(img/tabs_right.gif) no-repeat right top;
+        padding:4px 9px 2px 6px;
+    }
+    #tabs a span{float:none;}
+    #tabs a:hover{background-color: #7E94B9;color: white;}
+    #tabs a:hover span{background-color: #7E94B9;}
+    #tabHeaderActive span, #tabHeaderActive a { background-color: #42577B; color:#fff;}
+    .tabContent {
+        clear:both;
+        border:2px solid #42577B;
+        padding-top:2px;
+        background-color:#FFF;
+    }
+</style>
+<div id="tabs">
+<ul>
+<li style="margin-left: 1px" id="tabHeaderActive"><a href="javascript:void(0)" onclick="toggleTab(1,6)"><span>Tab 1</span></a></li>
+<li id="tabHeader2"><a href="javascript:void(0)" onclick="toggleTab(2,6)"><span>Tab 2</span></a></li>
+<li id="tabHeader3"><a href="javascript:void(0)" onclick="toggleTab(3,6)"><span>Tab 3</span></a></li>
+<li id="tabHeader4"><a href="javascript:void(0)" onclick="toggleTab(4,6)"><span>Tab 4</span></a></li>
+<li id="tabHeader5"><a href="javascript:void(0)" onclick="toggleTab(5,6);"><span>Tab 5</span></a></li>
+<li id="tabHeader6"><a href="javascript:void(0)" onclick="toggleTab(6,6);"><span>Tab 6</span></a></li>
+</ul>
+</div>
+<div id="tabscontent">
+<div id="tabContent1" class="tabContent" style="display:yes;">
+<div>
+            First Tab Content goes here
+        </div>
+</div>
+<div id="tabContent2" class="tabContent" style="display:none;">
+<div>
+            Second Tab Content goes here
+        </div>
+</div>
+<div id="tabContent3" class="tabContent" style="display:none;">
+<div>
+            Third Tab Content goes here
+        </div>
+</div>
+<div id="tabContent4" class="tabContent" style="display:none;">
+<div>
+            Fourth Tab Content goes here
+        </div>
+</div>
+<div id="tabContent5" class="tabContent" style="display:none;">
+<div>
+            Fifth Tab Content goes here
+        </div>
+</div>
+<div id="tabContent6" class="tabContent" style="display:none;">
+<div>
+            Sixth Tab Content goes here
+        </div>
+</div>
+</div>
+</div>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

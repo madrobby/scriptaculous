@@ -1,0 +1,20 @@
+---
+layout: default
+title: Form.Element.DelayedObserver
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<p>A delayed observer works like a normal observer, but the triggered callback is delayed. Every time the observed event is observed the internal timer is reset. Once the internal timer reaches the time set in the second parameter the callback is fired.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">Form.Element.DelayedObserver(element, time, callback)</code></pre>
+<p>element: the form element to observe<br />
+time: the internal timer after which the callback is fired (in seconds)<br />
+callback: the callback function.</p>
+<h2>Example code</h2>
+<pre><code class="javascript">
+new Form.Element.DelayedObserver($('inputbox'), 0.5, function(){
+     //do your stuff here, like an ajax request
+});
+</code></pre>
+</div>

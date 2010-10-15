@@ -1,0 +1,67 @@
+---
+layout: default
+title: Effect.Highlight
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/core-effects">Core Effects</a> &gt; <strong>Effect.Highlight</strong></p>
+<p>This effect <em>flashes</em> a color as the background of an element. It is mostly used to draw attention to a part of the page that has been updated via JavaScript or <span class="caps">AJAX</span>, when the update would not otherwise be obvious.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">
+new Effect.Highlight('id_of_element', [options]);
+new Effect.Highlight(element, [options]);
+</code></pre>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Option </th>
+<td> Description </td>
+</tr>
+<tr>
+<td> startcolor </td>
+<td> Sets the color of first frame of the highlight. Defaults to ”#ffff99” (a light yellow). </td>
+</tr>
+<tr>
+<td> endcolor </td>
+<td> Sets the color of the last frame of the highlight. This is best set to the background color of the highlighted element. Defaults to ”#ffffff” (white). </td>
+</tr>
+<tr>
+<td> restorecolor </td>
+<td> Sets the <code>background-color</code> of the element after the highlight has finished. Defaults to the current <code>background-color</code> of the highlighted element (see Note). </td>
+</tr>
+<tr>
+<td> keepBackgroundImage </td>
+<td> Unless this is set to true, any background image on the element will not be preserved. </td>
+</tr>
+</table>
+<h2>Notes</h2>
+<p>If the <code>restorecolor</code> option is not given, Effect.Highlight tries to find out the current background color of the element, which will only work reliably across browsers if the color is given with a <span class="caps">CSS</span> rgb triplet, like <code>rgb(0, 255, 0)</code>.</p>
+<p>Be aware of the syntax: this effect strictly requires a <code>new</code> in front, otherwise you will get a javascript error.</p>
+<p>If you specify the <code>startcolor</code> or <code>endcolor</code> using short-form notation, as in #ccf, the effect will fail silently. Use the long-form, as in #ccccff.</p>
+<p>Also be aware that applying an effect (without setting a <code>restorecolor</code>), to an element that already has an highlight effect in progress, will cause the <code>restorecolor</code> to be set to the elements background-color at the time of the new effect, and not the original background-color. For example, click the example below 4-5 times in quick succession, and the paragraph will stay yellow as opposed to the original white.</p>
+<h2>Demo</h2>
+<div class="demo">
+<p id="highlight_demo" style="padding:10px; border:1px solid #ccc; background:#ffffff;">
+This paragraph exists for demo purposes. Click the link below and it will make your day bright!<br />
+<a href="#" onclick="new Effect.Highlight(this.parentNode, { startcolor: '#ffff99', endcolor: '#ffffff' }); return false;">
+Highlight me!
+</a>
+</p>
+</div>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;p id="highlight_demo" style="padding:10px; border:1px solid #ccc; background:#ffffff;"&gt;
+  This paragraph exists for demo purposes. Click the above link and it will make your day 
+bright!&lt;br/&gt;
+  
+  &lt;a href="#" onclick="new Effect.Highlight(this.parentNode, { startcolor: '#ffff99',
+endcolor: '#ffffff' }); return false;"&gt;
+    Highlight me!
+  &lt;/a&gt;
+&lt;/p&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

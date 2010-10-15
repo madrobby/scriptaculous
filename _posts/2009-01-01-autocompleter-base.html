@@ -1,0 +1,17 @@
+---
+layout: default
+title: Autocompleter.Base
+---
+
+<div class="wikistyle">
+<p>Autocompleter.Base handles all the autocompletion functionality that’s independent of the data source for autocompletion. This includes drawing the autocompletion menu, observing keyboard and mouse events, and similar.</p>
+<h2>Availability</h2>
+<p>script.aculo.us V1.1b1</p>
+<h2>Extending</h2>
+<p>Specific autocompleters need to provide, at the very least, a getUpdatedChoices function that will be invoked every time the text inside the monitored textbox changes. This method should get the text for which to provide autocompletion by invoking this.getToken(), <span class="caps">NOT</span> by directly accessing this.element.value. This is to allow incremental tokenized autocompletion. Specific auto-completion logic (<span class="caps">AJAX</span>, etc) belongs in getUpdatedChoices.</p>
+<h2>Tokenized autocompletion</h2>
+<p>Tokenized incremental autocompletion is enabled automatically when an autocompleter is instantiated with the &#8216;tokens&#8217; option in the options parameter:</p>
+<p><code>new Ajax.Autocompleter('id','upd', '/url/', { tokens: ',' });</code></p>
+<p>will incrementally autocomplete with a comma as the token.</p>
+<p>Additionally, <code>’,’</code> in the above example can be replaced with a token array, e.g. tokens: <code>[',', '\n']</code> } which enables autocompletion on multiple tokens. This is most useful when one of the tokens is <code>\n</code> (a newline), as it allows smart autocompletion after linebreaks.</p>
+</div>

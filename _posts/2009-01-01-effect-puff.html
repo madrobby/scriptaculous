@@ -1,0 +1,59 @@
+---
+layout: default
+title: Effect.Puff
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/combination-effects">Combination Effects</a> &gt; <strong>Effect.Puff</strong></p>
+<p>Gives the illusion of the element puffing away (like a in a cloud of smoke).</p>
+<h2>Examples</h2>
+<pre><code class="javascript">
+Effect.Puff('id_of_element');
+Effect.Puff('id_of_element', { duration: 3 });
+</code></pre>
+<pre><code class="javascript">
+$('id_of_element').puff();
+$('id_of_element').puff({ duration: 3 });
+</code></pre>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Options </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> duration </td>
+<td> float value, in seconds, defaults to <code>1.0</code> </td>
+</tr>
+<tr>
+<td> from </td>
+<td> float value, defaults to <code>0.0</code>, percent of animation to start </td>
+</tr>
+<tr>
+<td> to </td>
+<td> float value, defaults to <code>1.0</code>, percent of animation to end </td>
+</tr>
+</table>
+<h2>Notes</h2>
+<p>Works safely with most block elements, except tables.</p>
+<h2>Demo</h2>
+<div class="demo">
+<div id="puff_demo" style="width:80px; height:80px; background:#c2defb; border:1px solid #333;"></div>
+<ul>
+<li><a href="#" onclick="new Effect.Puff('puff_demo'); return false;">Click here for a demo!</a></li>
+<li><a href="#" onclick="$('puff_demo').setStyle({ display: 'block', opacity:1, width:'80px', height:'80px' }); return false;">Reset</a></li>
+</ul>
+</div>
+<h3>Source code of the demo</h3>
+<pre><code class="html">
+&lt;div id="puff_demo" style="width:80px; height:80px; background:#c2defb; border:1px solid #333;"&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="#" onclick="new Effect.Puff('puff_demo'); return false;"&gt;Click here for a demo!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" onclick="$('puff_demo').setStyle({ display: 'block', opacity:1, width:'80px', height:'80px' }); return false;"&gt;Reset&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

@@ -1,0 +1,42 @@
+---
+layout: default
+title: Effect.Opacity
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script src="http://script.aculo.us/prototype.js" type="text/javascript"></script><script src="http://script.aculo.us/scriptaculous.js" type="text/javascript"></script><p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/core-effects">Core Effects</a> &gt; <strong>Effect.Opacity</strong></p>
+<p>This effect changes an element’s opacity (transparency).</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">
+new Effect.Opacity('id_of_element', [options]);
+new Effect.Opacity(element, [options]);
+</code></pre>
+<h2>Examples</h2>
+<p>A simple example<br />
+<pre><code class="javascript">
+new Effect.Opacity('id_of_element', { from: 1.0, to: 0.7, duration: 0.5 });
+</code></pre><br />
+This will fade the element from 100% to 70% over the space of 1/2 second.</p>
+<h2>Notes</h2>
+<p>Microsoft Internet Explorer can only set opacity on elements that have a ‘layout’ (see <a href="http://www.satzansatz.de/cssd/onhavinglayout.html" title="Element Layout" target="_blank">IE Element Layout</a>).</p>
+<h2>Demo</h2>
+<div class="demo">
+<div id="opacity_demo" style="width:100px; height:100px; background:#ccc;"></div>
+<ul>
+<li><a href="#" onclick="new Effect.Opacity('opacity_demo', { from: 1, to: 0 }); return false;">Hide this box</a></li>
+<li><a href="#" onclick="new Effect.Opacity('opacity_demo', { from: 0, to: 1 }); return false;">Show this box</a></li>
+</ul>
+</div>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;div id="opacity_demo" style="width:100px; height:100px; background:#ccc;"&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="#" onclick="new Effect.Opacity('opacity_demo', { from: 1, to: 0 }); return false;"&gt;Hide this box&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" onclick="new Effect.Opacity('opacity_demo', { from: 0, to: 1 }); return false;"&gt;Show this box&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

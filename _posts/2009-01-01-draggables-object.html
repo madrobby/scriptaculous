@@ -1,0 +1,86 @@
+---
+layout: default
+title: Draggables Object
+---
+
+<div class="wikistyle">
+<p>Are you looking for how to make an element <a href="http://madrobby.github.com/scriptaculous/draggable">draggable</a>?</p>
+<h2>Draggables Object</h2>
+<p>The Draggables object is a global helper object.  In most cases you will not need to use or modify the Draggables object, except when adding/removing custom drag observers.</p>
+<table>
+<tr>
+<th>Property/Method </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> drags </td>
+<td> Array of all Draggables on the page </td>
+</tr>
+<tr>
+<td> observers </td>
+<td> Array of drag observers.  Use <code>Draggables.addObserver()</code> and <code>Draggables.removeObserver()</code> to add/remove observers, respectively. </td>
+</tr>
+<tr>
+<td> register() </td>
+<td> function(draggable). Called when you create a new <span style="color:#aaa">Draggable</span><a href="http://github.com/madrobby/scriptaculous/wikis/new?title=Draggables">?</a>. If this is the first Draggable on the page, starts observing mouse events necessary for dragging. </td>
+</tr>
+<tr>
+<td> unregister() </td>
+<td> function(draggable).  Called by <span style="color:#aaa">Draggable.destroy()</span><a href="http://github.com/madrobby/scriptaculous/wikis/new?title=Draggables">?</a>. Stops observing window mouse events if <code>Draggable.drag</code> is empty. </td>
+</tr>
+<tr>
+<td> activate() </td>
+<td> Marks a particular Draggable as the <code>activeDraggable</code> </td>
+</tr>
+<tr>
+<td> deactivate() </td>
+<td> Sets <code>Draggables.activeDraggable</code> to @null </td>
+</tr>
+<tr>
+<td> updateDrag() </td>
+<td> Passes the window <code>mousemove</code> event to the @activeDraggable@&#8217;s <code>updateDrag</code> function. </td>
+</tr>
+<tr>
+<td> endDrag() </td>
+<td> Caught by the window&#8217;s <code>mouseup</code>, stops dragging the <code>activeDraggable</code>, if any, via its <code>endDrag</code> function. </td>
+</tr>
+<tr>
+<td> keyPress() </td>
+<td> Passes the window <code>keypress</code> event to the @activeDraggable@&#8217;s <code>keyPress</code> function. </td>
+</tr>
+<tr>
+<td> addObserver() </td>
+<td> Adds an observer to <code>Draggables.observers</code> </td>
+</tr>
+<tr>
+<td> removeObserver() </td>
+<td> Removes an observer from <code>Draggables.observers</code>. Takes the observer&#8217;s element property as a parameter </td>
+</tr>
+<tr>
+<td> notify() </td>
+<td> Calls the observers&#8217; <code>onStart()</code>, <code>onEnd()</code>, and <code>onDrag()</code> functions as necessary</td>
+</tr>
+</table>
+<h2>Draggable Observers</h2>
+<p>A draggable observer, as used in <code>Draggables.addObserver()</code>, is an object with an element property defined, and one or more of the following functions defined:</p>
+<table>
+<tr>
+<td> onStart() </td>
+<td> called after drag begins </td>
+</tr>
+<tr>
+<td> onDrag() </td>
+<td> called on each mousemove during a drag </td>
+</tr>
+<tr>
+<td> onEnd() </td>
+<td> called when drag is finished </td>
+</tr>
+</table>
+<p>The parameters passed to these three events are</p>
+<ul>
+<li><code>eventName</code>, one of <code>'onStart'</code>, <code>'onEnd'</code>, <code>'onDrag'</code></li>
+<li><code>draggable</code>, a reference to the <span style="color:#aaa">Draggable</span><a href="http://github.com/madrobby/scriptaculous/wikis/new?title=Draggables">?</a>.  The <code>draggable.element</code> property is a reference to the <span class="caps">DOM</span> element being dragged.</li>
+<li><code>event</code>, the <span class="caps">DOM</span> Event object</li>
+</ul>
+</div>

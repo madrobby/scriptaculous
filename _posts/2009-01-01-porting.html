@@ -1,0 +1,36 @@
+---
+layout: default
+title: porting
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<h2>Porting old wiki docs to GitHub wiki</h2>
+<p>If you have TextMate (or don&#8217;t mind some Ruby hacking), the following script will help transfer the exported <span class="caps">HTML</span> docs to textile format.</p>
+<ul>
+<li>The script requires the <a href="http://clothred.rubyforge.org/">ClothRed</a> gem</li>
+<li>For easy use, make it a command in the TextMate <span class="caps">HTML</span> bundle and assign it a hot-key</li>
+</ul>
+<pre><code class="ruby">
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'clothred'
+
+text = ClothRed.new(STDIN.read)
+text = text.to_textile
+
+text.sub!(/^.*?<\body.*?>\s*/im, '').sub!(/\s*<\/body>.*?$/im,'')
+text.gsub!(/^\s*p\.\s/, "\n")
+text.gsub!(/<\pre>@/,'<\pre><\code class="javascript">')
+text.gsub!(/@<\/pre>/,"<\/code><\/pre>")
+text.gsub!(/(\n\s*){2}(\n\s*)+/m,"\n\n")
+text.gsub!(/<a>(.*?)<\/a>/) {|s|
+  $1 == $2 ? "["+"[#{$1}]]" : "["+"[#{$1}|#{$2}]]"
+}
+
+print text
+</a></code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

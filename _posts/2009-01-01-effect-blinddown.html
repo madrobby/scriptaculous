@@ -1,0 +1,60 @@
+---
+layout: default
+title: Effect.BlindDown
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/combination-effects">Combination Effects</a> &gt; <strong>Effect.BlindDown</strong></p>
+<p>This effect simulates a window blind, where the contents of the affected elements stay in place.</p>
+<h2>Examples</h2>
+<notexttile></notexttile><pre><code class="javascript">
+Effect.BlindDown('id_of_element');
+Effect.BlindDown('id_of_element', { duration: 3.0 });
+</code></pre>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Option </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> scaleX </td>
+<td> boolean, defaults to <code>false</code> </td>
+</tr>
+<tr>
+<td> scaleY </td>
+<td> boolean, defaults to <code>true</code> </td>
+</tr>
+<tr>
+<td> scaleContent </td>
+<td> boolean, defaults to <code>true</code> </td>
+</tr>
+<tr>
+<td> scaleFromCenter </td>
+<td> boolean, defaults to <code>false</code> </td>
+</tr>
+<tr>
+<td> scaleMode </td>
+<td> string, defaults to <code>‘box'</code>, can also be <code>‘contents‘</code> </td>
+</tr>
+<tr>
+<td> scaleFrom </td>
+<td> integer value, percentage (0%–100%), defaults to <code>100</code> </td>
+</tr>
+<tr>
+<td> scaleTo </td>
+<td> integer value, percentage (0%–100%), defaults to <code>0</code> </td>
+</tr>
+<tr>
+<td> duration </td>
+<td> float value, in seconds, defaults to <code>1.0</code> </td>
+</tr>
+</table>
+<h2>Notes</h2>
+<p>Works safely with most Block Elements, except table rows, table bodies and table heads.</p>
+<p>Also, if you would like the block hidden when someone first lands on your page, you must use the <code>display: none</code> property within the style attribute of the div/block tag, and not in the <span class="caps">CSS</span> class for the div. <br />
+Example:<br />
+<notexttile></notexttile><pre><code class="html">&lt;div style="display: none" id = "id_of_element"&gt;
+Blind content</code></pre></p>
+<p></p></div>

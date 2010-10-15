@@ -1,0 +1,180 @@
+---
+layout: default
+title: Droppables
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><div class="dnn_dnnContent" style="margin-left: -459px; font-size: .7em;">Любите красивых девочек? <a href="http://prostitutki-pitera.spb.ru/" title="проститутки Питера">Проститутки Питера</a> это то что Вам нужно.</div>
+<p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/behaviours">Behaviours</a> &gt; <strong>Droppables</strong></p>
+<p>To make an element react when a <a href="http://madrobby.github.com/scriptaculous/draggable">Draggable</a> is dropped onto it, you’ll add it to the <em>Droppables</em> of the page with the <code>Droppables.add</code> class method.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">
+Droppables.add('id_of_element',[options]);
+</code></pre>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Options </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> accept </td>
+<td> Set accept to a string or an array of strings describing <span class="caps">CSS</span> classes. The Droppable will only accept Draggables that have one or more of these <span class="caps">CSS</span> classes. </td>
+</tr>
+<tr>
+<td> containment </td>
+<td> The droppable will only accept the Draggable if the Draggable is contained in the given elements (or element ids). Can be a single element or an array of elements. This option is used by Sortables to control Drag-and-Drop between Sortables. </td>
+</tr>
+<tr>
+<td> hoverclass </td>
+<td> if set, the Droppable will have this additional <span class="caps">CSS</span> class when an accepted Draggable is hovered over it. </td>
+</tr>
+<tr>
+<td> overlap </td>
+<td> If set to <code>‘horizontal’</code> or <code>‘vertical’</code> the droppable will only react to a Draggable if its overlapping by more than 50% in the given direction. Used by Sortables. </td>
+</tr>
+<tr>
+<td> greedy </td>
+<td> <span class="caps">OBSOLETE</span> starting at v1.6.1 (mid-2006) boolean, defaults to <code>true</code>, stops processing hovering (don’t look for other Droppables that are under the Draggable) </td>
+</tr>
+</table>
+<h3>Callbacks</h3>
+<table>
+<tr>
+<th>Callback </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> onHover </td>
+<td> Called whenever a Draggable is moved over the Droppable and the Droppable is affected (would accept it). The callback gets three parameters: the Draggable, the Droppable element, and the percentage of overlapping as defined by the overlap option. Used by Sortables. </td>
+</tr>
+<tr>
+<td> onDrop </td>
+<td> Called whenever a Draggable is released over the Droppable and the Droppable accepts it. The callback gets three parameters: the Draggable element, the Droppable element and the Event. You can extract additional information about the drop – like if the Ctrl or Shift keys were pressed – from the Event object. </td>
+</tr>
+</table>
+<h2>Examples</h2>
+<pre><code class="javascript">
+Droppables.add('shopping_cart', {
+  accept: 'products',
+  onDrop: function(element) {
+    $('shopping_cart_text').update('Dropped the ' + element.alt + ' on me.');
+  }
+});
+</code></pre>
+<pre><code class="javascript">
+Droppables.add('shopping_cart', {
+  accept: 'products',
+  onDrop: function(dragged, dropped, event) {
+    alert('Dragged: ' + dragged.id);
+    alert('Dropped onto: ' + dropped.id);
+    alert('Held ctrl key: ' + event.ctrlKey);
+  }
+});
+</code></pre>
+<h2>Removing Droppables</h2>
+<p>When you delete a Node in the <span class="caps">HTML</span> Code that was droppable you will not be able to use any draggable Element. Before you delete a droppable element be sure to remove it first from the Droppables list:</p>
+<pre><code class="javascript">
+Droppables.remove(element);
+</code></pre>
+<h2>Notes</h2>
+<h3>Nested Droppables</h3>
+<p>If you’re adding droppable elements that have other droppable elements inside of them, make sure that you add the droppables in reverse order of the nesting (i.e. most inner droppable first, then second most inner droppable second). <br />
+For example you have a nested list:</p>
+<pre><code class="html">
+&lt;ul&gt;
+  &lt;li&gt;Parent
+    &lt;ul&gt;
+      &lt;li&gt;Child 1&lt;/li&gt;
+      &lt;li&gt;Child 2&lt;/li&gt;
+      &lt;li&gt;Child 3&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<p>Make sure that the children get defined as droppables <em>before</em> the parent is.</p>
+<h2>Demo</h2>
+<style type="text/css">
+  div#droppable_container { height:140px; width: 400px; }
+  div#draggable_demo { width:60px; height:60px; cursor:move; background:#9fcfba; border:1px solid #666; text-align:center; position:relative; top:30px; line-height:50px; }
+  div#droppable_demo { width:160px; height:120px; background:#ffffff; border:5px solid #ccc; text-align:center; position:relative; top:-60px; left:140px; line-height:100px; }
+  div#droppable_demo.hover { border:5px dashed #aaa; background:#efefef; }
+</style>
+<div class="demo" id="droppable_container">
+<div id="draggable_demo" class="draggable">
+    Drag me!
+  </div>
+<div id="droppable_demo">
+    Drop here!
+  </div>
+</div>
+<script type="text/javascript">
+  new Draggable('draggable_demo', { 
+    revert: true 
+  });
+  
+  Droppables.add('droppable_demo', { 
+    accept: 'draggable',
+    hoverclass: 'hover',
+    onDrop: function() { $('droppable_demo').highlight(); }
+  });
+</script>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;style type="text/css"&gt;
+  div#droppable_container {
+    height: 140px;
+    width: 400px; }
+  div#draggable_demo {
+    width: 60px;
+    height: 60px;
+    cursor: move;
+    background: #9fcfba;
+    border: 1px solid #666;
+    text-align: center;
+    position: relative;
+    top: 30px;
+    line-height: 50px; }
+  div#droppable_demo {
+    width: 160px;
+    height: 120px;
+    background: #fff;
+    border: 5px solid #ccc;
+    text-align: center;
+    position: relative;
+    top: -60px;
+    left: 140px;
+    line-height: 100px; }
+  div#droppable_demo.hover {
+    border: 5px dashed #aaa;
+    background:#efefef; }
+&lt;/style&gt;
+
+&lt;div class="demo" id="droppable_container"&gt;
+  &lt;div id="draggable_demo" class="draggable"&gt;
+    Drag me!
+  &lt;/div&gt;
+  
+  &lt;div id="droppable_demo"&gt;
+    Drop here!
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+  new Draggable('draggable_demo', { 
+    revert: true 
+  });
+  
+  Droppables.add('droppable_demo', { 
+    accept: 'draggable',
+    hoverclass: 'hover',
+    onDrop: function() { $('droppable_demo').highlight(); }
+  });
+&lt;/script&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script><h3>Restrictions</h3>
+<p>- Can&#8217;t drop into a <code>position:fixed</code> styled element.</p>
+</div>

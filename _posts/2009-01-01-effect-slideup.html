@@ -1,0 +1,103 @@
+---
+layout: default
+title: Effect.SlideUp
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p style="background:#eee; border-bottom:1px solid #bbb; padding:4px 2px 2px 2px;"><a href="http://madrobby.github.com/scriptaculous/combination-effects">Combination Effects</a> &gt; <strong>Effect.SlideUp</strong></p>
+<p>This effect simulates a window blind, where the contents of the affected elements scroll up accordingly.</p>
+<h2>Examples</h2>
+<pre><code class="javascript">
+Effect.SlideUp('id_of_element');
+Effect.SlideUp('id_of_element', { duration: 3.0 });
+</code></pre>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Option </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> scaleX </td>
+<td> boolean, defaults to <code>false</code> </td>
+</tr>
+<tr>
+<td> scaleY </td>
+<td> boolean, defaults to <code>true</code> </td>
+</tr>
+<tr>
+<td> scaleContent </td>
+<td> boolean, defaults to <code>true</code> </td>
+</tr>
+<tr>
+<td> scaleFromCenter </td>
+<td> boolean, defaults to <code>false</code> </td>
+</tr>
+<tr>
+<td> scaleMode </td>
+<td> string, defaults to <code>‘box'</code>, can also be <code>‘contents‘</code> </td>
+</tr>
+<tr>
+<td> scaleFrom </td>
+<td> integer value, percentage (0%–100%), defaults to <code>100</code> </td>
+</tr>
+<tr>
+<td> scaleTo </td>
+<td> integer value, percentage (0%–100%), defaults to <code>0</code> </td>
+</tr>
+<tr>
+<td> duration </td>
+<td> float value, in seconds, defaults to <code>1.0</code> </td>
+</tr>
+</table>
+<h2>Notes</h2>
+<p>Include a second <code>div</code> element, wrapping the contents of the outer <code>div</code>. So, if you call <code>new Effect.SlideUp('x');</code>, your element must look like this:</p>
+<pre><code class="html">
+&lt;div id="x"&gt;
+  &lt;div&gt;
+    contents
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>Because of a bug in <em>Internet Explorer 6</em> (<code>overflow</code> not correctly hidden), an additional wrapper div is needed if you want to use these effects on <em>absolutely positioned elements</em> (wrapper is the absolutely positioned element, x has <code>position:relative</code> set):</p>
+<pre><code class="html">
+&lt;div id="wrapper"&gt;
+  &lt;div id="x"&gt;
+    &lt;div&gt;
+      contents
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>Works only on block elements.</p>
+<p>In Internet Explorer 6.0 there’s a problem where floated block level elements don’t animate. If you add a <code>position: relative</code> to the element it all works though.</p>
+<p>The opposite of Effect.SlideUp is <a href="http://madrobby.github.com/scriptaculous/effect-slidedown">Effect.SlideDown</a>.</p>
+<h2>Demo</h2>
+<div class="demo">
+<div id="slideup_demo" style="width:80px; height:80px; background:#ccc; text-align:center;">
+<div>
+This is some test content. This is some test content.
+</div>
+</div>
+<ul>
+<li><a href="#" onclick="Effect.SlideUp('slideup_demo'); return false;">Click here for a demo!</a></li>
+<li><a href="#" onclick="$('slideup_demo').show(); return false;">Reset</a></li>
+</ul>
+</div>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;div id="slideup_demo" style="width:80px; height:80px; background:#ccc; text-align:center;"&gt;
+  &lt;div&gt;
+    This is some test content. This is some test content.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="#" onclick="Effect.SlideUp('slideup_demo'); return false;"&gt;Click here for a demo!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" onclick="$('slideup_demo').show(); return false;"&gt;Reset&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>
