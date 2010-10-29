@@ -15,21 +15,24 @@
 <body>
 
 <div id="header">
+  <div id="internal">
   <h2 id="logo">script.aculo.us</h2>
   <ul id="navbar">
-    <li><a href="/scriptaculous/">Docs Home</a></li>
-    <li><a href="/scriptaculous/">Contribute</a></li>
+    <li><a href="http://script.aculo.us/">Scriptaculous Home</a></li>
+    <li><a href="/scriptaculous/">Documentation Home</a></li>
+    <li><a href="/scriptaculous/contribute">Contribute</a></li>
   </ul>
+  </div>
 </div>
 <div id="content">
-  <h1>{{ page.title }}</h1>
+  <h1 id="page-title">{{ page.title }}</h1>
   <div id="wiki">
     {{ content }}
   </div>
 
-  <div class="sidebar">
+  <div id="sidebar">
     <h3>Pages</h3>
-      </ul>
+      <ul id="nav">
       {% for post in site.posts reversed %}
         {% if page.title == post.title %}
           <li>{{ page.title }}</li>
@@ -39,9 +42,9 @@
       {% endfor %}
       </ul>
   </div>  
-</div>
-<div id="footer">
-  script.aculo.us is released under the MIT license.
+  <div id="footer">
+    <p>script.aculo.us is released under the MIT license.</p>
+  </div>
 </div>
 
 </body>
