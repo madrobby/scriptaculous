@@ -355,4 +355,5 @@ h1#page-title {
 #wiki pre code {
   font-size: 1.2em;
   line-height: 1.6em;
+  overflow: hidden; /* keep it within the bounds */
 }
