@@ -1,0 +1,639 @@
+---
+layout: default
+title: Ajax.InPlaceEditor
+category: Controls
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><script type="text/javascript" src="http://script.aculo.us/controls.js"></script><p class="upper-chiclet"><a href="http://madrobby.github.com/scriptaculous/controls">Controls</a> &gt; <strong>Ajax.InPlaceEditor</strong></p>
+<style>.demo { font-weight: strong; border: 2px solid #FFFF99; padding: 0.5em; }</style>
+<h2>Introduction</h2>
+<p>The in-place “text edit” testing allows for Flickr-style <span class="caps">AJAX</span>-backed “on-the-fly” textfields.<br />
+See the documentation on <a href="http://madrobby.github.com/scriptaculous/ajax-inplaceeditor">Ajax.InPlaceEditor</a> and <a href="http://madrobby.github.com/scriptaculous/ajax-inplacecollectioneditor">Ajax.InPlaceCollectionEditor</a></p>
+<h2>Syntax</h2>
+<pre><code class="javascript">new Ajax.InPlaceEditor( element, url, {options});</code></pre>
+<p>The constructor takes three parameters. The first is the element that should support in-place editing. The second is the url to submit the changed value to. The server should respond with the updated value (the server might have post-processed it or validation might have prevented it from changing). The third is a hash of options.<br />
+The server side component gets the new value as the parameter ‘value’ (<span class="caps">POST</span> method), and should send the new value as the body of the response.</p>
+<h2>Options</h2>
+<table>
+<tr>
+<td><em>Name</em></td>
+<td><em>since</em></td>
+<td><em>default</em></td>
+<td><em>Description</em></td>
+</tr>
+<tr>
+<td><code>okControl</code></td>
+<td> V?? </td>
+<td> “button” </td>
+<td> What type of ok button to use in edit mode, or none at all (button, link, false) </td>
+</tr>
+<tr>
+<td><code>cancelControl</code> </td>
+<td> V?? </td>
+<td> “link” </td>
+<td> What type of cancel button to use in edit mode, or none at all (button, link, false) </td>
+</tr>
+<tr>
+<td><code>okText</code></td>
+<td> V1.5 </td>
+<td> “ok” </td>
+<td> The text of the submit button that submits the changed value to the server </td>
+</tr>
+<tr>
+<td><code>cancelText</code></td>
+<td> V1.5 </td>
+<td> “cancel” </td>
+<td> The text of the link that cancels editing </td>
+</tr>
+<tr>
+<td><code>savingText</code></td>
+<td> V1.5 </td>
+<td> “Saving…” </td>
+<td> The text shown while the text is sent to the server </td>
+</tr>
+<tr>
+<td><code>clickToEditText</code></td>
+<td> V1.6 </td>
+<td> “Click to edit” </td>
+<td> The text shown during mouseover the editable text </td>
+</tr>
+<tr>
+<td><code>formId</code></td>
+<td> V1.5 </td>
+<td> id of the element to edit plus ‘InPlaceForm’ </td>
+<td> The id given to the element </td>
+</tr>
+<tr>
+<td><code>externalControl</code></td>
+<td> V1.5 </td>
+<td> null </td>
+<td> ID of an element that acts as an external control used to enter edit mode. The external control will be hidden when entering edit mode and shown again when leaving edit mode. </td>
+</tr>
+<tr>
+<td><code>externalControlOnly</code></td>
+<td> V1.5 </td>
+<td> false </td>
+<td> Whether or not to disable onclick editing so that only an external control can activate editable mode </td>
+</tr>
+<tr>
+<td><code>rows</code></td>
+<td> V1.5 </td>
+<td> 1 </td>
+<td> The row height of the input field (anything greater than 1 uses a multiline textarea for input) </td>
+</tr>
+<tr>
+<td><code>onComplete</code></td>
+<td> V1.6 </td>
+<td> “function(transport, element) {new Effect.Highlight(element, {startcolor: this.options.highlightColor});}” </td>
+<td> Code run if update successful with server. Also if user cancels the form. See <a href="https://prototype.lighthouseapp.com/projects/8887/tickets/243-ajaxinplaceeditor-seems-to-call-the-oncomplete-callback-also-when-simply-cancelling-an-inplaceeditor">bug</a>. </td>
+</tr>
+<tr>
+<td><code>onFailure</code></td>
+<td> V1.6 </td>
+<td> “function(transport) {alert(“Error communicating with the server: ” + transport.responseText.stripTags());}” </td>
+<td> Code run if update failed with server </td>
+</tr>
+<tr>
+<td><code>cols</code></td>
+<td> V1.5 </td>
+<td> none </td>
+<td> The number of columns the text area should span (works for both single line or multi line) </td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td> V1.5 </td>
+<td> none </td>
+<td> Synonym for ‘cols’ when using single-line (rows=1) input </td>
+</tr>
+<tr>
+<td><code>highlightColor</code></td>
+<td> ? </td>
+<td> Ajax.InPlaceEditor.defaultHighlightColor </td>
+<td> The highlight color. Must be six hex digits, not 3. </td>
+</tr>
+<tr>
+<td><code>highlightEndColor</code></td>
+<td> ? </td>
+<td> ”#FFFFFF” </td>
+<td> The color which the highlight fades to. Must be six hex digits, not 3.  </td>
+</tr>
+<tr>
+<td><code>savingClassName</code></td>
+<td> V1.5 </td>
+<td> “inplaceeditor-saving” </td>
+<td> <span class="caps">CSS</span> class added to the element while displaying “Saving…” (removed when server responds) </td>
+</tr>
+<tr>
+<td><code>formClassName</code></td>
+<td> V1.5 </td>
+<td> “inplaceeditor-form” </td>
+<td> <span class="caps">CSS</span> class used for the in place edit form </td>
+</tr>
+<tr>
+<td><code>hoverClassName</code></td>
+<td> ? </td>
+<td>	? </td>
+<td> ? </td>
+</tr>
+<tr>
+<td><code>loadTextURL</code></td>
+<td> V1.5 </td>
+<td> null </td>
+<td>  Will cause the text to be loaded from the server (useful if your text is actually textile and formatted on the server) </td>
+</tr>
+<tr>
+<td><code>loadingText</code></td>
+<td> V1.5 </td>
+<td> “Loading…” </td>
+<td> If the loadText <span class="caps">URL</span> option is specified then this text is displayed while the text is being loaded from the server </td>
+</tr>
+<tr>
+<td><code>callback</code></td>
+<td> V1.5 </td>
+<td> function(form) {Form.serialize(form)} </td>
+<td> A function that will get executed just before the request is sent to the server, should return the parameters to be sent in the <span class="caps">URL</span>. Will get two parameters, the entire form and the value of the text control. </td>
+</tr>
+<tr>
+<td><code>submitOnBlur</code></td>
+<td> V1.6 </td>
+<td> “false” </td>
+<td> This option if true will submit the in_place_edit form when the input tag loses focus. </td>
+</tr>
+<tr>
+<td><code>ajaxOptions</code></td>
+<td> V1.5 </td>
+<td> {} </td>
+<td>Options specified to all <span class="caps">AJAX</span> calls (loading and saving text), these options are passed through to the prototype <span class="caps">AJAX</span> classes. </td>
+</tr>
+</table>
+<p>The server side component gets the new value as the parameter ‘value&#8217; (<span class="caps">POST</span> method), and should send the new value as the body of the response.</p>
+<h3>Character encoding</h3>
+<p>The form data is sent encoded in <span class="caps"><span class="caps">UTF</span></span>-8 regardless of the page encoding. This is as of the prototype function Form.serialize. More info on <a href="http://dev.rubyonrails.org/ticket/2151">here</a>.</p>
+<p>If this doesn&#8217;t work, you can use iconv as outlined <a href="http://wiki.rubyonrails.com/rails/pages/HowToUseUnicodeStrings">here</a>. <span style="color:red;">Link Dead!</span></p>
+<h3>Removing the behavior</h3>
+<p>To disable the InPlaceEditor behavior later on, store it in a variable like:</p>
+<pre><code class="javascript">
+ var editor = new Ajax.InPlaceEditor('product_1',...);
+ (... do stuff ..)
+ editor.dispose();
+</code></pre>
+<p>This way, you can enable and disable &quot; In Place Editing &quot;:http://madrobby.github.com/scriptaculous/in-place-editing at will.</p>
+<p>You can also arbitrarily force it into edit mode like so:</p>
+<pre><code class="javascript">
+editor.enterEditMode('click');
+</code></pre>
+<h2>Demo1 (Single Line Edit Mode)</h2>
+<p><span style="color:red;">note</span>: the demo doesn&#8217;t actually save its changes, as <code>demoajaxreturn.html</code> is not a valid url.</p>
+<pre><code class="javascript">
+&lt;p id="editme"&gt;Click me, click me!&lt;/p&gt;
+&lt;script type="text/javascript"&gt;
+ new Ajax.InPlaceEditor('editme', '/demoajaxreturn.html');
+&lt;/script&gt;
+</code></pre>
+<div class="demo">
+<p id="editme">Click me, click me!</p>
+<script type="text/javascript">
+ new Ajax.InPlaceEditor('editme','/demoajaxreturn.html');
+</script>
+</div>
+<h2>Demo2 (Multi Line Edit Mode)</h2>
+<pre><code class="javascript">
+&lt;p id="editme2"&gt;Click me to edit this nice long text.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;
+ new Ajax.InPlaceEditor('editme2', '/demoajaxreturn.html', {rows:15,cols:40});
+&lt;/script&gt;
+</code></pre>
+<div class="demo">
+<p id="editme2">Click me to edit this nice long text.</p>
+<script type="text/javascript">
+ new Ajax.InPlaceEditor('editme2', '/demoajaxreturn.html', {rows:15,cols:40});
+</script>
+</div>
+<h2>How to specify a different name for the parameter sent to the server</h2>
+<p>Add a callback function which is supposed to return the parameters that is sent to the server. Like this:</p>
+<pre><code class="javascript">
+new Ajax.InPlaceEditor('id', 'url', {
+callback: function(form, value) { return 'myparam=' + encodeURIComponent(value) }
+})
+</code></pre>
+<p>The <code>encodeURIComponent()</code> makes sure values containing special characters like &#8220;&amp;&#8221; or &#8220;=&#8221; don&#8217;t cause problems. Use <code>encodeURIComponent()</code> instead of <code>escape()</code> from previous examples to get <span class="caps"><span class="caps">UTF</span></span>-8 encoded data (and not &#8220;malformed <span class="caps">URI</span>&#8221; errors in Firefox). This function can also be used to pass additional parameters, such as what item or field to edit:</p>
+<pre><code class="javascript">
+new Ajax.InPlaceEditor('id', 'url', { 
+callback: function(form, value) { return 'item=123&amp;field=description&amp;myparam='+encodeURIComponent(value) }
+})
+</code></pre>
+<p>Note: this parameters name may change (to &#8220;parameters&#8221; or &#8220;with&#8221;) before the final release of 1.5.</p>
+<h2>How to execute custom code using the InPlaceEditor&#8217;s callbacks.</h2>
+<pre><code class="javascript">
+new Ajax.InPlaceEditor(id, url, {
+callback: function(form, value) { return 'item=123&amp;field=description&amp;myparam='+encodeURIComponent(value) },
+onEnterEditMode: function(form, value) { // custom code goes here... },
+onLeaveEditMode: function(form, value) { // custom code goes here... }
+});
+</code></pre>
+<p>You can find all the possible callbacks by looking for lines in the source like this:</p>
+<pre><code class="javascript">
+this.triggerCallback('onEnterEditMode');
+</code></pre>
+<p>(Should these callback options be documented in the Options list above?)</p>
+<h2>How to add a spinning in progress indicator</h2>
+<p>Get an animated .gif that shows progress (the spinning image used on the Macintosh for example). Add a <span class="caps"><span class="caps">CSS</span></span> class for ‘inplaceeditor-saving&#8217; with the spinning image as background. The class will be added to the element during communication with the server and removed afterwards.</p>
+<pre><code class="javascript">
+&lt;style type="text/css" media="screen"&gt;
+  .inplaceeditor-saving { background: url(/images/wait.gif) bottom right no-repeat; }
+&lt;/style&gt;
+
+&lt;p id="editme3"&gt;Click me, click me!&lt;/p&gt;
+&lt;script type="text/javascript"&gt;
+ new Ajax.InPlaceEditor('editme3', '/demoajaxreturn.html');
+&lt;/script&gt;
+
+</code></pre>
+<h2>How to customize the look and feel of the form</h2>
+<p>Use the id or class (‘inplaceeditor-form’) of the form in a <span class="caps"><span class="caps">CSS</span></span> selector to apply the desired style. The text field is always named ‘value’, the ok button is an input with type ‘submit’ and the cancel link is a normal anchor (‘a’) element.</p>
+<pre><code class="javascript">
+form.inplaceeditor-form { /* The form */
+}
+
+form.inplaceeditor-form input[type="text"] { /* Input box */
+}
+
+form.inplaceeditor-form textarea { /* Textarea, if multiple rows */
+}
+
+form.inplaceeditor-form input[type="submit"] { /* The submit button */
+  margin-left:1em;
+}
+
+form.inplaceeditor-form a { /* The cancel link */
+  margin-left:1em;
+}
+</code></pre>
+<h2>How to edit server side formatted text (formatted with eg. textile)</h2>
+<p>Format the text on the server when the initial page is rendered. Add a new server side action that returns the unformatted text in the reponse and specify the load <span style="color:#aaa">Text <span class="caps">URL</span></span><a href="http://github.com/madrobby/scriptaculous/wikis/new?title=Text+URL">?</a> option as a <span class="caps"><span class="caps">URL</span></span> to this action. The control will load the text from the server instead of using the text on the page. The action that receives the updated text should save it and return the formatted text as an <span class="caps"><span class="caps">HTML</span></span> snippet in the reponse.</p>
+<p><strong>Example using Ruby on Rails</strong><br />
+<pre><code class="javascript"></code></pre></p>
+<p>#controller<br />
+def my_action<br />
+    #get the text to display initially<br />
+    @fancy_text = &#8220;Some fancy <strong>bold</strong> and <em>emphasized</em> text.&#8221; <br />
+end</p>
+<p>def update_text<br />
+    #save your text here, and return the saved value<br />
+    @fancy_text = params[:value]<br />
+    render :layout =&gt; false, :inline =&gt; &#8220;&lt;%= textilize( @fancy_text ) %&gt;&#8221; <br />
+end</p>
+<p>def return_unformatted_text<br />
+    #get your text and return it without the formatting<br />
+    @fancy_text = &#8220;Some fancy edited, <strong>bold</strong> and <em>emphasized</em> text.&#8221; <br />
+    render :layout =&gt; false, :inline =&gt; &#8220;&lt;%= @fancy_text %&gt;&#8221; <br />
+end</p>
+<p>#view ( of my_action.rhtml )</p>
+<p id="editme2">&lt;%= textilize( @fancy_text ) %&gt;</p>
+<script language="JavaScript">
+ new Ajax.InPlaceEditor('editme2', 'update_text',
+ {rows:15,cols:40,loadTextURL:'return_unformatted_text'});
+</script><p></p>
+<h3>In-Place edits with select lists</h3>
+<p>In my (java) application, I have a need for in-place editing in the form of select lists.  Given a server-side ajax helper that provides the necessary options for the current user, I was able to write the following:</p>
+<pre><code class="javascript">
+function setupCategoryEditor(el, url) {
+    var editor=new Ajax.InPlaceEditor(el, url);
+    Object.extend(editor, {
+        createEditField: function() {
+            var text=this.getText();
+
+            var field=document.createElement("select");
+            field.name="value";
+
+            this.editField=field;
+            this.form.appendChild(this.editField);
+
+            new Ajax.Request('/url/to/option/list', {
+                onSuccess: function(req) {
+                    // Get the text from an XML tag.
+                    var getData=function(el, which) {
+                        stuff=el.getElementsByTagName(which);
+                        return stuff[0].firstChild.nodeValue;
+                    };
+                    var cats=req.responseXML.getElementsByTagName("cat");
+                    $A(cats).each( function(cat, idx) {
+                        var op=document.createElement("option");
+                        op.value=getData(cat, "value");
+                        op.text=getData(cat, "key");
+                        if(window.ActiveXObject) {
+                            field.options.add(op);
+                        } else {
+                            field.appendChild(op);
+                        }
+
+                        // Select the current item
+                        if(op.text == text) {
+                            field.selectedIndex=idx;
+                        }
+                    });
+                }
+                });
+        }
+    });
+}
+</code></pre>
+<p>Obviously, one could write something smaller with <span class="caps"><span class="caps">JSON</span></span> or innerHTML if you&#8217;re into that kind of thing.</p>
+<p>There is another implementation of &quot; In Place Editor &#8220;:http://madrobby.github.com/scriptaculous/in-place-editor for select lists called Ajax. &#8221;color:#aaa&quot;&gt; In Place Select<a href="http://github.com/madrobby/scriptaculous/wikis/new?title=+In+Place+Select">?</a> available <a href="http://dev.rubyonrails.org/ticket/2667">here</a>.</p>
+<p>You can change getText like so:</p>
+<pre><code class="javascript">getText: function() {
+  return this.element.childNodes[0] ? this.element.childNodes[0].nodeValue : '';
+},</code></pre>
+<p>to avoid e.g. &#8220;Me &amp; Myself&#8221; being represented in the input box as &#8220;Me &amp; amp; Myself&#8221; (use nodeValue because innerText does not work with Safari when the element is hidden).</p>
+<p>- &#8211; - <br />
+I just added inplace editor inside a sortable list array.  I can drag and after, the editor appears, but ideally I would not want that to happen and instead activate the editor specifically, not as a result of dragging my list items.  What is suggested here?  <br />
+I tried using a drag handle, which seemed like an obvious solution, except the editor then shows the span class code as well, which is a caveat I suppose.  <br />
+Unless I can use a drag handle without the method in example, then that won&#8217;t be a good solution.</p>
+<p>How else can I drag or how else can I activate the editor besides writing redundant for each instance?<br />
+-ms</p>
+<p>I found a workaround to use draggable and Ajax.InPlaceEditor at same time. I faced also this problem mentioned above (the &#8216;mousup&#8217; action at the end of the draggable activates the editor). The solution that I found is to modify control.js to activate InPlaceEditor only on dbclick instead of click. The drawback is that you should deal with navigator compatibilty&#8230; So It consists in replacing:<br />
+<pre><code class="javascript">
+ Listeners: {
+    click: 'enterEditMode',
+    keydown: 'checkForEscapeOrReturn',
+    mouseover: 'enterHover',
+    mouseout: 'leaveHover'
+  }
+</code><br />
+</pre> by<br />
+<pre><code class="javascript">
+ Listeners: {
+    dblclick: 'enterEditMode',
+    keydown: 'checkForEscapeOrReturn',
+    mouseover: 'enterHover',
+    mouseout: 'leaveHover'
+  }
+</code><br />
+</pre></p>
+<p>-Tonio<br />
+- &#8211; -</p>
+<p>I just spent a good deal of time figuring that out myself so I&#8217;ll share my result:</p>
+<pre><code class="javascript">
+&lt;style&gt;
+div.handle {
+    display: none;
+    float: left;
+    width: 25px;
+    height: 11px;
+    margin-top: 2px;
+    padding-right: 3px;
+    background: url('/images/drag.gif');
+    background-repeat: no-repeat;
+    clear: both;
+}
+&lt;/style&gt;
+&lt;ul id="field"&gt;
+    &lt;li id="field_1"&gt;
+
+        &lt;div class="handle"&gt;&lt;/div&gt;&lt;div class="delete"&gt;&lt;/div&gt;
+        &lt;span class="data" id="field_name_1"&gt;Brand&lt;/span&gt;&lt;/li&gt;
+    &lt;li id="field_3"&gt;
+        &lt;div class="handle"&gt;&lt;/div&gt;&lt;div class="delete"&gt;&lt;/div&gt;
+
+        &lt;span class="data" id="field_name_3"&gt;SKU Number&lt;/span&gt;&lt;/li&gt;
+    &lt;li id="field_5"&gt;
+        &lt;div class="handle"&gt;&lt;/div&gt;&lt;div class="delete"&gt;&lt;/div&gt;
+        &lt;span class="data" id="field_name_5"&gt;Color&lt;/span&gt;&lt;/li&gt;
+
+&lt;/ul&gt;
+&lt;a id="field_sort" href="javascript:;" onclick="makeSortable('field');"&gt;Reorder&lt;/a&gt;
+&lt;a id="field_donesort" href="javascript:;" onclick="doneSorting('field');" style="display:none;"&gt;Done Reordering&lt;/a&gt;
+&lt;script&gt;
+function makeSortable(myid,mytag){
+    Sortable.create(myid,{ tag: mytag || 'li', handle:'handle'});
+    setDisplayByClass('handle','inline',$(myid));
+    $(myid+'_sort').style.display = 'none';
+    $(myid+'_donesort').style.display = '';
+    $(myid).setAttribute('reordering','yes');
+    return false;
+}
+function doneSorting(myid){
+    new Ajax.Updater('reply',page,{parameters:'a=reorder&amp;table='+myid+'&amp;'+Sortable.serialize(myid)});
+    Sortable.destroy(myid);
+    setDisplayByClass('handle','none',$(myid));
+    $(myid+'_sort').style.display = '';
+    $(myid+'_donesort').style.display = 'none';
+    $(myid).setAttribute('reordering','no');
+    return false;
+}
+var list = getElementsByClass('data',$('fields'));
+var ipeOptionsStd = {
+        callback:    function(form,value){
+                        var id=form.id;
+                        id = id.substring(0,id.indexOf('-inplaceeditor'));
+                        var t = id.substring(0,id.indexOf('_'));
+                        var c = id.substring(0,id.lastIndexOf('_'));
+                        var i = id.substring(id.lastIndexOf('_')+1,id.length);
+                        return 'a=update&amp;table='+t+'&amp;column='+c+'&amp;id='+i+'&amp;value='+encodeURIComponent(value);
+                    }
+        };
+for(var i=0;i&lt;list.length;i++){
+    new Ajax.InPlaceEditor(list[i], page, ipeOptionsStd );
+}
+
+&lt;/script&gt;
+</code></pre>
+<p>Hope that helps, that is a much simplified version. I&#8217;ve also done this with tables where each cell is an &quot; In Place Editor &quot;:http://madrobby.github.com/scriptaculous/in-place-editor and the rows are Sortable.</p>
+<p>- Colin</p>
+<h3>Using <span class="caps"><span class="caps">HTML</span></span> within the In Place Editor</h3>
+<p>If you are using Markdown or Textile, you can include <span class="caps"><span class="caps">HTML</span></span> within your text. And if you follow the instructions above, you will be able to load this text in from your database with <code>loadTextURL</code>. But the stripTags function is invoked by the In Place Editor, and that strips out all the code before it can be displayed in the editor field.</p>
+<p>To get around this, add the following two extensions anywhere after the rest of the library has loaded. I use the extensions.js method noted elsewhere on this site.</p>
+<pre><code class="javascript">
+Object.extend(Ajax.InPlaceEditor.prototype, {
+    onLoadedExternalText: function(transport) {
+        Element.removeClassName(this.form, this.options.loadingClassName);
+        this.editField.disabled = false;
+        this.editField.value = transport.responseText;
+        Field.scrollFreeActivate(this.editField);
+    }
+});
+
+Object.extend(Ajax.InPlaceEditor.prototype, {
+    getText: function() {
+        return this.element.childNodes[0] ? this.element.childNodes[0].nodeValue : '';
+    }
+});
+</code></pre>
+<p>If you do this, make sure that your <code>loadTextURL</code> does not return entity-encoded text (using <code>htmlentities()</code> for example) or you will end up with double-encoded text.</p>
+<h3>In-Place edits only by externalControl</h3>
+<p>i searched for a way to allow editing of certain fields only by clicking the external control field. currently its implemented to allow a user to click either on the element itself or on the external control element.</p>
+<p>to only allow editing by clicking on the external control, simply change a few lines:</p>
+<pre><code class="javascript">
+Event.observe(this.element, 'click', this.onclickListener);
+Event.observe(this.element, 'mouseover', this.mouseoverListener);
+Event.observe(this.element, 'mouseout', this.mouseoutListener);
+
+if (this.options.externalControl) {
+  Event.observe(this.options.externalControl, 'click', this.onclickListener);
+  Event.observe(this.options.externalControl, 'mouseover', this.mouseoverListener);
+  Event.observe(this.options.externalControl, 'mouseout', this.mouseoutListener);
+}
+
+change to:
+
+if (this.options.externalControl) {
+  Event.observe(this.options.externalControl, 'click', this.onclickListener);
+  Event.observe(this.options.externalControl, 'mouseover', this.mouseoverListener);
+  Event.observe(this.options.externalControl, 'mouseout', this.mouseoutListener);
+} else {
+  Event.observe(this.element, 'click', this.onclickListener);
+  Event.observe(this.element, 'mouseover', this.mouseoverListener);
+  Event.observe(this.element, 'mouseout', this.mouseoutListener);
+}
+</code></pre>
+<p>maybe someone can add a flag like ‘only <span style="color:#aaa"> External Control </span><a href="http://github.com/madrobby/scriptaculous/wikis/new?title=+External+Control+’">?</a> to add this to the trunk ..</p>
+<h2>Small extension to editor to add a text in case field is empty.</h2>
+<pre><code class="javascript">
+/*
+ * InPlaceEditor extension that adds a 'click to edit' text when the field is 
+ * empty.
+ */
+Ajax.InPlaceEditor.prototype.__initialize = Ajax.InPlaceEditor.prototype.initialize;
+Ajax.InPlaceEditor.prototype.__getText = Ajax.InPlaceEditor.prototype.getText;
+Ajax.InPlaceEditor.prototype.__onComplete = Ajax.InPlaceEditor.prototype.onComplete;
+Ajax.InPlaceEditor.prototype = Object.extend(Ajax.InPlaceEditor.prototype, {
+
+    initialize: function(element, url, options){
+        this.__initialize(element,url,options)
+        this.setOptions(options);
+        this._checkEmpty();
+    },
+
+    setOptions: function(options){
+        this.options = Object.extend(Object.extend(this.options,{
+            emptyText: 'click to edit...',
+            emptyClassName: 'inplaceeditor-empty'
+        }),options||{});
+    },
+
+    _checkEmpty: function(){
+        if( this.element.innerHTML.length == 0 ){
+            this.element.appendChild(
+                Builder.node('span',{className:this.options.emptyClassName},this.options.emptyText));
+        }
+    },
+
+    getText: function(){
+        document.getElementsByClassName(this.options.emptyClassName,this.element).each(function(child){
+            this.element.removeChild(child);
+        }.bind(this));
+        return this.__getText();
+    },
+
+    onComplete: function(transport){
+        this._checkEmpty();
+        this.__onComplete(transport);
+    }
+});
+
+</code></pre>
+<p>To use, copy this into a extensions.js and load it in your app after the other scriptaculous stuff.</p>
+<p>Here is the style I use with this:</p>
+<pre><code class="javascript">
+
+/* ----  InPlaceEditor style --------------------------------------------- */
+
+.inplaceeditor-empty {
+    font-style: italic;
+    color: #999;
+}
+</code></pre>
+<p>- Pedro</p>
+<p>This doesn&#8217;t seem to work for me in Prototype 1.6, so I wrote an updated version. (<a href="http://codetocustomer.com/blog/2008/06/empty-text-for-ajaxinplaceeditor">Blog Post</a>).</p>
+<pre><code class="javascript">
+
+Ajax.InPlaceEditorWithEmptyText = Class.create(Ajax.InPlaceEditor, {
+
+  initialize : function($super, element, url, options) {
+
+    if (!options.emptyText)        options.emptyText      = “click to edit…“;
+    if (!options.emptyClassName)   options.emptyClassName = “inplaceeditor-empty“;
+
+    $super(element, url, options);
+
+    this.checkEmpty();
+  },
+
+  checkEmpty : function() {
+
+    if (this.element.innerHTML.length == 0 &amp;&amp; this.options.emptyText) {
+
+      this.element.appendChild(
+          new Element(“span“, { className : this.options.emptyClassName }).update(this.options.emptyText)
+        );
+    }
+
+  },
+
+  getText : function($super) {
+
+    if (empty_span = this.element.select(“.“ + this.options.emptyClassName).first()) {
+      empty_span.remove();
+    }
+
+    return $super();
+
+  },
+
+  onComplete : function($super, transport) {
+
+    this.checkEmpty();
+    return $super(transport);
+
+  }
+
+});
+
+</code></pre>
+<p>- Nik</p>
+<h2>Create your own Callback</h2>
+<p>I wanted to have a custom callback that would fire after the InPlaceEditor form was added to the <span class="caps">DOM</span>. <code>onEnterEditMode</code> fires as soon as you click, but the form doesn&#8217;t exist yet.</p>
+<p>This works by copying an existing method <code>enterEditMode()</code>, which builds the form and writes it to the page, into a new method name so that I can edit the real one.  In mine, the original is called via <code>__enterEditMode()</code> and then my custom code is run:</p>
+<pre><code class="javascript">
+Ajax.InPlaceEditor.prototype.__enterEditMode = Ajax.InPlaceEditor.prototype.enterEditMode;
+Object.extend(Ajax.InPlaceEditor.prototype, {
+  enterEditMode:function(e) {
+    this.__enterEditMode(e);
+    this.triggerCallback('onFormReady',this._form);
+  }
+});
+</code></pre>
+<p>Now when I create my InPlaceEditor I just add a the <code>onFormReady</code> callback as an option:</p>
+<pre><code class="javascript">
+new Ajax.InPlaceEditor('location', '/change_location',
+  { 
+    onFormReady: function(obj,form) {
+      form.getInputs().first().value = '';
+    }
+  });
+</code></pre>
+<p>In my case I wanted to clear out the value in the text box so that the user had to type something from scratch. If they cancel it will switch back to the original text.</p>
+<p>- Rob</p>
+<hr />
+<h2 style="vertical-align:middle;">Validation.</h2>
+<p>Information for implementing validation with ajax.&quot; In Place Editor &quot;:http://madrobby.github.com/scriptaculous/in-place-editor can be found <a href="http://wiki.rubyonrails.org/rails/pages/HowToValidateWithAjaxInPlaceEditor">here</a>.  <span style="color:red;">Link Dead!</span></p>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script><h2>suggest</h2>
+<p>If &#8220;cancel control&#8221; type was &#8216;button&#8217; then&#8230; javascript error occurs.</p>
+<pre><code class="javascript">
+  new Ajax.InPlaceEditor(node, 'items.aspx', {
+	cancelControl: 'button'
+  });
+</code></pre>
+<p>So, I suggest the method modification of &#8216;handleFormCancellation&#8217;.</p>
+<pre><code class="javascript">
+  handleFormCancellation: function(e) {
+    this.wrapUp();
+    if (e) Event.stop(e);
+    return false;
+  },
+</code></pre>
+</div>

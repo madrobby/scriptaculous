@@ -1,0 +1,114 @@
+---
+layout: default
+title: Effect.multiple
+category: Effect Helpers
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p><code>Effect multiple</code> takes an array of elements and performs a given effect for each element. If one specific element is passed instead of an array of elements, the specific elements child nodes will be used for the effect. Each subsequent effect will start by default with a slight delay depending on the <code>speed</code> option.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">
+Effect.multiple([element1, element2, element3, …], Effect); // takes an array of elements
+Effect.multiple(element, Effect); // also takes a specific element and will use its childNodes
+</code></pre>
+<h2>Options</h2>
+<p>Additional to a typical effects options, <code>Effect.multiple</code> also takes these options:</p>
+<table>
+<tr>
+<th>Option </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> speed </td>
+<td> float value, defaults to <code>0.1</code>, a delay offset for each subsequent effect </td>
+</tr>
+<tr>
+<td> delay </td>
+<td> float value, defaults to <code>0.0</code>, the effects start delay </td>
+</tr>
+</table>
+<h2>Examples</h2>
+<pre><code class="javascript">
+Effect.multiple('id_of_element', Effect.Fade); // performs an Effect.Fade for each childNode of the given element
+Effect.multiple(['id_one', 'id_two'], Effect.Puff); // performs an Effect.Puff for each element in the given array
+Effect.multiple('id_of_element', Effect.Fade, { speed: 0 }); // instantely performs an Effect.Fade for each childNode of the given element
+</code></pre>
+<p>If you want to use the toggle effect:</p>
+<pre><code class="javascript">
+Effect.multiple(['id_one','id_two'],function(el){Effect.toggle(el,'appear');});
+</code>
+</pre>
+<p>In this case we selected the appear effect. Thanks to Richard.</p>
+<h2>Demo</h2>
+<style type="text/css">
+  ul#multiple_demo { cursor:pointer; }
+  ul#multiple_demo li { font-size:16px; }
+</style>
+<div class="demo">
+  Click somewhere on the list for a demo. <a href="#" id="reset_link">Reset the demo</a>.
+  <ul id="multiple_demo" class="on">
+<li>This is</li>
+<li>what you</li>
+<li>can do</li>
+<li>with</li>
+<li>Effect.multiple</li>
+</ul>
+</div>
+<script type="text/javascript">
+  (function() {
+    $('multiple_demo').observe('click', fadeListItems);
+    $('reset_link').observe('click', reset);
+    
+    var listItems = $('multiple_demo').select('li');
+    
+    function fadeListItems() {
+      Effect.multiple(listItems, Effect.Fade);
+    }
+    
+    function reset(event) {
+      event.stop();
+      Effect.multiple(listItems, Effect.Appear);
+    }
+  })();
+</script>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;style type="text/css"&gt;
+  ul#multiple_demo { cursor:pointer; }
+  ul#multiple_demo li { font-size:16px; }
+&lt;/style&gt;
+
+&lt;div class="demo"&gt;
+  Click somewhere on the list for a demo. &lt;a href="#" id="reset_link"&gt;Reset the demo&lt;/a&gt;.
+  &lt;ul id="multiple_demo" class="on"&gt;
+    &lt;li&gt;This is&lt;/li&gt;
+    &lt;li&gt;what you&lt;/li&gt;
+    &lt;li&gt;can do&lt;/li&gt;
+    &lt;li&gt;with&lt;/li&gt;
+    &lt;li&gt;Effect.multiple&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+  (function() {
+    $('multiple_demo').observe('click', fadeListItems);
+    $('reset_link').observe('click', reset);
+    
+    var listItems = $('multiple_demo').select('li');
+    
+    function fadeListItems() {
+      Effect.multiple(listItems, Effect.Fade);
+    }
+    
+    function reset(event) {
+      event.stop();
+      Effect.multiple(listItems, Effect.Appear);
+    }
+  })();
+&lt;/script&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

@@ -1,0 +1,64 @@
+---
+layout: default
+title: List Morph Demo
+category: Demos
+---
+
+<div class="wikistyle">
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<p class="upper-chiclet"><a href="http://madrobby.github.com/scriptaculous/demos">Demos</a> &gt; <strong>List Morph Demo</strong></p>
+<p>This is a demonstration of how <a href="http://madrobby.github.com/scriptaculous/effect-morph">Effect.Morph</a> can be used to indicate a list reordering to the user. Click anywhere on the list to initiate a random reorder.</p>
+<style>
+#scripty_morph_demo {
+cursor: pointer;
+position: relative;
+height: 300px;
+}
+#scripty_morph_demo div {
+position: absolute;
+font-size: 60px;
+height: 60px;
+}
+</style>
+<div id="scripty_morph_demo">
+<div>Lorem</div>
+<div>ipsum</div>
+<div>dolor</div>
+<div>sit</div>
+<div>amet</div>
+</div>
+<script type="text/javascript">
+  Array.prototype.shuffle = function(){
+    return this.sortBy(Math.random);
+  };
+
+  (function(){
+    function foo(){
+      $('scripty_morph_demo').select('div').shuffle().each(function(e,i){
+        e.morph('top:'+i*e.getHeight()+'px',{duration:0.4}); 
+      });
+    }
+    $('scripty_morph_demo').observe('click',foo);
+    foo();
+  })();
+</script>
+<h2>Source code of this demo</h2>
+<pre><code class="javascript">
+Array.prototype.shuffle = function() {
+  return this.sortBy(Math.random);
+};
+
+(function() {
+  function foo() {
+    $('scripty_morph_demo').select('div').shuffle().each(function(e, i) {
+      e.morph('top:' + i*e.getHeight() + 'px', { duration: 0.4 }); 
+    });
+  }
+  $('scripty_morph_demo').observe('click', foo);
+  foo();
+})();
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

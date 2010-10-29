@@ -1,0 +1,42 @@
+---
+layout: default
+title: Effect.tagifyText
+category: Effect Helpers
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p>Effect.tagifyText transforms any text string contained in a specific element into a chain of <code>span</code> elements, each containing one character of the string.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">
+Effect.tagifyText(element);
+</code></pre>
+<h2>Demo</h2>
+<style type="text/css">
+  div#tagify_demo { padding:10px 0; }
+  button#tagify_button { padding:3px; }
+  div#tagify_element { border:1px solid #3071cc; padding:10px; margin-top:10px;}
+  div#tagify_element span { border:1px solid #df7418; padding:5px; }
+</style>
+<div class="demo" id="tagify_demo">
+<button id="tagify_button" onclick="Effect.tagifyText('tagify_element'); return false;">Tagify the text</button> which is contained in the following <code>div</code>.
+  <div id="tagify_element">Go! Click on the button! Tagify me!</div>
+</div>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;style type="text/css"&gt;
+  div#tagify_demo { padding:10px 0; }
+  button#tagify_button { padding:3px; }
+  div#tagify_element { border:1px solid #3071cc; padding:10px; margin-top:10px;}
+  div#tagify_element span { border:1px solid #df7418; padding:5px; }
+&lt;/style&gt;
+
+&lt;div class="demo" id="tagify_demo"&gt;
+  &lt;button id="tagify_button" onclick="Effect.tagifyText('tagify_element'); return false;"&gt;Tagify the text&lt;/button&gt; which is contained in the following &lt;code&gt;div&lt;/code&gt;.
+  &lt;div id="tagify_element"&gt;Go! Click on the button! Tagify me!&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

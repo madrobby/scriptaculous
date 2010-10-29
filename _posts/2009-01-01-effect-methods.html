@@ -1,0 +1,135 @@
+---
+layout: default
+title: Effect.Methods
+category: Effect Helpers
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p>Effect.Methods is a mixin of various effects and helper functions for <span class="caps">DOM</span> elements.<br />
+These methods can be accessed through the <code>$()</code> function or through any <code>Element</code> object.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">
+$(element).methodName(arguments);
+</code></pre>
+<p>The following methods are included within <code>Effect.Methods</code> and can be used as a shortcut for effects, helpers, etc you might want to call on an element:</p>
+<table>
+<tr>
+<th>Method Name </th>
+<td> Description </td>
+</tr>
+<tr>
+<td> morph(element, style, options) </td>
+<td> starts an <code>Effect.Morph</code> on the element, takes <code>style</code> (the styles string or hash for the effect) as the first parameter, takes an optional second parameter which is the options hash for the effect </td>
+</tr>
+<tr>
+<td>visualEffect(element, effect, options) </td>
+<td> specify any of the supported effects and pass options</td>
+</tr>
+<tr>
+<td> getInlineOpacity </td>
+<td> a shortcut for <span style="color:#aaa">Element#getInlineOpacity</span><a href="http://github.com/madrobby/scriptaculous/wikis/new?title=Element%23getInlineOpacity">?</a> </td>
+</tr>
+<tr>
+<td> forceRerendering </td>
+<td> a shortcut for <span style="color:#aaa">Element#forceRerendering</span><a href="http://github.com/madrobby/scriptaculous/wikis/new?title=Element%23forceRerendering">?</a> </td>
+</tr>
+<tr>
+<td> setContentZoom </td>
+<td> a shortcut for <span style="color:#aaa">Element#setContentZoom</span><a href="http://github.com/madrobby/scriptaculous/wikis/new?title=Element%23setContentZoom">?</a> </td>
+</tr>
+<tr>
+<td> collectTextNodes </td>
+<td> a shortcut for <span style="color:#aaa">Element#collectTextNodes</span><a href="http://github.com/madrobby/scriptaculous/wikis/new?title=Element%23collectTextNodes">?</a> </td>
+</tr>
+<tr>
+<td> collectTextNodesIgnoreClass </td>
+<td> a shortcut for <span style="color:#aaa">Element#collectTextNodesIgnoreClass</span><a href="http://github.com/madrobby/scriptaculous/wikis/new?title=Element%23collectTextNodesIgnoreClass">?</a> </td>
+</tr>
+<tr>
+<td> getStyles </td>
+<td> a shortcut for <span style="color:#aaa">Element.getStyles</span><a href="http://github.com/madrobby/scriptaculous/wikis/new?title=Element.getStyles">?</a> </td>
+</tr>
+</table>
+<p>Additional to this set of helper function, also all of scriptaculous&#8217; <a href="http://madrobby.github.com/scriptaculous/combination-effects">Combination Effects</a> and <a href="http://madrobby.github.com/scriptaculous/core-effects">Core Effects</a> are available within <code>Effect.Methods</code> and take the an <code>options</code> hash as an optional parameter:</p>
+<table>
+<tr>
+<th>Method Name </th>
+<td> Description </td>
+</tr>
+<tr>
+<td> fade </td>
+<td> a shortcut for <a href="http://madrobby.github.com/scriptaculous/effect-fade">Effect.Fade</a> </td>
+</tr>
+<tr>
+<td> appear </td>
+<td> a shortcut for <a href="http://madrobby.github.com/scriptaculous/effect-appear">Effect.Appear</a> </td>
+</tr>
+<tr>
+<td> grow </td>
+<td> a shortcut for <a href="http://madrobby.github.com/scriptaculous/effect-grow">Effect.Grow</a> </td>
+</tr>
+<tr>
+<td> shrink </td>
+<td> a shortcut for <a href="http://madrobby.github.com/scriptaculous/effect-shrink">Effect.Shrink</a> </td>
+</tr>
+<tr>
+<td> fold </td>
+<td> a shortcut for <a href="http://madrobby.github.com/scriptaculous/effect-fold">Effect.Fold</a> </td>
+</tr>
+<tr>
+<td> blindUp </td>
+<td> a shortcut for <a href="http://madrobby.github.com/scriptaculous/effect-blindup">Effect.BlindUp</a> </td>
+</tr>
+<tr>
+<td> blindDown </td>
+<td> a shortcut for <a href="http://madrobby.github.com/scriptaculous/effect-blinddown">Effect.BlindDown</a> </td>
+</tr>
+<tr>
+<td> slideUp </td>
+<td> a shortcut for <a href="http://madrobby.github.com/scriptaculous/effect-slideup">Effect.SlideUp</a> </td>
+</tr>
+<tr>
+<td> slideDown </td>
+<td> a shortcut for <a href="http://madrobby.github.com/scriptaculous/effect-slidedown">Effect.SlideDown</a> </td>
+</tr>
+<tr>
+<td> pulsate </td>
+<td> a shortcut for <a href="http://madrobby.github.com/scriptaculous/effect-pulsate">Effect.Pulsate</a> </td>
+</tr>
+<tr>
+<td> shake </td>
+<td> a shortcut for <a href="http://madrobby.github.com/scriptaculous/effect-shake">Effect.Shake</a> </td>
+</tr>
+<tr>
+<td> puff </td>
+<td> a shortcut for <a href="http://madrobby.github.com/scriptaculous/effect-puff">Effect.Puff</a> </td>
+</tr>
+<tr>
+<td> squish </td>
+<td> a shortcut for <a href="http://madrobby.github.com/scriptaculous/effect-squish">Effect.Squish</a> </td>
+</tr>
+<tr>
+<td> switchOff </td>
+<td> a shortcut for <a href="http://madrobby.github.com/scriptaculous/effect-switchoff">Effect.SwitchOff</a> </td>
+</tr>
+<tr>
+<td> dropOut </td>
+<td> a shortcut for <a href="http://madrobby.github.com/scriptaculous/effect-dropout">Effect.DropOut</a> </td>
+</tr>
+<tr>
+<td> highlight </td>
+<td> a shortcut for <a href="http://madrobby.github.com/scriptaculous/effect-highlight">Effect.Highlight</a> </td>
+</tr>
+</table>
+<h2>Examples</h2>
+<pre><code class="javascript">
+$('id_of_element').highlight();
+$('id_of_element').visualEffect('Opacity', { from: 1.0, to: 0.7, duration: 0.5 });
+$('id_of_element').morph({ height: '50px', width: '200px' }, { duration: 0.5 });
+$('id_of_element').fade({ delay: 0.3, duration: 0.8 });
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

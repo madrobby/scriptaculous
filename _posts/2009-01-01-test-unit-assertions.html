@@ -1,0 +1,52 @@
+---
+layout: default
+title: Test.Unit.Assertions
+---
+
+<div class="wikistyle">
+<h1>Signature</h1>
+<h3>Methods:</h3>
+<p><code>initialize: function()</code> constructor<br />
+<code>summary: function(): String</code> Returns a concatenated string which represents the assertions, errors, failures, and messages properties.<br />
+<code>pass: function()</code> This code increases the number of assertions without risking a failure or error<br />
+<code>fail: function( message (converted to string) )</code>Adds a failure message to messages property and increments failures property<br />
+<code>info: function( message (converted to string) )</code>Adds an info message to messages property<br />
+<code>error: function(error:Error)</code>Adds an error message to messages property and increments error property<br />
+<code>status: function()</code>Returns &#8216;failed&#8217;, &#8216;error&#8217;, or &#8216;passed&#8217; based on the error and failure count.  If there are errors and failures, only &#8216;failure&#8217; will be returned..<br />
+<code>assertElementsMatch: function( ...args )</code>Do all objects in the arguments array match the first item in that array? ie: Does assertElementsMatch([&#8216;a&#8217;,&#8216;b&#8217;,&#8216;c&#8217;], &#8216;a&#8217;, &#8216;b&#8217;, &#8216;c&#8217; ) should be true?<br />
+<code>assertElementMatches: function(element, expression)</code>assertElementsMatch([element], expression)<br />
+<code>benchmark: function(operation: Function, iterations: Number = 1):Number</code>Calls operation iteration number of times and returns how long it took to call all of them.<br />
+<del>-</del>&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-<br />
+<em><strong><span class="caps">NOTE</span>:</strong> In all of the below functions, there is a third parameter <code>message:String</code>.  If this is used, then that message will be appended to the string sent into the fail function in case the assertion does not succeed.</em><br />
+<del>-</del>&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-<br />
+<code>assert: function(expression)</code>If expression evaluates to true, this will call pass(), otherwise it will call fail()<br />
+<code>assertInspect: function(expected:Object, actual:Object)</code>Does expected == actual.inspect()<br />
+<code>assertEnumEqual: function(expected:Object, actual:Object)</code>Goes through two dynamic objects and compares them point for point<br />
+<code>assertRespondsTo: function(method:String, obj:Object)</code> Does obj have a method by the name given?<br />
+<code>assertRaise: function(exceptionName:String, method:Function)</code>Does this method raise the error of the correct exceptionName?<br />
+<code>assertHidden: function(element)</code>Shortcut for assertEqual(&#8220;none&#8221;, element.style.display)<br />
+<code>assertMatch: function(expression:String (regular expression), actual:String)</code>Does the string match the regular expressions?<br /></p>
+<p>The next series of functions come in pairs, those which include the word &#8220;Not&#8221; means that the</p>
+<p><code>assertEqual: function(expected, actual)</code>Does expected == actual?<br />
+<code>assertNotEqual: function(expected, actual)</code><br />
+<code>assertIdentical: function(expected, actual)</code>Does expected = actual?<br />
+<code>assertNotIdentical: function(expected, actual)</code><br />
+<code>assertNull: function(obj)</code>Does obj = null<br />
+<code>assertNotNull: function(object)</code><br />
+<code>assertType: function(expected:Class, actual:Object)</code>Is the actual item a member of the expected Class (does not work on descendant classes)<br />
+<code>assertNotOfType: function(expected:Class, actual:Object)</code><br />
+<code>assertInstanceOf: function(expected:Class, actual:Object)</code>Is the actual item an instance of the expected Class or its descendants<br />
+<code>assertNotInstanceOf: function(expected, actual)</code><br />
+<code>assertReturnsTrue: function(method, obj)</code>Does the function return true?<br />
+<code>assertReturnsFalse: function(method, obj)</code><br />
+<code>assertVisible: function(element:Element)</code> <code>_isVisible</code> will return true for element<br />
+<code>assertNotVisible: function(element)</code><br />
+&lt;!&#8212; Private!<br />
+<code>_isVisible: function(element)</code> Returns whether an element is visible.  It calls itself recursively until it gets to the document root. <br />
+&#8212;&gt;<br />
+<h3>Properties</h3><br />
+<code>assertions: Number</code><br />
+<code>failures: Number</code><br />
+<code>errors: Number</code><br />
+<code>messages: Array( Strings )</code><br /></p>
+</div>

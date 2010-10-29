@@ -1,0 +1,43 @@
+---
+layout: default
+title: Effect.ScrollTo
+category: Combination Effects
+---
+
+<div class="wikistyle">
+<p><a name="article_top" id="article_top"></a></p>
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p class="upper-chiclet"><a href="http://madrobby.github.com/scriptaculous/combination-effects">Combination Effects</a> &gt; <strong>Effect.ScrollTo</strong></p>
+<p>Scrolls to a specific place in the page.</p>
+<h2>Examples</h2>
+<pre><code class="javascript">
+Effect.ScrollTo( 'li:eq(15)', 1000, {axis:'x'} ); // hmm, is this right?
+Effect.ScrollTo('element_id', { duration:'0.2', offset:-20 }); // works in v1.8.2
+</code></pre>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Option </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> duration </td>
+<td> float value, in seconds, defaults to <code>1.0</code> </td>
+</tr>
+<tr>
+<td> offset </td>
+<td> integer value, vertical offset of the target element, in pixels, defaults to <code>0</code></td>
+</tr>
+</table>
+<h2>Notes</h2>
+<p>The <em>offset</em> option must be a numeric value in your code, i.e. not in quotes.</p>
+<h2>Demo</h2>
+<p><a href="#" onclick="Effect.ScrollTo('article_top'); return false;">Click me to scroll to the top of the article</a></p>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;a href="#" onclick="Effect.ScrollTo('article_top'); return false;"&gt;Click me to scroll to the top of the article&lt;/a&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

@@ -1,0 +1,54 @@
+---
+layout: default
+title: Effect.Pulsate
+category: Combination Effects
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p class="upper-chiclet"><a href="http://madrobby.github.com/scriptaculous/combination-effects">Combination Effects</a> &gt; <strong>Effect.Pulsate</strong></p>
+<p>Pulsates the element, loops over five times over fading out and in.</p>
+<h2>Examples</h2>
+<pre><code class="javascript">
+Effect.Pulsate('id_of_element');
+Effect.Pulsate('id_of_element', { pulses: 5, duration: 1.5 });
+</code></pre>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Option </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> duration </td>
+<td> float value, in seconds, defaults to <code>2.0</code> </td>
+</tr>
+<tr>
+<td> from </td>
+<td> float value, defaults to <code>0.0</code>, the minimal <code>opacity</code> during the pulsate, in a value between <code>0.0</code> and <code>1.0</code>. For example, use <code>0.7</code> for a mild pulsate </td>
+</tr>
+<tr>
+<td> pulses </td>
+<td> integer value, defaults to <code>5</code>, the amount of pulses within the duration time </td>
+</tr>
+</table>
+<h2>Notes</h2>
+<p>Works safely with most <span class="caps">HTML</span> elements, except table rows, table bodies and table heads.</p>
+<p>Microsoft Internet Explorer can only set opacity on elements that have ‘layout’. To let an element have layout, you must set some <span class="caps">CSS</span> positional properties, like <code>width</code> or <code>height</code>. See <a href="http://madrobby.github.com/scriptaculous/giving-elements-layout">Giving Elements Layout</a>.</p>
+<p>In Firefox, at least, if the element that you Pulsate has a <code>:hover</code> <span class="caps">CSS</span> psuedo class and you mouse over it while it’s pulsating, the effect will stop.</p>
+<h2>Demo</h2>
+<div class="demo">
+<div id="pulsate_demo" style="width:150px; height:40px; background:#ccc; text-align:center;">
+<a href="#" onclick="Effect.Pulsate('pulsate_demo'); return false;" style="line-height:40px;">Click me to pulsate!</a>
+</div>
+</div>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;div id="pulsate_demo" style="width:150px; height:40px; background:#ccc; text-align:center;"&gt;
+  &lt;a href="#" onclick="Effect.Pulsate('pulsate_demo'); return false;" style="line-height:40px;"&gt;Click me to pulsate!&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

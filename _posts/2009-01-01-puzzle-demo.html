@@ -1,0 +1,60 @@
+---
+layout: default
+title: Puzzle Demo
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p class="upper-chiclet"><a href="http://madrobby.github.com/scriptaculous/demos">Demos</a> &gt; <strong>Puzzle Demo</strong></p>
+<p>This is an example showing how to implement a simple puzzle game with <a href="http://madrobby.github.com/scriptaculous/sortables">Sortables</a>.</p>
+<style>
+</style><p>/* I don`t know, but this rule hasn`t apliied  */<br />
+#puzzle { width:450px; }<br />
+.congrats { color: #fff; background: #080 }</p>
+
+<div id="puzzle" style="width: 450px">
+<img id="image_5" src="http://script.aculo.us/images/puzzle5.jpg" alt="" />
+<img id="image_1" src="http://script.aculo.us/images/puzzle1.jpg" alt="" />
+<img id="image_9" src="http://script.aculo.us/images/puzzle9.jpg" alt="" />
+<img id="image_7" src="http://script.aculo.us/images/puzzle7.jpg" alt="" />
+<img id="image_4" src="http://script.aculo.us/images/puzzle4.jpg" alt="" />
+<img id="image_8" src="http://script.aculo.us/images/puzzle8.jpg" alt="" />
+<img id="image_3" src="http://script.aculo.us/images/puzzle3.jpg" alt="" />
+<img id="image_6" src="http://script.aculo.us/images/puzzle6.jpg" alt="" />
+<img id="image_2" src="http://script.aculo.us/images/puzzle2.jpg" alt="" />
+</div>
+<p>
+<span id="puzzleinfo">(no move made yet)</span>
+</p>
+<script type="text/javascript">
+(function(){ 
+  var p = $('puzzle'), info = $('puzzleinfo'), moves = 0;
+  
+  Sortable.create('puzzle', {
+    tag:'img',overlap:'horizontal',constraint: false,
+    onUpdate:function(){
+      info.update('You\'ve made ' + (++moves) + ' move' + (moves>1 ? 's' : ''));
+      if(Sortable.sequence('puzzle').join('')=='123456789')
+         info.update('You\'ve solved the puzzle in ' + moves + ' moves!').morph('congrats');
+    }
+  });
+})();
+</script><h2>Source code</h2>
+<pre><code class="javascript">
+(function() { 
+  var p = $('puzzle'), info = $('puzzleinfo'), moves = 0;
+  
+  Sortable.create('puzzle', {
+    tag: 'img', overlap: 'horizontal', constraint: false,
+    onUpdate: function() {
+      info.update('You\'ve made ' + (++moves) + ' move' + (moves &gt; 1 ? 's' : ''));
+      if (Sortable.sequence('puzzle').join('') == '123456789')
+         info.update('You\'ve solved the puzzle in ' + moves + ' moves!').morph('congrats');
+    }
+  });
+})();
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

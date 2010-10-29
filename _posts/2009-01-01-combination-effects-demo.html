@@ -1,0 +1,138 @@
+---
+layout: default
+title: Combination Effects Demo
+category: Demos
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><style type="text/css" media="screen">
+</style><p>.c {<br />
+	width: 120px;<br />
+	height: 120px;<br />
+	float: left;<br />
+	border-bottom: 1px solid #bbb;<br />
+	padding: 4px 2px 2px 2px;<br />
+}<br />
+.example{<br />
+	background: #fef4d8;<br />
+	height: 120px;<br />
+}</p>
+
+<p>These are the combination effects which are included in script.aculo.us:</p>
+<ul>
+<li><a href="http://madrobby.github.com/scriptaculous/effect-appear">Effect.Appear</a>, <a href="http://madrobby.github.com/scriptaculous/effect-fade">Effect.Fade</a></li>
+<li><a href="http://madrobby.github.com/scriptaculous/effect-puff">Effect.Puff</a></li>
+<li><a href="http://madrobby.github.com/scriptaculous/effect-dropout">Effect.DropOut</a></li>
+<li><a href="http://madrobby.github.com/scriptaculous/effect-shake">Effect.Shake</a></li>
+<li><a href="http://madrobby.github.com/scriptaculous/effect-switchoff">Effect.SwitchOff</a></li>
+<li><a href="http://madrobby.github.com/scriptaculous/effect-blinddown">Effect.BlindDown</a>, <a href="http://madrobby.github.com/scriptaculous/effect-blindup">Effect.BlindUp</a></li>
+<li><a href="http://madrobby.github.com/scriptaculous/effect-slidedown">Effect.SlideDown</a>, <a href="http://madrobby.github.com/scriptaculous/effect-slideup">Effect.SlideUp</a></li>
+<li><a href="http://madrobby.github.com/scriptaculous/effect-pulsate">Effect.Pulsate</a></li>
+<li><a href="http://madrobby.github.com/scriptaculous/effect-squish">Effect.Squish</a></li>
+<li><a href="http://madrobby.github.com/scriptaculous/effect-fold">Effect.Fold</a></li>
+<li><a href="http://madrobby.github.com/scriptaculous/effect-grow">Effect.Grow</a></li>
+<li><a href="http://madrobby.github.com/scriptaculous/effect-shrink">Effect.Shrink</a></li>
+</ul>
+<p>Note: This page is basically a duplicate of <a href="http://madrobby.github.com/scriptaculous/combination-effects">Combination Effects</a> but was created to fix an invalid link on the script.aculo.us home page.</p>
+<h1>Demo</h1>
+<div class="demo">
+<div class="c">
+<div class="example" id="demo-effect-appear" onclick="Element.hide('demo-effect-appear'); new Effect.Appear('demo-effect-appear');">
+<img src="http://script.aculo.us/images/demo-logo.gif" alt="" />
+<span>Click for Effect.Appear demo</span>
+</div>
+</div>
+<div class="c">
+<div class="example" id="demo-effect-fade" onclick="new Effect.Fade(this); window.setTimeout('Effect.Appear(\'demo-effect-fade\', {duration:.3})',2500);">
+<img src="http://script.aculo.us/images/demo-logo.gif" alt="" />
+<span>Click for Effect.Fade demo</span>
+</div>
+</div>
+<div class="c">
+<div class="example" id="demo-effect-puff" onclick="new Effect.Puff(this); window.setTimeout('Effect.Appear(\'demo-effect-puff\', {duration:.3})',2500);">
+<img src="http://script.aculo.us/images/demo-logo.gif" alt="" />
+<span>Click for Effect.Puff demo</span>
+</div>
+</div>
+<div class="c">
+<div class="example" id="demo-effect-blinddown" onclick="new Effect.BlindDown(this)">
+<div style="height:120px;">
+<img src="http://script.aculo.us/images/demo-logo.gif" alt="" />
+<span>Click for Effect.BlindDown demo</span>
+</div>
+</div>
+</div>
+<div class="c">
+<div class="example" id="demo-effect-blindup" onclick="new Effect.BlindUp(this); window.setTimeout('Effect.Appear(\'demo-effect-blindup\', {duration:.3})',2500);">
+<img src="http://script.aculo.us/images/demo-logo.gif" alt="" />
+<span>Click for Effect.BlindUp demo</span>
+</div>
+</div>
+<div class="c">
+<div class="example" id="demo-effect-switchoff" onclick="new Effect.SwitchOff(this); window.setTimeout('Effect.Appear(\'demo-effect-switchoff\', {duration:.3})',2500);">
+<img src="http://script.aculo.us/images/demo-logo.gif" alt="" />
+<span>Click for Effect.SwitchOff demo</span>
+</div>
+</div>
+<div class="c">
+<div class="example" id="demo-effect-slidedown" onclick="new Effect.SlideDown(this)"><div style="height:120px;"><br />
+<img src="http://script.aculo.us/images/demo-logo.gif" alt="" /><br />
+<span>Click for Effect.SlideDown demo</span> </div></div>
+</div>
+<div class="c">
+<div class="example" id="demo-effect-slideup" onclick="new Effect.SlideUp(this); window.setTimeout('Effect.Appear(\'demo-effect-slideup\', {duration:.3})',2500);">
+<img src="http://script.aculo.us/images/demo-logo.gif" alt="" />
+<span>Click for Effect.SlideUp demo</span>
+</div>
+</div>
+<div class="c">
+<div class="example" id="demo-effect-dropout" onclick="new Effect.DropOut(this);window.setTimeout('Effect.Appear(\'demo-effect-dropout\', {duration:.3})',2500);">
+<img src="http://script.aculo.us/images/demo-logo.gif" alt="" />
+<span>Click for Effect.DropOut demo</span>
+</div>
+</div>
+<div class="c">
+<div class="example" id="demo-effect-shake" onclick="new Effect.Shake(this)">
+<img src="http://script.aculo.us/images/demo-logo.gif" alt="" />
+<span>Click for Effect.Shake demo</span>
+</div>
+</div>
+<div class="c">
+<div class="example" id="demo-effect-pulsate" onclick="new Effect.Pulsate(this)">
+<img src="http://script.aculo.us/images/demo-logo.gif" alt="" />
+<span>Click for Effect.Pulsate demo</span>
+</div>
+</div>
+<div class="c">
+<div class="example" id="demo-effect-squish" onclick="new Effect.Squish(this); window.setTimeout('Effect.Appear(\'demo-effect-squish\', {duration:.3})',2500);">
+<img src="http://script.aculo.us/images/demo-logo.gif" alt="" />
+<span>Click for Effect.Squish demo</span>
+</div>
+</div>
+<div class="c">
+<div class="example" id="demo-effect-fold" onclick="new Effect.Fold(this); window.setTimeout('Effect.Appear(\'demo-effect-fold\', {duration:.3})',2500);">
+<img src="http://script.aculo.us/images/demo-logo.gif" alt="" />
+<span>Click for Effect.Fold demo</span>
+</div>
+</div>
+<div class="c">
+<div class="example" id="demo-effect-grow" onclick="new Effect.Grow(this)">
+<img src="http://script.aculo.us/images/demo-logo.gif" alt="" />
+<span>Click for Effect.Grow demo</span>
+</div>
+</div>
+<div class="c">
+<div class="example" id="demo-effect-shrink" onclick="new Effect.Shrink(this); window.setTimeout('Effect.Appear(\'demo-effect-shrink\', {duration:.3})',2500);">
+<img src="http://script.aculo.us/images/demo-logo.gif" alt="" />
+<span>Click for Effect.Shrink demo</span>
+</div>
+</div>
+<div class="c">
+<div class="example" id="demo-effect-highlight" onclick="new Effect.Highlight(this)">
+<img src="http://script.aculo.us/images/demo-logo.gif" alt="" />
+<span>Click for Effect.Highlight demo</span>
+</div>
+</div>
+</div>
+</div>

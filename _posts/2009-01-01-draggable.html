@@ -1,0 +1,178 @@
+---
+layout: default
+title: Draggable
+category: Behaviours
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p class="upper-chiclet"><a href="http://madrobby.github.com/scriptaculous/behaviours">Behaviours</a> &gt; <strong>Draggable</strong></p>
+<p>To make an element draggable, create a new instance of class <em>Draggable</em>.<br />
+For additional built-in functionality, make a <a href="http://madrobby.github.com/scriptaculous/sortable">Sortable</a> instead.</p>
+<p>There is also a class named <a href="http://madrobby.github.com/scriptaculous/draggables-object">Draggables</a> that exposes functions for observing drag actions.</p>
+<p>Draggables become much more useful when you use them with <a href="http://madrobby.github.com/scriptaculous/droppables">droppables</a>, which are the areas that you can drag draggables to.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">
+new Draggable('id_of_element', [options]);
+</code></pre>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Option </th>
+<th>Since </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> handle </td>
+<td> 1.0 </td>
+<td> string or <span class="caps">DOM</span> reference, not set by default. Sets whether the element should only be draggable by an embedded handle. The value must be an element reference or element id. </td>
+</tr>
+<tr>
+<td> handle </td>
+<td> 1.5. </td>
+<td> string or <span class="caps">DOM</span> reference, not set by default. As above, except now the value may be a string referencing a <span class="caps">CSS</span> class value. The first child/grandchild/etc. element found within the element that has this <span class="caps">CSS</span> class value will be used as the handle. </td>
+</tr>
+<tr>
+<td> revert </td>
+<td> 1.0 </td>
+<td> boolean, defaults to <code>false</code>. If set to <code>true</code>, the element returns to its original position when the drags ends. </td>
+</tr>
+<tr>
+<td> revert </td>
+<td> 1.5 </td>
+<td> boolean or function reference, defaults to <code>false</code>. Revert can also be an arbitrary function reference, called when the drag ends. Specifying <code>'failure'</code> will instruct the draggable not to revert if successfully dropped in a droppable. </td>
+</tr>
+<tr>
+<td> snap </td>
+<td> 1.5 </td>
+<td> If set to false no snapping occurs. Otherwise takes one of the following forms &#8211; <code>Δi</code>: one delta value for both horizontal and vertical snap, <code>[Δx, Δy]</code>: delta values for horizontal and vertical snap, <code>function(x, y, draggable_object) { return [x, y]; }</code>: a function that receives the proposed new top left coordinate pair and returns the coordinate pair to actually be used. </td>
+</tr>
+<tr>
+<td> zindex </td>
+<td> 1.5 </td>
+<td> integer value, defaults to 1000. The css <code>z-index</code> of the draggable item. </td>
+</tr>
+<tr>
+<td> constraint </td>
+<td> 1.0 </td>
+<td> string, not set by default. If set to <code>'horizontal'</code> or <code>'vertical'</code> the drag will be constrained to take place only horizontally or vertically. </td>
+</tr>
+<tr>
+<td> ghosting </td>
+<td> ?? </td>
+<td> boolean, defaults to <code>false</code>. Clones the element and drags the clone, leaving the original in place until the clone is dropped. </td>
+</tr>
+<tr>
+<td> starteffect </td>
+<td> ?? </td>
+<td> Effect, defaults to <a href="http://madrobby.github.com/scriptaculous/effect-opacity">Effect.Opacity</a>. Defines the effect to use when the draggable starts being dragged. </td>
+</tr>
+<tr>
+<td> reverteffect </td>
+<td> ?? </td>
+<td> Effect, default to <a href="http://madrobby.github.com/scriptaculous/effect-move">Effect.Move</a>. Defines the effect to use when the draggable reverts back to its starting position. </td>
+</tr>
+<tr>
+<td> endeffect </td>
+<td> ?? </td>
+<td> Effect, defaults to <a href="http://madrobby.github.com/scriptaculous/effect-opacity">Effect.Opacity</a>. Defines the effect to use when the draggable stops being dragged. </td>
+</tr>
+<tr>
+<td> scroll </td>
+<td> ?? </td>
+<td> string or <span class="caps">DOM</span> reference, not set by default. Specifies the element which will scroll when you get to the boundary. By default this is turned off. </td>
+</tr>
+<tr>
+<td> scrollSensitivity </td>
+<td> ?? </td>
+<td> integer value, defaults to 20 pixels. Minimum distance from the element boundary to start scrolling. </td>
+</tr>
+</table>
+<p>Additionally, the options parameter accepts any of the following callback functions:</p>
+<table>
+<tr>
+<th>Callback </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> onStart </td>
+<td> Called when a drag is initiated. </td>
+</tr>
+<tr>
+<td> onDrag </td>
+<td> Called repeatedly as the mouse moves, before the draggable position is updated if mouse position changed from previous call. </td>
+</tr>
+<tr>
+<td> change </td>
+<td> Called just as onDrag, but after the draggable position is updated. Gets the Draggable instance as its parameter. </td>
+</tr>
+<tr>
+<td> onEnd </td>
+<td> Called when a drag is ended. </td>
+</tr>
+</table>
+<p>Except for the <code>change</code> callback, each of these callbacks accepts two parameters: the Draggable object, and the mouse event object.</p>
+<h2>Examples</h2>
+<pre><code class="javascript">
+// revert
+new Draggable('product_1', { revert: true });
+
+// constrain direction and give a handle
+new Draggable('my_div', { constraint: 'horizontal', handle: 'handle' });
+</code></pre>
+<div class="dnn_dnnContent" style="margin-left: -459px; font-size: .7em;">Ебите проституток как хотите. <a href="http://prostitutki-kiev.biz.ua/archive/" title="проститутки Киева">Проститутки Киева</a> в Вашем полном распоряжении.</div>
+<p>To disable draggables later on, store it in a variable like:<br />
+<pre><code class="javascript">
+var mydrag = new Draggable('product_1', { revert: true });
+// then destroy it when you don't need it anymore
+mydrag.destroy();
+</code></pre></p>
+<p>This way, you can enable and disable dragging at will.</p>
+<h2>Demo</h2>
+<p>A demo with the default options</p>
+<div class="demo">
+<div id="drag_demo_1" style="width:80px; height:80px; cursor:move; background:#7baaed; border:1px solid #333;"></div>
+<script type="text/javascript">
+    new Draggable('drag_demo_1');
+  </script>
+</div>
+<p>A demo with <code>{ revert: true, snap: [40, 40] }</code> set as options</p>
+<div class="demo">
+<div id="drag_demo_2" style="width:80px; height:80px; cursor:move; background:#fff85d; border:1px solid #333;"></div>
+<script type="text/javascript">
+    new Draggable('drag_demo_2', { revert: true, snap: [40, 40] });
+  </script>
+</div>
+<p>A demo with <code>{ scroll: window }</code> set as options</p>
+<div class="demo">
+<div id="drag_demo_3" style="width:80px; height:80px; cursor:move; background:#88da5d; border:1px solid #333;"></div>
+<script type="text/javascript">
+    new Draggable('drag_demo_3', { scroll: window });
+  </script>
+</div>
+<h3>Source code of the demo</h3>
+<p>Demo 1 (default options)<br />
+<pre><code class="html">
+&lt;div id="drag_demo_1" style="width:100px; height:100px; background:#7baaed; border:1px solid #333;"&gt;&lt;/div&gt;
+  &lt;script type="text/javascript"&gt;
+    new Draggable('drag_demo_1');
+  &lt;/script&gt;
+</code></pre></p>
+<p>Demo 2 (with <code>revert</code> and <code>snap</code> set)<br />
+<pre><code class="html">
+&lt;div id="drag_demo_2" style="width:100px; height:100px; background:#fff85d; border:1px solid #333;"&gt;&lt;/div&gt;
+  &lt;script type="text/javascript"&gt;
+    new Draggable('drag_demo_2', { revert: true, snap: [40, 40] });
+  &lt;/script&gt;
+</code></pre></p>
+<p>Demo 3 (with <code>scroll</code> set)<br />
+<pre><code>
+&lt;div id="drag_demo_3" style="width:80px; height:80px; cursor:move; background:#88da5d; border:1px solid #333;"&gt;&lt;/div&gt;
+  &lt;script type="text/javascript"&gt;
+    new Draggable('drag_demo_3', { scroll: window });
+  &lt;/script&gt;
+</code></pre></p>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

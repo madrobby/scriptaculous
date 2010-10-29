@@ -1,0 +1,71 @@
+---
+layout: default
+title: Effect.toggle
+category: Effect Helpers
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p>Effect.toggle allows for easily toggling elements with an animation.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">
+Effect.toggle(element, ['appear' | 'slide' | 'blind'], [options] );
+</code></pre>
+<p><code>element</code> can be either a string containing the <code>id</code> of the element, or a JavaScript <span class="caps">DOM</span> element object.</p>
+<p>The <code>options</code> parameter is used to give any additional customization parameters to the effect. There are general and effect-specific options. See the individual effects for more information.</p>
+<h2>Examples</h2>
+<pre><code class="javascript">
+Effect.toggle('id_of_element', 'appear');
+Effect.toggle('id_of_element', 'slide', { delay: 0.5 });
+Effect.toggle('id_of_element', 'blind', { duration: 2.0 });
+</code></pre>
+<h2>Notes</h2>
+<p>Keep in mind, like individual Effects, you must include a second <span class="caps">DIV</span> element, wrapping the contents of the outer <span class="caps">DIV</span>. So, if you call new <code>Effect.Slide Down(‘x’)</code>, your element must look like this:</p>
+<pre><code class="html">
+&lt;div id="x"&gt;
+  &lt;div&gt;
+    contents
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<h2>Demo</h2>
+<h3>Toggle via <code>'blind'</code></h3>
+<div class="demo">
+<a href="#" onclick="Effect.toggle('toggle_blind', 'blind'); return false;">Toggle the following paragraph with a &#8216;blind&#8217;-effect</a>
+<div id="toggle_blind" style="background:#ccc;">
+<div>
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</div>
+</div>
+</div>
+<h3>Toggle via <code>'slide'</code></h3>
+<div class="demo">
+<a href="#" onclick="Effect.toggle('toggle_slide', 'slide'); return false;">Toggle the following paragraph with a &#8216;slide&#8217;-effect</a>
+<div id="toggle_slide" style="background:#ccc;">
+<div>
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</div>
+</div>
+</div>
+<h3>Toggle via <code>'appear'</code></h3>
+<div class="demo">
+<a href="#" onclick="Effect.toggle('toggle_appear', 'appear'); return false;">Toggle the following paragraph with an &#8216;appear&#8217;-effect</a>
+<div id="toggle_appear" style="background:#ccc;">
+<div>
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</div>
+</div>
+</div>
+<h3>Source code of the demo</h3>
+<pre><code class="html">
+&lt;a href="#" onclick="Effect.toggle('toggle_appear', 'appear'); return false;"&gt;Toggle the following paragraph with an 'appear'-effect&lt;/a&gt;
+&lt;div id="toggle_appear" style="background:#ccc;"&gt;
+  &lt;div&gt;
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

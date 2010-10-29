@@ -1,0 +1,102 @@
+---
+layout: default
+title: Sortable
+category: Behaviours
+---
+
+<div class="wikistyle">
+<p class="upper-chiclet"><a href="http://madrobby.github.com/scriptaculous/behaviours">Behaviours</a> &gt; <strong>Sortable</strong></p>
+<p>A Sortable is a quick way to initialize many <a href="http://madrobby.github.com/scriptaculous/draggable">Draggable</a> elements in a container element. When you create a new Sortable, it takes care of the creation of the corresponding <a href="http://madrobby.github.com/scriptaculous/draggable">draggable</a> <a href="http://madrobby.github.com/scriptaculous/droppables">Droppables</a>.</p>
+<h2>Syntax</h2>
+<p>Use <code>Sortable.create('id_of_container',[options]);</code> to create new Sortables. See <a href="http://madrobby.github.com/scriptaculous/sortable-create">Sortable.create</a>. Furthermore, there are special requirements to get sortables to work in FF3 which are also covered in <a href="http://madrobby.github.com/scriptaculous/sortable-create">Sortable.create</a>.</p>
+<h2>Object</h2>
+<table>
+<tr>
+<th>Property/Method </th>
+<th>Description </th>
+</tr>
+<tr>
+<td>SERIALIZE_RULE</td>
+<td><pre><code class="javascript">(RegExp) /^[^_\-](?:[A-Za-z0-9\-\_]*)[_](.*)$/</code></pre></td>
+</tr>
+<tr>
+<td>sortables</td>
+<td>(Object) { }</td>
+</tr>
+<tr>
+<td>options (element)</td>
+<td>Internal function</td>
+</tr>
+<tr>
+<td>destroy (element)</td>
+<td>Destroys sortable</td>
+</tr>
+<tr>
+<td>create (element, options)</td>
+<td>Creates sortable</td>
+</tr>
+<tr>
+<td>findElements (element, options)</td>
+<td>Internal function</td>
+</tr>
+<tr>
+<td>onHover (element, dropon, overlap)</td>
+<td>Internal function, which may be overridden through the options parameter on creation</td>
+</tr>
+<tr>
+<td>onEmptyHover (element, dropon, overlap)</td>
+<td> Internal function</td>
+</tr>
+<tr>
+<td>unmark()</td>
+<td>Internal function</td>
+</tr>
+<tr>
+<td>mark()</td>
+<td>Internal function</td>
+</tr>
+<tr>
+<td>tree (element)</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://madrobby.github.com/scriptaculous/sortable-sequence">sequence</a> (element)</td>
+<td></td>
+</tr>
+<tr>
+<td>setSequence (element, new_sequence)</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://madrobby.github.com/scriptaculous/sortable-serialize">serialize</a> (element)</td>
+<td></td>
+</tr>
+</table>
+<h2>Demos</h2>
+<p>See <a href="http://madrobby.github.com/scriptaculous/sortable-lists-demo">Sortable Lists Demo</a>.</p>
+<h2>Creating sortables</h2>
+<p>See <a href="http://madrobby.github.com/scriptaculous/sortable-create">Sortable.create</a>.</p>
+<h2>Disabling sortables</h2>
+<pre><code class="javascript">
+  Sortable.destroy( element );
+</code></pre>
+<p>A call to <code>Sortable.create</code> implicitly calls <code>Sortable.destroy</code> if the referenced element was already a Sortable.</p>
+<h2>Functions</h2>
+<table>
+<tr>
+<td>Function</td>
+<td>Description</td>
+</tr>
+<tr>
+<td><a href="http://madrobby.github.com/scriptaculous/sortable-serialize">Sortable.serialize</a></td>
+<td>The Sortable object also provides a function to serialize the Sortable in a format suitable for <span class="caps"><span class="caps">HTTP</span> <span class="caps">GET</span></span> or <span class="caps"><span class="caps">POST</span></span> requests. This can be used to submit the order of the Sortable via an Ajax call. See <a href="http://madrobby.github.com/scriptaculous/sortable-serialize">Sortable.serialize</a></td>
+</tr>
+<tr>
+<td><a href="http://madrobby.github.com/scriptaculous/sortable-sequence">Sortable.sequence</a></td>
+<td>The Sortable object also provides a function to get the values in an sequence array object. See <a href="http://madrobby.github.com/scriptaculous/sortable-sequence">Sortable.sequence</a></td>
+</tr>
+</table>
+<h2>Tutorials</h2>
+<p><a href="http://zenofshen.com/posts/ajax-sortable-lists-tutorial">Use <span class="caps">PHP</span> and Ajax call to interact with Sortable</a></p>
+<p>A <a href="http://www.jhl.it/Courses/LUGPC4.html">short tutorial</a> on using Sortables prepared for the Linux Users Group, Villafranca, Italy.</p>
+</div>

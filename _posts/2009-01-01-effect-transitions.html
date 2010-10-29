@@ -1,0 +1,94 @@
+---
+layout: default
+title: Effect.Transitions
+category: Core Effects
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p>Put simply, a transition in script.aculo.us is a function which transforms an input value to another value and returns it.<br />
+<code>Effect.Transitions</code> is a collection of 8 of those functions which can be used to achieve interesting variations on any effect.</p>
+<h2>Example</h2>
+<p>A transition can be specified by using an effects <code>transition</code> option.</p>
+<pre><code class="javascript">
+new Effect.Move('id_of_element', {
+  x: 200, y: 0, mode: 'relative',
+  transition: Effect.Transitions.spring
+});
+</code></pre>
+<h2>Demo</h2>
+<p>To get a better understanding of how each of script.aculo.us&#8217; included transitions work, play around with the following demo.</p>
+<style type="text/css">
+  div#transition_options { border:1px solid #ccc; padding:10px; margin-bottom:10px; }
+  div#chart { position:relative; border:1px solid #ccc; width:100px; }
+  div#chart div.bar { position:absolute; width:1px; background:#ccc; top:0; }
+  div#morph_demo { position:relative; height:101px; width:101px; background:#4183ca; top:-101px; left:120px; }
+</style>
+<div id="transitions_demo">
+<div id="transition_options">
+    Choose a transition: 
+    <select id="select_transition">
+<option value="linear">linear</option>
+<option value="sinoidal">sinoidal</option>
+<option value="reverse">reverse</option>
+<option value="flicker">flicker</option>
+<option value="wobble">wobble</option>
+<option value="pulse">pulse</option>
+<option value="spring">spring</option>
+<option value="full">full</option>
+</select>
+    and <button id="animate_demo" style="padding:0 5px;">animate</button> the demo!
+  </div>
+<div id="chart"></div>
+<div id="morph_demo" style="width:100px; height:100px; background: #cdf"><br /></div>
+</div>
+<script type="text/javascript">
+
+(function() {
+  function mapTransition(transition) {
+    var results = [], max = 0, chart = $('chart').update('');
+
+    $R(0, 100).each(function(i) {
+      var position = i / 100;
+      results[i] = Effect.Transitions[transition](position);
+      max = Math.max(max, results[i]);    
+    });
+
+    chart.setStyle({ height: (max * 100).round() + 'px' });
+
+    $R(0, 100).each(function(i) {
+      var height = (max * 100).round() - (results[i] * 100).round(),
+          bar = new Element('div', { className: 'bar' }).setStyle({ height: height + 'px', left: i + 'px' });
+      chart.insert(bar);
+    });
+  }
+
+  function selectTransition(event) {
+    var transition = event ? event.element().value : 'linear';
+    Effect.DefaultOptions.transition = Effect.Transitions[transition];
+    mapTransition(transition);
+  }
+  
+  function morphDemo() {
+    $('morph_demo').morph('left:300px;', {
+      duration: 0.8,
+      afterFinish: function(effect) {
+        effect.element.setStyle({ top: '-101px', left: '120px' });
+      }
+    });
+  }
+
+  $('animate_demo').observe('click', morphDemo);
+  
+  var select = $('select_transition');
+  
+  select.observe('change', selectTransition);
+  select.options[0].selected = true;
+  selectTransition();
+})();
+
+</script>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

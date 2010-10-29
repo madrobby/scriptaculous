@@ -1,0 +1,95 @@
+---
+layout: default
+title: Effect.Appear
+category: Combination Effects
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p class="upper-chiclet"><a href="http://madrobby.github.com/scriptaculous/combination-effects">Combination Effects</a> &gt; <strong>Effect.Appear</strong></p>
+<p>Make an element appear. If the element was previously set to <code>display:none</code> inside the style attribute of the element, the effect will automatically show the element. This means that <code>display</code> must be set <em>within the style attribute of an object</em>, and <em>not in the <span class="caps">CSS</span></em> in the head of the document or a linked file. In other words, this Effect will not work if <code>display:none</code> is set within style tag or linked <span class="caps">CSS</span> file. Alternatively, <code>display:none</code> can be set using a <code>document.getElementById</code> script even if no style is set in the style attribute.</p>
+<h2>Examples</h2>
+<pre><code class="javascript">
+Effect.Appear('id_of_element');
+Effect.Appear('id_of_element', { duration: 3.0 });
+</code></pre>
+<p>There&#8217;s also a shortcut method offered which you can call on the element itself. Note, that this will only work on Prototype-extended elements (elements you extended at least once via calling <code>$(element)</code>).</p>
+<pre><code class="javascript">
+$('id_of_element').appear();
+$('id_of_element').appear({ duration: 3.0 });
+</code></pre>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Options </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> duration </td>
+<td> float value, in seconds, defaults to <code>1.0</code> </td>
+</tr>
+<tr>
+<td> from </td>
+<td> float value, defaults to <code>0.0</code>, percent of opacity to start </td>
+</tr>
+<tr>
+<td> to </td>
+<td> float value, defaults to <code>1.0</code>, percent of opacity to end </td>
+</tr>
+</table>
+<h2>Notes</h2>
+<p>Can take an options parameter, to control the underlying <a href="http://madrobby.github.com/scriptaculous/effect-opacity">Effect.Opacity</a> effect.<br />
+Works safely with most <span class="caps">HTML</span> elements, except table rows, table bodies and table heads.</p>
+<p>On Microsoft Internet Explorer, this effect may display a bold/ghosting artifact on elements that don’t have a defined background. It’s unclear if this is a feature or a bug.</p>
+<p>Microsoft Internet Explorer can only set opacity on elements that have a ‘layout’. To let an element have a layout, you must set some <span class="caps">CSS</span> positional properties, like <code>width</code> or <code>height</code>. See <a href="http://madrobby.github.com/scriptaculous/giving-elements-layout">Giving Elements Layout</a>. (Note: This is fixed in V1.5_rc1.)</p>
+<p>The opposite of Effect.Appear is <a href="http://madrobby.github.com/scriptaculous/effect-fade">Effect.Fade</a>.</p>
+<h2>Demo</h2>
+<div class="demo">
+<div id="appear_demo" style="display:none; width:80px; height:80px; background:#c2defb; border:1px solid #333;"></div>
+<ul>
+<li><a href="#" onclick="$('appear_demo').appear(); return false;">Click here for a demo!</a></li>
+<li><a href="#" onclick="$('appear_demo').hide(); return false;">Reset</a></li>
+</ul>
+</div>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;div id="appear_demo" style="display:none; width:80px; height:80px; background:#c2defb; border:1px solid #333;"&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="#" onclick="$('appear_demo').appear(); return false;"&gt;Click here for a demo!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" onclick="$('appear_demo').hide(); return false;"&gt;Reset&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script><h2>Applying Appear to invisible elements</h2>
+<p>Recall that display:none and visibility:hidden both make an element invisible, but elements with visibility:hidden are not collapsed. You cannot apply Effect.Appear to elements with style=&#8220;visibility: hidden&#8221; because this function only alters &#8220;display&#8221;.  Below is a workaround.  I don&#8217;t know what&#8217;s going on with the demo, but it looks flawlessly when I use it on my website&#8230;</p>
+<pre><code class="javascript">
+$('myBox').setOpacity(0);
+$('myBox').setStyle({visibility: 'visible'});
+new Effect.Opacity(
+   'myBox', { 
+      from: 0.0, 
+      to: 1.0,
+      duration: 1.0
+   }
+);</code></pre>
+<script type="text/javascript">
+function appearFromInvisible() {
+$('myBox').setOpacity(0);
+$('myBox').setStyle({visibility: 'visible'});
+new Effect.Opacity(
+   'myBox', { 
+      from: 0.0, 
+      to: 1.0,
+      duration: 1.0
+   }
+);
+}
+</script><div class="demo">
+<div id="myBox" style="visibility: hidden; width:80px; height:80px; background:#c2defb; border:1px solid #333;"></div>
+<ul>
+<li><a href="javascript:void(0)" onclick="appearFromInvisible(); return false;">Click here for a demo!</a></li>
+<li><a href="javascript:void(0)" onclick="$('myBox').setStyle({visibility: 'hidden'}); return false;">Reset</a></li>
+</ul>
+</div>
+</div>

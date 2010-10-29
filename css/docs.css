@@ -1,0 +1,358 @@
+/*
+  Scriptaculous Wiki->GitHub Pages CSS
+  Not much here for now.
+*/
+
+/*
+  template.css
+  Wiki content formatting
+  Keeping this file separate so it can be easily swapped out if you 
+  want to format your wiki content differently from the default.
+*/
+
+/* @section core */
+body, html {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10px; /* -> 1em */
+  margin: 0;
+  padding: 0;
+}
+
+#content {
+  margin: 0 auto;
+  overflow: visible;
+  width: 80%;
+}
+
+a:link {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+a:hover, a:visited {
+  color: #4183c4;
+  text-decoration: underline;
+}
+
+
+/* @section head */
+#header {
+  background: #9dc569;
+  border-bottom: 1px solid #799851;
+  margin: 0 0 3.0em 0;
+  overflow: hidden;
+  padding: 0.8em 1em;
+  
+  filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#aacd7e', endColorstr='#9dc569');
+  background: -webkit-gradient(linear, left top, left bottom, from(#aacd7e), to(#9dc569));
+  background: -moz-linear-gradient(top, #aacd7e, #9dc569);
+}
+
+  #header #internal {
+    margin: 0 auto;
+    overflow: visible;
+    width: 80%;
+    height: 1%;
+  }
+
+  h2#logo {
+    background: transparent url(/scriptaculous/images/logo.png) top left no-repeat;
+    display: block;
+    float: left;
+    height: 45px;
+    margin: 0 0 0 -0.5em;
+    overflow: hidden;
+    padding: 0;
+    text-indent: -5000px;
+    width: 238px;
+  }
+  
+  #header #navbar {
+    float: right;
+    list-style-type: none;
+    margin: 0;
+    overflow: hidden;
+    padding: 1.3em 0 0;
+  }
+  
+    #header #navbar li {
+      float: left;
+      font-size: 1.2em;
+      line-height: 1.6em;
+      list-style-position: inside;
+      margin-left: 1.0em;
+    }
+    
+    #header #navbar li a:link, 
+    #header #navbar li a:hover,
+    #header #navbar li a:visited {
+      color: #fff;
+      text-shadow: 0 1px 0 #627b41;
+    }
+
+
+
+h1#page-title {
+  border-bottom: 1px solid #ddd;
+  font-size: 3.3em;
+  line-height: normal;
+  margin: 0 0 0.2em 0;
+  padding: 0 0 0.2em 0;
+}
+  
+  
+/* @section content */
+#content {
+  height: 1%;
+  overflow: visible;
+}
+
+  /* @section body */
+  #wiki {
+    float: left;
+    margin-right: 3%;
+    width: 70%;
+  }
+  
+  /* @section rightbar */
+  #sidebar {
+    float: right;
+    overflow: hidden;
+    width: 23%;
+    margin-bottom: 4em;
+  }
+  
+  #sidebar {
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    margin-top: 1.5em;
+    padding: 1em;
+    
+    border-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
+  }
+  
+    #sidebar {
+      font-size: 1.2em;
+      line-height: 1.5em;
+    }
+    
+    #sidebar h3 {
+      font-size: 1.2em;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      text-shadow: 0 1px 0 #fff;
+    }
+    
+    #sidebar ul {
+      margin: 0.5em 0 1em;
+      overflow: hidden;
+      padding: 0;
+    }
+    
+    #sidebar ul li {
+      color: #bbb;
+      list-style-position: outside;
+      list-style-type: none;
+      margin: 0 0 0 1em;
+      padding: 0;
+      line-height: 1.75em;
+    }
+    
+    #sidebar ul li:hover {
+      list-style-type: square;
+    }
+    
+    #sidebar ul li a {
+      font-weight: bold;
+      text-shadow: 0 1px 0 #fff;
+    }
+  
+  /* @section footer */
+  #footer {
+    clear: both;
+    border-top: 1px solid #ccc;
+    margin: 2em 0 7em;
+  }
+  
+  #footer p {
+    font-size: 1.2em;
+    line-height: 1.6em;
+    color: #999;
+    margin: 0.9em 0;
+  }
+
+
+/* @section nav-chiclet */
+#wiki p.upper-chiclet {
+  border: 1px solid #ddd;
+  background-color: #f7f7f7;
+  color: #333;
+  font-weight: bold;
+  margin: 1.3em 0 1em;
+  padding: 0.5em 1em;
+  text-shadow: 0 1px 0 #fff;
+  
+  border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+}
+
+
+/* @section wiki */
+#wiki {
+  padding-bottom: 3em;
+}
+
+#wiki p {
+  font-size: 1.4em;
+  line-height: 1.6em;
+  margin: 0 0 1.0em;
+}
+
+#wiki a:link {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+#wiki a:hover, #wiki a:visited {
+  text-decoration: underline;
+}
+  
+#wiki ul, #wiki ol {
+  margin: 1em 0 1em 2.0em;
+  list-style-position: outside;
+  padding: 0;
+  
+}
+
+#wiki p + ul, #wiki p + ol,
+#wiki ul li > ul, #wiki ol li > ol {
+  margin-top: 0;
+}
+
+#wiki ul li > ul, #wiki ol li > ol {
+  margin-left: 0;
+}
+
+  #wiki ul {
+    list-style-type: square;
+  }
+  
+  #wiki ol li > ol li {
+    font-size: 1.0em !important;
+    list-style-type: lower-roman;
+    list-style-position: inside;
+  }
+  
+  #wiki ol li > ol li > ol li {
+    list-style-type: lower-alpha;
+  }
+  
+  #wiki ol li > ol li > ol li > ol li {
+    list-style-type: lower-greek;
+  }
+
+#wiki ul li, #wiki ol li {
+  font-size: 1.4em;
+  line-height: 1.6em;
+  padding-top: 0.1em; /* Line up ordinals */
+}
+
+#wiki blockquote {
+  margin: 0 4.0em 0 2.0em;
+  padding: 0;
+}
+
+  #wiki blockquote p {
+    color: #888;
+    font-style: italic;
+  }
+
+
+/* Headings */
+#wiki h1, #wiki h2, #wiki h3,
+#wiki h4, #wiki h5, #wiki h6 {
+  margin: 0;
+  padding: 0.5em 0 0.2em;
+}
+
+#wiki h1 {
+  font-size: 2.6em;
+  font-weight: bold;
+}
+
+#wiki h2 {
+  font-size: 2.2em;
+  font-weight: bold;
+}
+
+#wiki h3 {
+  font-size: 2.0em;
+  font-weight: bold;
+}
+
+#wiki h4 {
+  font-size: 1.8em;
+  font-weight: bold;
+}
+
+#wiki h5 {
+  font-size: 1.6em;
+  font-weight: bold;
+
+}
+
+#wiki h6 {
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  text-transform: uppercase; /* all caps */
+}
+
+/* Code-related */
+#wiki p code {
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  color: #222; /* This is a little heavy when #000 */
+  font-size: 0.9em;
+  font-family: Consolas, Monaco, "Courier New", monospace;
+  padding: 0.15em 0.3em;
+}
+
+#wiki table, #wiki table tbody {
+  border-collapse: collapse;
+  margin: 1em 0;
+  width: 100%;
+}
+
+#wiki table tbody tr th {
+  color: #666;
+  font-size: 1.2em;
+  font-weight: bold;
+  line-height: 1.6em;
+  padding: 0.3em 0.5em;
+  text-align: left;
+}
+
+#wiki table tbody tr td {
+  border: 1px solid #ddd;
+  padding: 0.3em 0.5em;
+  font-size: 1.2em;
+  line-height: 1.6em;
+}
+
+#wiki table tbody tr:nth-child(2n) {
+  background-color: #f7f7f7;
+}
+
+#wiki pre {
+  padding: 1.2em;
+}
+
+#wiki pre code {
+  font-size: 1.2em;
+  line-height: 1.6em;
+}

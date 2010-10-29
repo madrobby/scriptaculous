@@ -1,0 +1,36 @@
+---
+layout: default
+title: Effect.Fold
+category: Combination Effects
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p class="upper-chiclet"><a href="http://madrobby.github.com/scriptaculous/combination-effects">Combination Effects</a> &gt; <strong>Effect.Fold</strong></p>
+<p>Reduce the element to its top then to left to make it disappear.</p>
+<h2>Examples</h2>
+<pre><code class="javascript">
+Effect.Fold('id_of_element');
+</code></pre>
+<h2>Notes</h2>
+<p>Works safely with most Block Elements, except tables.</p>
+<h2>Demo</h2>
+<div class="demo">
+<div id="fold_demo" style="width:80px; height:80px; background:#ccc;"></div>
+<ul>
+<li><a href="#" onclick="Effect.Fold('fold_demo'); return false;">Click me for a demo!</a></li>
+<li><a href="#" onclick="$('fold_demo').show(); return false;">Reset</a></li>
+</ul>
+</div>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;div id="fold_demo" style="width:80px; height:80px; background:#ccc;"&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="#" onclick="Effect.Fold('fold_demo'); return false;"&gt;Click me for a demo!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" onclick="$('fold_demo').show(); return false;"&gt;Reset&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

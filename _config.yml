@@ -1,0 +1,3 @@
+permalink: /:title
+auto: true
+server: true

@@ -1,0 +1,52 @@
+---
+layout: default
+title: Effect.Shrink
+category: Combination Effects
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p class="upper-chiclet"><a href="http://madrobby.github.com/scriptaculous/combination-effects">Combination Effects</a> &gt; <strong>Effect.Shrink</strong></p>
+<p>&#8220;Shrinks&#8221; an element into a specific direction (see demo for better understanding), hides it when the effect is complete.</p>
+<h2>Examples</h2>
+<pre><code class="javascript">
+Effect.Shrink('id_of_element');
+</code></pre>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Option </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> direction </td>
+<td> string, defaults to <code>'center'</code>, can also be: <code>'top-left'</code>, <code>'top-right'</code>, <code>'bottom-left'</code>, <code>'bottom-right'</code>, the direction to &#8220;shrink&#8221; the element to </td>
+</tr>
+<tr>
+<td> duration </td>
+<td> float value, in seconds, defaults to <code>1.0</code> </td>
+</tr>
+</table>
+<h2>Notes</h2>
+<p>Works safely with most Block Elements, except tables.<br />
+You can define different durations for several div elements, and place them in a row in order to make them disappear one after another.</p>
+<h2>Demo</h2>
+<div class="demo">
+<div id="shrink_demo" style="width:80px; height:80px; background:#ccc;"></div>
+<ul>
+<li><a href="#" onclick="Effect.Shrink('shrink_demo'); return false;">Click me for a demo!</a></li>
+<li><a href="#" onclick="$('shrink_demo').show(); return false;">Reset</a></li>
+</ul>
+</div>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;div id="shrink_demo" style="width:80px; height:80px; background:#ccc;"&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="#" onclick="Effect.Shrink('shrink_demo'); return false;"&gt;Click me for a demo!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" onclick="$('shrink_demo').show(); return false;"&gt;Reset&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

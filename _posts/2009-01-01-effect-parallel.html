@@ -1,0 +1,106 @@
+---
+layout: default
+title: Effect.Parallel
+category: Core Effects
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p class="upper-chiclet"><a href="http://madrobby.github.com/scriptaculous/core-effects">Core Effects</a> &gt; <strong>Effect.Parallel</strong></p>
+<p>This is a special effect which allows to combine more than one core effect into a parallel effect. It’s the only effect that doesn’t take an element as first parameter, but an array of subeffects.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">
+ new Effect.Parallel([array of subeffects], [options]);
+</code></pre>
+<h2>Examples</h2>
+<pre><code class="javascript">
+new Effect.Parallel([
+  new Effect.Move(element, { sync: true, x: 20, y: -30, mode: 'relative' }), 
+  new Effect.Opacity(element, { sync: true, from: 1, to: 0 }) 
+], { 
+  duration: 0.8,
+  delay: 0.5
+});
+</code></pre>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Option </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> sync </td>
+<td> boolean, has to be <code>true</code> in order to prevent the subeffects from being started as soon as they get instantiated. </td>
+</tr>
+</table>
+<h2>Notes</h2>
+<p>Don&#8217;t forget to set the <code>sync</code> option to <code>true</code> for all of the subeffects or else all the effects will start immediately after they were instantiated.</p>
+<p>For IE7 and IE8 don&#8217;t put an extra comma at the end of the array of effects.<br />
+i.e. new Effect.Parallel([new Effect.Fade(), new Effect.Appear(), ]); <br />
+The extra comma at the end will cause the effect to fail in IE7-IE8 on the first pass.</p>
+<h2>Demo</h2>
+<div class="demo">
+<div id="parallel_demo" style="width:150px; height:40px; background:#ccc;"></div>
+<ul>
+<li><a href="#" id="animate_parallel_demo">Click here for a demo!</a></li>
+<li><a href="#" id="reset_parallel_demo">Reset</a></li>
+</ul>
+</div>
+<script type="text/javascript">
+  $('animate_parallel_demo').observe('click', function(event) {
+    event.stop();
+    
+    new Effect.Parallel([
+      new Effect.Move('parallel_demo', { sync: true, x: 400, y: 0, mode: 'relative' }), 
+      new Effect.Opacity('parallel_demo', { sync: true, from: 1, to: 0 })
+    ], { 
+      duration: 1.5
+    });
+  });
+  
+  $('reset_parallel_demo').observe('click', function(event) {
+    event.stop();
+    
+    $('parallel_demo').setStyle({
+      top: 0,
+      left: 0,
+      opacity: 1
+    });
+  });
+</script>
+<h3>Source code of the demo</h3>
+<pre><code class="html">
+&lt;div id="parallel_demo" style="width:150px; height:40px; background:#ccc;"&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="#" id="animate_parallel_demo"&gt;Click here for a demo!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" id="reset_parallel_demo"&gt;Reset&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+$('animate_parallel_demo').observe('click', function(event) {
+  event.stop();
+  
+  new Effect.Parallel([
+    new Effect.Move('parallel_demo', { sync: true, x: 400, y: 0, mode: 'relative' }), 
+    new Effect.Opacity('parallel_demo', { sync: true, from: 1, to: 0 })
+  ], { 
+    duration: 1.5
+  });
+});
+
+$('reset_parallel_demo').observe('click', function(event) {
+  event.stop();
+  
+  $('parallel_demo').setStyle({
+    top: 0,
+    left: 0,
+    opacity: 1
+  });
+});
+&lt;/script&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

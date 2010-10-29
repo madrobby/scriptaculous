@@ -1,0 +1,91 @@
+---
+layout: default
+title: Sortable.serialize
+category: Behaviours
+---
+
+<div class="wikistyle">
+<p class="upper-chiclet"><a href="http://madrobby.github.com/scriptaculous/behaviours">Behaviours</a> &gt; <a href="http://madrobby.github.com/scriptaculous/sortable">Sortable</a> &gt; <strong>serialize</strong></p>
+<p>The <a href="http://madrobby.github.com/scriptaculous/sortable">Sortable</a> object also provides a function to serialize the <a href="http://madrobby.github.com/scriptaculous/sortable">Sortable</a> in a format suitable for <span class="caps">HTTP</span> <span class="caps">GET</span> or <span class="caps">POST</span> requests. This can be used to submit the order of the <a href="http://madrobby.github.com/scriptaculous/sortable">Sortable</a> via an Ajax call:</p>
+<pre><code class="javascript">
+poststring = Sortable.serialize('id_of_container',[options]);
+// poststring now contains key[]=value pairs separated by &amp;
+</code></pre>
+<p style="color:red;">Important: For this to work, the elements contained in your Sortable must have id attributes in the following form:</p>
+<pre><code class="javascript">
+id="string_identifier" 
+
+//Example
+&lt;ol id="container_id"&gt;
+  &lt;li id="image_1"&gt;Item 1&lt;/li&gt;
+  &lt;li id="image_2"&gt;Item 1&lt;/li&gt;
+  &lt;li id="image_3"&gt;Item 1&lt;/li&gt;
+&lt;/ol&gt;
+</code></pre>
+<p>Only the identifier part of the id attribute will be serialized. If you want to use an other form of id attributes, you need to implement your own serialization.</p>
+<h2>Options</h2>
+<table>
+<tr>
+<td>Option</td>
+<td>Since</td>
+<td>Description</td>
+</tr>
+<tr>
+<td>tag</td>
+<td>v1.0</td>
+<td>The kind of tag (of the child elements of the container) that will be serialized.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>v1.0</td>
+<td>The name of the key that will be used to create the key/value pairs for serializing in <span class="caps">HTTP</span> <span class="caps">GET</span>/<span class="caps">POST</span> format (that is, key[]=value&amp;key[]=value …)</td>
+</tr>
+</table>
+<h2>Example (from the Sortable Ghosted example)</h2>
+<pre><code class="javascript">
+&lt;style&gt;
+  #content #testlist { 
+      list-style-type:none;
+      margin:0;
+      padding:0;
+   }
+   #content #testlist li {
+     width:200px;
+     font:13px Verdana;
+     margin:0;
+     margin-left:20px;
+     padding-left:20px;
+     padding:4px;
+     cursor:move;
+   }
+  div.dropmarker {
+      height:6px;
+      width:200px;
+      background: url(/images/dropmarker.png) left top;
+      margin-top:-3px;
+      margin-left:-5px;
+      z-index:1000;
+      overflow: hidden;
+   }
+&lt;/style&gt;
+
+&lt;ol id="testlist"&gt;
+  &lt;li id="image_1"&gt;Lorem ipsum dolor&lt;/li&gt;
+  &lt;li id="image_2"&gt;sit amet&lt;/li&gt;
+  &lt;li id="image_3"&gt;consectetur adipisicing&lt;/li&gt;
+  &lt;li id="image_4"&gt;elit&lt;/li&gt;
+  &lt;li id="image_5"&gt;sed do eiusmod&lt;/li&gt;
+  &lt;li id="image_7"&gt;ut labore et dolore&lt;/li&gt;
+  &lt;li id="image_6"&gt;tempor incididunt&lt;/li&gt;
+  &lt;li id="image_8"&gt;magna aliqua&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;script type="text/javascript" language="javascript"&gt;
+  Sortable.create('testlist',{ghosting:true,constraint:false})
+  alert(Sortable.serialize('testlist'));
+&lt;/script&gt;
+</code></pre>
+<p style="color:red;">Clarification: In this example, the output of the serialization will only give the numbers after the underscore in the list item IDs.</p>
+<h2>Tutorials</h2>
+<p>A <a href="http://zenofshen.com/posts/ajax-sortable-lists-tutorial">short tutorial</a> on using Sortables.serialize</p>
+</div>

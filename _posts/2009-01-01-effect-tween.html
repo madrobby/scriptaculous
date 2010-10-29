@@ -1,0 +1,28 @@
+---
+layout: default
+title: Effect.Tween
+category: Core Effects
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p class="upper-chiclet"><a href="http://madrobby.github.com/scriptaculous/core-effects">Core Effects</a> &gt; <strong>Effect.Tween</strong></p>
+<p>This effect tweens between two values and sets a property or calls a method on an object (including <span class="caps">DOM</span> elements); or allows for a callback method, which will be automatically bound to the object.</p>
+<h2>Availability</h2>
+<p>script.aculo.us V1.8 and later.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">
+ new Effect.Tween(element, startVal, endVal, [options], propertyName);
+ new Effect.Tween(element, startVal, endVal, [options], callbackFunction);
+</code></pre>
+<h2>Options</h2>
+<p>No custom options.</p>
+<h2>Examples</h2>
+<pre><code class="javascript">
+    new Effect.Tween(whatever, 5, 0, 'blech'); // sets property on the object
+    new Effect.Tween('foo', 10, 20, 'innerHTML'); // sets property on the 'foo' DOM element
+    new Effect.Tween('foo', 10, 20, 'update'); // method call on 'foo' DOM element
+    new Effect.Tween('foo', 50, 0, { duration: 2.0, afterFinish: function(){ /* do something else */} }, function(p){});
+    new Effect.Tween(null, 0, 100, function(p){ scrollTo(0,p) }); // scrolls the window
+</code></pre>
+</div>

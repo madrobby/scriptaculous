@@ -1,0 +1,64 @@
+---
+layout: default
+title: Effect.Fade
+category: Core Effects
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p class="upper-chiclet"><a href="http://madrobby.github.com/scriptaculous/combination-effects">Combination Effects</a> &gt; <strong>Effect.Fade</strong></p>
+<p>Makes an element fade away and takes it out of the document flow when the effect is complete by setting the <span class="caps">CSS</span> <code>display</code> property to <code>none</code>. Opposite of <a href="http://madrobby.github.com/scriptaculous/effect-appear">Effect.Appear</a>.</p>
+<h2>Examples</h2>
+<pre><code class="javascript">
+Effect.Fade('id_of_element');
+Effect.Fade('id_of_element', { duration: 3.0 });
+</code></pre>
+<p>There&#8217;s also a shortcut method offered which you can call on the element itself. Note, that this will only work on Prototype-extended elements (elements you extended at least once via calling <code>$(element)</code>).</p>
+<pre><code class="javascript">
+$('id_of_element').fade();
+$('id_of_element').fade({ duration: 3.0, from: 0, to: 1 });
+</code></pre>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Options </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> duration </td>
+<td> float value, in seconds, defaults to <code>1.0</code> </td>
+</tr>
+<tr>
+<td> from </td>
+<td> float value, defaults to <code>1.0</code>, percent of opacity to start </td>
+</tr>
+<tr>
+<td> to </td>
+<td> float value, defaults to <code>0.0</code>, percent of opacity to end </td>
+</tr>
+</table>
+<h2>Notes</h2>
+<p>Can take an options parameter, to control the underlying <a href="http://madrobby.github.com/scriptaculous/effect-opacity">Effect.Opacity</a> effect.<br />
+Works safely with most <span class="caps">HTML</span> elements, except table rows, table bodies and table heads.</p>
+<p>On Microsoft Internet Explorer, this effect may display a bold/ghosting artifact on elements that don’t have a defined background. It’s unclear if this is a feature or a bug.</p>
+<p>Microsoft Internet Explorer can only set opacity on elements that have a ‘layout’. To let an element have a layout, you must set some <span class="caps">CSS</span> positional properties, like <code>width</code> or <code>height</code>. See <a href="http://madrobby.github.com/scriptaculous/giving-elements-layout">Giving Elements Layout</a>. (Note: This is fixed in V1.5_rc1.</p>
+<h2>Demo</h2>
+<div class="demo">
+<div id="fade_demo" style="width:80px; height:80px; background:#c2defb; border:1px solid #333;"></div>
+<ul>
+<li><a href="#" onclick="$('fade_demo').fade(); return false;">Click here for a demo!</a></li>
+<li><a href="#" onclick="$('fade_demo').show(); return false;">Reset</a></li>
+</ul>
+</div>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;div id="fade_demo" style="width:80px; height:80px; background:#c2defb; border:1px solid #333;"&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="#" onclick="$('fade_demo').fade(); return false;"&gt;Click here for a demo!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" onclick="$('fade_demo').show(); return false;"&gt;Reset&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

@@ -1,0 +1,175 @@
+---
+layout: default
+title: Core Effects Overview
+category: Core Effects
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p>The seven core effects <a href="http://madrobby.github.com/scriptaculous/effect-opacity">Effect.Opacity</a>, <a href="http://madrobby.github.com/scriptaculous/effect-scale">Effect.Scale</a>, <a href="http://madrobby.github.com/scriptaculous/effect-morph">Effect.Morph</a>, <a href="http://madrobby.github.com/scriptaculous/effect-move">Effect.Move</a>, <a href="http://madrobby.github.com/scriptaculous/effect-highlight">Effect.Highlight</a>, <a href="http://madrobby.github.com/scriptaculous/effect-parallel">Effect.Parallel</a>, <a href="http://madrobby.github.com/scriptaculous/effecttween">Effect.Tween</a> are the foundation of the script.aculo.us Visual Effects JavaScript library.</p>
+<h2>Availability</h2>
+<p>script.aculo.us V1.0 and later.</p>
+<h2>Syntax</h2>
+<p>The basic syntax to start an effect is:<br />
+<pre><code class="javascript">
+new Effect.EffectName(element, required-params, [options]);
+</code></pre><br />
+<code>element</code> can be either a string containing the id of the element, or a Java Script <span class="caps">DOM</span> element object.</p>
+<p><code>required-params</code> depend on the effect being called and may not be needed. Most effects do not have required parameters. See the documentation for the core effects to learn if the effect has required parameters or if this parameter should be omitted.</p>
+<p>The <code>options</code> parameter is used to give any additional customization parameters to the effect. There are <em>general</em> and <em>effect-specific</em> options. It’s called like this:<br />
+<pre><code class="javascript">
+new Effect.Opacity('my_element', { 
+  duration: 2.0,
+  transition: Effect.Transitions.linear,
+  from: 1.0, 
+  to: 0.5
+});
+</code></pre></p>
+<h2>Common Parameters</h2>
+<p>All core effects support following settings in their options parameter:</p>
+<table>
+<tr>
+<th>Option </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> duration </td>
+<td> duration of the effect in seconds, given as a float. Defaults to <code>1.0</code>. </td>
+</tr>
+<tr>
+<td> fps </td>
+<td> Target this many frames per second. Default to <code>25</code>. Can’t be higher than <code>100</code>. </td>
+</tr>
+<tr>
+<td> transition </td>
+<td> Sets a function that modifies the current point of the animation, which is between <code>0</code> and <code>1</code>. Following transitions are supplied: <code>Effect.Transitions.sinoidal</code> (default), <code>Effect.Transitions.linear</code>, <code>Effect.Transitions.reverse</code>, <code>Effect.Transitions.wobble</code>, <code>Effect.Transitions.flicker</code>, <code>Effect.Transitions.pulse</code>, <code>Effect.Transitions.spring</code>, <code>Effect.Transitions.none</code> and <code>Effect.Transitions.full</code>. </td>
+</tr>
+<tr>
+<td> from </td>
+<td> Sets the starting point of the transition, a float between <code>0.0</code> and <code>1.0</code>. Defaults to <code>0.0</code>. </td>
+</tr>
+<tr>
+<td> to </td>
+<td> Sets the end point of the transition, a float between <code>0.0</code> and <code>1.0</code>. Defaults to <code>1.0</code>. </td>
+</tr>
+<tr>
+<td> sync </td>
+<td> Sets whether the effect should render new frames automatically (which it does by default). If true, you can render frames manually by calling the <code>render()</code> instance method of an effect. This is used by <code>Effect.Parallel()</code>. </td>
+</tr>
+<tr>
+<td> queue </td>
+<td> Sets queuing options. When used with a string, can be <code>‘front’</code> or <code>‘end’</code> to queue the effect in the global effects queue at the beginning or end, or a queue parameter object that can have <code>{ position: ’front/end’, scope: ’scope’, limit: 1 }</code>. For more info on this, see <a href="http://madrobby.github.com/scriptaculous/effect-queues">Effect Queues</a>. </td>
+</tr>
+<tr>
+<td> delay </td>
+<td> Sets the number of seconds to wait before the effect actually starts. Defaults to <code>0.0</code>. </td>
+</tr>
+</table>
+<p>Additionally, the options parameter also can be supplied with <em>callback</em> methods, so you can have JavaScript executed at various events while the effect is running. The callbacks are supplied with a reference to the effect object as a parameter.</p>
+<table>
+<tr>
+<th>Callback </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> beforeStart </td>
+<td> Called before the effects rendering loop is started, or as soon as it is added to a queue. </td>
+</tr>
+<tr>
+<td> beforeSetup </td>
+<td> Called before the effect is setup. </td>
+</tr>
+<tr>
+<td> afterSetup </td>
+<td> Called after the effect is setup and immediately before the main effects rendering loop is started. </td>
+</tr>
+<tr>
+<td> beforeUpdate </td>
+<td> Called on each iteration of the effects rendering loop, before the redraw takes place. </td>
+</tr>
+<tr>
+<td> afterUpdate </td>
+<td> Called on each iteration of the effects rendering loop, after the redraw takes place. </td>
+</tr>
+<tr>
+<td> afterFinish </td>
+<td> Called after the last redraw of the effect was made. </td>
+</tr>
+</table>
+<p>Effect instances have the following useful properties and methods:</p>
+<table>
+<tr>
+<th>Variable </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> effect.element </td>
+<td> The element the effect is applied to. </td>
+</tr>
+<tr>
+<td> effect.options </td>
+<td> Holds the options you gave to the effect. </td>
+</tr>
+<tr>
+<td> effect.currentFrame </td>
+<td> The number of the last frame rendered. </td>
+</tr>
+<tr>
+<td> effect.startOn, effect.finishOn </td>
+<td> The times (in ms) when the effect was started, and when it will be finished. </td>
+</tr>
+<tr>
+<td> effect.effects[] </td>
+<td> On an <a href="http://madrobby.github.com/scriptaculous/effect-parallel">Effect.Parallel</a> effect, there’s an <code>effects[]</code> array containing the individual effects the parallel effect is composed of. </td>
+</tr>
+<tr>
+<td> effect.cancel() </td>
+<td> Stop the effect as is. </td>
+</tr>
+<tr>
+<td> effect.inspect() </td>
+<td> Get basic debugging information about the instance. </td>
+</tr>
+</table>
+<pre><code class="javascript">
+var myEffect = new Effect.Opacity('my_element', { 
+  duration: 2.0,
+  transition: Effect.Transitions.linear,
+  from: 1.0, 
+  to: 0.5
+});
+//...
+// example instance properties
+myEffect.element; // $('my_element')
+myEffect.currentFrame; // 12
+myEffect.cancel(); // stop animation
+</code></pre>
+<h2>Transitions Demo</h2>
+<style type="text/css">
+div.demo {background:#121621;}
+a.move_demo { border:3px double slateBlue;color:#F34607;display:block;margin:2px 0;padding:5px;text-align:center;width:140px;}
+a.move_demo:hover {color:#C9E3C1; border-color:#F34607;}
+span.reset{cursor:pointer;text-decoration:underline;}
+</style>
+<p><span class="reset" onclick="$$('a.move_demo').each(function(e){new Effect.Move(e,{x:0,transition:Effect.Transitions.sinoidal,mode:'absolute'})});">Reset demo</span></p>
+<div class="demo">
+<a href="#" onclick="javascript:new Effect.Move(this, { x: 200, transition: Effect.Transitions.sinoidal }); return false;" class="move_demo">Effect.Transitions.sinoidal</a>
+<a href="#" onclick="javascript:new Effect.Move(this, { x: 200, transition: Effect.Transitions.linear }); return false;" class="move_demo">Effect.Transitions.linear</a>
+<a href="#" onclick="javascript:new Effect.Move(this, { x: 200, transition: Effect.Transitions.reverse }); return false;" class="move_demo">Effect.Transitions.reverse</a>
+<a href="#" onclick="javascript:new Effect.Move(this, { x: 200, transition: Effect.Transitions.wobble }); return false;" class="move_demo">Effect.Transitions.wobble</a>
+<a href="#" onclick="javascript:new Effect.Move(this, { x: 200, transition: Effect.Transitions.flicker }); return false;" class="move_demo">Effect.Transitions.flicker</a>
+<a href="#" onclick="javascript:new Effect.Move(this, { x: 200, transition: Effect.Transitions.pulse }); return false;" class="move_demo">Effect.Transitions.pulse</a>
+<a href="#" onclick="javascript:new Effect.Move(this, { x: 200, transition: Effect.Transitions.spring }); return false;" class="move_demo">Effect.Transitions.spring</a>
+<a href="#" onclick="javascript:new Effect.Move(this, { x: 200, transition: Effect.Transitions.none }); return false;" class="move_demo">Effect.Transitions.none</a>
+<a href="#" onclick="javascript:new Effect.Move(this, { x: 200, transition: Effect.Transitions.full }); return false;" class="move_demo">Effect.Transitions.full</a>
+</div>
+<pre><code class="javascript">
+new Effect.Move(this, {
+   x: 200, 
+   transition: Effect.Transitions.spring 
+});
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>

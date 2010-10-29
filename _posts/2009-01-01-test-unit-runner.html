@@ -1,0 +1,81 @@
+---
+layout: default
+title: Test.Unit.Runner
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<p class="upper-chiclet"><a href="http://madrobby.github.com/scriptaculous/unit-testing">Unit Testing</a> &gt; <strong>Test.Unit.Runner</strong></p>
+<h2>Introduction</h2>
+<p><code>Test.Unit.Runner</code> is a utility class for writing unit test cases with an easy to use syntax.</p>
+<h2>Syntax</h2>
+<pre><code class="javascript">
+new Test.Unit.Runner(functions [, options] );
+</code></pre><p>The <code>functions</code> and <code>options</code> parameters are both <code>{key: value}</code> collections.</p>
+<h2>Examples</h2>
+<p>Using <code>Test.Unit.Runner</code> requires you to use a specific <span class="caps"><span class="caps">XHTML</span></span> page template, that looks as follows:</p>
+<pre><code class="html">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"&gt;
+&lt;head&gt;
+  &lt;title&gt;Page title&lt;/title&gt;
+  &lt;script src="path/to/prototype.js" type="text/javascript"&gt;&lt;/script&gt;
+  &lt;script src="path/to/util.js" type="text/javascript"&gt;&lt;/script&gt;
+  &lt;script src="path/to/unittest.js" type="text/javascript"&gt;&lt;/script&gt;
+  &lt;!-- other JavaScript includes --&gt;
+  &lt;link rel="stylesheet" href="path/to/test.css" type="text/css" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;!-- Log output --&gt;
+&lt;div id="testlog"&gt; &lt;/div&gt;
+
+&lt;!-- here go any elements you do the testing on --&gt;
+
+&lt;!-- Tests --&gt;
+&lt;script type="text/javascript" language="javascript"&gt;
+// &lt;![CDATA[
+  new Test.Unit.Runner({
+    // optional setup function, run before each individual test case
+    setup: function() { with(this) {
+      // code
+    }},
+    // optional teardown function, run after each individual test case
+    teardown: function() { with(this) {
+      // code
+    }},
+
+    // test cases follow, each method which starts 
+    // with "test" is considered a test case
+    testATest: function() { with(this) {
+      // code
+    }},
+    testAnotherTest: function() { with(this) {
+      // code
+    }}
+  }, { options });
+// ]]&gt;
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>Notice how the <code>with(this) { ... }</code> syntax allows for easily calling on methods of the <a href="http://madrobby.github.com/scriptaculous/testunittestcase">Test.Unit.Testcase</a> class, which includes the assertions, as defined in <a href="http://madrobby.github.com/scriptaculous/testunitassertions">Test.Unit.Assertions</a>.</p>
+<h3>More Examples</h3>
+<p>Probably the best examples of Test.Unit.Runner are the actual tests used by script.aculo.us.  Don&#8217;t be afraid to dive in to the code!  See the  <a href="http://github.com/madrobby/scriptaculous/tree/master/test">test folder</a> in the repository root.</p>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script><h2>Signature</h2>
+<h3>Methods</h3>
+<p><code>initialize: function(testcases [, options])</code><br />
+<code>parseResultsURLQueryParameter: function()</code><br />
+<code>parseTestsQueryParameter: function()</code><br />
+<code>getResult: function()</code><br />
+<code>postResults: function()</code><br />
+<code>runTests: function()</code><br />
+<h3>Properties</h3><br />
+<code>options: object (This is an object which is a modification of the options object passed into the initialize function </code><br /> <div class="dnn_dnnContent" style="margin-left: -459px; font-size: .7em;">Хотите красиво отдохнуть? <a href="http://prostitutki-moskva.msk.ru/archive/" title="проститутки Москва">Проститутки Москва</a> &#8211; лучший отдых для мужчин.</div><br />
+<code>tests: Array of Testcases </code><br />
+<code>currentTest: Number </code><br />
+<code>logger: Test.Unit.Logger</code><br /></p>
+</div>

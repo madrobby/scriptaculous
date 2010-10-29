@@ -1,0 +1,11 @@
+h2. Scriptaculous Documentation on GitHub Pages
+
+Since the new GitHub wikis do not support inline JavaScript, script.aculo.us is moving its documentation to "GitHub Pages":http://pages.github.com/ as the old GitHub wiki is being phased out. This makes collaboration on documentation the same workflow as collaboration the script.aculo.us source code. 
+
+h3. Contributing to the documentation
+
+All documentation is under the @gh-pages@ branch. To edit the documentation, fork "the script.aculo.us project":http://wiki.github.com/madrobby/scriptaculous/ and edit the documentation under the @gh-pages@ branch in your fork. When you are finished editing your documentation, please send a pull request from your repository explaining the changes you wish to pull. The primary project collaborators will be notified.
+
+h3. Getting started with GitHub Pages
+
+New documentation can be written in Textile or HTML. For more on what GitHub pages supports, "visit the GitHub pages overview":http://pages.github.com/ and read about pages. For more on contributing to script.aculo.us, "read the Contribute page":http://madrobby.github.com/scriptaculous/contribute/ to learn how you can help.

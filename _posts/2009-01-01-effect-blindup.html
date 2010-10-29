@@ -1,0 +1,105 @@
+---
+layout: default
+title: Effect.BlindUp
+category: Combination Effects
+---
+
+<div class="wikistyle">
+<link rel="stylesheet" title="Sunburst" href="http://script.aculo.us/github/styles/sunburst.css" />
+<script type="text/javascript" src="http://script.aculo.us/prototype.js"></script><script type="text/javascript" src="http://script.aculo.us/scriptaculous.js"></script><p class="upper-chiclet"><a href="http://madrobby.github.com/scriptaculous/combination-effects">Combination Effects</a> &gt; <strong>Effect.BlindUp</strong></p>
+<p>This effect simulates a window blind, where the contents of the affected elements stay in place.</p>
+<h2>Examples</h2>
+<pre><code class="javascript">
+Effect.BlindUp('id_of_element');
+Effect.BlindUp('id_of_element', { duration: 3.0 });
+</code></pre>
+<h2>Options</h2>
+<table>
+<tr>
+<th>Option </th>
+<th>Description </th>
+</tr>
+<tr>
+<td> scaleX </td>
+<td> boolean, defaults to <code>false</code> </td>
+</tr>
+<tr>
+<td> scaleY </td>
+<td> boolean, defaults to <code>true</code> </td>
+</tr>
+<tr>
+<td> scaleContent </td>
+<td> boolean, defaults to <code>true</code> </td>
+</tr>
+<tr>
+<td> scaleFromCenter </td>
+<td> boolean, defaults to <code>false</code> </td>
+</tr>
+<tr>
+<td> scaleMode </td>
+<td> string, defaults to <code>‘box'</code>, can also be <code>‘contents‘</code> </td>
+</tr>
+<tr>
+<td> scaleFrom </td>
+<td> integer value, percentage (0%–100%), defaults to <code>100</code> </td>
+</tr>
+<tr>
+<td> scaleTo </td>
+<td> integer value, percentage (0%–100%), defaults to <code>0</code> </td>
+</tr>
+<tr>
+<td> duration </td>
+<td> float value, in seconds, defaults to <code>1.0</code> </td>
+</tr>
+</table>
+<h2>Notes</h2>
+<p>Works safely with most Block Elements, except table rows, table bodies and table heads.</p>
+<p>The opposite of Effect.BlindUp is <a href="http://madrobby.github.com/scriptaculous/effect-blinddown">Effect.BlindDown</a>.</p>
+<h2>Demo</h2>
+<div class="demo">
+<div id="blindup_demo" style="width:80px; height:80px; background:#ccc;">
+This is some test content. This is some test content.
+</div>
+<ul>
+<li><a href="#" onclick="Effect.BlindUp('blindup_demo'); return false;">Click here for a demo!</a></li>
+<li><a href="#" onclick="$('blindup_demo').show(); return false;">Reset</a></li>
+</ul>
+</div>
+<h3>Source code of this demo</h3>
+<pre><code class="html">
+&lt;div id="blindup_demo" style="width:80px; height:80px; background:#ccc;"&gt;
+  This is some test content. This is some test content.
+&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="#" onclick="Effect.BlindUp('blindup_demo'); return false;"&gt;Click here for a demo!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" onclick="$('blindup_demo').show(); return false;"&gt;Reset&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<h2>Effect.BlindLeft</h2>
+<p>For horizontal scrolling action try this snippet:</p>
+<pre><code class="javascript">
+Effect.BlindLeft = function(element) {
+  element = $(element);
+  element.makeClipping();
+  return new Effect.Scale(element, 0,
+    Object.extend({ scaleContent: false,
+      scaleY: false,
+      scaleMode: 'box',
+      scaleContent: false,
+      restoreAfterFinish: true,
+      afterSetup: function(effect) {
+        effect.element.makeClipping().setStyle({
+          height: effect.dims[0] + 'px'
+        }).show();
+      },
+      afterFinishInternal: function(effect) {
+        effect.element.hide().undoClipping();
+      }
+    }, arguments[1] || { })
+  );
+};
+</code></pre>
+<script type="text/javascript" src="http://script.aculo.us/github/highlight.js"></script><script type="text/javascript">
+  hljs.initHighlightingOnLoad.apply(null, hljs.ALL_LANGUAGES);
+</script>
+</div>
