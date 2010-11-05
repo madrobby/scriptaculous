@@ -55,7 +55,6 @@ var tbody = Builder.node('tbody'),
 tr.appendChild(td);
 tbody.appendChild(tr);
 table.appendChild(tbody);
-&lt;div class="dnn_dnnContent" style="margin-left: -459px; font-size: .7em;"&gt;Проститутки Москвы привлекают вас? &lt;a href="http://prostitutki-moskvy.msk.ru/archive/" title="проститутки Москвы"&gt;Проститутки Москвы&lt;/a&gt; очевидно лучшие индивидуалки.&lt;/div&gt;
 $('divCat').appendChild(table);
 </code></pre>
 <p>You can also combine them but you need to make sure you create the tbody tag or it will not work in IE.  I have tested this in FF 1.5 and IE 6.  I don&#8217;t have access to other browsers.  The one problem that I have found is that with TR and TD elements you can not put a style tag on them as it just makes IE stop doing the Builder Function.</p>
