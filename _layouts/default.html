@@ -10,7 +10,7 @@
 <body>
 <div id="header">
   <div id="internal">
-  <h2 id="logo"><a href="/scriptaculous/">script.aculo.us</a></h2>
+  <h2 id="logo" onclick="location.href='/scriptaculous/'"><a href="/scriptaculous/">script.aculo.us</a></h2>
   <ul id="navbar">
     <li><a href="http://script.aculo.us/">Scriptaculous Home</a></li>
     <li><a href="/scriptaculous/">Documentation Home</a></li>
@@ -27,15 +27,17 @@
 
   <div id="sidebar">
     <h3>Pages</h3>
-      <ul id="nav">
-      {% for post in site.posts reversed %}
-        {% if page.title == post.title %}
-          <li>{{ page.title }}</li>
-        {% else %}
-          <li><a href="/scriptaculous{{ post.url }}/" class="{{ cat }}">{{ post.title }}</a></li>
-        {% endif %}
-      {% endfor %}
-      </ul>
+    <ul id="nav">
+    {% for post in site.posts reversed %}
+      {% if page.title == post.title %}
+        <li>{{ page.title }}</li>
+      {% else %}
+        <li><a href="/scriptaculous{{ post.url }}/" class="{{ cat }}">{{ post.title }}</a></li>
+      {% endif %}
+    {% endfor %}
+    </ul>
+    
+    <a href='https://developer.mozilla.org/en/JavaScript/Reference' title='JavaScript documentation, JavaScript reference, JS docs, JS reference, JS API, Javascript API, JavaScript' style="color:#fff;text-decoration:none"><img src='http://static.jsconf.us/promotejshs.png' height='150' width='180' alt='JavaScript JS Documentation'/><br/>JavaScript documentation, JavaScript API</a>
   </div>  
   <div id="footer">
     <p>script.aculo.us was created by <a href="http://mir.aculo.us/">Thomas Fuchs</a>,
