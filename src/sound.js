@@ -1,4 +1,4 @@
-// Copyright (c) 2005-2009 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+// Copyright (c) 2005-2010 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 //
 // Based on code created by Jules Gravinese (http://www.webveteran.com/)
 //

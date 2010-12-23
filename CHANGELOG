@@ -1,3 +1,11 @@
+*V1.9.0* (December 23, 2010)
+
+* Update to Prototype 1.7
+
+* Search for all script[src] occurrences rather than just within the head.  [pgib]
+
+* Fixed scrolling Sortables for Prototype 1.7  [fragility]
+
 *V1.8.3* (October 8, 2009)
 
 * Update to Prototype 1.6.1
