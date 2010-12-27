@@ -300,7 +300,8 @@ Autocompleter.Base = Class.create({
   onObserverEvent: function() {
     this.changed = false;
     this.tokenBounds = null;
-    if(this.getToken().length>=this.options.minChars) {
+    this.options.regexp ? send=this.options.regexp.match(this.getToken()) : send=true;
+    if(send && this.getToken().length>=this.options.minChars) {
       this.getUpdatedChoices();
     } else {
       this.active = false;
