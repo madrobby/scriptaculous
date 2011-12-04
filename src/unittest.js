@@ -428,14 +428,6 @@ Test.Unit.Assertions.prototype = {
   assertElementMatches: function(element, expression) {
     this.assertElementsMatch([element], expression);
   },
-  benchmark: function(operation, iterations) {
-    var startAt = new Date();
-    (iterations || 1).times(operation);
-    var timeTaken = ((new Date())-startAt);
-    this.info((arguments[2] || 'Operation') + ' finished ' + 
-       iterations + ' iterations in ' + (timeTaken/1000)+'s' );
-    return timeTaken;
-  },
   _isVisible: function(element) {
     element = $(element);
     if(!element.parentNode) return true;
