@@ -971,5 +971,6 @@ Element.addMethods({
         ? element.offsetTop
         : element.offsetTop - parent.offsetHeight + element.offsetHeight;
     }
+	return element;
   }
 });
