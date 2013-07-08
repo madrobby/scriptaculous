@@ -647,7 +647,9 @@ var Sortable = {
       handles:     false,
 
       onChange:    Prototype.emptyFunction,
-      onUpdate:    Prototype.emptyFunction
+      onUpdate:    Prototype.emptyFunction,
+      onStart:  	Prototype.emptyFunction,
+      onEnd:		Prototype.emptyFunction
     }, arguments[1] || { });
 
     // clear any old sortable with same element
@@ -663,7 +665,9 @@ var Sortable = {
       delay:       options.delay,
       ghosting:    options.ghosting,
       constraint:  options.constraint,
-      handle:      options.handle };
+      handle:      options.handle,
+      onStart:  options.onStart,
+      onEnd:		options.onEnd };
 
     if(options.starteffect)
       options_for_draggable.starteffect = options.starteffect;
