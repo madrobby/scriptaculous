@@ -209,15 +209,36 @@ Autocompleter.Base = Class.create({
   },
 
   markPrevious: function() {
-    if(this.index > 0) this.index--;
-      else this.index = this.entryCount-1;
-    this.getEntry(this.index).scrollIntoView(true);
+    if(this.index > 0) {
+      this.index--;
+    } else {
+      this.index = this.entryCount - 1;
+    }
+    
+    this.scrollIntoView();
   },
 
   markNext: function() {
-    if(this.index < this.entryCount-1) this.index++;
-      else this.index = 0;
-    this.getEntry(this.index).scrollIntoView(false);
+    if(this.index < this.entryCount-1) {
+      this.index++;
+    } else {
+      this.index = 0;
+    }
+    
+    this.scrollIntoView();
+  },
+
+  scrollIntoView: function() {
+    var selection_top = this.getEntry(this.index).viewportOffset().top;
+    var document_top = document.viewport.getScrollOffsets().top;
+    
+    if(selection_top < document_top) {
+      this.element.scrollIntoView(true);
+    }
+    
+    else if(selection_top > document_top + document.viewport.getDimensions().height) {
+      this.getEntry(this.entryCount - 1).scrollIntoView(false);
+    }
   },
 
   getEntry: function(index) {
