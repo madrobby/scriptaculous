@@ -489,6 +489,21 @@ if (this.options.externalControl) {
 }
 </code></pre>
 <p>maybe someone can add a flag like ‘only <span style="color:#aaa"> External Control </span><a href="http://github.com/madrobby/scriptaculous/wikis/new?title=+External+Control+’">?</a> to add this to the trunk ..</p>
+<h2>Pure CSS way to add placeholder text to an empty editable text item:</h2>
+<pre>
+<div class="editable"></div>
+<style>
+  .editable:empty {
+    position: relative;
+    min-height: 1em;
+  }
+  .editable:empty:after {
+    content: 'Click to edit';
+    position: absolute;
+    color: #bbb;
+  }
+</style
+</pre>
 <h2>Small extension to editor to add a text in case field is empty.</h2>
 <pre><code class="javascript">
 /*
