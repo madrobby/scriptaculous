@@ -148,6 +148,7 @@ Control.Slider = Class.create({
       handleIdx || this.activeHandleIdx || 0);
   },
   translateToPx: function(value) {
+    if ((this.range.end-this.range.start)==0) { return "0px"; }
     return Math.round(
       ((this.trackLength-this.handleLength)/(this.range.end-this.range.start)) *
       (value - this.range.start)) + "px";
