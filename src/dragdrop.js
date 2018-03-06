@@ -679,6 +679,11 @@ var Sortable = {
     if(options.endeffect)
       options_for_draggable.endeffect = options.endeffect;
 
+    if(options.onStart)
+      options_for_draggable.onStart = options.onStart;
+    if(options.onEnd)
+      options_for_draggable.onEnd = options.onEnd;
+
     if(options.zindex)
       options_for_draggable.zindex = options.zindex;
 
