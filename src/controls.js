@@ -211,13 +211,13 @@ Autocompleter.Base = Class.create({
   markPrevious: function() {
     if(this.index > 0) this.index--;
       else this.index = this.entryCount-1;
-    this.getEntry(this.index).scrollIntoView(true);
+    this.getEntry(this.index).scrollIntoViewIfNecessary(true);
   },
 
   markNext: function() {
     if(this.index < this.entryCount-1) this.index++;
       else this.index = 0;
-    this.getEntry(this.index).scrollIntoView(false);
+    this.getEntry(this.index).scrollIntoViewIfNecessary(false);
   },
 
   getEntry: function(index) {
@@ -959,5 +959,18 @@ Form.Element.DelayedObserver = Class.create({
   onTimerEvent: function() {
     this.timer = null;
     this.callback(this.element, $F(this.element));
+  }
+});
+
+Element.addMethods({
+  scrollIntoViewIfNecessary: function(element, showAtTop) {
+    element = $(element);
+    var parent = element.getOffsetParent(), y = element.offsetTop;
+    if (parent.scrollTop > element.offsetTop || parent.scrollTop < (element.offsetTop - parent.offsetHeight + element.offsetHeight)) {
+      parent.scrollTop = (showAtTop || typeof(showAtTop) == 'undefined')
+        ? element.offsetTop
+        : element.offsetTop - parent.offsetHeight + element.offsetHeight;
+    }
+	return element;
   }
 });
