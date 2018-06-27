@@ -355,9 +355,13 @@ var Draggable = Class.create({
   updateDrag: function(event, pointer) {
     if(!this.dragging) this.startDrag(event);
 
+    var dropPoint = (this.options.scroll && this.options.scroll != window) ? 
+      [pointer[0] + this.options.scroll.scrollLeft, pointer[1] + this.options.scroll.scrollTop] :
+      pointer;
+
     if(!this.options.quiet){
       Position.prepare();
-      Droppables.show(pointer, this.element);
+      Droppables.show(dropPoint, this.element);
     }
 
     Draggables.notify('onDrag', this, event);
@@ -373,8 +377,8 @@ var Draggable = Class.create({
         with(this._getWindowScroll(this.options.scroll)) { p = [ left, top, left+width, top+height ]; }
       } else {
         p = Position.page(this.options.scroll).toArray();
-        p[0] += this.options.scroll.scrollLeft + Position.deltaX;
-        p[1] += this.options.scroll.scrollTop + Position.deltaY;
+        p[0] += Position.deltaX;
+        p[1] += Position.deltaY;
         p.push(p[0]+this.options.scroll.offsetWidth);
         p.push(p[1]+this.options.scroll.offsetHeight);
       }
